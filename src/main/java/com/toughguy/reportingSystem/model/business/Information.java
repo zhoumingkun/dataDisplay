@@ -18,7 +18,7 @@ public class Information extends AbstractModel{
 	private String clueAddress; //线报详址
 	private String industryField; //行业领域
 	private String informType;  //举报类别
-	private TextArea informContent;  //举报内容
+	private String informContent;  //举报内容
 	private String picture;   //图片
 	private String video;    //视频
 	
@@ -52,10 +52,10 @@ public class Information extends AbstractModel{
 	public void setInformType(String informType) {
 		this.informType = informType;
 	}
-	public TextArea getInformContent() {
+	public String getInformContent() {
 		return informContent;
 	}
-	public void setInformContent(TextArea informContent) {
+	public void setInformContent(String informContent) {
 		this.informContent = informContent;
 	}
 	public String getPicture() {
