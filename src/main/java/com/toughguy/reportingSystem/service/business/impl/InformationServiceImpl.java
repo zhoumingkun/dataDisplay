@@ -1,8 +1,13 @@
 package com.toughguy.reportingSystem.service.business.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
+import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.business.Information;
+import com.toughguy.reportingSystem.persist.business.prototype.IInformationDao;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
 
@@ -13,5 +18,11 @@ import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
  */
 @Service
 public class InformationServiceImpl extends GenericServiceImpl<Information, Integer> implements IInformationService {
+
+	@Override
+	public int findNum(int state) {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findNum(state);
+	}
 
 }

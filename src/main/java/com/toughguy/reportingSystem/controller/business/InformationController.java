@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
@@ -86,6 +87,27 @@ public class InformationController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findNum")
+//	@RequiresPermissions("information:findNum")
+	public InformationDTO findNum() {
+		try {
+			InformationDTO informationDTO = new InformationDTO();
+			int sum = informationService.findNum(0);   //总数
+			int invalidNumber = informationService.findNum(4);   //无效案件
+			int validNumber = informationService.findNum(1);     //已接案件
+			int endNumber = informationService.findNum(3);       //已结案件
+			informationDTO.setSum(sum);
+			informationDTO.setInvalidNumber(invalidNumber);
+			informationDTO.setValidNumber(validNumber);
+			informationDTO.setEndNumber(endNumber);
+			return informationDTO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

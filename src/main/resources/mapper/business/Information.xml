@@ -50,6 +50,10 @@
 		where id = #{id}
 	</update>
 	
+	<!-- 查询扫黑除恶案件总数 -->
+	<select id="findNum" parameterType="int" resultType="int">
+		select COUNT(*) from business_information <if test="  _parameter != null and _parameter != '' ">where state = #{state}</if>
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
@@ -58,6 +62,9 @@
 			</if>
 			<if test=" clueAddress != null and clueAddress != '' ">
 				and clueAddress = #{clueAddress}
+			</if>
+			<if test=" state != null and state != '' ">
+				and state = #{state}
 			</if>
 		</where>
 	</sql>

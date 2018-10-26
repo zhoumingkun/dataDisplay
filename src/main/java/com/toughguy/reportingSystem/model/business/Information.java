@@ -21,6 +21,7 @@ public class Information extends AbstractModel{
 	private String informContent;  //举报内容
 	private String picture;   //图片
 	private String video;    //视频
+	private int state;     //案件状态   -1待审核   1已接案  2侦办中  3已结案   4未结案
 	
 	public int getId() {
 		return id;
@@ -69,6 +70,12 @@ public class Information extends AbstractModel{
 	}
 	public void setVideo(String video) {
 		this.video = video;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
 	}
 	
 	

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.business.Content">
+<mapper namespace="com.toughguy.reportingSystem.model.business.Region">
 
-	<insert id="save" parameterType="Content" keyProperty="id" useGeneratedKeys="true">
+	<insert id="save" parameterType="Region" keyProperty="id" useGeneratedKeys="true">
 		insert into business_region (createTime,updateTime,pId, province,city,district) 
 		values (#{createTime},#{updateTime},#{pId}, #{province},#{city},#{district})
 	</insert>

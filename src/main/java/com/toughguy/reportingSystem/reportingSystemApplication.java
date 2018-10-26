@@ -22,7 +22,7 @@ public class reportingSystemApplication {
 	@Bean
 	public EmbeddedServletContainerFactory servletContainer() {
 	    TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-	    factory.setPort(80);
+	    factory.setPort(8082);
 	    factory.setContextPath("/reportingSystem");
 	    factory.setSessionTimeout(60, TimeUnit.MINUTES);
 	    return factory;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.toughguy.reportingSystem.model.AbstractModel;
 
 /**
- * 举报信息实体类
+ * 举报人实体类
  * @author BOBO
  *
  */
