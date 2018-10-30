@@ -1,12 +1,14 @@
 package com.toughguy.reportingSystem.service.business.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.business.Information;
+import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.persist.business.prototype.IInformationDao;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.impl.GenericServiceImpl;
@@ -23,6 +25,16 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 	public int findNum(int state) {
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findNum(state);
+	}
+	@Override
+	public List<Integer> findValidNumber() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findValidNumber();
+	}
+	@Override
+	public List<InformationDTO> findSum() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findSum();
 	}
 
 }

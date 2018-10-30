@@ -1,8 +1,10 @@
 package com.toughguy.reportingSystem.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.toughguy.reportingSystem.util.JsonUtil;
 /**
  * 举报信息页面显示
@@ -18,6 +20,8 @@ public class InformationDTO {
 	private int validNumber;    //已接警扫黑除恶案件数量
 	
  	private int endNumber;      //已结案数量
+ 	
+ 	private Date createTime;    //创建时间（前端首页图表用的字段）
  	
  	
 	public int getSum() {
@@ -57,6 +61,16 @@ public class InformationDTO {
 
 	public void setEndNumber(int endNumber) {
 		this.endNumber = endNumber;
+	}
+
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 

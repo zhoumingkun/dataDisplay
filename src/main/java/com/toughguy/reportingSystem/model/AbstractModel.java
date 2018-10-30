@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.toughguy.reportingSystem.util.DateUtil;
 
 /**
@@ -61,13 +62,14 @@ public abstract class AbstractModel implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-    
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
 	public Date getCreateTime() {
 		return createTime;
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
 	public Date getUpdateTime() {
 		return updateTime;
 	}

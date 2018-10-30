@@ -1,8 +1,10 @@
 package com.toughguy.reportingSystem.persist.business.prototype;
 
-import java.util.Map;
+import java.util.List;
 
+import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.business.Information;
+import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
 
 /**
@@ -14,8 +16,18 @@ public interface IInformationDao  extends IGenericDao<Information, Integer>{
 
 	/**
 	 * 查询案件数量接口
-	 * @param params
+	 * @param state
 	 * @return
 	 */
 	public int findNum(int state);
+	/**
+	 * 查询每日举报已接案件数量
+	 * @return
+	 */
+	public List<Integer> findValidNumber();
+	/**
+	 * 查询每日举报总数
+	 * @return
+	 */
+	public List<InformationDTO> findSum();
 }

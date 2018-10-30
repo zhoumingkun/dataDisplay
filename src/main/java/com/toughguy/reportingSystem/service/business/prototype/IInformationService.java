@@ -1,8 +1,11 @@
 package com.toughguy.reportingSystem.service.business.prototype;
 
+import java.util.List;
 import java.util.Map;
 
+import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.business.Information;
+import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.service.prototype.IGenericService;
 
 /**
@@ -14,8 +17,18 @@ public interface IInformationService extends IGenericService<Information, Intege
 
 	/**
 	 * 查询案件数量接口
-	 * @param params
+	 * @param state
 	 * @return
 	 */
 	public int findNum(int state);
+	/**
+	 * 查询每日举报已接案件数量
+	 * @return
+	 */
+	public List<Integer> findValidNumber();
+	/**
+	 * 查询每日举报总数
+	 * @return
+	 */
+	public List<InformationDTO> findSum();
 }

@@ -22,7 +22,14 @@ public class Information extends AbstractModel{
 	private String picture;   //图片
 	private String video;    //视频
 	private int state;     //案件状态   -1待审核   1已接案  2侦办中  3已结案   4未结案
+	private int informerId;   //举报人id
+	private int assessorId;   //评审员(当前用户id)
+	private String validFile;    //案件附件（已接案的）
+	private String investigationFile;    //案件附件（侦办中的）
+	private int feedbackInformationId;     //反馈信息id
 	
+	private String phoneNumber; //举报人手机号（页面使用）
+	private String assessor; //审核员（页面使用）
 	public int getId() {
 		return id;
 	}
@@ -77,6 +84,49 @@ public class Information extends AbstractModel{
 	public void setState(int state) {
 		this.state = state;
 	}
+	public int getInformerId() {
+		return informerId;
+	}
+	public void setInformerId(int informerId) {
+		this.informerId = informerId;
+	}
 	
+	public int getAssessorId() {
+		return assessorId;
+	}
+	public void setAssessorId(int assessorId) {
+		this.assessorId = assessorId;
+	}
+	public String getValidFile() {
+		return validFile;
+	}
+	public void setValidFile(String validFile) {
+		this.validFile = validFile;
+	}
+	public String getInvestigationFile() {
+		return investigationFile;
+	}
+	public void setInvestigationFile(String investigationFile) {
+		this.investigationFile = investigationFile;
+	}
+	
+	public int getFeedbackInformationId() {
+		return feedbackInformationId;
+	}
+	public void setFeedbackInformationId(int feedbackInformationId) {
+		this.feedbackInformationId = feedbackInformationId;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getAssessor() {
+		return assessor;
+	}
+	public void setAssessor(String assessor) {
+		this.assessor = assessor;
+	}
 	
 }

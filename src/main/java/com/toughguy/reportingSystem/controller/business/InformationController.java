@@ -1,8 +1,19 @@
 package com.toughguy.reportingSystem.controller.business;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,20 +21,39 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MultipartFilter;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.InformationDTO;
+import com.toughguy.reportingSystem.model.business.FeedbackInformation;
 import com.toughguy.reportingSystem.model.business.Information;
+import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.pagination.PagerModel;
+import com.toughguy.reportingSystem.persist.business.prototype.IFeedbackInformationDao;
+import com.toughguy.reportingSystem.service.business.prototype.IFeedbackInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
+import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
+import com.toughguy.reportingSystem.util.JsonUtil;
+
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONUtil;
 
 @Controller
 @RequestMapping(value = "/information")
 public class InformationController {
 	@Autowired
 	private IInformationService informationService;
+	
+	@Autowired
+	private IInformerService informerService;
+	
+	@Autowired
+	private IFeedbackInformationService feedbackInformerService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
@@ -68,7 +98,7 @@ public class InformationController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("information:data")
+//	@RequiresPermissions("information:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -110,4 +140,75 @@ public class InformationController {
 			return null;
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findSumAndValid")
+//	@RequiresPermissions("information:findSumAndValid")
+	public List<InformationDTO> findSumAndValid() {
+		try {
+			List<Integer> is = informationService.findValidNumber(); //首页图表每日已接案
+			List<InformationDTO> informationDTOs  = informationService.findSum(); //首页图表每日数量汇总
+			for(int i=0;i<informationDTOs.size();i++) {
+				informationDTOs.get(i).setValidNumber(is.get(i));
+			}
+			return informationDTOs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@ResponseBody
+	@RequestMapping(value = "/get")
+	public String get(int id) {
+		Information i = informationService.find(id);
+		Informer ir = informerService.find(i.getInformerId());
+		String str1 = JsonUtil.objectToJson(i);
+		String str2 = JsonUtil.objectToJson(ir);
+		return str1 + str2;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/toExamine")
+	public String toExamine(int id,boolean isPass,int assessorId,int feedbackInformationId) {
+		try {
+			Information i = informationService.find(id);
+			if(isPass) {
+				i.setAssessorId(assessorId);
+				i.setFeedbackInformationId(feedbackInformationId);
+				i.setState(1);
+				informationService.update(i);
+			} else {
+				i.setAssessorId(assessorId);
+				i.setFeedbackInformationId(feedbackInformationId);
+				i.setState(4);
+				informationService.update(i);
+			}
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+//	@ResponseBody
+//	@RequestMapping(value = "/upload")
+//	public String upload(@RequestParam("file") MultipartFile file) {
+//		if(!file.isEmpty()) {
+//			try {
+//				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename())));
+//						out.write(file.getBytes());
+//						out.flush();
+//						out.close();
+//			} catch (FileNotFoundException e) {
+//				// TODO: handle exception
+//				e.printStackTrace();
+//				return "上传失败，" + e.getMessage();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				return "上传失败，" + e.getMessage();
+//			}
+//			return "上传成功";
+//		} else {
+//			return "上传失败，文件不能为空";
+//		}
+//	}
+	
 }
