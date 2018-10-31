@@ -38,6 +38,7 @@ import com.toughguy.reportingSystem.persist.business.prototype.IFeedbackInformat
 import com.toughguy.reportingSystem.service.business.prototype.IFeedbackInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
+import com.toughguy.reportingSystem.util.FileUploadUtil;
 import com.toughguy.reportingSystem.util.JsonUtil;
 
 import net.minidev.json.JSONObject;
@@ -188,27 +189,21 @@ public class InformationController {
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
-//	@ResponseBody
-//	@RequestMapping(value = "/upload")
-//	public String upload(@RequestParam("file") MultipartFile file) {
-//		if(!file.isEmpty()) {
-//			try {
-//				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename())));
-//						out.write(file.getBytes());
-//						out.flush();
-//						out.close();
-//			} catch (FileNotFoundException e) {
-//				// TODO: handle exception
-//				e.printStackTrace();
-//				return "上传失败，" + e.getMessage();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				return "上传失败，" + e.getMessage();
-//			}
-//			return "上传成功";
-//		} else {
-//			return "上传失败，文件不能为空";
-//		}
-//	}
+	@ResponseBody
+	@RequestMapping(value = "/upload")
+	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+		String contentType = file.getContentType();
+		System.out.println(contentType);
+		String fileName = file.getOriginalFilename();
+		String filePath = "D:\\eclipse\\reportingSystem\\upload\\";
+		System.out.println(filePath);
+		try {
+			FileUploadUtil.uploadFile(file.getBytes(), filePath, fileName);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "upload success";
+	}
 	
 }
