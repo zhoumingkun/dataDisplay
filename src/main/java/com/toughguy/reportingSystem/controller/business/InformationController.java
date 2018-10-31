@@ -191,14 +191,19 @@ public class InformationController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/upload")
-	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-		String contentType = file.getContentType();
-		System.out.println(contentType);
+	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state) {
 		String fileName = file.getOriginalFilename();
 		String filePath = "D:\\eclipse\\reportingSystem\\upload\\";
-		System.out.println(filePath);
 		try {
 			FileUploadUtil.uploadFile(file.getBytes(), filePath, fileName);
+			Information information = informationService.find(id);
+			information.setState(state);
+			if(state == 2) {
+				information.setValidFile(filePath);
+			} else if(state == 3) {
+				information.setInvestigationFile(filePath);
+			}
+			informationService.update(information);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
