@@ -35,6 +35,16 @@
 		delete from auth_role_operation where roleId = #{roleId}
 	</delete>
 	
+	<!-- 查询某个角色根据昵称 -->
+	<select id="findByName" parameterType="String" resultType="Role">
+	   SELECT * FROM auth_role WHERE roleName= #{roleName}
+	</select>
+	
+	<!-- 查询某个角色根据角色中文名称 -->
+	<select id="findBydisplayName" parameterType="String" resultType="Role">
+	   SELECT * FROM auth_role WHERE displayName= #{displayName}
+	</select>
+	
 	<!-- 查询某个角色 -->
 	<select id="find" parameterType="int" resultType="Role">
 		SELECT
@@ -62,6 +72,21 @@
 	<!-- 根据角色id查询角色和操作的对应关系 -->
 	<select id="findRoleAndOperationsRelationByRoleId" parameterType="int" resultType="Integer">
 		select operationId from auth_role_operation where roleId = #{roleId}
+	</select>
+	
+	<!--根据角色ID查询下属角色 -->
+	<select id="findRelyRole" parameterType="int" resultType="Role">
+		select * from auth_role where roleExtendPId = #{id}
+	</select>
+	
+	<!--根据角色依赖ID查询对应的角色 -->
+	<select id="findRelyId" parameterType="int" resultType="Role">
+		select * from auth_role where id = #{roleRelyId}
+	</select>
+	
+	<!--根据用户ID查询对应的角色 -->
+	<select id="findByUserId" parameterType="int" resultType="Role">
+		select * FROM auth_role WHERE id=any(select roleId from auth_user_role WHERE userId = #{id})
 	</select>
 	
 	<!-- 根据角色id查询角色和操作的对应关系 -->

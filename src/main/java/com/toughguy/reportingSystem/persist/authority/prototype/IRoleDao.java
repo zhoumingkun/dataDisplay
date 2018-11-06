@@ -72,5 +72,30 @@ public interface IRoleDao extends IGenericDao<Role, Integer>{
 	 * @return 角色对象集合
 	 */
 	public List<Role> findAllCount();
+	/**
+	 * 根据角色名查询角色
+	 * @param roleName 角色名
+	 */
+	public List<Role> findByName(String roleName);
+	
+	/**
+	 * 查询某个角色根据角色中文名称
+	 * @param displayName 角色中文名称
+	 */
+	
+	public List<Role> findBydisplayName(String displayName);
 
+	/**
+	 * 根据角色ID查询下属角色
+	 * @param roleName 角色名
+	 */
+	public List<Role> findRelyRole(int id);
+	/**
+	 * 根据角色依赖ID查询对应的角色 
+	 */
+	public Role findRelyId(int roleRelyId);
+	/**
+	 * 根据用户Id查询对应的角色 
+	 */
+	public List<Role> findByUserId(int id);
 }

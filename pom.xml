@@ -7,7 +7,7 @@
 	<artifactId>reportingSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
+	
 	<name>reportingSystem</name>
 	<description>Demo project for Spring Boot</description>
 	
@@ -37,6 +37,7 @@
 		    <artifactId>spring-boot-starter-web</artifactId>
 	    <version>${spring.boot.version}</version>
 		</dependency>
+	
 		<dependency>  
             <groupId>org.springframework.boot</groupId>  
             <artifactId>spring-boot-starter-test</artifactId>
@@ -59,6 +60,14 @@
 		    <artifactId>spring-boot-starter-data-redis</artifactId>
 		    <version>${spring.boot.version}</version>
 		</dependency>
+		
+         <!--barcode4j 条形码-->
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j-light</artifactId>
+            <version>2.0</version>
+        </dependency>
+         <!--zxing 条形码-->
 		<dependency>
 			  <groupId>com.google.zxing</groupId>
 			  <artifactId>core</artifactId>
@@ -69,6 +78,7 @@
 			  <artifactId>javase</artifactId>
 			  <version>3.0.0</version>  
 		 </dependency>
+		 
 		<!--2. Spring Boot MyBatis -->
 		<dependency>
 		    <groupId>org.mybatis.spring.boot</groupId>
@@ -89,6 +99,38 @@
 		    <artifactId>pinyin4j</artifactId>
 		    <version>2.5.0</version>
 		</dependency>
+		<!-- poi -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+    		<artifactId>poi-ooxml</artifactId>
+    		<version>3.9</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.9</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+    		<artifactId>poi-ooxml</artifactId>
+    		<version>3.10.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.10.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml-schemas</artifactId>
+		    <version>3.10.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-scratchpad</artifactId>
+		    <version>3.10.1</version>
+		</dependency>
 		<!--4. Druid DataSource -->
 		<dependency>
 		    <groupId>com.alibaba</groupId>
@@ -107,7 +149,13 @@
 		    <artifactId>commons-text</artifactId>
 		    <version>1.1</version>
 		</dependency>
-		
+				
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.6</version>
+		</dependency>
+
 		<!--6. Shiro安全框架  -->
 		<dependency>  
 		    <groupId>org.apache.shiro</groupId>  
@@ -129,20 +177,61 @@
 		    <artifactId>shiro-ehcache</artifactId>  
 		    <version>${shiro.version}</version>  
 		</dependency>
+		
+		<!-- Thymeleaf模板引擎，替换JSP -->
 		<dependency>
-			<groupId>org.javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.21.0-GA</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>${spring.boot.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.beust</groupId>
+		    <artifactId>jcommander</artifactId>
+		    <version>1.35</version>
+		</dependency>
+		<!-- json -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier><!--指定jdk版本-->
+		</dependency>
+		
+		<!-- 验证码框架 -->
+		<dependency>
+			<groupId>com.github.penggle</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>2.3.2</version>
+			<!-- 排除自带的servlet api -->
+			<exclusions>
+				<exclusion>
+					<artifactId>javax.servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>  
 	</dependencies>
+	<repositories>
+	    <repository>
+	        <id>spring-releases</id>
+	        <url>https://repo.spring.io/libs-release</url>
+	    </repository>
+	</repositories>
 
 	<build>
-		<pluginManagement>
     		<plugins>
     			<plugin>
     				<groupId>org.springframework.boot</groupId>
 			    	<artifactId>spring-boot-maven-plugin</artifactId>
 			    	<version>${spring.boot.version}</version>
+			    	 <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
     			</plugin>
     			<!-- 编译插件 -->
 				<plugin>
@@ -155,9 +244,6 @@
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
-    		</plugins>
-    	</pluginManagement>
+		</plugins>
 	</build>
-
-
 </project>

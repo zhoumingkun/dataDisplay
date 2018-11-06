@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.authority.User">
 
 	<insert id="save" parameterType="User" keyProperty="id" useGeneratedKeys="true">
-		insert into auth_user (guid, createTime,updateTime,userName, userPass,phone,email) 
-		values (#{guid}, #{createTime},#{updateTime},#{userName}, #{userPass},#{phone},#{email})
+		insert into auth_user (guid, createTime,updateTime,userName, userPass,phone,email,libraryId) 
+		values (#{guid}, #{createTime},#{updateTime},#{userName}, #{userPass},#{phone},#{email},#{libraryId})
 	</insert>
 	
 	<!-- 存储某个用户和角色的对应关系 -->
@@ -39,6 +39,11 @@
 	<select id="find" parameterType="int" resultType="User">
 		select * from auth_user where id = #{id}
 	</select>
+		
+	<!-- 根据用户名称查是否重复 -->
+	<select id="findByuserName" parameterType="String" resultType="User">
+		select * from auth_user where userName = #{userName}
+	</select>
 	
 	<!-- 查询全部用户 -->
 	<select id="findAll" resultType="User" parameterType="Map">
@@ -69,6 +74,11 @@
 		select * from auth_user where userName = #{userName}
 	</select> 
 	
+	<!-- 根据用户名字查找用户信息 -->
+	<select id="findUserInfoByUserName" parameterType="String" resultType="User">
+		select * from auth_user  where userName = #{userName}
+	</select> 
+	
 	<!-- 修个某个用户 -->
 	<update id="update" parameterType="User">
 		update auth_user
@@ -78,6 +88,7 @@
 			<if test="phone != null and phone != ''">phone = #{phone},</if>
 			<if test="email != null and email != ''">email = #{email},</if>
 			<if test="updateTime != null">updateTime = #{updateTime},</if>
+			<if test="libraryId != null">libraryId = #{libraryId},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -124,6 +135,7 @@
 			<if test=" emailLike != null and emailLike != '' ">
 				and email like concat(concat('%', #{emailLike, jdbcType=VARCHAR}),'%')
 			</if>
+			
 		</where>
 	</sql>
 	

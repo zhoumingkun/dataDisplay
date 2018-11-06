@@ -1,7 +1,11 @@
 package com.toughguy.reportingSystem.persist.authority.prototype;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.toughguy.reportingSystem.model.authority.Resource;
 import com.toughguy.reportingSystem.model.authority.Role;
 import com.toughguy.reportingSystem.model.authority.User;
 import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
@@ -70,6 +74,17 @@ public interface IUserDao extends IGenericDao<User, Integer> {
 	 * @param userId 用户id
 	 * 
 	 */
-	public List <Role> findRoleByUserId(int userId);  
-
+	public List <Role> findRoleByUserId(int userId); 
+	/**
+	 * 根据用户名查找用户及库点信息
+	 * @param userName 用户名
+	 * 
+	 */
+	public User findUserInfoByUserName(String userName);
+	/**
+	 * 根据用户名称查是否重复
+	 * @param userName 用户名称
+	 * 
+	 */
+	public List<User> findByuserName(String userName);
 }

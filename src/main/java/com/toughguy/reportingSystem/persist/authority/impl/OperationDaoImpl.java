@@ -1,7 +1,10 @@
 package com.toughguy.reportingSystem.persist.authority.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+import com.toughguy.reportingSystem.dto.OperationDTO;
 import com.toughguy.reportingSystem.model.authority.Operation;
 import com.toughguy.reportingSystem.persist.authority.prototype.IOperationDao;
 import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;
@@ -37,6 +40,29 @@ public class OperationDaoImpl extends GenericDaoImpl<Operation, Integer> impleme
 		sqlSessionTemplate.delete(typeNameSpace + ".deleteAllByResourceId", resourceId);
 	}
 
-	
+	@Override
+	public List<Operation> findById(int id) {
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findById", id);
+	}
+
+	@Override
+	public List<Operation> findByRoleId(int roleId) {
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByRoleId", roleId);
+	}
+
+	@Override
+	public List<Operation> findByUserId(int userId) {
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByUserId", userId);
+	}
+
+	@Override
+	public Operation findOperation(int operationRId) {
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findOperation", operationRId);
+	}
+
+	@Override
+	public void deleteRoleAndOperation(int id) {
+		sqlSessionTemplate.delete(typeNameSpace + ".deleteRoleAndOperation", id);
+	}
 
 }

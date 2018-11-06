@@ -14,9 +14,9 @@
 		<set>
 			<if test="operationName != null and operationName != ''">operationName = #{operationName},</if>
 			<if test="displayName != null and displayName != ''">displayName = #{displayName},</if>
-			<if test="operationURL != null and operationURL != ''">operationURL = #{operationURL},</if>
 			<if test="resourceId != null and resourceId != ''">resourceId = #{resourceId},</if>
 			<if test="operationRId != null and operationRId != ''">operationRId = #{operationRId},</if>
+			<if test="permission != null and permission != ''">permission = #{permission},</if>
 			<if test="updateTime != null ">updateTime = #{updateTime},</if>
 		</set>
 		where id = #{id}
@@ -25,6 +25,11 @@
 	<!-- 删除操作 -->
 	<delete id="delete" parameterType="int">
 		delete from auth_operation where id = #{id}
+	</delete>
+	
+	<!-- 删除操作 -->
+	<delete id="deleteRoleAndOperation" parameterType="int">
+		delete from auth_role_operation where operationId = #{id}
 	</delete>
 	
 	<!-- 删除全部操作  -->
@@ -45,6 +50,11 @@
 		</foreach>
 	</delete>
 	
+	<!-- 根据操作Id查询角色对应操作表的id -->
+	<!-- <select id="findResultId" resultType="int" parameterType="int">
+		select * from auth_operation
+	</select> -->
+	
 	<!-- 查找操作 -->
 	<select id="find" resultType="Operation" parameterType="int">
 		select * from auth_operation
@@ -56,6 +66,26 @@
 		select * from auth_operation
 		<include refid="paramsSQL"/>
 		order by id asc
+	</select>
+	
+	<!-- 根据角色ID查找操作 -->
+	<select id="findByRoleId" resultType="Operation" parameterType="int">
+		SELECT b.* from auth_role_operation a,auth_operation b where a.roleId = #{roleId} and a.operationId = b.id
+	</select>
+	
+	<!-- 根据资源ID查找操作 -->
+	<select id="findById" resultType="Operation" parameterType="int">
+		select * from auth_operation where resourceId = #{id} 
+	</select>
+	
+	<!-- 根据依赖ID查找操作 -->
+	<select id="findOperation" resultType="Operation" parameterType="int">
+		select * from auth_operation where id = #{operationRId} 
+	</select>
+	
+	<!-- 根据用户ID查找操作 -->
+	<select id="findByUserId" resultType="Operation" parameterType="int">
+	select distinct   c.* from auth_user_role a,auth_role_operation b,auth_operation c where a.userId =#{userId} and a.roleId = b.roleId AND b.operationId = c.id
 	</select>
 	
 	<!-- 分页查找 -->

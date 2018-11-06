@@ -65,8 +65,18 @@
 	
 	<!-- 查找资源总数 -->
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
-		select count(*) from auth_resource 
+		select count(*) FROM auth_resource r1 LEFT JOIN auth_resource rp ON r1.resourcePID = rp.id  
 		<include refid="paramsSQL" />
+	</select>
+	
+	<!-- 根据资源Id查找下属资源 -->
+	<select id="findById" parameterType="int" resultType="resource">
+		select * FROM auth_resource where resourcePId = #{id}
+	</select>
+	
+	<!-- 根据资源资源名称查找 -->
+	<select id="findByresourceName" parameterType="String" resultType="resource">
+		select * FROM auth_resource where resourceName = #{resourceName}
 	</select>
 	
 	<!-- 通用的设置条件的查询SQL语句 -->
@@ -76,7 +86,7 @@
 				and resourceName = #{resourceNameLike, jdbcType=VARCHAR}
 			</if>
 			<if test=" resourceNameLike != null and resourceNameLike != '' ">
-				and resourceName like concat(concat('%', #{resourceNameLike, jdbcType=VARCHAR}),'%')
+				and r1.resourceName like concat(concat('%', #{resourceNameLike, jdbcType=VARCHAR}),'%')
 			</if>
 			<if test=" resourceType != null and resourceType != '' ">
 				and resourceName = #{resourceName, jdbcType=INTEGER}

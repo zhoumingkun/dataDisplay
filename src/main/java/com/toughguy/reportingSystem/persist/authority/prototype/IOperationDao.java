@@ -1,5 +1,8 @@
 package com.toughguy.reportingSystem.persist.authority.prototype;
 
+import java.util.List;
+
+import com.toughguy.reportingSystem.dto.OperationDTO;
 import com.toughguy.reportingSystem.model.authority.Operation;
 import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
 
@@ -34,5 +37,29 @@ public interface IOperationDao extends IGenericDao<Operation, Integer> {
 	 * @param resourceId 资源id
 	 */
 	public void deleteAllByResourceId(int resourceId);
-
+	
+	/**
+	 * 根据资源ID查找操作
+	 * @param id 资源id
+	 */
+	public List<Operation> findById(int id);
+	/**
+	 * 根据角色ID查找操作
+	 * @param id 资源id
+	 */
+	public List<Operation> findByRoleId(int roleId);
+	/*
+	 * 根据用户ID查找操作
+	 */
+	public List<Operation> findByUserId(int userId);
+	/**
+	 * 根据依赖ID查找操作
+	 * @param operationRId 依赖id
+	 */
+	public Operation findOperation(int operationRId);
+	/**
+	 * 根据操作ID删除角色操作对应关系表
+	 * @param operationRId 依赖id
+	 */
+	public void deleteRoleAndOperation(int id);
 }

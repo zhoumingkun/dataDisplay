@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.toughguy.reportingSystem.model.authority.Role;
@@ -64,13 +65,24 @@ public class UserDaoImpl extends GenericDaoImpl<User, Integer> implements IUserD
 	}
 	
 	@Override
-	public User findUserByUserName(String UserName){
-		return sqlSessionTemplate.selectOne(typeNameSpace + ".findUserByUserName", UserName);
+	public User findUserByUserName(String userName){
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findUserByUserName", userName);
 	}
 	
 	@Override
 	public List<Role> findRoleByUserId(int userId){
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findRoleByUserId", userId);
+	}
+
+	@Override
+	public User findUserInfoByUserName(String userName) {
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findUserInfoByUserName", userName);
+	}
+
+	@Override
+	public List<User> findByuserName(String userName) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByuserName", userName);
 	}
 
 }
