@@ -9,5 +9,11 @@ import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
  *
  */
 public interface IContentDao extends IGenericDao<Content, Integer>{
+	
+	/**
+	 * 根据内容类型查询
+	 * */
+	public Content findByType(int type);
+	
 
 }

@@ -10,4 +10,7 @@ import com.toughguy.reportingSystem.service.prototype.IGenericService;
  */
 public interface IInformerService extends IGenericService<Informer, Integer>{
 
+
+	public Informer getInformer(String openId);
+
 }

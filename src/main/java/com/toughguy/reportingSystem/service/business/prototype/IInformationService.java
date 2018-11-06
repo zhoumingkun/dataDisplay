@@ -31,4 +31,10 @@ public interface IInformationService extends IGenericService<Information, Intege
 	 * @return
 	 */
 	public List<InformationDTO> findSum();
+	/**
+	 * 查询记录小程序查询
+	 * @return
+	 */
+//	public List<Information> getInformation(String informerId);
+	public List<Information> getInformation(int informerId);
 }

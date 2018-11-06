@@ -1,6 +1,7 @@
 package com.toughguy.reportingSystem.controller.business;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +24,7 @@ public class ContentController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("content:save")
+	//@RequiresPermissions("content:save")
 	public String saveContent(Content content) {
 		try {
 			contentService.save(content);
@@ -36,7 +37,7 @@ public class ContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("content:edit")
+	//@RequiresPermissions("content:edit")
 	public String editContent(Content content) {
 		try {
 			contentService.update(content);
@@ -51,7 +52,7 @@ public class ContentController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("content:detele")
+	//@RequiresPermissions("content:detele")
 	public String deleteContent(int id) {
 		try {
 			contentService.delete(id);
@@ -64,7 +65,7 @@ public class ContentController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("content:data")
+	//@RequiresPermissions("content:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -85,4 +86,20 @@ public class ContentController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findByType")
+	//@RequiresPermissions("content:findByType")
+	public Content findByType(int type) {
+		
+	    return contentService.findByType(type);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findAll")
+	//@RequiresPermissions("content:findAll")
+	public List<Content> findAll() {
+		return contentService.findAll();
+	}
+	
 }

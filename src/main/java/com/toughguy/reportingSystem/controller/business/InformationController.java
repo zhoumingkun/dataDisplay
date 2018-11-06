@@ -41,6 +41,7 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.FileUploadUtil;
 import com.toughguy.reportingSystem.util.JsonUtil;
 
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONUtil;
 
@@ -167,6 +168,21 @@ public class InformationController {
 		String str2 = JsonUtil.objectToJson(ir);
 		return str1 + str2;
 	}
+	
+//	@ResponseBody
+//	@RequestMapping(value = "/getInformation")
+//	public List<Information> getInformation(String informerId) {
+//		System.out.println(informerId);
+//		return informationService.getInformation(informerId);
+//	}
+	@ResponseBody
+	@RequestMapping(value = "/getInformation")
+	public List<Information> getInformationByOpenId(String openId) {
+		Informer inf = informerService.getInformer(openId);
+		List<Information> inft= informationService.getInformation(inf.getId());
+		return inft;
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/toExamine")
 	public String toExamine(int id,boolean isPass,int assessorId,int feedbackInformationId) {
@@ -193,7 +209,9 @@ public class InformationController {
 	@RequestMapping(value = "/upload")
 	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state) {
 		String fileName = file.getOriginalFilename();
-		String filePath = "D:\\eclipse\\reportingSystem\\upload\\";
+		//String filePath = "D:\\eclipse\\reportingSystem\\upload\\";
+		String filePath = "C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode";
+//		C:/Users/Administrator/git/reportingSystem/upload/barcodeUswx_camera_1535114750894.mp4
 		try {
 			FileUploadUtil.uploadFile(file.getBytes(), filePath, fileName);
 			Information information = informationService.find(id);
@@ -210,5 +228,66 @@ public class InformationController {
 		}
 		return "upload success";
 	}
+	
+//	@ResponseBody
+//	@RequestMapping(value = "/uploadPic")
+//	//@RequiresPermissions("safety:upload")
+//	public String uploadPicture(MultipartFile pictureFile){
+//		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
+//			try {
+//			 String path = UploadUtil.uploadPicture(pictureFile);
+//			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
+//			}
+//		}else{
+//			return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
+//		}	
+//	}
+//	
+//	@ResponseBody
+//	@RequestMapping(value = "/uploadBase64")
+//	//@RequiresPermissions("safety:uploadBase64")
+//	public String uploadPicture(String pictureFile){
+//		// 重命名文件
+//		String path = BackupUtil.rename("jpg");
+//			try {
+//			 String absolutePath = UploadUtil.getAbsolutePath("picture");
+//			// 先上传文件（绝对路径）
+//				File f = new File(absolutePath);  //无路径则创建 
+//				if(!f.exists()){
+//					f.mkdirs();
+//				}
+//			 Base64Transformation.base64StrToImage(pictureFile, absolutePath + "/" + path);
+//			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
+//		}
+//	}	
+	@ResponseBody
+	@RequestMapping(value = "/uploadfile")
+	public String uploadfile(MultipartFile file, HttpServletRequest request) {
+			try {
+			String uploadPath = request.getSession().getServletContext().getRealPath("C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode");
+			File path =new File(uploadPath);
+			if(!path.exists())
+			{
+				path.mkdirs();
+				}
+			String filename = file.getOriginalFilename();
+			File serverFile=new File(uploadPath+filename);
+			
+			file.transferTo(serverFile);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return "upload fals";
+		}
+		return "upload success";
+	}
+
+
 	
 }

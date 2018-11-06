@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.toughguy.reportingSystem.dto.InformationDTO;
 import com.toughguy.reportingSystem.model.authority.User;
 import com.toughguy.reportingSystem.model.business.Information;
+import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.persist.business.prototype.IInformationDao;
 import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;
@@ -44,5 +45,10 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 		int count = (Integer) sqlSessionTemplate.selectOne(typeNameSpace + ".findValidTotal");
 		return count;
 	}
-
+	// -- 举报记录小程序查询
+	@Override
+	public List<Information> getInformation(int informerId) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".getInformation", informerId);
+	}
 }

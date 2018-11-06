@@ -26,10 +26,11 @@ public class InformerController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("informer:save")
+//	@RequiresPermissions("informer:save")
 	public String saveinformer(Informer informer) {
 		try {
 			informerService.save(informer);
+			System.out.println(informer);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,11 +39,21 @@ public class InformerController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/get")
+	public Informer getInformer(String openId) {
+		System.out.println(openId);
+		return informerService.getInformer(openId);
+	}
+
+	
+	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("informer:edit")
+//	@RequiresPermissions("informer:edit")
 	public String editinformer(Informer informer) {
 		try {
 			informerService.update(informer);
+			System.out.println(informer);
+			System.out.println("改完了");
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -54,7 +65,7 @@ public class InformerController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("informer:detele")
+//	@RequiresPermissions("informer:detele")
 	public String deleteinformer(int id) {
 		try {
 			informerService.delete(id);
@@ -67,7 +78,7 @@ public class InformerController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("informer:data")
+//	@RequiresPermissions("informer:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();

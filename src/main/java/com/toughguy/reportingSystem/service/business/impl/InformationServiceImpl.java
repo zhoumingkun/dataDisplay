@@ -36,5 +36,10 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).findSum();
 	}
+	@Override
+	public List<Information> getInformation(int informerId) {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).getInformation(informerId);
+	}
 
 }

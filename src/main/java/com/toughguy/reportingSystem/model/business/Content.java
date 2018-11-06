@@ -15,7 +15,7 @@ public class Content extends AbstractModel {
 	private String author;   //作者
 	private String textContent;     //内容
 	private String image;    //图片
-	
+	private int type;        //类型（1.举报种类  2.保密规定   3.奖励制度    4.举报须知）
 	public int getId() {
 		return id;
 	}
@@ -46,6 +46,13 @@ public class Content extends AbstractModel {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	
 
 	
 }

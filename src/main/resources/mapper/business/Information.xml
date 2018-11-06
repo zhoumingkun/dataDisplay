@@ -16,6 +16,10 @@
 	<select id="find" parameterType="int" resultType="Information">
 		select * from business_information where id = #{id}
 	</select>
+	<!-- 查询某个举报信息（小程序） -->
+	<select id="getInformation" parameterType="Map" resultType="Information">
+		select * from business_information where informerId = #{informerId}
+	</select>
 	
 	<!-- 查询全部举报信息 -->
 	<select id="findAll" resultType="Information" parameterType="Map">

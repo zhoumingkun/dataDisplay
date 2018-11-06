@@ -9,5 +9,8 @@ import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
  *
  */
 public interface IInformerDao  extends IGenericDao<Informer, Integer>{
-	
+	/**
+	 * 个人信息获取
+	 */
+	public Informer getInformer(String openId);
 }

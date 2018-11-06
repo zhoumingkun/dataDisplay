@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Informer">
 
 	<insert id="save" parameterType="Informer" keyProperty="id" useGeneratedKeys="true">
-		insert into business_informer (createTime,updateTime,informerName, idCard,otherContactWay,workPlace,livingArea,address,phoneNumber) 
-		values (#{createTime},#{updateTime},#{informerName}, #{idCard},#{otherContactWay},#{workPlace}, #{livingArea},#{address},#{phoneNumber})
+		insert into business_informer (createTime,updateTime,informerName, idCard,workPlace,livingArea,address,phoneNumber,openId) 
+		values (#{createTime},#{updateTime},#{informerName}, #{idCard},#{workPlace}, #{livingArea},#{address},#{phoneNumber},#{openId})
 	</insert>
 	
 	<!-- 删除某个举报人 -->
@@ -13,8 +13,8 @@
 	</delete>
 	
 	<!-- 查询某个举报人 -->
-	<select id="find" parameterType="int" resultType="Informer">
-		select * from business_informer where id = #{id}
+	<select id="getInformer" parameterType="String" resultType="Informer">
+		select * from business_informer where openId = #{openId}
 	</select>
 	
 	<!-- 查询全部举报人 -->
@@ -41,13 +41,13 @@
 		<set>
 			<if test="informerName != null and informerName != ''">informerName = #{informerName},</if>
 			<if test="idCard != null and idCard != ''">idCard = #{idCard},</if>
-			<if test="otherContactWay != null and otherContactWay != ''">otherContactWay = #{otherContactWay},</if>
 			<if test="workPlace != null and workPlace != ''">workPlace = #{workPlace},</if>
 			<if test="livingArea != null and livingArea != ''">livingArea = #{livingArea},</if>
 			<if test="address != null and address != ''">address = #{address},</if>
 			<if test="phoneNumber != null and phoneNumber != ''">phoneNumber = #{phoneNumber},</if>
+			<if test="openId != null and openId != ''">openId = #{openId},</if>
 		</set>
-		where id = #{id}
+		where openId = #{openId}
 	</update>
 	
 	<!-- 通用的设置条件的查询SQL语句 -->

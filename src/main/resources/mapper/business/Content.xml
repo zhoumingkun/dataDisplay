@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Content">
 
 	<insert id="save" parameterType="Content" keyProperty="id" useGeneratedKeys="true">
-		insert into business_content (createTime,updateTime,title, author,textContent,image) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{textContent},#{image})
+		insert into business_content (createTime,updateTime,title, author,textContent,image,type) 
+		values (#{createTime},#{updateTime},#{title}, #{author},#{textContent},#{image},#{type})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -15,6 +15,11 @@
 	<!-- 查询某个信息 -->
 	<select id="find" parameterType="int" resultType="Content">
 		select * from business_content where id = #{id}
+	</select>
+	
+	<!-- 根据类型查询内容 -->
+	<select id="findByType" parameterType="int" resultType="Content">
+		select * from business_content where type = #{type}
 	</select>
 	
 	<!-- 查询全部信息 -->
@@ -43,6 +48,7 @@
 			<if test="author != null and author != ''">author = #{author},</if>
 			<if test="textContent != null and textContent != ''">textContent = #{textContent},</if>
 			<if test="image != null and image != ''">image = #{image},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -55,6 +61,9 @@
 			</if>
 			<if test=" author != null and author != '' ">
 				and author = #{author}
+			</if>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
 			</if>
 		</where>
 	</sql>

@@ -30,4 +30,10 @@ public interface IInformationDao  extends IGenericDao<Information, Integer>{
 	 * @return
 	 */
 	public List<InformationDTO> findSum();
+	/**
+	 * 举报记录小程序查询
+	 * @return
+	 */
+//	public List<Information> getInformation(String informerId);
+	public List<Information> getInformation(int informerId);
 }

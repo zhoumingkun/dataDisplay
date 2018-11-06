@@ -84,13 +84,15 @@ public class Information extends AbstractModel{
 	public void setState(int state) {
 		this.state = state;
 	}
+	
+	
+	
 	public int getInformerId() {
 		return informerId;
 	}
 	public void setInformerId(int informerId) {
 		this.informerId = informerId;
 	}
-	
 	public int getAssessorId() {
 		return assessorId;
 	}
