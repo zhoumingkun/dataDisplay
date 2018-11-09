@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.MultipartFilter;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.InformationDTO;
@@ -162,11 +163,21 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/get")
 	public String get(int id) {
-		Information i = informationService.find(id);
-		Informer ir = informerService.find(i.getInformerId());
-		String str1 = JsonUtil.objectToJson(i);
-		String str2 = JsonUtil.objectToJson(ir);
-		return str1 + str2;
+		try {
+			Information i = informationService.find(id);
+			Informer ir = informerService.find(i.getInformerId());
+//			String str1 = JsonUtil.objectToJson(i);
+//			String str2 = JsonUtil.objectToJson(ir);
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("information", i);
+			result.put("informer", ir);
+			return om.writeValueAsString(result);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 //	@ResponseBody
@@ -185,18 +196,20 @@ public class InformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/toExamine")
-	public String toExamine(int id,boolean isPass,int assessorId,int feedbackInformationId) {
+	public String toExamine(int id,boolean isPass,int assessorId,String feedbackInformation) {
 		try {
 			Information i = informationService.find(id);
 			if(isPass) {
 				i.setAssessorId(assessorId);
-				i.setFeedbackInformationId(feedbackInformationId);
+				i.setFeedbackInformation(feedbackInformation);
 				i.setState(1);
+				i.setId(id);
 				informationService.update(i);
 			} else {
 				i.setAssessorId(assessorId);
-				i.setFeedbackInformationId(feedbackInformationId);
+				i.setFeedbackInformation(feedbackInformation);
 				i.setState(4);
+				i.setId(id);
 				informationService.update(i);
 			}
 			return "{ \"success\" : true }";

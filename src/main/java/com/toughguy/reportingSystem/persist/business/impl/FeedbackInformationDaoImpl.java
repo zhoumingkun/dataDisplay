@@ -15,5 +15,11 @@ import com.toughguy.reportingSystem.persist.impl.GenericDaoImpl;
 @Repository
 public class FeedbackInformationDaoImpl extends GenericDaoImpl<FeedbackInformation, Integer> implements IFeedbackInformationDao{
 
+	@Override
+	public FeedbackInformation findByType(String type) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByType", type);
+	}
+
 
 }

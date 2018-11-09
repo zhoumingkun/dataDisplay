@@ -26,7 +26,7 @@ public class Information extends AbstractModel{
 	private int assessorId;   //评审员(当前用户id)
 	private String validFile;    //案件附件（已接案的）
 	private String investigationFile;    //案件附件（侦办中的）
-	private int feedbackInformationId;     //反馈信息id
+	private String feedbackInformation;     //反馈信息
 	
 	private String phoneNumber; //举报人手机号（页面使用）
 	private String assessor; //审核员（页面使用）
@@ -112,11 +112,11 @@ public class Information extends AbstractModel{
 		this.investigationFile = investigationFile;
 	}
 	
-	public int getFeedbackInformationId() {
-		return feedbackInformationId;
+	public String getFeedbackInformation() {
+		return feedbackInformation;
 	}
-	public void setFeedbackInformationId(int feedbackInformationId) {
-		this.feedbackInformationId = feedbackInformationId;
+	public void setFeedbackInformation(String feedbackInformation) {
+		this.feedbackInformation = feedbackInformation;
 	}
 	public String getPhoneNumber() {
 		return phoneNumber;

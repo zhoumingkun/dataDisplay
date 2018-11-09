@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,assessorId,validFile,investigationFile,feedbackInformationId) 
-		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{assessorId},#{validFile},#{investigationFile},#{feedbackInformationId})
+		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,assessorId,validFile,investigationFile,feedbackInformation) 
+		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{assessorId},#{validFile},#{investigationFile},#{feedbackInformation})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
@@ -58,7 +58,7 @@
 			<if test="assessorId != null and assessorId != ''">assessorId = #{assessorId},</if>
 			<if test="validFile != null and validFile != ''">validFile = #{validFile},</if>
 			<if test="investigationFile != null and investigationFile != ''">investigationFile = #{investigationFile},</if>
-			<if test="feedbackInformationId != null and feedbackInformationId != ''">feedbackInformationId = #{feedbackInformationId},</if>
+			<if test="feedbackInformation != null and feedbackInformation != ''">feedbackInformation = #{feedbackInformation},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -103,6 +103,9 @@
 			</if>
 			<if test=" valid != null and valid != '' ">
 				and bio.state = 1 or bio.state = 2 or bio.state = 3
+			</if>
+			<if test=" phoneNumber != null and phoneNumber != '' ">
+				and phoneNumber = #{phoneNumber}
 			</if>
 		</where>
 	</sql>

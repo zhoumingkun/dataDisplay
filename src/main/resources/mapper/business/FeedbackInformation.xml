@@ -45,6 +45,9 @@
 		</set>
 		where id = #{id}
 	</update>
+	<select id="findByType" parameterType="String" resultType="FeedbackInformation">
+		select * from business_feedback_information where type = #{type}
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
