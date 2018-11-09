@@ -16,7 +16,7 @@ public class FeedbackInformation extends AbstractModel{
 	private int id;
 	private String feedbackInformation;    //反馈信息
 	private int state;           //状态，-1未通过反馈信息     1已通过反馈信息
-	private int type;            //类型（用户自己填写，为了筛选）
+	private String type;            //类型（用户自己填写，为了筛选）
 	
 	public int getId() {
 		return id;
@@ -36,11 +36,16 @@ public class FeedbackInformation extends AbstractModel{
 	public void setState(int state) {
 		this.state = state;
 	}
-	public int getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "FeedbackInformation [id=" + id + ", feedbackInformation=" + feedbackInformation + ", state=" + state
+				+ ", type=" + type + "]";
 	}
    
 	

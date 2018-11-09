@@ -40,12 +40,18 @@ public class FeedbackInformationController {
 	@RequestMapping(value = "/edit")
 	public String editFeedbackInformation(FeedbackInformation feedbackInformation) {
 		try {
-			feedbackInformationService.update(feedbackInformation);
-			return "{ \"success\" : true }";
+			System.out.println(feedbackInformation);
+			FeedbackInformation f = feedbackInformationService.findByType(feedbackInformation.getType());
+			if(f == null) {
+				feedbackInformationService.update(feedbackInformation);
+				return "{ \"success\" : true }";
+			} else {
+				return "{ \"success\" : false }";
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return "{ \"success\" : false }";
+			return "{  \"msg\" : \"操作失败\"  }";
 		}
 	}
 	
@@ -82,6 +88,28 @@ public class FeedbackInformationController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	}
+	
+	/**
+	 * 反馈信息避免重复原因
+	 * @param type
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findByTypeAndSave")
+	public String findByType(FeedbackInformation feedbackInformation) {
+		try {
+			FeedbackInformation f = feedbackInformationService.findByType(feedbackInformation.getType());
+			if(f == null) {
+				feedbackInformationService.save(feedbackInformation);
+				return "{\"success\" : true}";
+			} else {
+				return "{ \"success\" : false }";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"msg\" : \"操作失败\" }";
 		}
 	}
 }

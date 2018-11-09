@@ -9,5 +9,11 @@ import com.toughguy.reportingSystem.persist.prototype.IGenericDao;
  *
  */
 public interface IFeedbackInformationDao  extends IGenericDao<FeedbackInformation, Integer>{
-
+	
+	/**
+	 * 根据反馈原因查询反馈信息
+	 * @param type
+	 * @return
+	 */
+	public FeedbackInformation findByType(String type);
 }
