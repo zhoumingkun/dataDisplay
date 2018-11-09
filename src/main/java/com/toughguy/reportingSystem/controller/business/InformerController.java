@@ -42,7 +42,12 @@ public class InformerController {
 	@RequestMapping(value = "/get")
 	public Informer getInformer(String openId) {
 		System.out.println(openId);
-		return informerService.getInformer(openId);
+		Informer inf=informerService.getInformer(openId);
+		if(inf != null){
+			return inf;
+		}else{
+			return null;
+		}
 	}
 
 	

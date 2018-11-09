@@ -15,16 +15,30 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.support.MultipartFilter;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,6 +52,7 @@ import com.toughguy.reportingSystem.persist.business.prototype.IFeedbackInformat
 import com.toughguy.reportingSystem.service.business.prototype.IFeedbackInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
+import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.FileUploadUtil;
 import com.toughguy.reportingSystem.util.JsonUtil;
 
@@ -59,7 +74,7 @@ public class InformationController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("information:save")
+//	@RequiresPermissions("information:save")
 	public String saveInformation(Information information) {
 		try {
 			informationService.save(information);
@@ -72,7 +87,7 @@ public class InformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("information:edit")
+//	@RequiresPermissions("information:edit")
 	public String editInformation(Information information) {
 		try {
 			informationService.update(information);
@@ -87,7 +102,7 @@ public class InformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("information:detele")
+//	@RequiresPermissions("information:detele")
 	public String deleteInformation(int id) {
 		try {
 			informationService.delete(id);
@@ -162,11 +177,21 @@ public class InformationController {
 	@ResponseBody
 	@RequestMapping(value = "/get")
 	public String get(int id) {
-		Information i = informationService.find(id);
-		Informer ir = informerService.find(i.getInformerId());
-		String str1 = JsonUtil.objectToJson(i);
-		String str2 = JsonUtil.objectToJson(ir);
-		return str1 + str2;
+		try {
+			Information i = informationService.find(id);
+			Informer ir = informerService.find(i.getInformerId());
+//			String str1 = JsonUtil.objectToJson(i);
+//			String str2 = JsonUtil.objectToJson(ir);
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("information", i);
+			result.put("informer", ir);
+			return om.writeValueAsString(result);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 //	@ResponseBody
@@ -180,23 +205,30 @@ public class InformationController {
 	public List<Information> getInformationByOpenId(String openId) {
 		Informer inf = informerService.getInformer(openId);
 		List<Information> inft= informationService.getInformation(inf.getId());
-		return inft;
+		if(inft != null){
+			return inft;
+		}else{
+			return null;
+		}
+		
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/toExamine")
-	public String toExamine(int id,boolean isPass,int assessorId,int feedbackInformationId) {
+	public String toExamine(int id,boolean isPass,int assessorId,String feedbackInformation) {
 		try {
 			Information i = informationService.find(id);
 			if(isPass) {
 				i.setAssessorId(assessorId);
-				i.setFeedbackInformationId(feedbackInformationId);
+				i.setFeedbackInformation(feedbackInformation);
 				i.setState(1);
+				i.setId(id);
 				informationService.update(i);
 			} else {
 				i.setAssessorId(assessorId);
-				i.setFeedbackInformationId(feedbackInformationId);
+				i.setFeedbackInformation(feedbackInformation);
 				i.setState(4);
+				i.setId(id);
 				informationService.update(i);
 			}
 			return "{ \"success\" : true }";
@@ -229,65 +261,99 @@ public class InformationController {
 		return "upload success";
 	}
 	
-//	@ResponseBody
-//	@RequestMapping(value = "/uploadPic")
-//	//@RequiresPermissions("safety:upload")
-//	public String uploadPicture(MultipartFile pictureFile){
-//		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
-//			try {
-//			 String path = UploadUtil.uploadPicture(pictureFile);
-//			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
-//			}
-//		}else{
-//			return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
-//		}	
-//	}
-//	
-//	@ResponseBody
-//	@RequestMapping(value = "/uploadBase64")
-//	//@RequiresPermissions("safety:uploadBase64")
-//	public String uploadPicture(String pictureFile){
-//		// 重命名文件
-//		String path = BackupUtil.rename("jpg");
-//			try {
-//			 String absolutePath = UploadUtil.getAbsolutePath("picture");
-//			// 先上传文件（绝对路径）
-//				File f = new File(absolutePath);  //无路径则创建 
-//				if(!f.exists()){
-//					f.mkdirs();
-//				}
-//			 Base64Transformation.base64StrToImage(pictureFile, absolutePath + "/" + path);
-//			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
-//		}
-//	}	
+
+	//小程序的图片上传
 	@ResponseBody
-	@RequestMapping(value = "/uploadfile")
-	public String uploadfile(MultipartFile file, HttpServletRequest request) {
-			try {
-			String uploadPath = request.getSession().getServletContext().getRealPath("C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode");
-			File path =new File(uploadPath);
-			if(!path.exists())
-			{
-				path.mkdirs();
-				}
-			String filename = file.getOriginalFilename();
-			File serverFile=new File(uploadPath+filename);
-			
-			file.transferTo(serverFile);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return "upload fals";
-		}
-		return "upload success";
-	}
-
-
+	@RequestMapping(value = "/uploadImagefile" ,method = { RequestMethod.POST,RequestMethod.GET})
+    public String uploadImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("进入get图片方法！");
+ 
+        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+        MultipartFile multipartFile =  req.getFile("file");
+        //服务器路径需要换
+        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+        
+        String path = BackupUtil.rename("jpg");
+        try {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            
+            File file  =  new File(realPath,path);
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
+	@ResponseBody
+	@RequestMapping(value = "/uploadViedofile" ,method = { RequestMethod.POST,RequestMethod.GET})
+    public String fileUpload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    
+    System.out.println("进入get视频方法！");
+        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+        MultipartFile multipartFile =  req.getFile("file");
+        //服务器路径需要换
+        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+        
+        String path = BackupUtil.rename("mp4");
+        try {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            
+            File file  =  new File(realPath,path);
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
+//	@ResponseBody
+//	@RequestMapping(value = "/uploadViedofile" ,method = { RequestMethod.POST,RequestMethod.GET})
+//	public  String fileUpload(HttpServletRequest request,HttpServletResponse response)throws Exception{
+//	    //允许上传的文件最大大小(100M,单位为byte)
+//	    int maxSize = 1024*1024*100;
+//	    response.addHeader("Access-Control-Allow-Origin", "*");
+//	    System.out.println("进入get视频方法！");
+//	  
+//	         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+//	         MultipartFile multipartFile =  req.getFile("file");
+//	         
+//	         if (multipartFile.getSize() > maxSize)
+//	         {
+//	        	 
+//	             JOptionPane.showMessageDialog(null, "文件大小超过限制！应小于" + maxSize
+//	                                                 / 1024 / 1024 + "M");
+//	             return "文件大小超过限制！应小于" + maxSize;
+//	         }
+//	
+//	         String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+//	         
+//	         String path = BackupUtil.rename("mp4");
+//	         try {
+//	             File dir = new File(path);
+//	             if (!dir.exists()) {
+//	                 dir.mkdir();
+//	             }
+//	             
+//	             File file  =  new File(realPath,path);
+//	             multipartFile.transferTo(file);
+//	         } catch (IOException e) {
+//	             e.printStackTrace();
+//	         } catch (IllegalStateException e) {
+//	             e.printStackTrace();
+//	         }
+//	         return path;
+//	     }
+	    
 	
+
+
 }

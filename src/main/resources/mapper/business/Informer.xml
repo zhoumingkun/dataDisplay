@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Informer">
 
 	<insert id="save" parameterType="Informer" keyProperty="id" useGeneratedKeys="true">
-		insert into business_informer (createTime,updateTime,informerName, idCard,workPlace,livingArea,address,phoneNumber,openId) 
-		values (#{createTime},#{updateTime},#{informerName}, #{idCard},#{workPlace}, #{livingArea},#{address},#{phoneNumber},#{openId})
+		insert into business_informer (createTime,updateTime,informerName, idCard,otherContectWay,workPlace,livingArea,address,phoneNumber,openId) 
+		values (#{createTime},#{updateTime},#{informerName}, #{idCard},#{otherContectWay},#{workPlace}, #{livingArea},#{address},#{phoneNumber},#{openId})
 	</insert>
 	
 	<!-- 删除某个举报人 -->
@@ -41,6 +41,7 @@
 		<set>
 			<if test="informerName != null and informerName != ''">informerName = #{informerName},</if>
 			<if test="idCard != null and idCard != ''">idCard = #{idCard},</if>
+			<if test="otherContectWay != null and otherContectWay != ''">otherContectWay = #{otherContectWay},</if>
 			<if test="workPlace != null and workPlace != ''">workPlace = #{workPlace},</if>
 			<if test="livingArea != null and livingArea != ''">livingArea = #{livingArea},</if>
 			<if test="address != null and address != ''">address = #{address},</if>

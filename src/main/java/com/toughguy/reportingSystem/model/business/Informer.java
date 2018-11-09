@@ -14,6 +14,7 @@ public class Informer extends AbstractModel {
 	private int id;
 	private String informerName;    //举报人姓名
 	private String idCard;          //身份证号
+	private String otherContectWay;  //其他联系方式
 	private String workPlace;        //工作单位
 	private String livingArea;       //居住地区
 	private String address;          //详细地址
@@ -67,6 +68,12 @@ public class Informer extends AbstractModel {
 	}
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+	public String getOtherContectWay() {
+		return otherContectWay;
+	}
+	public void setOtherContectWay(String otherContectWay) {
+		this.otherContectWay = otherContectWay;
 	}
 	
 	
