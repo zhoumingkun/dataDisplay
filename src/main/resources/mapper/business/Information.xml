@@ -70,7 +70,7 @@
 	<!-- 查询图表中每天举报总数 -->
 	<select id="findSum" parameterType="int" resultType="com.toughguy.reportingSystem.dto.InformationDTO">
 		SELECT createTime, count(*) sum 
-		FROM business_information GROUP BY createTime order by createTime asc
+		FROM business_information GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc
 	</select>
 	<!-- 查询图表中每天举报已接案数量 -->
 	<select id="findValidNumber" parameterType="int" resultType="int">
