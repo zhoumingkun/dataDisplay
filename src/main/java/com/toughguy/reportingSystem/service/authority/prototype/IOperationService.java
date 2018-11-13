@@ -43,5 +43,12 @@ public interface IOperationService extends IGenericService<Operation, Integer> {
 	 * @param resourceId 资源id
 	 */
 	public void deleteAllByResourceId(int resourceId);
+	
+	/**
+	 * 根据角色id或依赖id查询所有操作集
+	 * @param roleId 角色id或角色依赖id
+	 * @return 操作集
+	 */
+	public List<Operation> findAllOperationsByRoleId(int roleId);
 
 }
