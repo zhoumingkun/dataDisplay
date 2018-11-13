@@ -45,11 +45,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.InformationDTO;
+import com.toughguy.reportingSystem.model.authority.User;
 import com.toughguy.reportingSystem.model.business.FeedbackInformation;
 import com.toughguy.reportingSystem.model.business.Information;
 import com.toughguy.reportingSystem.model.business.Informer;
 import com.toughguy.reportingSystem.pagination.PagerModel;
 import com.toughguy.reportingSystem.persist.business.prototype.IFeedbackInformationDao;
+import com.toughguy.reportingSystem.service.authority.prototype.IUserService;
 import com.toughguy.reportingSystem.service.business.prototype.IFeedbackInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformationService;
 import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
@@ -72,6 +74,9 @@ public class InformationController {
 	
 	@Autowired
 	private IFeedbackInformationService feedbackInformerService;
+	
+	@Autowired
+	private IUserService userService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
@@ -183,6 +188,20 @@ public class InformationController {
 			Informer ir = informerService.find(i.getInformerId());
 //			String str1 = JsonUtil.objectToJson(i);
 //			String str2 = JsonUtil.objectToJson(ir);
+			User u1 = userService.find(i.getValidAssessorId());
+			User u2 = userService.find(i.getInvestigationAssessorId());
+			String assessor = "";	
+			if(!"".equals(u1.getUserName()) || u1.getUserName() != null) {
+				assessor += u1.getUserName() + ",";
+			}
+			if(!"".equals(u2.getUserName()) || u2.getUserName() != null) {
+				assessor += u2.getUserName() + ",";
+			}
+			if("".equals(assessor) || assessor == null) {
+				i.setAssessor("");
+			} else {
+				i.setAssessor(assessor.substring(0,assessor.length()-1));
+			}
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("information", i);
@@ -220,13 +239,13 @@ public class InformationController {
 		try {
 			Information i = informationService.find(id);
 			if(isPass) {
-				i.setAssessorId(assessorId);
+				i.setValidAssessorId(assessorId);
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(1);
 				i.setId(id);
 				informationService.update(i);
 			} else {
-				i.setAssessorId(assessorId);
+				i.setInvestigationAssessorId(assessorId);
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(4);
 				i.setId(id);

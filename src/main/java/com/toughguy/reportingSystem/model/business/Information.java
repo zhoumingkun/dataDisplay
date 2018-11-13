@@ -23,10 +23,11 @@ public class Information extends AbstractModel{
 	private String video;    //视频
 	private int state;     //案件状态   -1待审核   1已接案  2侦办中  3已结案   4未结案
 	private int informerId;   //举报人id
-	private int assessorId;   //评审员(当前用户id)
+	private int validAssessorId;   //审核员(已接案)(当前用户id)
 	private String validFile;    //案件附件（已接案的）
 	private String investigationFile;    //案件附件（侦办中的）
 	private String feedbackInformation;     //反馈信息
+	private int investigationAssessorId;  //审核员（侦办中）(当前用户id)
 	
 	private String phoneNumber; //举报人手机号（页面使用）
 	private String assessor; //审核员（页面使用）
@@ -93,11 +94,18 @@ public class Information extends AbstractModel{
 	public void setInformerId(int informerId) {
 		this.informerId = informerId;
 	}
-	public int getAssessorId() {
-		return assessorId;
+
+	public int getValidAssessorId() {
+		return validAssessorId;
 	}
-	public void setAssessorId(int assessorId) {
-		this.assessorId = assessorId;
+	public void setValidAssessorId(int validAssessorId) {
+		this.validAssessorId = validAssessorId;
+	}
+	public int getInvestigationAssessorId() {
+		return investigationAssessorId;
+	}
+	public void setInvestigationAssessorId(int investigationAssessorId) {
+		this.investigationAssessorId = investigationAssessorId;
 	}
 	public String getValidFile() {
 		return validFile;

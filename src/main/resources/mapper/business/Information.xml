@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.business.Information">
 
 	<insert id="save" parameterType="Information" keyProperty="id" useGeneratedKeys="true">
-		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,assessorId,validFile,investigationFile,feedbackInformation) 
-		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{assessorId},#{validFile},#{investigationFile},#{feedbackInformation})
+		insert into business_information (createTime,updateTime,threadArea, clueAddress,industryField,informType,informContent,picture,video,informerId,validAssessorId,validFile,investigationFile,feedbackInformation,investigationAssessorId) 
+		values (#{createTime},#{updateTime},#{threadArea}, #{clueAddress},#{industryField},#{informType}, #{informContent},#{picture},#{video},#{informerId},#{validAssessorId},#{validFile},#{investigationFile},#{feedbackInformation},#{investigationAssessorId})
 	</insert>
 	
 	<!-- 删除某个举报信息 -->
@@ -31,7 +31,7 @@
 	<select id="findPaginated" resultType="Information" parameterType="Map">
 		select bio.*,bir.phoneNumber,au.userName assessor from business_information bio 
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
-		LEFT JOIN auth_user au ON bio.assessorId = au.id
+		LEFT JOIN auth_user au ON bio.validAssessorId = au.id
 		<include refid="paramsSQL"/>
 		ORDER BY bio.createTime desc  limit #{offset}, #{limit}
 	</select>
@@ -39,7 +39,7 @@
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
 		select count(*) from business_information bio 
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
-		LEFT JOIN auth_user au ON bio.assessorId = au.id
+		LEFT JOIN auth_user au ON bio.validAssessorId = au.id
 		<include refid="paramsSQL"/>
 	</select>
 
@@ -55,10 +55,12 @@
 			<if test="picture != null and picture != ''">picture = #{picture},</if>
 			<if test="video != null and video != ''">video = #{video},</if>
 			<if test="informerId != null and informerId != ''">informerId = #{informerId},</if>
-			<if test="assessorId != null and assessorId != ''">assessorId = #{assessorId},</if>
+			<if test="validAssessorId != null and validAssessorId != ''">validAssessorId = #{validAssessorId},</if>
 			<if test="validFile != null and validFile != ''">validFile = #{validFile},</if>
 			<if test="investigationFile != null and investigationFile != ''">investigationFile = #{investigationFile},</if>
 			<if test="feedbackInformation != null and feedbackInformation != ''">feedbackInformation = #{feedbackInformation},</if>
+			<if test="state != null and state != ''">state = #{state},</if>
+			<if test="investigationAssessorId != null and investigationAssessorId != ''">investigationAssessorId = #{investigationAssessorId},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -81,7 +83,7 @@
 	<select id="findValidTotal" resultType="int">
 		select count(*) from business_information bio 
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
-		LEFT JOIN auth_user au ON bio.assessorId = au.id WHERE bio.state = 1 or bio.state = 2 or bio.state = 3
+		LEFT JOIN auth_user au ON bio.validAssessorId = au.id WHERE bio.state = 1 or bio.state = 2 or bio.state = 3
 	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
@@ -98,14 +100,17 @@
 			<if test=" informerId != null and informerId != '' ">
 				and informerId = #{informerId}
 			</if>
-			<if test=" assessorId != null and assessorId != '' ">
-				and assessorId = #{assessorId}
+			<if test=" validAssessorId != null and validAssessorId != '' ">
+				and validAssessorId = #{validAssessorId}
 			</if>
 			<if test=" valid != null and valid != '' ">
 				and bio.state = 1 or bio.state = 2 or bio.state = 3
 			</if>
 			<if test=" phoneNumber != null and phoneNumber != '' ">
 				and phoneNumber = #{phoneNumber}
+			</if>
+			<if test=" investigationAssessorId != null and investigationAssessorId != '' ">
+				and investigationAssessorId = #{investigationAssessorId}
 			</if>
 		</where>
 	</sql>
