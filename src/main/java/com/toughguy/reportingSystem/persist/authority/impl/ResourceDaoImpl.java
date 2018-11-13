@@ -39,5 +39,16 @@ public class ResourceDaoImpl extends GenericDaoImpl<Resource, Integer> implement
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findROsByResourceId", resourceId);
 	}
 
+	@Override
+	public List<Resource> findById(int id) {
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findById", id);
+	}
+
+	@Override
+	public List<Resource> findByresourceName(String resourceName) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByresourceName", resourceName);
+	}
+
 
 }

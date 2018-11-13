@@ -2,6 +2,7 @@ package com.toughguy.reportingSystem.service.authority.prototype;
 
 import java.util.List;
 
+import com.toughguy.reportingSystem.dto.TreeDTO;
 import com.toughguy.reportingSystem.model.authority.Resource;
 import com.toughguy.reportingSystem.service.prototype.IGenericService;
 
@@ -31,17 +32,28 @@ import com.toughguy.reportingSystem.service.prototype.IGenericService;
 public interface IResourceService extends IGenericService<Resource, Integer> {
 
 	// 用户操作方法
-	/**
-	 * 根据资源id查询全部的资源-操作
-	 * @param resourceId 资源id
-	 * @return 操作id集合
-	 */
-	public List<Integer> findROsByResourceId(int resourceId);
-	
-	/**
-	 * 查询全部资源，树形结构
-	 * @return 资源
-	 */
-	 public List<Resource> findResourceTree();
+		/**
+		 * 根据资源id查询全部的资源-操作
+		 * @param resourceId 资源id
+		 * @return 操作id集合
+		 */
+		public List<Integer> findROsByResourceId(int resourceId);
+		
+		/**
+		 * 查询全部资源，树形结构
+		 * @param roleId 
+		 * @return 资源
+		 */
+		 public List<TreeDTO> findResourceTree(int roleId);
+		 
+		 
+		 public List<Resource> findByresourceName(String resourceName);
 
-}
+		 /**
+		 * 查看资源
+		 * @param resourceId
+		 * @return Resource
+		 */
+		public Resource checkResource(int resourceId);
+
+	}
