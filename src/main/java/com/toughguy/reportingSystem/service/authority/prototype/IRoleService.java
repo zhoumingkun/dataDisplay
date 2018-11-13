@@ -87,5 +87,19 @@ public interface IRoleService extends IGenericService<Role, Integer>{
 	 * @return 角色对象集合
 	 */
 	public List<Role> findAllCount();
+	/**
+	 * 根据角色名查询角色
+	 * @param roleName 角色名
+	 */
+	public List<Role> findByName(String roleName);
+	
+	public List<Role> findBydisplayName(String displayName);
+
+	/**
+	 * 根据角色ID查询下属角色
+	 * @param roleName 角色名
+	 */
+	public List<Role> findRelyRole(int id);
+
 
 }

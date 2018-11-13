@@ -53,7 +53,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer> implement
 	
 	//-- 增加redis缓存的逻辑
 	@Override
-	@Cacheable(value="liquiduser")
+//	@Cacheable(value="liquiduser")
 	public User findByUserName(String userName) { 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userName", userName);
@@ -104,6 +104,17 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer> implement
 	public List<Role> findRoleByUserId(int userId) {
 		
 		return ((IUserDao) dao).findRoleByUserId(userId);
+	}
+
+	@Override
+	public User findUserInfoByUserName(String userName) {
+		return ((IUserDao) dao).findUserInfoByUserName(userName);
+	}
+
+	@Override
+	public List<User> findByuserName(String userName) {
+		// TODO Auto-generated method stub
+		return ((IUserDao) dao).findByuserName(userName);
 	}
 	
 	/*@Override

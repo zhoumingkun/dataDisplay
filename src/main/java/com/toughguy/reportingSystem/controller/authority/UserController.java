@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.reportingSystem.dto.TreeDTO;
 import com.toughguy.reportingSystem.model.authority.Role;
 import com.toughguy.reportingSystem.model.authority.User;
 import com.toughguy.reportingSystem.service.authority.prototype.IAuthorityService;
@@ -63,7 +64,7 @@ public class UserController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("user:add")
+	@RequiresPermissions("user:save")
 	//@SystemControllerLog(description="权限管理-添加用户")
 	public String saveUser(User user) {
 		try {
@@ -77,7 +78,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/reset")
-	@RequiresPermissions("user:reset")
+//	@RequiresPermissions("user:reset")
 	//@SystemControllerLog(description="权限管理-添加用户")
 	public String resetPwd(int id) {
 		try {
@@ -112,7 +113,7 @@ public class UserController {
 		try {
 			User user = userService.find(newUser.getId());
 			user.setUserName(newUser.getUserName());
-			user.setUserPass(newUser.getUserPass());
+			user.setUserPass(new DefaultPasswordService().encryptPassword(newUser.getUserPass()));
 			user.setPhone(newUser.getPhone());
 			user.setEmail(newUser.getEmail());
 			userService.update(user);
@@ -126,7 +127,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/auth")
-	@RequiresPermissions("user:auth")
+//	@RequiresPermissions("user:auth")
 	//@SystemControllerLog(description="权限管理-给用户分配角色")
 	public String authUser(String roleIds, int userId) {
 		try{
@@ -150,9 +151,17 @@ public class UserController {
 		return JsonUtil.objectToJson(roleList);
 	}
 	
+	//@SystemControllerLog(description="权限管理-获取用户角色")
+	@ResponseBody
+	@RequestMapping(value = "/getRoles")
+	public List<TreeDTO> findRoleByUser(Integer id) {
+			List<TreeDTO> list = authService.findRoleByUser(id);
+			return list;
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("user:detele")
+//	@RequiresPermissions("user:detele")
 	public String deleteUser(int id) {
 		try {
 			userService.delete(id);
@@ -165,7 +174,7 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/deleteAll")
-	@RequiresPermissions("user:detele")
+//	@RequiresPermissions("user:deleteAll")
 	//@SystemControllerLog(description="权限管理-删除多个用户")
 	public String deteteAllUser(String user_ids) {
 		try {
@@ -184,7 +193,7 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/get/{id}")
-	@RequiresPermissions("user:view")
+//	@RequiresPermissions("user:view")
 	public String get(@PathVariable int id) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -199,8 +208,23 @@ public class UserController {
 	@ResponseBody
 	//@SystemControllerLog(description="权限管理-用户列表")
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("user:list")
+	//@RequiresPermissions("user:list")
 	public String data(String params,HttpSession session) {
 		return authService.findAllUserInduleRoles(params);
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/findByuserName")
+//	@RequiresPermissions("user:findByuserName")
+	//@SystemControllerLog(description="权限管理-根据用户名称查是否重复")
+	public String findByuserName(String userName) {
+		List<User> list = userService.findByuserName(userName);
+		if(list.size() > 0){
+			return "{ \"success\" : false }";
+		}else{
+			return "{ \"success\" : true }";
+		}
+	}
 }
+

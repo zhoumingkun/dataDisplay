@@ -76,5 +76,19 @@ public interface IUserService extends IGenericService<User, Integer> {
 	public List<Integer> findUserAndRolesByUserId(int userId);
 	
 	public List<Role> findRoleByUserId(int userId);
+	
+	/**
+	 * 根据用户名查找用户及库点信息
+	 * @param userName 用户名
+	 * 
+	 */
+	public User findUserInfoByUserName(String userName);
+	/**
+	 * 根据用户名称查是否重复
+	 * @param userName 用户名称
+	 * 
+	 */
+	public List<User> findByuserName(String userName);
+
 
 }
