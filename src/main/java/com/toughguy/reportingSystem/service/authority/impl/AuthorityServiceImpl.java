@@ -15,11 +15,14 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.reportingSystem.dto.OperationDTO;
+import com.toughguy.reportingSystem.dto.TreeDTO;
 import com.toughguy.reportingSystem.model.authority.Operation;
 import com.toughguy.reportingSystem.model.authority.Resource;
 import com.toughguy.reportingSystem.model.authority.Role;
 import com.toughguy.reportingSystem.model.authority.User;
 import com.toughguy.reportingSystem.pagination.PagerModel;
+import com.toughguy.reportingSystem.persist.authority.prototype.IOperationDao;
+import com.toughguy.reportingSystem.persist.authority.prototype.IRoleDao;
 import com.toughguy.reportingSystem.service.authority.prototype.IAuthorityService;
 import com.toughguy.reportingSystem.service.authority.prototype.IOperationService;
 import com.toughguy.reportingSystem.service.authority.prototype.IResourceService;
@@ -27,6 +30,7 @@ import com.toughguy.reportingSystem.service.authority.prototype.IRoleService;
 import com.toughguy.reportingSystem.service.authority.prototype.IUserService;
 import com.toughguy.reportingSystem.util.JsonUtil;
 import com.toughguy.reportingSystem.util.PinyinUtil;
+
 
 @Service
 public class AuthorityServiceImpl implements IAuthorityService{
@@ -36,10 +40,16 @@ public class AuthorityServiceImpl implements IAuthorityService{
 	@Autowired
 	private IRoleService roleService;
 	@Autowired
+	private IRoleDao roleDao;
+	@Autowired
 	private IResourceService resourceService;
 	@Autowired
 	private IOperationService operationService;
+	@Autowired
+	private IOperationDao operationDao;
 
+	@Autowired
+	private IOperationDao operationdao;
 	
 	private List<Role> roles ;    //存储角色
 	private List<Role> recRole;  //存储递归角色
@@ -116,8 +126,10 @@ public class AuthorityServiceImpl implements IAuthorityService{
 	@Override
 	public void authRole(int roleId, List <Integer> array){
 		roleService.deleteRoleAndOperationsRelationByRoleId(roleId); //删除角色与操作关系集
-		for(Integer i : array){
-			roleService.saveRoleAndOperationRelation(roleId, i); //保存角色操作关系
+		if(array.size() > 0){
+			for(Integer i : array){
+				roleService.saveRoleAndOperationRelation(roleId, i); //保存角色操作关系
+			}
 		}
 	}
 	// 用户授权
@@ -144,7 +156,7 @@ public class AuthorityServiceImpl implements IAuthorityService{
 	public void updateResourceAndOperation(Resource resource,String params){
 		resourceService.update(resource);
 		int resourceId = resource.getId();
-		operationService.deleteAllByResourceId(resourceId);
+		//operationService.deleteAllByResourceId(resourceId);
 		List<OperationDTO> operationList=conversionParams(params);
 		for(OperationDTO s : operationList){
 			saveOperation(resourceId,-1,s);		
@@ -159,7 +171,7 @@ public class AuthorityServiceImpl implements IAuthorityService{
 			if("".equals(o.getOperation())||"".equals(o.getPermission())){
 				continue;
 			}else{
-				if("".equals(o.getRelyName())||"选择资源".equals(o.getRelyName())){
+				if("".equals(o.getRelyName())||"无".equals(o.getRelyName())){
 					odList.add(o);
 					}
 				for(OperationDTO od:operationList){
@@ -175,12 +187,19 @@ public class AuthorityServiceImpl implements IAuthorityService{
 	}
 	private void saveOperation(int resourceId,int rid,OperationDTO od){
 		Operation operation =new Operation();
+		if(od.getId() != 0){
+			operation.setId(od.getId());
+		}
 		operation.setResourceId(resourceId);
 		operation.setDisplayName(od.getOperation());
 		operation.setPermission(od.getPermission());
 		operation.setOperationName(PinyinUtil.converterToSpell(operation.getDisplayName()).split(",")[0]);
 		operation.setOperationRId(rid);
-		operationService.save(operation);
+		if(od.getId() != 0){
+			operationService.update(operation);
+		}else{
+			operationService.save(operation);
+		}
 		int relyId = operation.getId();
 		if(!CollectionUtils.isEmpty(od.getList())){
 			for(OperationDTO o: od.getList()){
@@ -204,7 +223,22 @@ public class AuthorityServiceImpl implements IAuthorityService{
 			for(Resource r: resourceList){
 				Map<String,Object> ma = new HashMap<String,Object>();
 				ma.put("resourceId", r.getId());
+				if(r.getResourcePId() == -1){
+					r.setResourcePName("无");
+				}else{
+					Resource resource = resourceService.find(r.getResourcePId());
+					r.setResourcePName(resource.getResourceName());
+				}
 				List<Operation> oper = operationService.findAll(ma);
+				String OperatingNum="";
+				for (Operation operation : oper) {
+					OperatingNum += operation.getDisplayName()+"、";
+				}
+				if(OperatingNum.length() == 0) {
+					r.setOperatingNum(OperatingNum);
+				} else {
+					r.setOperatingNum(OperatingNum.substring(0,OperatingNum.length()-1));
+				}
 				r.setOperationList(oper);
 			}
 			// 序列化查询结果为JSON
@@ -230,8 +264,15 @@ public class AuthorityServiceImpl implements IAuthorityService{
 			PagerModel<User> pg = userService.findPaginated(map);
 			List<User> userList = pg.getData();
 			for(User u: userList){
+				String name = "";
 				List<Role> roles = userService.findRoleByUserId(u.getId());
-				u.setRoleList(roles);
+				if(roles.size() > 0){
+					for (Role role : roles) {
+						String displayName = role.getDisplayName();
+						name +=displayName+",";
+					}
+					u.setRolesName(name.substring(0, name.length()-1));
+				}
 			}
 			//序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -246,10 +287,126 @@ public class AuthorityServiceImpl implements IAuthorityService{
 
 	@Override
 	public void deleteResource(int id) {
-		resourceService.delete(id);
-		operationService.deleteAllByResourceId(id);
+		operationService.delete(id);
+		operationDao.deleteRoleAndOperation(id);
 	}
 	
+	
+	@Override
+	public List<TreeDTO> findRoleByUser(int userId) {
+		List<TreeDTO> litsTree = new ArrayList<TreeDTO>();
+		List<Role> list = roleService.findAll();
+		List<Role> lsitRole= userService.findRoleByUserId(userId);//查询用户已经有的角色 修改状态
+		for(Role r:list){
+			if(r.getRoleExtendPId() == -1){
+				TreeDTO tree = new TreeDTO();
+				tree.setId(r.getId());
+				tree.setName(r.getDisplayName());
+				tree.setIndex(r.getGuid());
+				if(r.getRoleRelyId() == -1){
+					tree.setRelyId("-1");
+				}else{
+					Role re = roleDao.findRelyId(r.getRoleRelyId());
+					tree.setRelyId(re.getGuid());
+				}
+				if(lsitRole.size() > 0){
+					for (int i = 0; i < lsitRole.size(); i++) {
+						if(lsitRole.get(i).getId() == r.getId()){
+//							tree.setDisabled(true);
+							tree.setChecked(true);
+							break;
+						}
+					}
+				}
+				//litsTree.add(tree);
+				List<Role> roleList = roleService.findRelyRole(r.getId());
+				if(roleList.size() > 0){
+					//litsTree = findByRoleId(roleList,tree,litsTree,userId);
+					tree =findByRoleId(roleList,tree,userId);
+					
+				}
+				litsTree.add(tree);
+			}	
+		}
+		
+		//集合去重
+		/*Set<TreeDTO> set = new  HashSet<TreeDTO>(); 
+		List<TreeDTO> lits = new ArrayList<TreeDTO>();
+		for (TreeDTO treeDTO : litsTree) {
+			if(set.add(treeDTO)){
+				lits.add(treeDTO);
+            }
+		}
+		return lits;*/
+		return litsTree;
+	}
+	
+/*	private List<TreeDTO> findByRoleId(List<Role> roleList,TreeDTO tree,List<TreeDTO> litsTree,int userId){
+			List<TreeDTO> litsTree1 = new ArrayList<TreeDTO>();
+			List<Role> lsitRole= userService.findRoleByUserId(userId);//查询用户已经有的角色 修改状态
+			for (Role role : roleList) {
+				TreeDTO tree1 = new TreeDTO();
+				tree1.setId(role.getId());
+				tree1.setName(role.getDisplayName());
+				tree1.setIndex(role.getGuid());
+				if(role.getRoleRelyId() == -1){
+					tree1.setRelyId("-1");
+				}else{
+					Role re = roleDao.findRelyId(role.getRoleRelyId());
+					tree1.setRelyId(re.getGuid());
+				}
+				if(lsitRole.size() > 0){
+					for (int i = 0; i < lsitRole.size(); i++) {
+						if(lsitRole.get(i).getId() == role.getId() && role.getId() != -1){
+//							tree1.setDisabled(true);
+							tree1.setChecked(true);
+							break;
+						}
+					}
+				}
+				litsTree1.add(tree1);
+				tree.setChildren(litsTree1);
+//				litsTree.add(tree);
+				List<Role> roleLists = roleService.findRelyRole(role.getId());
+				if(roleLists.size() > 0){
+					findByRoleId(roleLists,tree1,litsTree,userId);
+				}
+			}
+		return litsTree;
+	}*/ 
+	
+	
+	private TreeDTO findByRoleId(List<Role> roleList,TreeDTO tree,int userId){
+		List<TreeDTO> litsTree1 = new ArrayList<TreeDTO>();
+		List<Role> lsitRole= userService.findRoleByUserId(userId);//查询用户已经有的角色 修改状态
+		for (Role role : roleList) {
+			TreeDTO tree1 = new TreeDTO();
+			tree1.setId(role.getId());
+			tree1.setName(role.getDisplayName());
+			tree1.setIndex(role.getGuid());
+			if(role.getRoleRelyId() == -1){
+				tree1.setRelyId("-1");
+			}else{
+				Role re = roleDao.findRelyId(role.getRoleRelyId());
+				tree1.setRelyId(re.getGuid());
+			}
+			if(lsitRole.size() > 0){
+				for (int i = 0; i < lsitRole.size(); i++) {
+					if(lsitRole.get(i).getId() == role.getId() && role.getId() != -1){
+						tree1.setChecked(true);
+						break;
+					}
+				}
+			}
+			litsTree1.add(tree1);
+			tree.setChildren(litsTree1);
+			List<Role> roleLists = roleService.findRelyRole(role.getId());
+			if(roleLists.size() > 0){
+				findByRoleId(roleLists,tree1,userId);
+			}
+		}
+		return tree;
+     } 
 }
 
 

@@ -63,10 +63,18 @@ public class RoleController {
 		return "default/authority/role/list";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/get")
+	public Role get(int id) {
+		Role role = roleService.find(id);
+		return role;
+		
+	}
+	
 	@RequestMapping(value = "/listAll")
 	//@SystemControllerLog(description="权限管理-角色全部列表")
 	@ResponseBody
-	@RequiresPermissions("role:list")
+	@RequiresPermissions("role:listAll")
 	public List<Role> listAllRole(HttpSession session) {
 		List <Role> roleList = roleService.findRoleTree();
 		return roleList;
@@ -116,15 +124,20 @@ public class RoleController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("role:add")
+	@RequiresPermissions("role:save")
 	//@SystemControllerLog(description="权限管理-添加角色")
 	public String saveRole(Role newRole) {
 		try {
 			String displayName = newRole.getDisplayName();
 			String roleName = PinyinUtil.converterToSpell(displayName).split(",")[0]; //转为拼音 多音取第一个
-			newRole.setRoleName(roleName);
-			roleService.save(newRole);
-			return "{ \"success\" : true }";
+			List<Role> list = roleService.findByName(roleName);
+			if(list.size() > 0){
+				return "角色名重复";
+			}else{
+				newRole.setRoleName(roleName);
+				roleService.save(newRole);
+				return "{ \"success\" : true }";
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -210,7 +223,7 @@ public class RoleController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/deleteAll")
-	@RequiresPermissions("role:delete")
+	@RequiresPermissions("role:deleteAll")
 	//@SystemControllerLog(description="权限管理-删除多个角色")
 	public String deleteAllRole(String role_ids) {
 		try {
@@ -224,6 +237,19 @@ public class RoleController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false }";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findBydisplayName")
+	//@RequiresPermissions("role:findBydisplayName")
+	//@SystemControllerLog(description="权限管理-根据角色中文名称查是否重复")
+	public String findBydisplayName(String displayName) {
+		List<Role> list = roleService.findBydisplayName(displayName);
+		if(list.size() > 0){
+			return "{ \"success\" : false }";
+		}else{
+			return "{ \"success\" : true }";
 		}
 	}
 }

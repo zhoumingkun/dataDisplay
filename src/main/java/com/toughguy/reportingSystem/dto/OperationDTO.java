@@ -7,15 +7,26 @@ import com.toughguy.reportingSystem.util.JsonUtil;
 
 public class OperationDTO {
 	
+private int id;
+	
 	private String operation;
 	
 	private String permission;
 	
 	private String relyName ="";
 	
+	private int operationRId;
+	
 	private List<OperationDTO> list = new ArrayList<OperationDTO>();
 	
 	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public List<OperationDTO> getList() {
 		return list;
 	}
@@ -39,6 +50,13 @@ public class OperationDTO {
 	}
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+	
+	public int getOperationRId() {
+		return operationRId;
+	}
+	public void setOperationRId(int operationRId) {
+		this.operationRId = operationRId;
 	}
 	@Override
 	public String toString() {

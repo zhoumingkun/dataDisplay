@@ -36,5 +36,16 @@ public interface IResourceDao extends IGenericDao<Resource, Integer> {
 	 * @return 操作id集合
 	 */
 	public List<Integer> findROsByResourceId(int resourceId);
+	/**
+	 * 根据资源Id查找下属资源
+	 * @param resourceId 资源id
+	 * @return 
+	 */
+	public List<Resource> findById(int id);
+	
+	
+	
+	public List<Resource> findByresourceName(String resourceName);
+	
 
 }

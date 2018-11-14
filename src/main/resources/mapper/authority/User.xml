@@ -76,7 +76,7 @@
 	
 	<!-- 根据用户名字查找用户信息 -->
 	<select id="findUserInfoByUserName" parameterType="String" resultType="User">
-		select * from auth_user  where userName = #{userName}
+		select * from auth_user where userName = #{userName}
 	</select> 
 	
 	<!-- 修个某个用户 -->
@@ -136,6 +136,9 @@
 				and email like concat(concat('%', #{emailLike, jdbcType=VARCHAR}),'%')
 			</if>
 			
+			<if test=" libraryId != null and libraryId != '' ">
+				and libraryId = #{libraryId}
+			</if>
 		</where>
 	</sql>
 	

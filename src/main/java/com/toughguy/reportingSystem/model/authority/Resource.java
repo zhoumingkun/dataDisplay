@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.toughguy.reportingSystem.dto.OperationDTO;
 import com.toughguy.reportingSystem.model.AbstractModel;
 import com.toughguy.reportingSystem.util.JsonUtil;
-
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -43,9 +43,19 @@ public class Resource extends AbstractModel{
 	private String resourcePName; //资源父名称
 	private List<Resource> list = new ArrayList<Resource>();
 	private List<Operation> operationList = new ArrayList<Operation>();
+	private List<OperationDTO> ListDTO = new ArrayList<OperationDTO>();
+	
+	private String OperatingNum; //资源对应的操作名集合    （前台）
 	
 	
-	
+	public String getOperatingNum() {
+		return OperatingNum;
+	}
+
+	public void setOperatingNum(String operatingNum) {
+		OperatingNum = operatingNum;
+	}
+
 	public List<Operation> getOperationList() {
 		return operationList;
 	}
@@ -108,6 +118,15 @@ public class Resource extends AbstractModel{
 
 	public void setResourcePName(String resourcePName) {
 		this.resourcePName = resourcePName;
+	}
+
+	
+	public List<OperationDTO> getListDTO() {
+		return ListDTO;
+	}
+
+	public void setListDTO(List<OperationDTO> listDTO) {
+		ListDTO = listDTO;
 	}
 
 	@Override

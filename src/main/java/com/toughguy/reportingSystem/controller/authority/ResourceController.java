@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.toughguy.reportingSystem.dto.TreeDTO;
 import com.toughguy.reportingSystem.model.authority.Operation;
 import com.toughguy.reportingSystem.model.authority.Resource;
 import com.toughguy.reportingSystem.service.authority.prototype.IAuthorityService;
@@ -46,7 +47,7 @@ import com.toughguy.reportingSystem.util.JsonUtil;
  */
 
 @Controller
-@RequestMapping(value="/resources")
+@RequestMapping(value="/resource")
 public class ResourceController {
 	@Autowired
 	private IResourceService resourceService;
@@ -69,7 +70,7 @@ public class ResourceController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("resource:add")
+	@RequiresPermissions("resource:save")
 	//@SystemControllerLog(description="权限管理-添加资源")
 	public String saveResources(Resource resource,String params) {
 		try {
@@ -110,15 +111,15 @@ public class ResourceController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/listAll")
-	@RequiresPermissions("resource:list")
-	public List<Resource> findResource() {
-		List<Resource> resourceList = resourceService.findResourceTree();
-		return resourceList;
+//	@RequiresPermissions("resource:listAll")
+	public List<TreeDTO> findResource(int roleId) {
+		List<TreeDTO> treeDtoList = resourceService.findResourceTree(roleId);
+		return treeDtoList;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/get/resourceAndOperation")
-	@RequiresPermissions("resource:list")
+//	@RequiresPermissions("resource:resourceAndOperation")
 	public String findResourceAndOperation() {
 		List<Resource> resourceList = resourceService.findAll();
 		List<Operation> operationList = operationService.findAll();
@@ -130,10 +131,12 @@ public class ResourceController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("resource:delete")
-	public String deleteResource(int id) {
+//	@RequiresPermissions("resource:delete")
+	public String deleteResource(int operationId) {
 		try {
-			authService.deleteResource(id);
+			if(operationId != 0){
+				authService.deleteResource(operationId);
+			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +147,7 @@ public class ResourceController {
 	//@SystemControllerLog(description="权限管理-删除多个资源")
 	@ResponseBody
 	@RequestMapping(value = "/deleteAll")
-	@RequiresPermissions("resource:delete")
+//	@RequiresPermissions("resource:deleteAll")
 	public String deteteAllResource(String resource_ids) {
 		try {
 			String[] array  = resource_ids.split(",");
@@ -159,5 +162,33 @@ public class ResourceController {
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value = "/findByresourceName")
+//	@RequiresPermissions("resource:findByresourceName")
+	//@SystemControllerLog(description="权限管理-根据资源名称查是否重复")
+	public String findByresourceName(String resourceName) {
 
+			List<Resource> list = resourceService.findByresourceName(resourceName);
+			if(list.size() > 0){
+				return "{ \"success\" : false }";
+			}else{
+				return "{ \"success\" : true }";
+			}
+		}
+	
+	
+
+	/**
+	 * 查看资源
+	 * @param resourceId
+	 * @return Resource
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/checkResource")
+//	@RequiresPermissions("resource:check")
+	public Resource checkResource(int resourceId) {
+		Resource resource = resourceService.checkResource(resourceId);
+		return resource;
+	}
+	
 }
