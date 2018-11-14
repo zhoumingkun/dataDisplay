@@ -188,19 +188,32 @@ public class InformationController {
 			Informer ir = informerService.find(i.getInformerId());
 //			String str1 = JsonUtil.objectToJson(i);
 //			String str2 = JsonUtil.objectToJson(ir);
-			User u1 = userService.find(i.getValidAssessorId());
-			User u2 = userService.find(i.getInvestigationAssessorId());
-			String assessor = "";	
-			if(!"".equals(u1.getUserName()) || u1.getUserName() != null) {
-				assessor += u1.getUserName() + ",";
+			User u1 = new User();
+			User u2 = new User();
+			User u3 = new User();
+			if(i.getValidAssessorId() != 0) {
+				u1 = userService.find(i.getValidAssessorId());
 			}
-			if(!"".equals(u2.getUserName()) || u2.getUserName() != null) {
-				assessor += u2.getUserName() + ",";
+			if(i.getInvestigationAssessorId() != 0) {
+				u2 = userService.find(i.getInvestigationAssessorId());
 			}
-			if("".equals(assessor) || assessor == null) {
-				i.setAssessor("");
+			if(i.getEndAssessorId() != 0) {
+				u3 = userService.find(i.getEndAssessorId());
+			}
+			if(u1.equals(null)) {
+				System.out.println("u1为空");
 			} else {
-				i.setAssessor(assessor.substring(0,assessor.length()-1));
+				i.setValidAssessor(u1.getUserName());
+			}
+			if(u2.equals(null)) {
+				System.out.println("u2为空");
+			} else {
+				i.setInvestigationAssessor(u2.getUserName());
+			}
+			if(u3.equals(null)) {
+				System.out.println("u3为空");
+			} else {
+				i.setEndAssessor(u3.getUserName());
 			}
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -235,17 +248,28 @@ public class InformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/toExamine")
-	public String toExamine(int id,boolean isPass,int assessorId,String feedbackInformation) {
+	public String toExamine(int id,int state,int assessorId,String feedbackInformation) {
 		try {
 			Information i = informationService.find(id);
-			if(isPass) {
+			if(state == 1) {
 				i.setValidAssessorId(assessorId);
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(1);
 				i.setId(id);
 				informationService.update(i);
-			} else {
+			} else if(state == 2) {
 				i.setInvestigationAssessorId(assessorId);
+				i.setFeedbackInformation(feedbackInformation);
+				i.setState(2);
+				i.setId(id);
+				informationService.update(i);
+			} else if(state == 3) {
+				i.setEndAssessorId(assessorId);
+				i.setFeedbackInformation(feedbackInformation);
+				i.setState(3);
+				i.setId(id);
+				informationService.update(i);
+			} else if(state == 4) {
 				i.setFeedbackInformation(feedbackInformation);
 				i.setState(4);
 				i.setId(id);

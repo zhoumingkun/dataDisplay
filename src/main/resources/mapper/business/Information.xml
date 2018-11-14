@@ -61,6 +61,7 @@
 			<if test="feedbackInformation != null and feedbackInformation != ''">feedbackInformation = #{feedbackInformation},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="investigationAssessorId != null and investigationAssessorId != ''">investigationAssessorId = #{investigationAssessorId},</if>
+			<if test="endAssessorId != null and endAssessorId != ''">endAssessorId = #{endAssessorId},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -111,6 +112,9 @@
 			</if>
 			<if test=" investigationAssessorId != null and investigationAssessorId != '' ">
 				and investigationAssessorId = #{investigationAssessorId}
+			</if>
+			<if test=" endAssessorId != null and endAssessorId != '' ">
+				and endAssessorId = #{endAssessorId}
 			</if>
 		</where>
 	</sql>

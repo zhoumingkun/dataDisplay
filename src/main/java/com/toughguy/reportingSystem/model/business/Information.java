@@ -28,9 +28,13 @@ public class Information extends AbstractModel{
 	private String investigationFile;    //案件附件（侦办中的）
 	private String feedbackInformation;     //反馈信息
 	private int investigationAssessorId;  //审核员（侦办中）(当前用户id)
+	private int endAssessorId;  //审核员（已结束）(当前用户id)
 	
 	private String phoneNumber; //举报人手机号（页面使用）
-	private String assessor; //审核员（页面使用）
+	private String validAssessor; //审核员（页面使用）(已接案)
+	private String investigationAssessor; //审核员（页面使用）(侦办中)
+	private String endAssessor; //审核员（页面使用）(已结束)
+	
 	public int getId() {
 		return id;
 	}
@@ -132,11 +136,29 @@ public class Information extends AbstractModel{
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public String getAssessor() {
-		return assessor;
+	public String getValidAssessor() {
+		return validAssessor;
 	}
-	public void setAssessor(String assessor) {
-		this.assessor = assessor;
+	public void setValidAssessor(String validAssessor) {
+		this.validAssessor = validAssessor;
+	}
+	public String getInvestigationAssessor() {
+		return investigationAssessor;
+	}
+	public void setInvestigationAssessor(String investigationAssessor) {
+		this.investigationAssessor = investigationAssessor;
+	}
+	public int getEndAssessorId() {
+		return endAssessorId;
+	}
+	public void setEndAssessorId(int endAssessorId) {
+		this.endAssessorId = endAssessorId;
+	}
+	public String getEndAssessor() {
+		return endAssessor;
+	}
+	public void setEndAssessor(String endAssessor) {
+		this.endAssessor = endAssessor;
 	}
 	
 }
