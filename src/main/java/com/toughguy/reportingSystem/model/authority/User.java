@@ -40,7 +40,7 @@ public class User extends AbstractModel {
 	private List<Role> roleList = new ArrayList<Role>();  //页面显示字段（解决前台缓存列表页直接获取用户角色信息）
 	private int libraryId; //库id
 	
-	private String libraryName; //库名（前台）
+	
 	
 	private String rolesName="无";   //角色名拼接字符串  前台显示
 
@@ -101,13 +101,7 @@ public class User extends AbstractModel {
 		this.libraryId = libraryId;
 	}
 
-	public String getLibraryName() {
-		return libraryName;
-	}
-
-	public void setLibraryName(String libraryName) {
-		this.libraryName = libraryName;
-	}
+	
 
 	
 	public String getRolesName() {
