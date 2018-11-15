@@ -86,6 +86,21 @@
 		LEFT JOIN business_informer bir ON bio.informerId = bir.id
 		LEFT JOIN auth_user au ON bio.validAssessorId = au.id WHERE bio.state = 1 or bio.state = 2 or bio.state = 3
 	</select>
+	<!-- 查询平台所有行业领域类型的数量  -->
+	<select id="findAllInformerType" resultType="Information"  >
+		select   
+        COUNT(case when industryField = '1.国家政治安全' then industryField end  ) as GJZZAQNumber,
+        COUNT(case when industryField = '2.基层政权' then industryField end  ) as JCZQNumber,
+        COUNT(case when industryField = '3.宗族势力、村霸' then industryField end  ) as ZZSLCBNumber,
+        COUNT(case when industryField = '4.征地、拆迁' then industryField end  ) as ZDCQNumber,
+        COUNT(case when industryField = '5.建设工程、运输、矿产、渔业' then industryField end  ) as JSGCNumber,
+        COUNT(case when industryField = '6.欺行霸市' then industryField end  ) as QXBSNumber,
+        COUNT(case when industryField = '7.黄赌毒' then industryField end  ) as HDDNumber,
+        COUNT(case when industryField = '8.非法高利放贷、暴力讨债' then industryField end  ) as FFGLFDNumber,
+        COUNT(case when industryField = '9.插手民间纠纷' then industryField end ) as CSMJJFNumber,
+        COUNT(case when industryField ='10.境外黑社会' then industryField end) as JWHSHNumber
+        from  business_information where state >= 1
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
@@ -115,6 +130,12 @@
 			</if>
 			<if test=" endAssessorId != null and endAssessorId != '' ">
 				and endAssessorId = #{endAssessorId}
+			</if>
+			<if test=" industryField != null and industryField != '' ">
+				and industryField = #{industryField}
+			</if>
+			<if test=" informType != null and informType != '' ">
+				and informType = #{informType}
 			</if>
 		</where>
 	</sql>

@@ -41,5 +41,11 @@ public class InformationServiceImpl extends GenericServiceImpl<Information, Inte
 		// TODO Auto-generated method stub
 		return ((IInformationDao)dao).getInformation(informerId);
 	}
+	@Override
+	public Information findAllInformerType() {
+		// TODO Auto-generated method stub
+		return ((IInformationDao)dao).findAllInformerType();
+	}
+
 
 }

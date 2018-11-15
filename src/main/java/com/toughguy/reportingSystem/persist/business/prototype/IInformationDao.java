@@ -36,4 +36,9 @@ public interface IInformationDao  extends IGenericDao<Information, Integer>{
 	 */
 //	public List<Information> getInformation(String informerId);
 	public List<Information> getInformation(int informerId);
+	
+	/**
+	 * 查询各行业领域类型数量
+	 */
+	public Information findAllInformerType();
 }

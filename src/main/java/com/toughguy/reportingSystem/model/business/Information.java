@@ -35,6 +35,17 @@ public class Information extends AbstractModel{
 	private String investigationAssessor; //审核员（页面使用）(侦办中)
 	private String endAssessor; //审核员（页面使用）(已结束)
 	
+	private String GJZZAQNumber;	//1.国家政治安全（前台）
+	private String JCZQNumber;		//2.基层政权（前台）
+	private String ZZSLCBNumber;    //3.宗族势力、村霸（前台）
+	private String ZDCQNumber;		//4.征地、拆迁（前台）
+	private String JSGCNumber;		//5.建设工程、运输、矿产、渔业（前台）
+	private String QXBSNumber;		//6.欺行霸市（前台）
+	private String HDDNumber;		//7.黄赌毒
+	private String FFGLFDNumber;	//8.非法高利放贷、暴力讨债
+	private String CSMJJFNumber;	//9.插手民间纠纷
+	private String JWHSHNumber;		//10.境外黑社会
+	
 	public int getId() {
 		return id;
 	}
@@ -160,5 +171,66 @@ public class Information extends AbstractModel{
 	public void setEndAssessor(String endAssessor) {
 		this.endAssessor = endAssessor;
 	}
+	public String getGJZZAQNumber() {
+		return GJZZAQNumber;
+	}
+	public void setGJZZAQNumber(String gJZZAQNumber) {
+		GJZZAQNumber = gJZZAQNumber;
+	}
+	public String getJCZQNumber() {
+		return JCZQNumber;
+	}
+	public void setJCZQNumber(String jCZQNumber) {
+		JCZQNumber = jCZQNumber;
+	}
+	public String getZZSLCBNumber() {
+		return ZZSLCBNumber;
+	}
+	public void setZZSLCBNumber(String zZSLCBNumber) {
+		ZZSLCBNumber = zZSLCBNumber;
+	}
+	public String getZDCQNumber() {
+		return ZDCQNumber;
+	}
+	public void setZDCQNumber(String zDCQNumber) {
+		ZDCQNumber = zDCQNumber;
+	}
+	public String getJSGCNumber() {
+		return JSGCNumber;
+	}
+	public void setJSGCNumber(String jSGCNumber) {
+		JSGCNumber = jSGCNumber;
+	}
+	public String getQXBSNumber() {
+		return QXBSNumber;
+	}
+	public void setQXBSNumber(String qXBSNumber) {
+		QXBSNumber = qXBSNumber;
+	}
+	public String getHDDNumber() {
+		return HDDNumber;
+	}
+	public void setHDDNumber(String hDDNumber) {
+		HDDNumber = hDDNumber;
+	}
+	public String getFFGLFDNumber() {
+		return FFGLFDNumber;
+	}
+	public void setFFGLFDNumber(String fFGLFDNumber) {
+		FFGLFDNumber = fFGLFDNumber;
+	}
+	public String getCSMJJFNumber() {
+		return CSMJJFNumber;
+	}
+	public void setCSMJJFNumber(String cSMJJFNumber) {
+		CSMJJFNumber = cSMJJFNumber;
+	}
+	public String getJWHSHNumber() {
+		return JWHSHNumber;
+	}
+	public void setJWHSHNumber(String jWHSHNumber) {
+		JWHSHNumber = jWHSHNumber;
+	}
+	
 	
 }

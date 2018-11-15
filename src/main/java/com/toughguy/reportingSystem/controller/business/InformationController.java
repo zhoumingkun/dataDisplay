@@ -1,11 +1,14 @@
 package com.toughguy.reportingSystem.controller.business;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,7 +61,6 @@ import com.toughguy.reportingSystem.service.business.prototype.IInformerService;
 import com.toughguy.reportingSystem.util.BackupUtil;
 import com.toughguy.reportingSystem.util.FileUploadUtil;
 import com.toughguy.reportingSystem.util.JsonUtil;
-
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONUtil;
@@ -171,7 +173,7 @@ public class InformationController {
 		try {
 			List<Integer> is = informationService.findValidNumber(); //首页图表每日已接案
 			List<InformationDTO> informationDTOs  = informationService.findSum(); //首页图表每日数量汇总
-			for(int i=0;i<informationDTOs.size();i++) {
+			for(int i=0;i<is.size();i++) {
 				informationDTOs.get(i).setValidNumber(is.get(i));
 			}
 			return informationDTOs;
@@ -283,19 +285,22 @@ public class InformationController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/upload")
-	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state) {
+	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state,int assessorId) {
 		String fileName = file.getOriginalFilename();
 		//String filePath = "D:\\eclipse\\reportingSystem\\upload\\";
-		String filePath = "C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode";
-//		C:/Users/Administrator/git/reportingSystem/upload/barcodeUswx_camera_1535114750894.mp4
+//		String filePath = "C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode";
+		String filePath ="C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\";
+		System.out.println(fileName);
 		try {
 			FileUploadUtil.uploadFile(file.getBytes(), filePath, fileName);
 			Information information = informationService.find(id);
 			information.setState(state);
 			if(state == 2) {
-				information.setValidFile(filePath);
+				information.setValidFile(fileName);
+				information.setInvestigationAssessorId(assessorId);
 			} else if(state == 3) {
-				information.setInvestigationFile(filePath);
+				information.setInvestigationFile(fileName);
+				information.setEndAssessorId(assessorId);
 			}
 			informationService.update(information);
 		} catch (Exception e) {
@@ -396,8 +401,96 @@ public class InformationController {
 //	         }
 //	         return path;
 //	     }
+	//侦办中附件下载
+	@RequestMapping(value="/fileDownload",method=RequestMethod.GET)
+	  public void testDownload(HttpServletResponse res,int id) {
+		Information information = informationService.find(id);
+		String fileName=information.getValidFile();
 	    
-	
+	    res.setHeader("content-type", "application/octet-stream");
+	    res.setContentType("application/octet-stream");
+	    res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+	    byte[] buff = new byte[1024];
+	    BufferedInputStream bis = null;
+	    OutputStream os = null;
+	    try {
+	      os = res.getOutputStream();
+	      bis = new BufferedInputStream(new FileInputStream(new File(fileName)));
+	      int i = bis.read(buff);
+	      while (i != -1) {
+	        os.write(buff, 0, buff.length);
+	        os.flush();
+	        i = bis.read(buff);
+	      }
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    } finally {
+	      if (bis != null) {
+	        try {
+	          bis.close();
+	        } catch (IOException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	    }
+	    System.out.println("下载success");
+	  }
+	//已结案的附件下载
+	@RequestMapping(value="/fileDownloadAgain",method=RequestMethod.GET)
+	  public void testDownload2(HttpServletResponse res,int id) {
+		Information information = informationService.find(id);
+		String fileName=information.getInvestigationFile();
+	    
+	    res.setHeader("content-type", "application/octet-stream");
+	    res.setContentType("application/octet-stream");
+	    res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+	    byte[] buff = new byte[1024];
+	    BufferedInputStream bis = null;
+	    OutputStream os = null;
+	    try {
+	      os = res.getOutputStream();
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\"
+	          + fileName)));
+	      int i = bis.read(buff);
+	      while (i != -1) {
+	        os.write(buff, 0, buff.length);
+	        os.flush();
+	        i = bis.read(buff);
+	      }
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    } finally {
+	      if (bis != null) {
+	        try {
+	          bis.close();
+	        } catch (IOException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	    }
+	    System.out.println("下载又success");
+	  }
+	/**
+
+	 * 查询各行业领域类型数量
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findAllInformerType")
+	public Map findAllInformerType() {
+		Information information = informationService.findAllInformerType();
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("GJZZAQNumber", information.getGJZZAQNumber());
+			map.put("JCZQNumber", information.getJCZQNumber());
+			map.put("ZZSLCBNumber", information.getZZSLCBNumber());
+			map.put("ZDCQNumber", information.getZDCQNumber());
+			map.put("JSGCNumber", information.getJSGCNumber());
+			map.put("QXBSNumber", information.getQXBSNumber());
+			map.put("HDDNumber", information.getHDDNumber());
+			map.put("FFGLFDNumber", information.getFFGLFDNumber());
+			map.put("CSMJJFNumber", information.getCSMJJFNumber());
+			map.put("JWHSHNumber", information.getJWHSHNumber());
+			return map;
+	}
 
 
 }

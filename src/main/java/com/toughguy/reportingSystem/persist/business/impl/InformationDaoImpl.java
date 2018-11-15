@@ -50,5 +50,12 @@ public class InformationDaoImpl extends GenericDaoImpl<Information, Integer> imp
 	public List<Information> getInformation(int informerId) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".getInformation", informerId);
+		
+	}
+	// -- 查询各行业领域类型数量
+	@Override
+	public Information findAllInformerType() {
+		// TODO Auto-generated method stub
+		return  sqlSessionTemplate.selectOne(typeNameSpace + ".findAllInformerType");
 	}
 }
