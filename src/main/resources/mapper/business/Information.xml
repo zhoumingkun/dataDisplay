@@ -116,6 +116,12 @@
 			<if test=" endAssessorId != null and endAssessorId != '' ">
 				and endAssessorId = #{endAssessorId}
 			</if>
+			<if test=" industryField != null and industryField != '' ">
+				and industryField = #{industryField}
+			</if>
+			<if test=" informType != null and informType != '' ">
+				and informType = #{informType}
+			</if>
 		</where>
 	</sql>
 	
