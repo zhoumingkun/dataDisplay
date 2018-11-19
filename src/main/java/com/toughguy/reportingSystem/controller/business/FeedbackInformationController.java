@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class FeedbackInformationController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
+//	@RequiresPermissions("feedbackInformation:save")
 	public String saveFeedbackInformation(FeedbackInformation feedbackInformation) {
 		try {
 			feedbackInformationService.save(feedbackInformation);
@@ -38,6 +40,7 @@ public class FeedbackInformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
+	@RequiresPermissions("feedbackInformation:edit")
 	public String editFeedbackInformation(FeedbackInformation feedbackInformation) {
 		try {
 			System.out.println(feedbackInformation);
@@ -58,6 +61,7 @@ public class FeedbackInformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
+	@RequiresPermissions("feedbackInformation:delete")
 	public String deleteFeedbackInformation(int id) {
 		try {
 			feedbackInformationService.delete(id);
@@ -70,6 +74,7 @@ public class FeedbackInformationController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
+//	@RequiresPermissions("feedbackInformation:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -98,6 +103,7 @@ public class FeedbackInformationController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findByTypeAndSave")
+	@RequiresPermissions("feedbackInformation:findByTypeAndSave")
 	public String findByType(FeedbackInformation feedbackInformation) {
 		try {
 			FeedbackInformation f = feedbackInformationService.findByType(feedbackInformation.getType());

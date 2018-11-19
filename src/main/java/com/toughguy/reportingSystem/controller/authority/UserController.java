@@ -127,7 +127,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/auth")
-//	@RequiresPermissions("user:auth")
+	@RequiresPermissions("user:auth")
 	//@SystemControllerLog(description="权限管理-给用户分配角色")
 	public String authUser(String roleIds, int userId) {
 		try{
@@ -208,7 +208,7 @@ public class UserController {
 	@ResponseBody
 	//@SystemControllerLog(description="权限管理-用户列表")
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("user:list")
+	@RequiresPermissions("user:list")
 	public String data(String params,HttpSession session) {
 		return authService.findAllUserInduleRoles(params);
 	}

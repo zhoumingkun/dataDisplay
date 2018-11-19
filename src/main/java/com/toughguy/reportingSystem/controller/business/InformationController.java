@@ -184,6 +184,7 @@ public class InformationController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/get")
+	@RequiresPermissions("information:get")
 	public String get(int id) {
 		try {
 			Information i = informationService.find(id);
@@ -237,6 +238,7 @@ public class InformationController {
 //	}
 	@ResponseBody
 	@RequestMapping(value = "/getInformation")
+//	@RequiresPermissions("information:getInformation")
 	public List<Information> getInformationByOpenId(String openId) {
 		Informer inf = informerService.getInformer(openId);
 		List<Information> inft= informationService.getInformation(inf.getId());
@@ -250,6 +252,7 @@ public class InformationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/toExamine")
+	@RequiresPermissions("information:toExamine")
 	public String toExamine(int id,int state,int assessorId,String feedbackInformation) {
 		try {
 			Information i = informationService.find(id);
@@ -476,6 +479,7 @@ public class InformationController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findAllInformerType")
+	@RequiresPermissions("information:findAllInformerType")
 	public Map findAllInformerType() {
 		Information information = informationService.findAllInformerType();
 			Map<String, Object> map = new HashMap<String, Object>();

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -24,7 +25,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean bean=new ShiroFilterFactoryBean();
         bean.setSecurityManager(manager);
         //配置登录的url和登录成功的url
-        bean.setLoginUrl("/login");
+//        bean.setLoginUrl("/login");
+        bean.setLoginUrl("/unauth");
+        bean.setUnauthorizedUrl("/403");
         //配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap=new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login", "anon"); //表示可以匿名访问
@@ -32,8 +35,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/common/**", "anon"); 
         filterChainDefinitionMap.put("/default/**","anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
-        //filterChainDefinitionMap.put("/**", "authc");//表示需要认证才可以访问
-        filterChainDefinitionMap.put("/**", "anon");
+        filterChainDefinitionMap.put("/upload/**","anon");
+        filterChainDefinitionMap.put("/**", "authc");//表示需要认证才可以访问
+        //filterChainDefinitionMap.put("/**", "anon");
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return bean;
     }
@@ -43,6 +47,7 @@ public class ShiroConfig {
 	public SecurityManager securitManager(@Qualifier("systemRealm") SystemRealm systemRealm){
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
 		manager.setRealm(systemRealm);
+		manager.setSessionManager(sessionManager());  
 		return manager;
 	}
 	//-- 配置自定义权限认证授权器
@@ -74,4 +79,12 @@ public class ShiroConfig {
         advisor.setSecurityManager(manager);
         return advisor;
     }
+    
+  //自定义sessionManager   
+    @Bean
+    public SessionManager sessionManager() {  
+        MySessionManager mySessionManager = new MySessionManager();  
+        mySessionManager.setGlobalSessionTimeout(-1000);
+        return mySessionManager;  
+    }  
 }
