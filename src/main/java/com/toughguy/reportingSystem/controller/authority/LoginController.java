@@ -80,7 +80,7 @@ public class LoginController {
 	private String userPass;
 	
 	/**
-	 *  登录页面
+	 *  登录页面（PC端）
 	 * @return  登录页面
 	 * @throws Exception 
 	 */
@@ -90,7 +90,17 @@ public class LoginController {
 		mv.setViewName("/default/login/login");
 		return mv;
 	}
-	
+	/**
+	 *  登录页面（小程序）
+	 * @return  登录页面
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/loginWX", method=RequestMethod.GET)
+	public ModelAndView loginPage2(){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/default/loginWX/loginWX");
+		return mv;
+	}
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String indexPage(){
 		return "/index";
@@ -109,8 +119,76 @@ public class LoginController {
         return map;
     }
     
+    
 	/**
-	 * 登录
+	 * 登录(小程序)
+	 * @param user
+	 * @param session
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+	//@SystemControllerLog(description="登录系统")
+	@RequestMapping(value="/loginWX",method=RequestMethod.POST)
+	@ResponseBody
+	public String login(User user,HttpSession session,HttpServletRequest request){		
+		//-- 产生的验证码获取的方法，若需要认证则自己写验证的逻辑, verityCode为用户输入的验证码，嘿嘿，简单吧, String captcha， String verityCode, 
+//		String rightCode = (String)session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		if(!captcha.equals(verityCode.trim())){
+//			return "{ \"success\" : false ,\"code\":\"您输入的验证码信息不正确,请重新输入\" }";
+//		}
+		//ModelAndView mv = new ModelAndView();
+	    try{
+	    	Subject currentUser = SecurityUtils.getSubject();
+	    	UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),user.getUserPass());
+	    	currentUser.login(token);
+	    } catch ( UnknownAccountException e ) {
+	    	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
+        } catch ( IncorrectCredentialsException e ) {
+        	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
+        }
+		
+		User u = userDao.findUserInfoByUserName(user.getUserName());
+		List<Role> roles = roleDao.findByUserId(u.getId());
+		String roleDisplayName = "";
+		for(Role role:roles) {
+			roleDisplayName += role.getDisplayName() + ",";
+		}
+		String newRoleDisplayName = roleDisplayName.substring(0, roleDisplayName.length()-1);
+		UserDTO ut = new UserDTO();
+		List<Operation> list = operationDao.findByUserId(u.getId());
+		String name = "";          //用户拥有的操作名称
+		String ResourceName ="";   
+		for (Operation operation : list) {
+			String permission = operation.getPermission();
+			name += permission+",";
+			int resourceId = operation.getResourceId();
+			String reName = resourceDao.find(resourceId).getResourceName();
+			ResourceName += reName+",";
+		}
+		//去重
+		String [] stringArr= ResourceName.substring(0, ResourceName.length()-1).split(",");;
+		Set set = new HashSet();
+		for (int i = 0; i < stringArr.length; i++) {
+			set.add(stringArr[i]);
+		}
+		stringArr = (String[]) set.toArray(new String[0]);
+		String resourceName = ""; //用户拥有的资源名称
+		for (int i = 0; i < stringArr.length; i++) {
+			resourceName +=stringArr[i]+",";
+		}
+        ut.setRoleName(newRoleDisplayName);
+		ut.setPermissions(name.substring(0, name.length()-1));
+		ut.setResourceName(resourceName.substring(0, resourceName.length()-1));
+		ut.setToken(session.getId());
+		BeanUtils.copyProperties(u, ut); //省去set的烦恼，利用beanUtils进行属性copy
+		String userDTO = JsonUtil.objectToJson(ut);
+		//mv.setViewName("redirect:/index.html");
+		return "{ \"success\" : true ,\"user\":"+userDTO+"}";
+	}
+	
+	/**
+	 * 登录（PC端）
 	 * @param user
 	 * @param session
 	 * @param request
