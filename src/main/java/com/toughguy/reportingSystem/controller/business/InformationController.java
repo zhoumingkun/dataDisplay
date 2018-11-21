@@ -145,6 +145,13 @@ public class InformationController {
 		}
 	}
 	
+	@ResponseBody	
+	@RequestMapping(value = "/find")
+//	@RequiresPermissions("information:find")
+	public Information find(int id) {
+			return informationService.find(id);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/findNum")
 //	@RequiresPermissions("information:findNum")
