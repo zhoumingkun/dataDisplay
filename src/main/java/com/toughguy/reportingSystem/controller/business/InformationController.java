@@ -297,7 +297,7 @@ public class InformationController {
 	@RequestMapping(value = "/upload")
 	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state,int assessorId) {
 		String fileName = file.getOriginalFilename();
-		//String filePath = "D:\\eclipse\\reportingSystem\\upload\\";
+		
 //		String filePath = "C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode";
 		String filePath ="C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\";
 		System.out.println(fileName);
@@ -331,7 +331,7 @@ public class InformationController {
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
         String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-        
+//        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -357,7 +357,7 @@ public class InformationController {
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
         String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-        
+//        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -374,43 +374,7 @@ public class InformationController {
         }
         return path;
     }
-//	@ResponseBody
-//	@RequestMapping(value = "/uploadViedofile" ,method = { RequestMethod.POST,RequestMethod.GET})
-//	public  String fileUpload(HttpServletRequest request,HttpServletResponse response)throws Exception{
-//	    //允许上传的文件最大大小(100M,单位为byte)
-//	    int maxSize = 1024*1024*100;
-//	    response.addHeader("Access-Control-Allow-Origin", "*");
-//	    System.out.println("进入get视频方法！");
-//	  
-//	         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
-//	         MultipartFile multipartFile =  req.getFile("file");
-//	         
-//	         if (multipartFile.getSize() > maxSize)
-//	         {
-//	        	 
-//	             JOptionPane.showMessageDialog(null, "文件大小超过限制！应小于" + maxSize
-//	                                                 / 1024 / 1024 + "M");
-//	             return "文件大小超过限制！应小于" + maxSize;
-//	         }
-//	
-//	         String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
-//	         
-//	         String path = BackupUtil.rename("mp4");
-//	         try {
-//	             File dir = new File(path);
-//	             if (!dir.exists()) {
-//	                 dir.mkdir();
-//	             }
-//	             
-//	             File file  =  new File(realPath,path);
-//	             multipartFile.transferTo(file);
-//	         } catch (IOException e) {
-//	             e.printStackTrace();
-//	         } catch (IllegalStateException e) {
-//	             e.printStackTrace();
-//	         }
-//	         return path;
-//	     }
+
 	//侦办中附件下载
 	@RequestMapping(value="/fileDownload",method=RequestMethod.GET)
 	  public void testDownload(HttpServletResponse res,int id) {
@@ -425,7 +389,8 @@ public class InformationController {
 	    OutputStream os = null;
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File(fileName)));
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\"
+		          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
 	        os.write(buff, 0, buff.length);
