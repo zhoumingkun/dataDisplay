@@ -298,7 +298,7 @@ public class InformationController {
 	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,int id, int state,int assessorId) {
 		String fileName = file.getOriginalFilename();
 		
-//		String filePath = "C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode";
+//		String filePath = "C:\\java\\reportingSytem\\upload\\barcode\\";
 		String filePath ="C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\";
 		System.out.println(fileName);
 		try {
@@ -330,8 +330,8 @@ public class InformationController {
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
 //        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
+        String realPath = "C:/java/reportingSytem/upload/barcode";
         String path = BackupUtil.rename("jpg");
         try {
             File dir = new File(path);
@@ -356,8 +356,8 @@ public class InformationController {
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
         MultipartFile multipartFile =  req.getFile("file");
         //服务器路径需要换
-        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
 //        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/video";
+        String realPath = "C:/java/reportingSytem/upload/video";
         String path = BackupUtil.rename("mp4");
         try {
             File dir = new File(path);
@@ -387,9 +387,10 @@ public class InformationController {
 	    byte[] buff = new byte[1024];
 	    BufferedInputStream bis = null;
 	    OutputStream os = null;
+//	    C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\"
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingSytem\\upload\\video\\"
 		          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
@@ -422,9 +423,10 @@ public class InformationController {
 	    byte[] buff = new byte[1024];
 	    BufferedInputStream bis = null;
 	    OutputStream os = null;
+//	    C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\
 	    try {
 	      os = res.getOutputStream();
-	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\Users\\Administrator\\git\\reportingSystem\\upload\\barcode\\"
+	      bis = new BufferedInputStream(new FileInputStream(new File("C:\\java\\reportingSytem\\upload\\video\\"
 	          + fileName)));
 	      int i = bis.read(buff);
 	      while (i != -1) {
