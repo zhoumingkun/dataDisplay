@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.authority.Resource">
+<mapper namespace="com.toughguy.educationSystem.model.authority.Resource">
 
 	<!-- 增加资源 -->
 	<insert id="save" parameterType="Resource" keyProperty="id" useGeneratedKeys="true">
