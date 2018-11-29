@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.reportingSystem.model.content.Xiaoyuanhuangye">
+
+	<insert id="save" parameterType="Xiaoyuanhuangye" keyProperty="id" useGeneratedKeys="true">
+		insert into content_xiaoyuanhuangye (createTime,updateTime,type, author,sectionName,positionName,phone,adress,hits
+		) 
+		values (#{createTime},#{updateTime},#{type}, #{author},#{sectionName},#{positionName},#{phone},#{adress},#{hits})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from content_xiaoyuanhuangye where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="Xiaoyuanhuangye">
+		select * from content_xiaoyuanhuangye where id = #{id}
+	</select>
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="Xiaoyuanhuangye" parameterType="Map">
+		select * from content_xiaoyuanhuangye
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 根据类型查询内容 -->
+	<select id="findByType" parameterType="int" resultType="Content">
+		select * from business_content where type = #{type}
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="Xiaoyuanhuangye" parameterType="Map">
+		select * from content_xiaoyuanhuangye
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from content_xiaoyuanhuangye
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="Xiaoyuanhuangye">
+		update content_xiaoyuanhuangye
+		<set>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="author != null and author != ''">author = #{author},</if>
+			<if test="sectionName != null and sectionName != ''">sectionName = #{sectionName},</if>
+			<if test="positionName != null and positionName != ''">positionName = #{positionName},</if>
+			<if test="phone != null and phone != ''">phone = #{phone},</if>
+			<if test="adress != null and adress != ''">adress = #{adress},</if>
+			<if test="hits != null and hits != ''">hits = #{hits},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test=" author != null and author != '' ">
+				and author = #{author}
+			</if>
+			<if test=" sectionName != null and sectionName != '' ">
+				and sectionName = #{sectionName}
+			</if>
+			<if test=" positionName != null and positionName != '' ">
+				and positionName = #{positionName}
+			</if>
+			<if test=" phone != null and phone != '' ">
+				and phone = #{phone}
+			</if>
+			<if test=" adress != null and adress != '' ">
+				and adress = #{adress}
+			</if>
+			<if test=" hits != null and hits != '' ">
+				and hits = #{hits}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
