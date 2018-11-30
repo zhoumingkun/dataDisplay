@@ -17,6 +17,7 @@ public class Activity extends AbstractModel {
 	private String content;  //内容
 	private String image;    //图片
 	private int state;       //状态
+	private int hits;        //浏览量
 	public int getId() {
 		return id;
 	}
@@ -56,6 +57,12 @@ public class Activity extends AbstractModel {
 	@Override
 	public String toString(){
 		return JsonUtil.objectToJson(this);
+	}
+	public int getHits() {
+		return hits;
+	}
+	public void setHits(int hits) {
+		this.hits = hits;
 	}
 	
 

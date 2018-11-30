@@ -18,7 +18,7 @@ public class Xiaoyuanhuangye extends AbstractModel {
 	private String positionName; //职位名称
 	private String phone;        //电话
 	private String adress;       //地址
-	private int hits;            //点击量
+	
 	
 	public int getId() {
 		return id;
@@ -74,14 +74,6 @@ public class Xiaoyuanhuangye extends AbstractModel {
 
 	public void setAdress(String adress) {
 		this.adress = adress;
-	}
-
-	public int getHits() {
-		return hits;
-	}
-
-	public void setHits(int hits) {
-		this.hits = hits;
 	}
 
 	@Override

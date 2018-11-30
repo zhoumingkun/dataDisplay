@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.content.Zhengcefagui">
 
 	<insert id="save" parameterType="Zhengcefagui" keyProperty="id" useGeneratedKeys="true">
-		insert into content_zhengcefagui (createTime,updateTime,title, author,content,image,state) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{image},#{state})
+		insert into content_zhengcefagui (createTime,updateTime,title, author,content,image,state,hits) 
+		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{image},#{state}#{hits})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -49,6 +49,7 @@
 			<if test="content != null and content != ''">content = #{content},</if>
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
+			<if test="hits != null and hits != ''">hits = #{hits},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -66,7 +67,10 @@
 				and type = #{type}
 			</if>
 			<if test=" state != null and state != '' ">
-				and type = #{state}
+				and state = #{state}
+			</if>
+			<if test=" hits != null and hits != '' ">
+				and hits = #{hits}
 			</if>
 		</where>
 	</sql>
