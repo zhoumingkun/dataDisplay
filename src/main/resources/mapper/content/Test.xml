@@ -1,56 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.content.Interaction">
+<mapper namespace="com.toughguy.reportingSystem.model.content.Test">
 
-	<insert id="save" parameterType="Interaction" keyProperty="id" useGeneratedKeys="true">
-		insert into content_interaction (createTime,updateTime,title, author,content,image,state，hits) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{image},#{state},#{hits})
+	<insert id="save" parameterType="Test" keyProperty="id" useGeneratedKeys="true">
+		insert into service_test (createTime,updateTime,type,title, author,summarize,image,state,hits) 
+		values (#{createTime},#{updateTime},#{type},#{title}, #{author},#{summarize},#{image},#{state}#{hits})
 	</insert>
 	
 	<!-- 删除某个信息 -->
 	<delete id="delete" parameterType="int" >
-		delete from content_interaction where id = #{id}
+		delete from service_test where id = #{id}
 	</delete>
 	
 	<!-- 查询某个信息 -->
-	<select id="find" parameterType="int" resultType="Interaction">
-		select * from content_interaction where id = #{id}
+	<select id="find" parameterType="int" resultType="Test">
+		select * from service_test where id = #{id}
 	</select>
 	
 	<!-- 根据状态查询内容 -->
-	<select id="findByState" parameterType="int" resultType="Interaction">
-		select * from content_interaction where state = #{state}
+	<select id="findByState" parameterType="int" resultType="Test">
+		select * from service_test where state = #{state}
+	</select>
+	
+	<!-- 根据类型查询内容 -->
+	<select id="findByType" parameterType="String" resultType="Test">
+		select * from service_test where type = #{type}
 	</select>
 	
 	<!-- 查询全部信息 -->
-	<select id="findAll" resultType="Interaction" parameterType="Map">
-		select * from content_interaction
+	<select id="findAll" resultType="Test" parameterType="Map">
+		select * from service_test
 		<include refid="paramsSQL"/>
 	</select>
 	
 	<!-- 分页查询信息 -->
-	<select id="findPaginated" resultType="Interaction" parameterType="Map">
-		select * from content_interaction
+	<select id="findPaginated" resultType="Test" parameterType="Map">
+		select * from service_test
 		<include refid="paramsSQL"/>
 		ORDER BY createTime desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
-		select count(*) from content_interaction
+		select count(*) from service_test
 		<include refid="paramsSQL"/>
-	</select>
-	<!-- 查询2条新信息 -->
-	<select id="findNewMessage" parameterType="Interaction" resultType="Map">
-		select * from business_information ORDER BY createTime desc limit 2
 	</select>
 
 	<!-- 修个某条信息 -->
-	<update id="update" parameterType="Interaction">
-		update content_interaction
+	<update id="update" parameterType="Test">
+		update service_test
 		<set>
+		    <if test="type != null and type != ''">type = #{type},</if>
 			<if test="title != null and title != ''">title = #{title},</if>
 			<if test="author != null and author != ''">author = #{author},</if>
-			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="summarize != null and summarize != ''">summarize = #{summarize},</if>
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
@@ -61,6 +63,9 @@
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
+		    <if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
 			<if test=" title != null and title != '' ">
 				and title = #{title}
 			</if>

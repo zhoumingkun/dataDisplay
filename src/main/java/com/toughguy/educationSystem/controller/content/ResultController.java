@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.model.content.Xiaoyuanhuangye;
+import com.toughguy.educationSystem.model.content.Result;
 import com.toughguy.educationSystem.pagination.PagerModel;
-import com.toughguy.educationSystem.service.content.prototype.IXiaoyuanhuangyeService;
+import com.toughguy.educationSystem.service.content.prototype.IResultService;
 
 @Controller
-@RequestMapping(value = "/xiaoyuanhuangye")
-public class XiaoyuanhuangyeController {
+@RequestMapping(value = "/result")
+public class ResultController {
 	@Autowired
-	private IXiaoyuanhuangyeService xiaoyuanhuangyeService;
+	private IResultService resultService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("xiaoyuanhuangye:save")
-	public String saveXiaoyuanhuangye(Xiaoyuanhuangye xiaoyuanhuangye) {
+	//@RequiresPermissions("result:save")
+	public String saveResult(Result result) {
 		try {
-			xiaoyuanhuangyeService.save(xiaoyuanhuangye);
+			resultService.save(result);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,10 +36,10 @@ public class XiaoyuanhuangyeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("xiaoyuanhuangye:edit")
-	public String editXiaoyuanhuangye(Xiaoyuanhuangye xiaoyuanhuangye) {
+	//@RequiresPermissions("activity:edit")
+	public String editResult(Result result) {
 		try {
-			xiaoyuanhuangyeService.update(xiaoyuanhuangye);
+			resultService.update(result);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -51,10 +51,10 @@ public class XiaoyuanhuangyeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("xiaoyuanhuangye:detele")
-	public String deleteXiaoyuanhuangye(int id) {
+	//@RequiresPermissions("result:detele")
+	public String deleteResult(int id) {
 		try {
-			xiaoyuanhuangyeService.delete(id);
+			resultService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,7 +64,7 @@ public class XiaoyuanhuangyeController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("xiaoyuanhuangye:data")
+	//@RequiresPermissions("activity:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -73,7 +73,7 @@ public class XiaoyuanhuangyeController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<Xiaoyuanhuangye> pg = xiaoyuanhuangyeService.findPaginated(map);
+			PagerModel<Result> pg = resultService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -90,19 +90,9 @@ public class XiaoyuanhuangyeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("xiaoyuanhuangye:findAll")
-	public List<Xiaoyuanhuangye> findAll() {
-		return xiaoyuanhuangyeService.findAll();
-	}
-	
-	/**
-	 * 根据部门名称查询
-	 * */
-	@ResponseBody
-	@RequestMapping(value = "/findBySectionName")
-	// @RequiresPermissions("xiaoyuanhuangye:findBySectionName")
-	public List<Xiaoyuanhuangye> findBySectionName(String sectionName) {
-		return xiaoyuanhuangyeService.findBySectionName(sectionName);
+	//@RequiresPermissions("activity:findAll")
+	public List<Result> findAll() {
+		return resultService.findAll();
 	}
 	
 }

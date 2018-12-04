@@ -1,5 +1,7 @@
 package com.toughguy.educationSystem.persist.content.prototype;
 
+import java.util.List;
+
 import com.toughguy.educationSystem.model.content.Xiaoyuanhuangye;
 import com.toughguy.educationSystem.persist.prototype.IGenericDao;
 
@@ -9,6 +11,10 @@ import com.toughguy.educationSystem.persist.prototype.IGenericDao;
  *
  */
 public interface IXiaoyuanhuangyeDao extends IGenericDao<Xiaoyuanhuangye, Integer>{
+	/**
+	 * 根据部门名称查询
+	 * */
+	public List<Xiaoyuanhuangye>findBySectionName(String sectionName);
 	
 
 }

@@ -16,7 +16,11 @@
 	<select id="find" parameterType="int" resultType="Activity">
 		select * from content_activity where id = #{id}
 	</select>
-	
+	<!-- 查询新信息 -->
+	<select id="findNew" parameterType="Activity" resultType="Map">
+		select * from content_activity where createTime =
+		 ( select max( createTime ) from content_activity )
+	</select>
 	<!-- 根据状态查询内容 -->
 	<select id="findByState" parameterType="int" resultType="Activity">
 		select * from content_activity where state = #{state}

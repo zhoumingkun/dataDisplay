@@ -11,22 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.educationSystem.model.content.Test;
 import com.toughguy.educationSystem.model.content.Xiaoyuanhuangye;
 import com.toughguy.educationSystem.pagination.PagerModel;
-import com.toughguy.educationSystem.service.content.prototype.IXiaoyuanhuangyeService;
+import com.toughguy.educationSystem.service.content.prototype.ITestService;
 
 @Controller
-@RequestMapping(value = "/xiaoyuanhuangye")
-public class XiaoyuanhuangyeController {
+@RequestMapping(value = "/test")
+public class TestController {
 	@Autowired
-	private IXiaoyuanhuangyeService xiaoyuanhuangyeService;
+	private ITestService testService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("xiaoyuanhuangye:save")
-	public String saveXiaoyuanhuangye(Xiaoyuanhuangye xiaoyuanhuangye) {
+	//@RequiresPermissions("test:save")
+	public String saveTest(Test test) {
 		try {
-			xiaoyuanhuangyeService.save(xiaoyuanhuangye);
+			testService.save(test);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,10 +37,10 @@ public class XiaoyuanhuangyeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("xiaoyuanhuangye:edit")
-	public String editXiaoyuanhuangye(Xiaoyuanhuangye xiaoyuanhuangye) {
+	//@RequiresPermissions("test:edit")
+	public String editTest(Test test) {
 		try {
-			xiaoyuanhuangyeService.update(xiaoyuanhuangye);
+			testService.update(test);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -51,10 +52,10 @@ public class XiaoyuanhuangyeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("xiaoyuanhuangye:detele")
-	public String deleteXiaoyuanhuangye(int id) {
+	//@RequiresPermissions("activity:detele")
+	public String deletetest(int id) {
 		try {
-			xiaoyuanhuangyeService.delete(id);
+			testService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,7 +65,7 @@ public class XiaoyuanhuangyeController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("xiaoyuanhuangye:data")
+	//@RequiresPermissions("test:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -73,7 +74,7 @@ public class XiaoyuanhuangyeController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<Xiaoyuanhuangye> pg = xiaoyuanhuangyeService.findPaginated(map);
+			PagerModel<Test> pg = testService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -86,23 +87,21 @@ public class XiaoyuanhuangyeController {
 		}
 	}
 	
-	
-	
-	@ResponseBody
-	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("xiaoyuanhuangye:findAll")
-	public List<Xiaoyuanhuangye> findAll() {
-		return xiaoyuanhuangyeService.findAll();
-	}
-	
 	/**
 	 * 根据部门名称查询
 	 * */
 	@ResponseBody
-	@RequestMapping(value = "/findBySectionName")
-	// @RequiresPermissions("xiaoyuanhuangye:findBySectionName")
-	public List<Xiaoyuanhuangye> findBySectionName(String sectionName) {
-		return xiaoyuanhuangyeService.findBySectionName(sectionName);
+	@RequestMapping(value = "/findByType")
+	// @RequiresPermissions("test:findByType")
+	public List<Test> findByType(String type) {
+		return testService.findByType(type);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findAll")
+	//@RequiresPermissions("test:findAll")
+	public List<Test> findAll() {
+		return testService.findAll();
 	}
 	
 }
