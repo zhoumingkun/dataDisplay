@@ -5,16 +5,15 @@ import com.toughguy.educationSystem.model.AbstractModel;
 import com.toughguy.educationSystem.util.JsonUtil;
 
 /**
- * 心理测试结果实体类
+ * 分值测试结果实体类
  * @author ZMK
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
-public class Result extends AbstractModel {
+public class ScoreResult extends AbstractModel {
 	private int id;
-	private String result;     //类型（性格，情感，健康，人际）
-	private int rank;    //标题
-	private int testId;   //作者
+	private int  testId;      //对应service_test的id
+	private String  result;   //结果答案
 	
 	public int getId() {
 		return id;
@@ -29,12 +28,7 @@ public class Result extends AbstractModel {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	public int getRank() {
-		return rank;
-	}
-	public void setRank(int rank) {
-		this.rank = rank;
-	}
+	
 	public int getTestId() {
 		return testId;
 	}

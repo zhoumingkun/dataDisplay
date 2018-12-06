@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.model.content.Option;
+import com.toughguy.educationSystem.model.content.SingleOption;
 import com.toughguy.educationSystem.pagination.PagerModel;
-import com.toughguy.educationSystem.service.content.prototype.IOptionService;
+import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 
 @Controller
 @RequestMapping(value = "/option")
-public class OptionController {
+public class SingleOptionController {
 	@Autowired
-	private IOptionService optionService;
+	private ISingleOptionService singleOptionService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 	//@RequiresPermissions("option:save")
-	public String saveOption(Option option) {
+	public String saveOption(SingleOption singleOption) {
 		try {
-			optionService.save(option);
+			singleOptionService.save(singleOption);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,9 +37,9 @@ public class OptionController {
 	@ResponseBody
 	@RequestMapping(value = "/edit")
 	//@RequiresPermissions("option:edit")
-	public String editOption(Option option) {
+	public String editOption(SingleOption singleOption) {
 		try {
-			optionService.update(option);
+			singleOptionService.update(singleOption);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -54,7 +54,7 @@ public class OptionController {
 	//@RequiresPermissions("activity:detele")
 	public String deleteOption(int id) {
 		try {
-			optionService.delete(id);
+			singleOptionService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class OptionController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<Option> pg = optionService.findPaginated(map);
+			PagerModel<SingleOption> pg = singleOptionService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -91,8 +91,8 @@ public class OptionController {
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
 	//@RequiresPermissions("activity:findAll")
-	public List<Option> findAll() {
-		return optionService.findAll();
+	public List<SingleOption> findAll() {
+		return singleOptionService.findAll();
 	}
 	
 }

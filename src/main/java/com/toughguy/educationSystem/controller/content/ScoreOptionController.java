@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.model.content.ScoreResult;
+import com.toughguy.educationSystem.model.content.ScoreOption;
 import com.toughguy.educationSystem.pagination.PagerModel;
-import com.toughguy.educationSystem.service.content.prototype.IScoreResultService;
+import com.toughguy.educationSystem.service.content.prototype.IScoreOptionService;
 
 @Controller
-@RequestMapping(value = "/scoreResult")
-public class ScoreResultController {
+@RequestMapping(value = "/scoreOption")
+public class ScoreOptionController {
 	@Autowired
-	private IScoreResultService scoreResultService;
+	private IScoreOptionService scoreOptionService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("scoreResult:save")
-	public String saveScoreResult(ScoreResult scoreResult) {
+	//@RequiresPermissions("scoreOption:save")
+	public String saveScoreOption(ScoreOption singleOption) {
 		try {
-			scoreResultService.save(scoreResult);
+			scoreOptionService.save(singleOption);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,10 +36,10 @@ public class ScoreResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("scoreResult:edit")
-	public String editScoreResult(ScoreResult scoreResult) {
+	//@RequiresPermissions("scoreOption:edit")
+	public String editScoreOption(ScoreOption singleOption) {
 		try {
-			scoreResultService.update(scoreResult);
+			scoreOptionService.update(singleOption);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -51,10 +51,10 @@ public class ScoreResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("scoreResult:detele")
-	public String deleteScoreResult(int id) {
+	//@RequiresPermissions("scoreOption:detele")
+	public String deleteScoreOption(int id) {
 		try {
-			scoreResultService.delete(id);
+			scoreOptionService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,7 +64,7 @@ public class ScoreResultController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("scoreResult:data")
+	//@RequiresPermissions("scoreOption:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -73,7 +73,7 @@ public class ScoreResultController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<ScoreResult> pg = scoreResultService.findPaginated(map);
+			PagerModel<ScoreOption> pg = scoreOptionService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -90,9 +90,9 @@ public class ScoreResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("scoreResult:findAll")
-	public List<ScoreResult> findAll() {
-		return scoreResultService.findAll();
+	//@RequiresPermissions("scoreOption:findAll")
+	public List<ScoreOption> findAll() {
+		return scoreOptionService.findAll();
 	}
 	
 }
