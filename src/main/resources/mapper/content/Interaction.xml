@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.content.Interaction">
 
 	<insert id="save" parameterType="Interaction" keyProperty="id" useGeneratedKeys="true">
-		insert into content_interaction (createTime,updateTime,title, author,content,image,state，hits) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{image},#{state},#{hits})
+		insert into content_interaction (createTime,updateTime,title, author,content,image,state,hit,source) 
+		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{image},#{state},#{hits},#{source})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -39,10 +39,7 @@
 		select count(*) from content_interaction
 		<include refid="paramsSQL"/>
 	</select>
-	<!-- 查询2条新信息 -->
-	<select id="findNewMessage" parameterType="Interaction" resultType="Map">
-		select * from business_information ORDER BY createTime desc limit 2
-	</select>
+	
 
 	<!-- 修个某条信息 -->
 	<update id="update" parameterType="Interaction">
@@ -54,6 +51,7 @@
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
+			<if test="source != null and source != ''">source = #{source},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -75,6 +73,9 @@
 			</if>
 			<if test=" hits != null and hits != '' ">
 				and hits = #{hits}
+			</if>
+			<if test=" source != null and source != '' ">
+				and source = #{source}
 			</if>
 		</where>
 	</sql>

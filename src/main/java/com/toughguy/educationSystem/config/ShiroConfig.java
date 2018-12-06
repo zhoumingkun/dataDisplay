@@ -37,6 +37,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/default/**","anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/upload/**","anon");
+      //小程序匿名访问
+        filterChainDefinitionMap.put("/wechat/**","anon");
+        filterChainDefinitionMap.put("/message/**","anon");
         filterChainDefinitionMap.put("/**", "authc");//表示需要认证才可以访问
         //filterChainDefinitionMap.put("/**", "anon");
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);

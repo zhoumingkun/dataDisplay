@@ -18,6 +18,7 @@ public class Zhengcefagui extends AbstractModel {
 	private String image;    //图片
 	private int state;       //状态
 	private int hits;        //浏览量
+	private String source;   //来源
 	public int getId() {
 		return id;
 	}
@@ -63,6 +64,12 @@ public class Zhengcefagui extends AbstractModel {
 	}
 	public void setHits(int hits) {
 		this.hits = hits;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 

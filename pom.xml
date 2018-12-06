@@ -198,6 +198,17 @@
 			<classifier>jdk15</classifier><!--指定jdk版本-->
 		</dependency>
 		<!-- weixin小程序 -->
+		<dependency>    
+		    <groupId>org.codehaus.xfire</groupId>    
+		    <artifactId>xfire-core</artifactId>    
+		    <version>1.2.6</version>  
+		</dependency>  
+		<dependency>    
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk16</artifactId>    
+		    <version>1.46</version>  
+		</dependency> 
+		
 		<dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
@@ -232,6 +243,39 @@
                 <artifactId>httpclient</artifactId>
                 <version>4.5.2</version>
             </dependency>
+            
+            <!-- 短信验证码 -->
+            <dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>4.0.6</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+				<version>1.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>aliyun-message-sdk-core</groupId>
+				<artifactId>aliyun-message-sdk-core</artifactId>
+				<version>3.2.3</version>
+				<scope>system</scope>
+				<systemPath>${project.basedir}/src/main/resources/lib/aliyun-java-sdk-core-3.2.2.jar</systemPath>
+			</dependency>
+			<dependency>
+				<groupId>aliyun-message-sdk-mns</groupId>
+				<artifactId>aliyun-message-sdk-mns</artifactId>
+				<version>1.1.8</version>
+				<scope>system</scope>
+				<systemPath>${project.basedir}/src/main/resources/lib/aliyun-sdk-mns-1.1.8.jar</systemPath>
+			</dependency>
+			<dependency>
+				<groupId>aliyun-java-sdk-dysmsapi</groupId>
+				<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+				<version>1.0.0</version>
+				<scope>system</scope>
+				<systemPath>${project.basedir}/src/main/resources/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>
+			</dependency>
 	</dependencies>
 	<repositories>
 	    <repository>

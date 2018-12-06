@@ -19,6 +19,8 @@ public class Test extends AbstractModel {
 	private String image;    //图片
 	private int state;       //状态
 	private int hits;        //浏览量
+	private String form;     //试题形式
+	private String source;   //来源
 	public int getId() {
 		return id;
 	}
@@ -72,7 +74,19 @@ public class Test extends AbstractModel {
 	public void setSummarize(String summarize) {
 		this.summarize = summarize;
 	}
-	
+	public String getForm() {
+		return form;
+	}
+	public void setForm(String form) {
+		this.form = form;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
+	 
 
 	
 }

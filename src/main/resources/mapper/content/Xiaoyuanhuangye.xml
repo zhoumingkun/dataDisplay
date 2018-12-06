@@ -3,9 +3,9 @@
 <mapper namespace="com.toughguy.reportingSystem.model.content.Xiaoyuanhuangye">
 
 	<insert id="save" parameterType="Xiaoyuanhuangye" keyProperty="id" useGeneratedKeys="true">
-		insert into service_xiaoyuanhuangye (createTime,updateTime,type, author,sectionName,positionName,phone,adress
+		insert into service_xiaoyuanhuangye (createTime,updateTime,type, author,sectionName,positionName,phone,adress,source
 		) 
-		values (#{createTime},#{updateTime},#{type}, #{author},#{sectionName},#{positionName},#{phone},#{adress})
+		values (#{createTime},#{updateTime},#{type}, #{author},#{sectionName},#{positionName},#{phone},#{adress},#{source})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -54,6 +54,7 @@
 			<if test="positionName != null and positionName != ''">positionName = #{positionName},</if>
 			<if test="phone != null and phone != ''">phone = #{phone},</if>
 			<if test="adress != null and adress != ''">adress = #{adress},</if>
+			<if test="source != null and source != ''">source = #{source},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -78,6 +79,9 @@
 			</if>
 			<if test=" adress != null and adress != '' ">
 				and adress = #{adress}
+			</if>
+			<if test=" source != null and source != '' ">
+				and source = #{source}
 			</if>
 		</where>
 	</sql>

@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.content.Test">
 
 	<insert id="save" parameterType="Test" keyProperty="id" useGeneratedKeys="true">
-		insert into service_test (createTime,updateTime,type,title, author,summarize,image,state,hits) 
-		values (#{createTime},#{updateTime},#{type},#{title}, #{author},#{summarize},#{image},#{state}#{hits})
+		insert into service_test (createTime,updateTime,type,title, author,summarize,image,state,hits,form,source) 
+		values (#{createTime},#{updateTime},#{type},#{title}, #{author},#{summarize},#{image},#{state},#{hits},#{form},#{source})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -56,6 +56,8 @@
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
+			<if test="form != null and form != ''">form = #{form},</if>
+			<if test="source != null and source != ''">source = #{source},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -80,6 +82,12 @@
 			</if>
 			<if test=" hits != null and hits != '' ">
 				and hits = #{hits}
+			</if>
+			<if test=" form != null and form != '' ">
+				and form = #{form}
+			</if>
+			<if test=" source != null and source != '' ">
+				and source = #{source}
 			</if>
 		</where>
 	</sql>
