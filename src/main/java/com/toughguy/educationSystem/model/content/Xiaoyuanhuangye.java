@@ -12,7 +12,7 @@ import com.toughguy.educationSystem.util.JsonUtil;
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class Xiaoyuanhuangye extends AbstractModel {
 	private int id;
-	private String type;         //类型（管理机构，学院机构）
+	private int type;             //类型（1管理机构，2学院机构）
 	private String author;       //作者
 	private String sectionName;  //部门名字
 	private String positionName; //职位名称
@@ -28,11 +28,13 @@ public class Xiaoyuanhuangye extends AbstractModel {
 		this.id = id;
 	}
 
-	public String getType() {
+	
+
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
