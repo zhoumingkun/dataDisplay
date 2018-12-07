@@ -16,15 +16,15 @@ import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.IScoreRankService;
 
 @Controller
-@RequestMapping(value = "/rank")
+@RequestMapping(value = "/scoreRank")
 public class ScoreRankController {
 	@Autowired
 	private IScoreRankService scoreRankService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("rank:save")
-	public String saveRank(ScoreRank scoreResult) {
+	//@RequiresPermissions("scoreRank:save")
+	public String saveScoreRank(ScoreRank scoreResult) {
 		try {
 			scoreRankService.save(scoreResult);
 			return "{ \"success\" : true }";
@@ -36,8 +36,8 @@ public class ScoreRankController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("rank:edit")
-	public String editRank(ScoreRank scoreResult) {
+	//@RequiresPermissions("scoreRank:edit")
+	public String editScoreRank(ScoreRank scoreResult) {
 		try {
 			scoreRankService.update(scoreResult);
 			return "{ \"success\" : true }";
@@ -51,8 +51,8 @@ public class ScoreRankController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("rank:detele")
-	public String deleteRank(int id) {
+	//@RequiresPermissions("scoreRank:detele")
+	public String deleteScoreRank(int id) {
 		try {
 			scoreRankService.delete(id);
 			return "{ \"success\" : true }";
@@ -64,7 +64,7 @@ public class ScoreRankController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("rank:data")
+	//@RequiresPermissions("scoreRank:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -90,7 +90,7 @@ public class ScoreRankController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("rank:findAll")
+	//@RequiresPermissions("scoreRank:findAll")
 	public List<ScoreRank> findAll() {
 		return scoreRankService.findAll();
 	}

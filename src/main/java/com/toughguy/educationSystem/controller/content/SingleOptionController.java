@@ -16,15 +16,15 @@ import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 
 @Controller
-@RequestMapping(value = "/option")
+@RequestMapping(value = "/singleOption")
 public class SingleOptionController {
 	@Autowired
 	private ISingleOptionService singleOptionService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("option:save")
-	public String saveOption(SingleOption singleOption) {
+	//@RequiresPermissions("singleOption:save")
+	public String saveSingleOption(SingleOption singleOption) {
 		try {
 			singleOptionService.save(singleOption);
 			return "{ \"success\" : true }";
@@ -36,8 +36,8 @@ public class SingleOptionController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("option:edit")
-	public String editOption(SingleOption singleOption) {
+	//@RequiresPermissions("singleOption:edit")
+	public String editSingleOption(SingleOption singleOption) {
 		try {
 			singleOptionService.update(singleOption);
 			return "{ \"success\" : true }";
@@ -51,8 +51,8 @@ public class SingleOptionController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("activity:detele")
-	public String deleteOption(int id) {
+	//@RequiresPermissions("singleOption:detele")
+	public String deleteSingleOption(int id) {
 		try {
 			singleOptionService.delete(id);
 			return "{ \"success\" : true }";
@@ -64,7 +64,7 @@ public class SingleOptionController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("activity:data")
+	//@RequiresPermissions("singleOption:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -90,7 +90,7 @@ public class SingleOptionController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("activity:findAll")
+	//@RequiresPermissions("singleOption:findAll")
 	public List<SingleOption> findAll() {
 		return singleOptionService.findAll();
 	}

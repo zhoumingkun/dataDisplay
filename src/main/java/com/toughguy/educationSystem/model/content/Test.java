@@ -12,7 +12,7 @@ import com.toughguy.educationSystem.util.JsonUtil;
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class Test extends AbstractModel {
 	private int id;
-	private String type;     //类型（性格，情感，健康，人际）
+	private int type;     //类型（1性格，2情感，3健康，4人际）
 	private String title;    //标题
 	private String author;   //作者
 	private String summarize;//概述
@@ -62,10 +62,11 @@ public class Test extends AbstractModel {
 	public void setHits(int hits) {
 		this.hits = hits;
 	}
-	public String getType() {
+	
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 	public String getSummarize() {

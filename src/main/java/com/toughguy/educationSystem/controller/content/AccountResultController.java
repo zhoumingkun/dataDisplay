@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.model.content.UserResult;
+import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.pagination.PagerModel;
-import com.toughguy.educationSystem.service.content.prototype.IUserResultService;
+import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 
 @Controller
-@RequestMapping(value = "/userResult")
-public class UserResultController {
+@RequestMapping(value = "/accountResult")
+public class AccountResultController {
 	@Autowired
-	private IUserResultService userResultService;
+	private IAccountResultService accountResultService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("userResult:save")
-	public String saveuserResult(UserResult userResult) {
+	//@RequiresPermissions("accountResult:save")
+	public String saveAccountResult(AccountResult accountResult) {
 		try {
-			userResultService.save(userResult);
+			accountResultService.save(accountResult);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,10 +36,10 @@ public class UserResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("userResult:edit")
-	public String edituserResult(UserResult userResult) {
+	//@RequiresPermissions("accountResult:edit")
+	public String editAccountResult(AccountResult accountResult) {
 		try {
-			userResultService.update(userResult);
+			accountResultService.update(accountResult);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -51,10 +51,10 @@ public class UserResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("userResult:detele")
-	public String deleteuserResult(int id) {
+	//@RequiresPermissions("accountResult:detele")
+	public String deleteAccountResult(int id) {
 		try {
-			userResultService.delete(id);
+			accountResultService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,7 +64,7 @@ public class UserResultController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("activity:data")
+	//@RequiresPermissions("accountResult:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -73,7 +73,7 @@ public class UserResultController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<UserResult> pg = userResultService.findPaginated(map);
+			PagerModel<AccountResult> pg = accountResultService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -90,9 +90,9 @@ public class UserResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("activity:findAll")
-	public List<UserResult> findAll() {
-		return userResultService.findAll();
+	//@RequiresPermissions("accountResult:findAll")
+	public List<AccountResult> findAll() {
+		return accountResultService.findAll();
 	}
 	
 }

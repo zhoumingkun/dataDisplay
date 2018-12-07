@@ -10,10 +10,12 @@ import com.toughguy.educationSystem.util.JsonUtil;
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
-public class UserResult extends AbstractModel {
-	private int  userId;  //用户id
-	private int  testId;    //测试id  service_test
-	private String  rank;     //结果级别
+public class AccountResult extends AbstractModel {
+	private int  id;
+	private int  accountId;  //账户id
+	private int  testId;     //测试id  service_test
+	private int  rank;       //级别（1优秀  2良好  3危险）
+	private int  type;       //身份类型    （1学生  2老师）
 	
 	public int getId() {
 		return id;
@@ -23,11 +25,11 @@ public class UserResult extends AbstractModel {
 	}
 	
 	
-	public int getUserId() {
-		return userId;
+	public int getAccountId() {
+		return accountId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 	public int getTestId() {
 		return testId;
@@ -35,11 +37,17 @@ public class UserResult extends AbstractModel {
 	public void setTestId(int testId) {
 		this.testId = testId;
 	}
-	public String getRank() {
+	public int getRank() {
 		return rank;
 	}
-	public void setRank(String rank) {
+	public void setRank(int rank) {
 		this.rank = rank;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
 	}
 	@Override
 	public String toString(){

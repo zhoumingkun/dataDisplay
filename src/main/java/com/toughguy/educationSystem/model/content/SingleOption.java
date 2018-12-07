@@ -15,7 +15,7 @@ public class SingleOption extends AbstractModel {
 	private int  topicId;     //测试题目id  service_test_topic
 	private String option;    //选项（A,B,C,D）
 	private String  result;   //结果答案
-	private String  rank;        //级别（优秀  良好  危险）
+	private int  rank;        //级别（1优秀  2良好  3危险）
 	
 	public int getId() {
 		return id;
@@ -43,10 +43,11 @@ public class SingleOption extends AbstractModel {
 		this.result = result;
 	}
 	
-	public String getRank() {
+	
+	public int getRank() {
 		return rank;
 	}
-	public void setRank(String rank) {
+	public void setRank(int rank) {
 		this.rank = rank;
 	}
 	@Override

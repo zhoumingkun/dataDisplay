@@ -13,7 +13,7 @@ import com.toughguy.educationSystem.util.JsonUtil;
 public class ScoreRank extends AbstractModel {
 	private int id;
 	private int  testId;       //对应service_test的id
-	private int  rank;         //级别（优秀  良好  危险）
+	private int  rank;         //级别（1优秀  2良好  3危险）
 	private String  range;     //测评范围
 	
 	public int getId() {
