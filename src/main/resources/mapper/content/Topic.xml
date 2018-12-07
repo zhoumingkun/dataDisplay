@@ -51,6 +51,10 @@
 		where id = #{id}
 	</update>
 	
+	<!-- 根据标题查询某个信息 -->
+	<select id="findByTopic" parameterType="String" resultType="Topic">
+		select * from service_topic where topic like concat(concat('%', #{topicLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc 
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
@@ -60,7 +64,9 @@
 			<if test=" topic != null and topic != '' ">
 				and topic = #{topic}
 			</if>
-			
+			<if test=" topicLike != null and topicLike != '' ">
+				and topic like concat(concat('%', #{topicLike, jdbcType=VARCHAR}),'%')
+			</if>
 		</where>
 	</sql>
 	

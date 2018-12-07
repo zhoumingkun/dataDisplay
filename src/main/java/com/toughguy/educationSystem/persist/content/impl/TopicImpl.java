@@ -1,4 +1,6 @@
 package com.toughguy.educationSystem.persist.content.impl;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.toughguy.educationSystem.model.content.Topic;
@@ -11,6 +13,12 @@ import com.toughguy.educationSystem.persist.impl.GenericDaoImpl;
  */
 @Repository
 public class TopicImpl extends GenericDaoImpl<Topic, Integer> implements ITopicDao{
+
+	@Override
+	public List<Topic> findByTopic(String topic) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + "findByTopic", topic);
+	}
 	
 
 }

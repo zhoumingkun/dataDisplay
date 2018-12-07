@@ -61,7 +61,10 @@
 		</set>
 		where id = #{id}
 	</update>
-	
+	<!-- 根据标题查询某个信息 -->
+	<select id="findByTitle" parameterType="String" resultType="Test">
+		select * from service_test where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
@@ -88,6 +91,9 @@
 			</if>
 			<if test=" source != null and source != '' ">
 				and source = #{source}
+			</if>
+			<if test=" titleLike != null and titleLike != '' ">
+				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
 			</if>
 		</where>
 	</sql>

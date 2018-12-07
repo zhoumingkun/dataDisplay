@@ -14,6 +14,10 @@ public interface ITestDao extends IGenericDao<Test, Integer>{
 	/**
 	 * 根据类型查询
 	 * */
-	public List<Test>findByType(String type);
+	public List<Test> findByType(String type);
+	/**
+	 * 根据标题查询
+	 * */
+	public List<Test> findByTitle(String title);
 
 }
