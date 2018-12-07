@@ -15,6 +15,7 @@ public class Guizhangzhidu extends AbstractModel {
 	private String title;    //标题
 	private String author;   //作者
 	private String content;  //内容
+	private String summarize;       //摘要
 	private String image;    //图片
 	private int state;       //状态
 	private int hits;        //浏览量
@@ -70,6 +71,12 @@ public class Guizhangzhidu extends AbstractModel {
 	}
 	public void setSource(String source) {
 		this.source = source;
+	}
+	public String getSummarize() {
+		return summarize;
+	}
+	public void setSummarize(String summarize) {
+		this.summarize = summarize;
 	}
 	
 

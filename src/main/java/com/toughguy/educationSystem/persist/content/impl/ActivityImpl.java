@@ -11,6 +11,14 @@ import com.toughguy.educationSystem.persist.impl.GenericDaoImpl;
  */
 @Repository
 public class ActivityImpl extends GenericDaoImpl<Activity, Integer> implements IActivityDao{
+	/**
+	 * 查询最新的活动动态消息
+	 * 
+	 * */
+	@Override
+	public Activity findNew() {
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findNew");
+	}
 	
 
 }

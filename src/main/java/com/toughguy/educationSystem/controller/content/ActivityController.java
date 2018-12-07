@@ -95,4 +95,11 @@ public class ActivityController {
 		return activityService.findAll();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/findNew")
+	//@RequiresPermissions("activity:findNew")
+	public Activity findNew() {
+		return activityService.findNew();
+	}
+	
 }

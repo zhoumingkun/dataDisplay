@@ -9,5 +9,8 @@ import com.toughguy.educationSystem.service.prototype.IGenericService;
  *
  */
 public interface IActivityService extends IGenericService<Activity, Integer>{
-
+	/**
+	 * 查询最新的活动动态消息
+	 * */
+	public Activity findNew();
 }

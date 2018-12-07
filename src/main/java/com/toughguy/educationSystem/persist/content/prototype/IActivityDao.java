@@ -9,6 +9,9 @@ import com.toughguy.educationSystem.persist.prototype.IGenericDao;
  *
  */
 public interface IActivityDao extends IGenericDao<Activity, Integer>{
-	
+	/**
+	 * 查询最新的活动动态消息
+	 * */
+	public Activity findNew();
 
 }

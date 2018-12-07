@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.reportingSystem.model.content.Interaction">
 
 	<insert id="save" parameterType="Interaction" keyProperty="id" useGeneratedKeys="true">
-		insert into content_interaction (createTime,updateTime,title, author,content,image,state,hit,source) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{image},#{state},#{hits},#{source})
+		insert into content_interaction (createTime,updateTime,title, author,content,summarize,image,state,hit,source) 
+		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits},#{source})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -48,6 +48,7 @@
 			<if test="title != null and title != ''">title = #{title},</if>
 			<if test="author != null and author != ''">author = #{author},</if>
 			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="summarize != null and summarize != ''">summarize = #{summarize},</if>
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
@@ -70,6 +71,9 @@
 			</if>
 			<if test=" state != null and state != '' ">
 				and state = #{state}
+			</if>
+			<if test=" summarize != null and summarize != '' ">
+				and summarize = #{summarize}
 			</if>
 			<if test=" hits != null and hits != '' ">
 				and hits = #{hits}
