@@ -11,6 +11,27 @@ import com.toughguy.educationSystem.persist.impl.GenericDaoImpl;
  */
 @Repository
 public class AccountResultImpl extends GenericDaoImpl<AccountResult, Integer> implements IAccountResultDao{
+
+	@Override
+	public int findTesterSum() {
+		// TODO Auto-generated method stub
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterSum");
+		return count;
+	}
+
+	@Override
+	public int findTesterPassSum() {
+		// TODO Auto-generated method stub
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".testerPassSum");
+		return count;
+	}
+
+	@Override
+	public int findTestFailureSum() {
+		// TODO Auto-generated method stub
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".testFailureSum");
+		return count;
+	}
 	
 
 }

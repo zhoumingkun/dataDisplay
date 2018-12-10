@@ -3,6 +3,7 @@ package com.toughguy.educationSystem.service.content.impl;
 import org.springframework.stereotype.Service;
 
 import com.toughguy.educationSystem.model.content.AccountResult;
+import com.toughguy.educationSystem.persist.content.prototype.IAccountResultDao;
 import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 import com.toughguy.educationSystem.service.impl.GenericServiceImpl;
 
@@ -14,6 +15,24 @@ import com.toughguy.educationSystem.service.impl.GenericServiceImpl;
  */
 @Service
 public class AccountResultServiceImpl extends GenericServiceImpl<AccountResult, Integer> implements IAccountResultService{
+
+	@Override
+	public int findTesterSum() {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findTesterSum();
+	}
+
+	@Override
+	public int findTesterPassSum() {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findTesterPassSum();
+	}
+
+	@Override
+	public int findTestFailureSum() {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findTestFailureSum();
+	}
 	
 
 }

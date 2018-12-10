@@ -23,7 +23,9 @@ import com.toughguy.educationSystem.model.content.Test;
 import com.toughguy.educationSystem.model.content.Topic;
 import com.toughguy.educationSystem.model.content.Xiaoyuanhuangye;
 import com.toughguy.educationSystem.pagination.PagerModel;
+import com.toughguy.educationSystem.persist.content.prototype.IAccountResultDao;
 import com.toughguy.educationSystem.persist.content.prototype.ISingleOptionDao;
+import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
@@ -42,6 +44,8 @@ public class TestController {
 	private ITopicService topicService;
 	@Autowired
 	private ISingleOptionService singleOptionService;
+	@Autowired
+	private IAccountResultService accountResultService;
 	
 	/**
 	 * 添加单题测试测试题表+题目表+选项表
@@ -149,6 +153,35 @@ public class TestController {
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("total", pg.getTotal());
 			result.put("rows", pg.getData());
+			return om.writeValueAsString(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	}
+	@ResponseBody
+	@RequestMapping(value = "/dataStatistical")
+	public String dataStatistical(String params,HttpSession session) {
+		try {
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(params)) {
+				// 参数处理
+				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
+			}
+			PagerModel<Test> pg = testService.findPaginated(map);
+			
+			// 序列化查询结果为JSON
+			Map<String, Object> result = new HashMap<String, Object>();
+			List<Test> ts = pg.getData();
+			int testerPassSum = accountResultService.findTesterPassSum();
+			int testerFailureSum = accountResultService.findTestFailureSum();
+			for(Test t:ts) {
+				t.setTesterPassSum(testerPassSum);
+				t.setTesterFailureSum(testerFailureSum);
+			}
+			result.put("total", pg.getTotal());
+			result.put("rows", ts);
 			return om.writeValueAsString(result);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -29,4 +29,11 @@ public class TestImpl extends GenericDaoImpl<Test, Integer> implements ITestDao{
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTitle", title);
 	}
 
+	@Override
+	public int findTestSum() {
+		// TODO Auto-generated method stub
+		int count = (Integer) sqlSessionTemplate.selectOne(typeNameSpace + ".findTestSum");
+		return count;
+	}
+
 }
