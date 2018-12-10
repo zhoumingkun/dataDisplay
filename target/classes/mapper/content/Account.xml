@@ -6,7 +6,7 @@
 		insert into service_account (createTime,updateTime,account,password,weixinNum,phoneNum,integral,type) 
 		values (#{createTime},#{updateTime},#{account},#{password},#{weixinNum},#{phoneNum},#{sex},#{integral},#{type})
 	</insert>
-	 
+	
 	<!-- 删除某个信息 -->
 	<delete id="delete" parameterType="int" >
 		delete from service_account where id = #{id}
@@ -37,6 +37,20 @@
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
 		select count(*) from service_account
+		<include refid="paramsSQL"/>
+	</select>
+	<!-- 查询某题的危险学生列表 -->
+	<select id="findAllByRisk" resultType="Account" parameterType="Map">
+		select DISTINCT sa.* from service_account sa 
+		LEFT JOIN service_account_result sar 
+		ON sar.accountId = sa.id where sa.type = 1 and sar.rank = 3 
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	<select id="getRiskTotalOfItems" parameterType="Map" resultType="int">
+		select count(DISTINCT sa.*) from service_account sa 
+		LEFT JOIN service_account_result sar 
+		ON sar.accountId = sa.id where sa.type = 1 and sar.rank = 3 
 		<include refid="paramsSQL"/>
 	</select>
 
