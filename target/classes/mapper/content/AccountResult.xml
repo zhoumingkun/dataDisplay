@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.reportingSystem.model.content.AccountResult">
+
+	<insert id="save" parameterType="AccountResult" keyProperty="id" useGeneratedKeys="true">
+		insert into service_account_result (createTime,updateTime,testId,accountId,rank,type) 
+		values (#{createTime},#{updateTime},#{testId},#{accountId},#{rank},#{type})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from service_account_result where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="AccountResult">
+		select * from service_account_result where id = #{id}
+	</select>
+	
+	<!-- 根据状态查询内容 -->
+	<select id="findByState" parameterType="int" resultType="AccountResult">
+		select * from service_account_result where state = #{state}
+	</select>
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="AccountResult" parameterType="Map">
+		select * from service_account_result
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="AccountResult" parameterType="Map">
+		select * from service_account_result
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from service_account_result
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="AccountResult">
+		update service_account_result
+		<set>
+		    <if test="testId != null and testId != ''">testId = #{testId},</if>
+		    <if test="accountId != null and accountId != ''">accountId = #{accountId},</if>
+			<if test="rank != null and rank != ''">rank = #{rank},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询平台测试总人次  -->
+	<select id="findTesterSum" resultType="int">
+		select COUNT(*) from service_account_result
+	</select>
+	
+	<!-- 查询平台测试合格人次  -->
+	<select id="findTesterPassSum" resultType="int">
+		select COUNT(DISTINCT accountId,rank) from service_account_result where rank = 1 or rank = 2
+	</select>
+	
+	<!-- 查询平台测试不合格人次  -->
+	<select id="findTestFailureSum" resultType="int">
+		select COUNT(DISTINCT accountId,rank) from service_account_result where rank = 3
+	</select>
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+		    <if test=" testId != null and testId != '' ">
+				and testId = #{testId}
+			</if>
+			<if test=" accountId != null and accountId != '' ">
+				and accountId = #{accountId}
+			</if>
+			<if test=" rank != null and rank != '' ">
+				and rank = #{rank}
+			</if>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			
+		</where>
+	</sql>
+	
+</mapper>
