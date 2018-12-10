@@ -16,5 +16,12 @@ public interface ITestService extends IGenericService<Test, Integer>{
 	 * 根据部门名称查询
 	 * */
 	public List<Test>findByType(String type);
-
+	/**
+	 * 根据标题查询
+	 * */
+	public List<Test> findByTitle(String title);
+	/**
+	 * 查询平台总题数 
+	 * */
+	public int findTestSum();
 }

@@ -25,5 +25,17 @@ public class TestServiceImpl extends GenericServiceImpl<Test, Integer> implement
 		// TODO Auto-generated method stub
 		return ((ITestDao)dao).findByType(type);	
 	}
+	/**
+	 * 根据标题查询
+	 * */
+	public List<Test> findByTitle(String title) {
+		// TODO Auto-generated method stub
+		return ((ITestDao)dao).findByTitle(title);	
+	}
+	@Override
+	public int findTestSum() {
+		// TODO Auto-generated method stub
+		return ((ITestDao)dao).findTestSum();
+	}
 
 }

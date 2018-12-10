@@ -21,6 +21,9 @@ public class Test extends AbstractModel {
 	private int hits;        //浏览量
 	private String form;     //试题形式
 	private String source;   //来源
+	
+	private int testerPassSum;  //测试合格人次(页面使用)
+	private int testerFailureSum;   //测试不合格人次(页面使用)
 	public int getId() {
 		return id;
 	}
@@ -86,6 +89,18 @@ public class Test extends AbstractModel {
 	}
 	public void setSource(String source) {
 		this.source = source;
+	}
+	public int getTesterPassSum() {
+		return testerPassSum;
+	}
+	public void setTesterPassSum(int testerPassSum) {
+		this.testerPassSum = testerPassSum;
+	}
+	public int getTesterFailureSum() {
+		return testerFailureSum;
+	}
+	public void setTesterFailureSum(int testerFailureSum) {
+		this.testerFailureSum = testerFailureSum;
 	}
 	 
 

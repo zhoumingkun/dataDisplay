@@ -1,8 +1,11 @@
 package com.toughguy.educationSystem.service.content.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.toughguy.educationSystem.model.content.Topic;
+import com.toughguy.educationSystem.persist.content.prototype.ITopicDao;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
 import com.toughguy.educationSystem.service.impl.GenericServiceImpl;
 
@@ -14,6 +17,12 @@ import com.toughguy.educationSystem.service.impl.GenericServiceImpl;
  */
 @Service
 public class TopicServiceImpl extends GenericServiceImpl<Topic, Integer> implements ITopicService{
+
+	@Override
+	public List<Topic> findByTopic(String topic) {
+		// TODO Auto-generated method stub
+		return ((ITopicDao)dao).findByTopic(topic);
+	}
 	
 
 }

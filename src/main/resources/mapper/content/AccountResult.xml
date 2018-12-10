@@ -52,6 +52,20 @@
 		where id = #{id}
 	</update>
 	
+	<!-- 查询平台测试总人次  -->
+	<select id="findTesterSum" resultType="int">
+		select COUNT(*) from service_account_result
+	</select>
+	
+	<!-- 查询平台测试合格人次  -->
+	<select id="findTesterPassSum" resultType="int">
+		select COUNT(DISTINCT accountId,rank) from service_account_result where rank = 1 or rank = 2
+	</select>
+	
+	<!-- 查询平台测试不合格人次  -->
+	<select id="findTestFailureSum" resultType="int">
+		select COUNT(DISTINCT accountId,rank) from service_account_result where rank = 3
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>

@@ -9,5 +9,20 @@ import com.toughguy.educationSystem.persist.prototype.IGenericDao;
  */
 public interface IAccountResultDao extends IGenericDao<AccountResult, Integer>{
 	
+	/**
+	 * 查询平台测试总人数
+	 * @return
+	 */
+	public int findTesterSum();
+	/**
+	 * 查询平台测试合格人次
+	 * @return
+	 */
+	public int findTesterPassSum();
+	/**
+	 * 查询平台测试不合格人次
+	 * @return
+	 */
+	public int findTestFailureSum();
 
 }
