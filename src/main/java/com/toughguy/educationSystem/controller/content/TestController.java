@@ -174,8 +174,9 @@ public class TestController {
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
 			List<Test> ts = pg.getData();
-			int testerPassSum = accountResultService.findTesterPassSum();
-			int testerFailureSum = accountResultService.findTestFailureSum();
+			Map<String, Object> params1 = new HashMap<String, Object>();
+			int testerPassSum = accountResultService.findTesterPassSum(params1);
+			int testerFailureSum = accountResultService.findTesterFailureSum(params1);
 			for(Test t:ts) {
 				t.setTesterPassSum(testerPassSum);
 				t.setTesterFailureSum(testerFailureSum);
