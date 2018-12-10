@@ -19,6 +19,9 @@ public class Account extends AbstractModel {
 	private String  sex;    // 性别
 	private int integral;  //积分
 	private int  type;     //身份类型    （1学生  2老师）
+	
+	private int riskAssessment; //危险测评题数
+	
 	public int getId() {
 		return id;
 	}
@@ -68,6 +71,13 @@ public class Account extends AbstractModel {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	
+	public int getRiskAssessment() {
+		return riskAssessment;
+	}
+	public void setRiskAssessment(int riskAssessment) {
+		this.riskAssessment = riskAssessment;
 	}
 	@Override
 	public String toString(){

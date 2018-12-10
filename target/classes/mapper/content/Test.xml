@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.reportingSystem.model.content.Test">
+
+	<insert id="save" parameterType="Test" keyProperty="id" useGeneratedKeys="true">
+		insert into service_test (createTime,updateTime,type,title, author,summarize,image,state,hits,form,source) 
+		values (#{createTime},#{updateTime},#{type},#{title}, #{author},#{summarize},#{image},#{state},#{hits},#{form},#{source})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from service_test where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="Test">
+		select * from service_test where id = #{id}
+	</select>
+	
+	<!-- 根据状态查询内容 -->
+	<select id="findByState" parameterType="int" resultType="Test">
+		select * from service_test where state = #{state}
+	</select>
+	
+	<!-- 根据类型查询内容 -->
+	<select id="findByType" parameterType="String" resultType="Test">
+		select * from service_test where type = #{type}
+	</select>
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="Test" parameterType="Map">
+		select * from service_test
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="Test" parameterType="Map">
+		select * from service_test
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from service_test
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="Test">
+		update service_test
+		<set>
+		    <if test="type != null and type != ''">type = #{type},</if>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="author != null and author != ''">author = #{author},</if>
+			<if test="summarize != null and summarize != ''">summarize = #{summarize},</if>
+			<if test="image != null and image != ''">image = #{image},</if>
+			<if test="state != null and state != ''">state = #{state},</if>
+			<if test="hits != null and hits != ''">hits = #{hits},</if>
+			<if test="form != null and form != ''">form = #{form},</if>
+			<if test="source != null and source != ''">source = #{source},</if>
+		</set>
+		where id = #{id}
+	</update>
+	<!-- 根据标题查询某个信息 -->
+	<select id="findByTitle" parameterType="String" resultType="Test">
+		select * from service_test where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
+	</select>
+	
+	<!-- 查询平台总题数 -->
+	<select id="findTestSum" resultType="int">
+		select count(*) from service_test
+	</select>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+		    <if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test=" title != null and title != '' ">
+				and title = #{title}
+			</if>
+			<if test=" author != null and author != '' ">
+				and author = #{author}
+			</if>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test=" state != null and state != '' ">
+				and state = #{state}
+			</if>
+			<if test=" hits != null and hits != '' ">
+				and hits = #{hits}
+			</if>
+			<if test=" form != null and form != '' ">
+				and form = #{form}
+			</if>
+			<if test=" source != null and source != '' ">
+				and source = #{source}
+			</if>
+			<if test=" titleLike != null and titleLike != '' ">
+				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
+			</if>
+		</where>
+	</sql>
+	
+</mapper>

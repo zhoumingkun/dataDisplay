@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.reportingSystem.model.content.ScoreResult">
+
+	<insert id="save" parameterType="ScoreResult" keyProperty="id" useGeneratedKeys="true">
+		insert into service_score_result (createTime,updateTime,testId,result) 
+		values (#{createTime},#{updateTime},#{testId},#{result})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from service_score_result where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="ScoreResult">
+		select * from service_score_result where id = #{id}
+	</select>
+	
+	<!-- 根据状态查询内容 -->
+	<select id="findByState" parameterType="int" resultType="ScoreResult">
+		select * from service_score_result where state = #{state}
+	</select>
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="ScoreResult" parameterType="Map">
+		select * from service_score_result
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="ScoreResult" parameterType="Map">
+		select * from service_score_result
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from service_score_result
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="ScoreResult">
+		update service_score_result
+		<set>
+		    <if test="testId != null and testId != ''">testId = #{testId},</if>
+			<if test="result != null and result != ''">result = #{result},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+		    <if test=" testId != null and testId != '' ">
+				and testId = #{testId}
+			</if>
+			
+		</where>
+	</sql>
+	
+</mapper>

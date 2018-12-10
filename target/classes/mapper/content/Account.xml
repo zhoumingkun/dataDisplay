@@ -6,7 +6,7 @@
 		insert into service_account (createTime,updateTime,account,password,weixinNum,phoneNum,integral,type) 
 		values (#{createTime},#{updateTime},#{account},#{password},#{weixinNum},#{phoneNum},#{sex},#{integral},#{type})
 	</insert>
-	
+	 
 	<!-- 删除某个信息 -->
 	<delete id="delete" parameterType="int" >
 		delete from service_account where id = #{id}

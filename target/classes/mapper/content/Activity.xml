@@ -43,6 +43,7 @@
 		select count(*) from content_activity
 		<include refid="paramsSQL"/>
 	</select>
+<<<<<<< HEAD
 	
 	<!-- 根据标题查询某个信息 -->
  	<select id="findByTitle" parameterType="String" resultType="Test">
@@ -92,6 +93,49 @@
 			<if test=" titleLike != null and titleLike != '' ">
  				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
  			</if>
+=======
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="Activity">
+		update content_activity
+		<set>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="author != null and author != ''">author = #{author},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="summarize != null and summarize != ''">summarize = #{summarize},</if>
+			<if test="image != null and image != ''">image = #{image},</if>
+			<if test="state != null and state != ''">state = #{state},</if>
+			<if test="hits != null and hits != ''">hits = #{hits},</if>
+			<if test="source != null and source != ''">source = #{source},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+			<if test=" title != null and title != '' ">
+				and title = #{title}
+			</if>
+			<if test=" author != null and author != '' ">
+				and author = #{author}
+			</if>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test=" state != null and state != '' ">
+				and state = #{state}
+			</if>
+			<if test=" summarize != null and summarize != '' ">
+				and summarize = #{summarize}
+			</if>
+			<if test=" hits != null and hits != '' ">
+				and hits = #{hits}
+			</if>
+			<if test=" source != null and source != '' ">
+				and source = #{source}
+			</if>
+>>>>>>> branch 'master' of https://github.com/zhoumingkun/educationSystem
 		</where>
 	</sql>
 	
