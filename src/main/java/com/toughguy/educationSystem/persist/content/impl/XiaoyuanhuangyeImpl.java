@@ -20,6 +20,14 @@ public class XiaoyuanhuangyeImpl extends GenericDaoImpl<Xiaoyuanhuangye, Integer
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findBySectionName", sectionName);
 		
 	}
+	/**
+	 * 根据类型查询部门名称
+	 * 
+	 * */
+	@Override
+	public Xiaoyuanhuangye findSectionNameByType(int type) {		
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findSectionNameByType", type);
+		
+	}
 	
-
 }

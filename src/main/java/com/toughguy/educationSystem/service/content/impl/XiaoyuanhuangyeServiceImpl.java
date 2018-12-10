@@ -23,6 +23,15 @@ public class XiaoyuanhuangyeServiceImpl extends GenericServiceImpl<Xiaoyuanhuang
 		// TODO Auto-generated method stub
 		return ((IXiaoyuanhuangyeDao)dao).findBySectionName(sectionName);	
 	}
+	/**
+	 * 根据类型查询部门名称
+	 * 
+	 * */
+	@Override
+	public Xiaoyuanhuangye findSectionNameByType(int type) {
+		// TODO Auto-generated method stub
+		return ((IXiaoyuanhuangyeDao)dao).findSectionNameByType(type);	
+	}
 	
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.educationSystem.model.content.Guizhangzhidu;
 import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.IZhengcefaguiService;
@@ -93,6 +94,13 @@ public class ZhengcefaguiController {
 	//@RequiresPermissions("zhengcefagui:findAll")
 	public List<Zhengcefagui> findAll() {
 		return zhengcefaguiService.findAll();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findByTitle")
+	//@RequiresPermissions("activity:findByTitle")
+	public List<Zhengcefagui> findByTitle(String title){
+		return zhengcefaguiService.findByTitle(title);
 	}
 	
 }

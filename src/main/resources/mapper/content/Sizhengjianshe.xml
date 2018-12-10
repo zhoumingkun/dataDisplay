@@ -39,6 +39,16 @@
 		select count(*) from content_sizhengjianshe
 		<include refid="paramsSQL"/>
 	</select>
+	
+	<!-- 根据标题查询某个信息 -->
+ 	<select id="findByTitle" parameterType="String" resultType="Test">
+ 		select * from content_sizhengjianshe where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
+ 	</select>
+ 	
+ 	<!-- 根据来源查询某个信息 -->
+ 	<select id="findBySource" parameterType="String" resultType="Test">
+ 		select * from content_sizhengjianshe where source like concat(concat('%', #{sourceLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
+ 	</select>
 
 	<!-- 修个某条信息 -->
 	<update id="update" parameterType="Sizhengjianshe">
@@ -79,6 +89,23 @@
 			</if>
 			<if test=" source != null and source != '' ">
 				and source = #{source}
+			</if>
+			<if test=" titleLike != null and titleLike != '' ">
+ 				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
+ 			</if>
+ 			<if test=" sourceLike != null and sourceLike != '' ">
+ 				and source like concat(concat('%', #{sourceLike, jdbcType=VARCHAR}),'%')
+ 			</if>
+ 			<if test="sourceLike != null and sourceLike != '' and titleLike != null and titleLike != '' ">
+				<choose>
+					<when test="titleLikeOrsourceLike != null and titleLikeOrsourceLike != ''">
+						and ((title like concat(concat('%', #{titleLikeOrsourceLike, jdbcType=VARCHAR}),'%') or source like concat(concat('%', #{titleLikeOrsourceLike, jdbcType=VARCHAR}),'%')) 
+						 )
+					</when>
+					<otherwise>
+						and (title = #{title} or sourceLike = #{sourceLike} )
+					</otherwise>
+				</choose>
 			</if>
 		</where>
 	</sql>
