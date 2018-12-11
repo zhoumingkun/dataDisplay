@@ -23,6 +23,12 @@ public class TopicServiceImpl extends GenericServiceImpl<Topic, Integer> impleme
 		// TODO Auto-generated method stub
 		return ((ITopicDao)dao).findByTopic(topic);
 	}
+
+	@Override
+	public List<Topic> findByTestId(int testId) {
+		// TODO Auto-generated method stub
+		return ((ITopicDao)dao).findByTestId(testId);
+	}
 	
 
 }

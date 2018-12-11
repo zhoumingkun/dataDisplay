@@ -19,6 +19,12 @@ public class TopicImpl extends GenericDaoImpl<Topic, Integer> implements ITopicD
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + "findByTopic", topic);
 	}
+
+	@Override
+	public List<Topic> findByTestId(int testId) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTestId",testId);
+	}
 	
 
 }

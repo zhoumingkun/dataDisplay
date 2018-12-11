@@ -51,7 +51,12 @@
 		</set>
 		where id = #{id}
 	</update>
-	
+	<!-- 根据题目id查询选项 -->
+	<select id="findByTopicId" parameterType="int" resultType="SingleOption">
+		select * from service_single_option sso 
+		LEFT JOIN service_topic st ON sso.topicId = st.id 
+		where sso.topicId = #{topicId}
+	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>

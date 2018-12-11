@@ -102,7 +102,7 @@
 				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
 			</if>
 			<if test=" excludeId != null and excludeId != '' ">
-				and id<>#{excludeId}
+				and id &lt;&gt; #{excludeId}
 			</if>
 		</where>
 	</sql>

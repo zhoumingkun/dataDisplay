@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.educationSystem.dto.TopicAndSingleOption;
 import com.toughguy.educationSystem.model.content.Topic;
 import com.toughguy.educationSystem.pagination.PagerModel;
+import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
 
 @Controller
@@ -20,6 +22,8 @@ import com.toughguy.educationSystem.service.content.prototype.ITopicService;
 public class TopicController {
 	@Autowired
 	private ITopicService topicService;
+	@Autowired
+	private ISingleOptionService singleOptionService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
@@ -93,5 +97,28 @@ public class TopicController {
 	//@RequiresPermissions("topic:findAll")
 	public List<Topic> findAll() {
 		return topicService.findAll();
+	}
+	
+	/**
+	 * 测试题与选项获取
+	 * @param testId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findTopicAndSingleOption")
+	//@RequiresPermissions("topic:findAll")
+	public TopicAndSingleOption findTopicAndSingleOption(int testId) {
+		TopicAndSingleOption tas = new TopicAndSingleOption();
+		List<Topic> ts = topicService.findByTestId(testId);
+		//单题
+		if(ts.size()>0 && ts.size()<1) {
+			for(Topic t:ts) {
+				tas.setTopic(t.getTopic());
+				tas.setSingleOption(singleOptionService.findByTopicId(t.getId()));
+			}
+		} else {
+			//分值
+		}
+		return tas;
 	}
 }
