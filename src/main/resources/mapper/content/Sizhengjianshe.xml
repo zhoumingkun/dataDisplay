@@ -96,16 +96,9 @@
  			<if test=" sourceLike != null and sourceLike != '' ">
  				and source like concat(concat('%', #{sourceLike, jdbcType=VARCHAR}),'%')
  			</if>
- 			<if test="sourceLike != null and sourceLike != '' and titleLike != null and titleLike != '' ">
-				<choose>
-					<when test="titleLikeOrsourceLike != null and titleLikeOrsourceLike != ''">
-						and ((title like concat(concat('%', #{titleLikeOrsourceLike, jdbcType=VARCHAR}),'%') or source like concat(concat('%', #{titleLikeOrsourceLike, jdbcType=VARCHAR}),'%')) 
+ 			<if test="titleLikeOrsourceLike != null and titleLikeOrsourceLike != ''">
+				and ((title like concat(concat('%', #{titleLikeOrsourceLike, jdbcType=VARCHAR}),'%') or source like concat(concat('%', #{titleLikeOrsourceLike, jdbcType=VARCHAR}),'%')) 
 						 )
-					</when>
-					<otherwise>
-						and (title = #{title} or sourceLike = #{sourceLike} )
-					</otherwise>
-				</choose>
 			</if>
 		</where>
 	</sql>
