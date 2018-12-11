@@ -101,6 +101,9 @@
 			<if test=" titleLike != null and titleLike != '' ">
 				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
 			</if>
+			<if test=" excludeId != null and excludeId != '' ">
+				and id<>#{excludeId}
+			</if>
 		</where>
 	</sql>
 	
