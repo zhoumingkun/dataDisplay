@@ -14,5 +14,10 @@ public interface IXiaoyuanhuangyeService extends IGenericService<Xiaoyuanhuangye
 	 * 根据部门名称查询
 	 * */
 	public List<Xiaoyuanhuangye>findBySectionName(String sectionName);
+	/**
+	 * 根据类型查询部门名称
+	 * 
+	 * */
+	public Xiaoyuanhuangye findSectionNameByType(int type);
 
 }

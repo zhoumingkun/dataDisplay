@@ -105,4 +105,14 @@ public class XiaoyuanhuangyeController {
 		return xiaoyuanhuangyeService.findBySectionName(sectionName);
 	}
 	
+	/**
+	 * 根据类型查询部门名称
+	 * */
+	@ResponseBody
+	@RequestMapping(value = "/findSectionNameByType")
+	// @RequiresPermissions("xiaoyuanhuangye:findSectionNameByType")
+	public Xiaoyuanhuangye findSectionNameByType(int type)  {
+		return xiaoyuanhuangyeService.findSectionNameByType(type);
+	}
+	
 }

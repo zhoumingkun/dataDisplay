@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.educationSystem.model.content.Activity;
 import com.toughguy.educationSystem.model.content.Guizhangzhidu;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.IGuizhangzhiduService;
@@ -95,4 +96,10 @@ public class GuizhangzhiduController {
 		return guizhangzhiduService.findAll();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/findByTitle")
+	//@RequiresPermissions("activity:findByTitle")
+	public List<Guizhangzhidu> findByTitle(String title){
+		return guizhangzhiduService.findByTitle(title);
+	}
 }

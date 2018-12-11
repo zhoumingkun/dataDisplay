@@ -1,5 +1,7 @@
 package com.toughguy.educationSystem.service.content.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.toughguy.educationSystem.model.content.Activity;
@@ -23,6 +25,13 @@ public class ActivityServiceImpl extends GenericServiceImpl<Activity, Integer> i
 		// TODO Auto-generated method stub
 		return ((IActivityDao)dao).findNew();
 	}
-	
+	/**
+	 * 根据标题查询
+	 * */
+	@Override
+ 	public List<Activity> findByTitle(String title) {
+ 		// TODO Auto-generated method stub
+ 		return ((IActivityDao)dao).findByTitle(title);
+ 	}
 
 }

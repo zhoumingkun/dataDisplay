@@ -43,6 +43,11 @@
 		select count(*) from content_activity
 		<include refid="paramsSQL"/>
 	</select>
+	
+	<!-- 根据标题查询某个信息 -->
+ 	<select id="findByTitle" parameterType="String" resultType="Test">
+ 		select * from content_activity where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
+ 	</select>
 
 	<!-- 修个某条信息 -->
 	<update id="update" parameterType="Activity">
@@ -84,6 +89,9 @@
 			<if test=" source != null and source != '' ">
 				and source = #{source}
 			</if>
+			<if test=" titleLike != null and titleLike != '' ">
+ 				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
+ 			</if>
 		</where>
 	</sql>
 	

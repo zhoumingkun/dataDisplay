@@ -1,5 +1,8 @@
 package com.toughguy.educationSystem.persist.content.prototype;
 
+import java.util.List;
+
+import com.toughguy.educationSystem.model.content.Guizhangzhidu;
 import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.persist.prototype.IGenericDao;
 
@@ -9,6 +12,10 @@ import com.toughguy.educationSystem.persist.prototype.IGenericDao;
  *
  */
 public interface IZhengcefaguiDao extends IGenericDao<Zhengcefagui, Integer>{
+	/**
+ 	 * 根据标题查询
+ 	 * */
+ 	public List<Zhengcefagui> findByTitle(String titie);
 	
 
 }

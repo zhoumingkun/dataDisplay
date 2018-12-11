@@ -102,4 +102,11 @@ public class ActivityController {
 		return activityService.findNew();
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/findByTitle")
+	//@RequiresPermissions("activity:findByTitle")
+	public List<Activity> findByTitle(String title){
+		return activityService.findByTitle(title);
+	}
+	
 }
