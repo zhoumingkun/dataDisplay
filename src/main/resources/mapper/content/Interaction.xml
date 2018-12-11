@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.content.Interaction">
+<mapper namespace="com.toughguy.educationSystem.model.content.Interaction">
 
 	<insert id="save" parameterType="Interaction" keyProperty="id" useGeneratedKeys="true">
 		insert into content_interaction (createTime,updateTime,title, author,content,summarize,image,state,hit,source) 

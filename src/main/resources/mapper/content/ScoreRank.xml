@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.content.ScoreRank">
+<mapper namespace="com.toughguy.educationSystem.model.content.ScoreRank">
 
 	<insert id="save" parameterType="ScoreRank" keyProperty="id" useGeneratedKeys="true">
 		insert into service_score_rank (createTime,updateTime,testId,rank,range) 

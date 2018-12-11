@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.content.Account">
+<mapper namespace="com.toughguy.educationSystem.model.content.Account">
 
 	<insert id="save" parameterType="Account" keyProperty="id" useGeneratedKeys="true">
 		insert into service_account (createTime,updateTime,account,password,weixinNum,phoneNum,integral,type) 
@@ -32,7 +32,7 @@
 	<select id="findPaginated" resultType="Account" parameterType="Map">
 		select * from service_account
 		<include refid="paramsSQL"/>
-		ORDER BY createTime desc  limit #{offset}, #{limit}
+		ORDER BY integral desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
@@ -69,7 +69,6 @@
 		</set>
 		where id = #{id}
 	</update>
-	
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>

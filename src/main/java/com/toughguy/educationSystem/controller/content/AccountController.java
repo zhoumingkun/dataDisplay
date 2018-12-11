@@ -53,6 +53,26 @@ public class AccountController {
 			return "{ \"success\" : false }";
 		}
 	}
+	/**
+	 * 添加积分
+	 * @param account
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addIntegral")
+	public String addIntegral(int id,int addIntegral) {
+		try {
+			Account a = accountService.find(id);
+			int newIntegral = a.getIntegral() + addIntegral;
+			a.setIntegral(newIntegral);
+			accountService.update(a);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return "{ \"success\" : false }";
+		}
+	}
 	
 	/**
 	 * 将学生测评改为(安全)
@@ -174,6 +194,12 @@ public class AccountController {
 	//@RequiresPermissions("account:findAll")
 	public List<Account> findAll() {
 		return accountService.findAll();
+	}
+	@ResponseBody
+	@RequestMapping(value = "/getIntegral")
+	public String getIntegral(int id) {
+		Account a = accountService.find(id);
+		return "{ \"integral\":" + a.getIntegral() + "}";
 	}
 	
 }

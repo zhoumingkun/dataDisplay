@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.reportingSystem.model.content.Xiaoyuanhuangye">
+<mapper namespace="com.toughguy.educationSystem.model.content.Xiaoyuanhuangye">
 
 	<insert id="save" parameterType="Xiaoyuanhuangye" keyProperty="id" useGeneratedKeys="true">
 		insert into service_xiaoyuanhuangye (createTime,updateTime,type, author,sectionName,positionName,phone,adress,source
