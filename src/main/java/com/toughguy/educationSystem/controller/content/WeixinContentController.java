@@ -24,7 +24,7 @@ public class WeixinContentController {
 	//@RequiresPermissions("account:save")
 		public void getFirst(){
 			String baseUrl = "http://weixin.sogou.com/weixin?type=1&ie=utf8&query=";//搜狗微信的基础地址
-	    	String searchUrl = baseUrl + "gh_fae9c9be22b6";//加上安泰科现货价格的微信公总号
+	    	String searchUrl = baseUrl + "gh_3756da4d163e";//加上安泰科现货价格的微信公总号  gh_3756da4d163e  gh_fae9c9be22b6
 	    	Document document = getDocument(searchUrl);
 	    	String listUrl = document.select(".tit a").attr("href");//查询到所有列表信息的url
 	    	System.out.println(listUrl);

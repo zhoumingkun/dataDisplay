@@ -34,18 +34,18 @@ public class SizhengjiansheController {
 	@Autowired
 	private ISizhengjiansheService sizhengjiansheService;
 	
-	@ResponseBody	
-	@RequestMapping(value = "/save")
-	//@RequiresPermissions("sizhengjianshe:save")
-	public String saveSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
-		try {
-			sizhengjiansheService.save(sizhengjianshe);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
-		}
-	}
+//	@ResponseBody	
+//	@RequestMapping(value = "/save")
+//	//@RequiresPermissions("sizhengjianshe:save")
+//	public String saveSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
+//		try {
+//			sizhengjiansheService.save(sizhengjianshe);
+//			return "{ \"success\" : true }";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+//		}
+//	}
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
@@ -66,19 +66,19 @@ public class SizhengjiansheController {
 		}	
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("sizhengjianshe:edit")
-	public String editSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
-		try {
-			 sizhengjiansheService.update(sizhengjianshe);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return "{ \"success\" : false }";
-		}
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/edit")
+//	//@RequiresPermissions("sizhengjianshe:edit")
+//	public String editSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
+//		try {
+//			 sizhengjiansheService.update(sizhengjianshe);
+//			return "{ \"success\" : true }";
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			return "{ \"success\" : false }";
+//		}
+//	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
