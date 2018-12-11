@@ -206,5 +206,15 @@ public class TestController {
 	public List<Test> findAll() {
 		return testService.findAll();
 	}
+	/**
+	 * 获取某道题的第一页详情
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/get")
+	public Test get(int id) {
+		return testService.find(id);
+	}
+	
 	
 }

@@ -94,5 +94,4 @@ public class TopicController {
 	public List<Topic> findAll() {
 		return topicService.findAll();
 	}
-	
 }
