@@ -1,6 +1,9 @@
 package com.toughguy.educationSystem.controller.content;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 import com.toughguy.educationSystem.service.content.prototype.IAccountService;
+import com.toughguy.educationSystem.util.DateUtil;
 
 @Controller
 @RequestMapping(value = "/account")
@@ -195,11 +199,51 @@ public class AccountController {
 	public List<Account> findAll() {
 		return accountService.findAll();
 	}
+	
+	/**
+	 * 获取某个用户的积分
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/getIntegral")
 	public String getIntegral(int id) {
 		Account a = accountService.find(id);
 		return "{ \"integral\":" + a.getIntegral() + "}";
+	}
+	/**
+	 * 签到
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/signIn")
+	public String signIn(int id) {
+		Account a = accountService.find(id);
+		if(a.getSignDate().toString() == null) {
+			a.setIntegral(a.getIntegral() + 2);
+			Date newDate = new Date();
+			a.setSignDate(newDate);
+			return "{ \"integral\":" + a.getIntegral() + "}";
+		} else {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date signDate = null;
+			try {
+				signDate = format.parse(a.getSignDate().toString());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			boolean timeSignIsToday = DateUtil.isToday(signDate);
+			if(timeSignIsToday) {
+				return "{ \"success\": false}";
+			} else {
+				a.setIntegral(a.getIntegral() + 2);
+				Date newDate = new Date();
+				a.setSignDate(newDate);
+				return "{ \"integral\":" + a.getIntegral() + "}";
+			}
+		}
 	}
 	
 }

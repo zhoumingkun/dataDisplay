@@ -1,5 +1,8 @@
 package com.toughguy.educationSystem.model.content;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.toughguy.educationSystem.model.AbstractModel;
 import com.toughguy.educationSystem.util.JsonUtil;
@@ -19,6 +22,7 @@ public class Account extends AbstractModel {
 	private String  sex;    // 性别
 	private int integral;  //积分
 	private int  type;     //身份类型    （1学生  2老师）
+	private Date SignDate;  //签到时间
 	
 	private int riskAssessment; //危险测评题数
 	
@@ -78,6 +82,13 @@ public class Account extends AbstractModel {
 	}
 	public void setRiskAssessment(int riskAssessment) {
 		this.riskAssessment = riskAssessment;
+	}
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+	public Date getSignDate() {
+		return SignDate;
+	}
+	public void setSignDate(Date signDate) {
+		SignDate = signDate;
 	}
 	@Override
 	public String toString(){
