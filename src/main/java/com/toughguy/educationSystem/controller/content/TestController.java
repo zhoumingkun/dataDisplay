@@ -18,6 +18,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.toughguy.educationSystem.dto.TopicAndScoreOptionDTO;
+import com.toughguy.educationSystem.dto.TopicAndSingleOptionDTO;
+import com.toughguy.educationSystem.model.content.ScoreOption;
 import com.toughguy.educationSystem.model.content.SingleOption;
 import com.toughguy.educationSystem.model.content.Test;
 import com.toughguy.educationSystem.model.content.Topic;
@@ -26,6 +29,7 @@ import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.persist.content.prototype.IAccountResultDao;
 import com.toughguy.educationSystem.persist.content.prototype.ISingleOptionDao;
 import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
+import com.toughguy.educationSystem.service.content.prototype.IScoreOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
@@ -45,6 +49,8 @@ public class TestController {
 	@Autowired
 	private ISingleOptionService singleOptionService;
 	@Autowired
+	private IScoreOptionService scoreOptionService;
+	@Autowired
 	private IAccountResultService accountResultService;
 	
 	/**
@@ -53,9 +59,8 @@ public class TestController {
 	 * @return
 	 */
 	@ResponseBody	
-	@RequestMapping(value = "/save")
-	//@RequiresPermissions("test:save")
-	public String saveTest(Test test,Topic topic,String singleOption,MultipartFile pictureFile) {
+	@RequestMapping(value = "/saveSingleTopic")
+	public String saveSingleTopic(Test test,Topic topic,String singleOption,MultipartFile pictureFile) {
 		try {
 			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
 				try {
@@ -86,11 +91,60 @@ public class TestController {
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
-	
+	/**
+	 * 添加分值题测试测试题表+题目表+选项表
+	 * @param test
+	 * @return
+	 */
+	@ResponseBody	
+	@RequestMapping(value = "/saveScoreTopic")
+	public String saveScoreTopic(Test test,String topicAndScoreOption,MultipartFile pictureFile) {
+		try {
+			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
+				try {
+					String path = UploadUtil.uploadPicture(pictureFile);
+					test.setImage(path);
+					testService.save(test);
+					List<Test> ts = testService.findByTitle(test.getTitle());
+					//JSONString转list对象
+					List<TopicAndScoreOptionDTO> topics1 = new ArrayList<TopicAndScoreOptionDTO>();
+					topics1 = JsonUtil.jsonToList(topicAndScoreOption, TopicAndScoreOptionDTO.class);
+					for(TopicAndScoreOptionDTO tDTO:topics1) {
+						Topic t = new Topic();
+						t.setTestId(ts.get(0).getId());
+						t.setTopic(tDTO.getTopic());
+						topicService.save(t);
+						List<Topic> topics2 = topicService.findByTopic(t.getTopic());
+						for(ScoreOption so:tDTO.getScoreOptions()) {
+							so.setTopicId(topics2.get(0).getId());
+							scoreOptionService.save(so);
+						}
+					}
+					return "{ \"success\" : true }";
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
+				}
+			}else{
+				return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	/**
+	 * 单题编辑
+	 * @param test
+	 * @param topic
+	 * @param singleOption
+	 * @param pictureFile
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/edit")
+	@RequestMapping(value = "/editSingleTopic")
 	//@RequiresPermissions("test:edit")
-	public String editTest(String test,String topic,String singleOption,MultipartFile pictureFile) {
+	public String editSingleTopic(String test,String topic,String singleOption,MultipartFile pictureFile) {
 		try {
 			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
 				try {

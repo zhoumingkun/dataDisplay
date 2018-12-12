@@ -63,7 +63,7 @@
 	</update>
 	<!-- 根据标题查询某个信息 -->
 	<select id="findByTitle" parameterType="String" resultType="Test">
-		select * from service_test where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
+		select * from service_test where title = #{title}
 	</select>
 	
 	<!-- 查询平台总题数 -->

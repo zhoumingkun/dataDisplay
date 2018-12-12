@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.dto.TopicAndSingleOption;
+import com.toughguy.educationSystem.dto.TopicAndSingleOptionDTO;
 import com.toughguy.educationSystem.model.content.Topic;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
@@ -107,8 +107,8 @@ public class TopicController {
 	@ResponseBody
 	@RequestMapping(value = "/findTopicAndSingleOption")
 	//@RequiresPermissions("topic:findAll")
-	public TopicAndSingleOption findTopicAndSingleOption(int testId) {
-		TopicAndSingleOption tas = new TopicAndSingleOption();
+	public TopicAndSingleOptionDTO findTopicAndSingleOption(int testId) {
+		TopicAndSingleOptionDTO tas = new TopicAndSingleOptionDTO();
 		List<Topic> ts = topicService.findByTestId(testId);
 		//单题
 		if(ts.size()>0 && ts.size()<1) {

@@ -53,7 +53,7 @@
 	
 	<!-- 根据标题查询某个信息 -->
 	<select id="findByTopic" parameterType="String" resultType="Topic">
-		select * from service_topic where topic like concat(concat('%', #{topicLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc 
+		select * from service_topic where topic = #{topic}
 	</select>
 	<!-- 根据题目id查询某个信息 -->
 	<select id="findByTestId" parameterType="int" resultType="Topic">

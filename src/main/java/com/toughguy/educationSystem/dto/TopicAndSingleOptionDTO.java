@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.toughguy.educationSystem.model.content.SingleOption;
 
-public class TopicAndSingleOption {
+public class TopicAndSingleOptionDTO {
 	
 	private String topic;   //题目
 	private List<SingleOption> singleOption;  //选项集
@@ -20,4 +20,5 @@ public class TopicAndSingleOption {
 	public void setSingleOption(List<SingleOption> singleOption) {
 		this.singleOption = singleOption;
 	}
+	
 }
