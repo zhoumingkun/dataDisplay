@@ -15,9 +15,9 @@ import com.toughguy.educationSystem.persist.impl.GenericDaoImpl;
 public class TopicImpl extends GenericDaoImpl<Topic, Integer> implements ITopicDao{
 
 	@Override
-	public List<Topic> findByTopic(String topic) {
+	public Topic findByTopic(String topic) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + "findByTopic", topic);
+		return sqlSessionTemplate.selectOne(typeNameSpace + "findByTopic", topic);
 	}
 
 	@Override

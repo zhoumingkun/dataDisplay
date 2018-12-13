@@ -24,9 +24,9 @@ public class TestImpl extends GenericDaoImpl<Test, Integer> implements ITestDao{
 	}
 
 	@Override
-	public List<Test> findByTitle(String title) {
+	public Test findByTitle(String title) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTitle", title);
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByTitle", title);
 	}
 
 	@Override

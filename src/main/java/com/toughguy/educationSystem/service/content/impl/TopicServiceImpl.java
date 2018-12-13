@@ -19,7 +19,7 @@ import com.toughguy.educationSystem.service.impl.GenericServiceImpl;
 public class TopicServiceImpl extends GenericServiceImpl<Topic, Integer> implements ITopicService{
 
 	@Override
-	public List<Topic> findByTopic(String topic) {
+	public Topic findByTopic(String topic) {
 		// TODO Auto-generated method stub
 		return ((ITopicDao)dao).findByTopic(topic);
 	}

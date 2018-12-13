@@ -18,7 +18,7 @@ public interface ITestDao extends IGenericDao<Test, Integer>{
 	/**
 	 * 根据标题查询
 	 * */
-	public List<Test> findByTitle(String title);
+	public Test findByTitle(String title);
 	/**
 	 * 查询平台总题数 
 	 * */

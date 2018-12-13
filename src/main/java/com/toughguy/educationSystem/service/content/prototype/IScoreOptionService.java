@@ -1,5 +1,7 @@
 package com.toughguy.educationSystem.service.content.prototype;
 
+import java.util.List;
+
 import com.toughguy.educationSystem.model.content.ScoreOption;
 import com.toughguy.educationSystem.service.prototype.IGenericService;
 
@@ -9,5 +11,8 @@ import com.toughguy.educationSystem.service.prototype.IGenericService;
  *
  */
 public interface IScoreOptionService extends IGenericService<ScoreOption, Integer>{
-
+	/**
+	 * 根据题目id查询
+	 * */
+	public List<ScoreOption> findByTopicId(int topicId);
 }
