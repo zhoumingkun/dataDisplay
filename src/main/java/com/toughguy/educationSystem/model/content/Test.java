@@ -102,7 +102,8 @@ public class Test extends AbstractModel {
 	public void setTesterFailureSum(int testerFailureSum) {
 		this.testerFailureSum = testerFailureSum;
 	}
-	 
-
+	public Test() {
+		super();
+	}
 	
 }

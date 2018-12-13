@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.ScoreOption">
 
 	<insert id="save" parameterType="ScoreOption" keyProperty="id" useGeneratedKeys="true">
-		insert into service_score_option (createTime,updateTime,option,topicId,grade) 
-		values (#{createTime},#{updateTime},#{option},#{topicId},#{grade})
+		insert into service_score_option (createTime,updateTime,options,topicId,grade) 
+		values (#{createTime},#{updateTime},#{options},#{topicId},#{grade})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -44,7 +44,7 @@
 	<update id="update" parameterType="ScoreOption">
 		update service_score_option
 		<set>
-			<if test="option != null and option != ''">option = #{option},</if>
+			<if test="options != null and options != ''">options = #{options},</if>
 			<if test="topicId != null and topicId != ''">topicId = #{topicId},</if>
 			<if test="grade != null and grade != ''">grade = #{grade},</if>
 			
@@ -59,8 +59,8 @@
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
-		    <if test=" option != null and option != '' ">
-				and option = #{option}
+		    <if test=" options != null and options != '' ">
+				and options = #{options}
 			</if>
 			<if test=" topicId != null and topicId != '' ">
 				and topicId = #{topicId}

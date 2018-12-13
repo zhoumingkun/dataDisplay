@@ -1,6 +1,8 @@
 package com.toughguy.educationSystem.controller.content;
 
+import java.awt.geom.Area;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import com.toughguy.educationSystem.service.content.prototype.ISingleOptionServi
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
 import com.toughguy.educationSystem.util.JsonUtil;
+import com.toughguy.educationSystem.util.MapUtil;
 import com.toughguy.educationSystem.util.UploadUtil;
 
 
@@ -51,49 +54,62 @@ public class TestController {
 	private IScoreResultService scoreResultService;
 	@Autowired
 	private IScoreRankService scoreRankService;
+	
+	@ResponseBody
+	@RequestMapping(value = "/uploadPic")
+	//@RequiresPermissions("safety:upload")
+	public String uploadPicture(MultipartFile pictureFile){
+		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
+			try {
+			 String path = UploadUtil.uploadPicture(pictureFile);
+			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
+			}
+		}else{
+			return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
+		}	
+	}
 	/**
 	 * 添加单题测试测试题表+题目表+选项表
 	 * @param test
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@ResponseBody	
 	@RequestMapping(value = "/saveSingleTopic")
-	public String saveSingleTopic(String params,MultipartFile pictureFile) {
+	public String saveSingleTopic(String test,String topic,String singleOptions) {
+		Test test1 = new Test();
+		Topic topic1 = new Topic();
+//		SingleOption singleOption = new SingleOption();
+		List<SingleOption> singleOptionList = new ArrayList<SingleOption>();
 		try {
-			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
-				try {
-					ObjectMapper om = new ObjectMapper();
-					Map<String, Object> map = new HashMap<String, Object>();
-					if (!StringUtils.isEmpty(params)) {
-						// 参数处理
-						map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
-					}
-					Test test = (Test) map.get("test");
-					Topic topic = (Topic) map.get("topic");
-					List<SingleOption> singleOptions = (List<SingleOption>) map.get("singleOption");
-					//题保存
-					String path = UploadUtil.uploadPicture(pictureFile);
-					test.setImage(path);
-					testService.save(test);
-					//题目保存
-					Test ts = testService.findByTitle(test.getTitle());
-					topic.setTestId(ts.getId());
-					topicService.save(topic);
-					//选项（结果）保存
-					Topic topics = topicService.findByTopic(topic.getTopic());
-					for(SingleOption s:singleOptions) {
-						s.setTopicId(topics.getId());
-						singleOptionService.save(s);
-					}
-					return "{ \"success\" : true }";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
-				}
-			}else{
-				return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
-			}	
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(test)) {
+				// 参数处理
+				map = om.readValue(test, new TypeReference<Map<String, Object>>() {});
+				test1 = (Test) MapUtil.mapToBean(map, Test.class);
+			}
+			if (!StringUtils.isEmpty(topic)) {
+				// 参数处理
+				map = om.readValue(topic, new TypeReference<Map<String, Object>>() {});
+				topic1 = (Topic) MapUtil.mapToBean(map,Topic.class);
+			}
+			if (!StringUtils.isEmpty(singleOptions)) {
+				singleOptionList = JsonUtil.jsonToList(singleOptions, SingleOption.class);
+			}
+			//题保存
+			testService.save(test1);
+			//题目保存
+			topic1.setTestId(test1.getId());
+			topicService.save(topic1);
+			//选项（结果）保存
+			for(SingleOption s:singleOptionList) {
+				s.setTopicId(topic1.getId());
+				singleOptionService.save(s);
+			}
+			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
@@ -104,58 +120,57 @@ public class TestController {
 	 * @param test
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@ResponseBody	
 	@RequestMapping(value = "/saveScoreTopic")
-	public String saveScoreTopic(String params,MultipartFile pictureFile) {
+	public String saveScoreTopic(String test,String topics,String scoreOptions,String scoreRanks,String scoreResult) {
+		Test test1 = new Test();
+		List<Topic> topicList = new ArrayList<Topic>();
+		List<ScoreOption> scoreOptionList = new ArrayList<ScoreOption>();
+		List<ScoreRank> scoreRankList = new ArrayList<ScoreRank>();
+		ScoreResult scoreResult1 = new ScoreResult();
 		try {
-			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
-				try {
-					ObjectMapper om = new ObjectMapper();
-					Map<String, Object> map = new HashMap<String, Object>();
-					if (!StringUtils.isEmpty(params)) {
-						// 参数处理
-						map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
-					}
-					Test test = (Test) map.get("test");
-					List<Topic> topics = (List<Topic>) map.get("topics");
-					List<ScoreOption> scoreOptions = (List<ScoreOption>) map.get("scoreOptions");
-					List<ScoreRank> scoreRanks = (List<ScoreRank>) map.get("scoreRanks");
-					ScoreResult scoreResult = (ScoreResult) map.get("scoreResults");
-					//图片
-					String path = UploadUtil.uploadPicture(pictureFile);
-					test.setImage(path);
-					testService.save(test);
-					//查询当前保存的题
-					Test ts = testService.findByTitle(test.getTitle());
-					//题目保存
-					for(Topic t:topics) {
-						t.setTestId(ts.getId());
-						topicService.save(t);
-						//查询当前保存的题目
-						Topic topic2 = topicService.findByTopic(t.getTopic());
-						//选项保存
-						for(ScoreOption so:scoreOptions) {
-							so.setTopicId(topic2.getId());
-							scoreOptionService.save(so);
-						}
-						//结果保存
-						scoreResult.setTestId(ts.getId());
-						scoreResultService.save(scoreResult);
-						//评分保存
-						for(ScoreRank sr:scoreRanks) {
-							sr.setTestId(ts.getId());
-							scoreRankService.save(sr);
-						}
-					}
-					return "{ \"success\" : true }";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(test)) {
+				// 参数处理
+				map = om.readValue(test, new TypeReference<Map<String, Object>>() {});
+				test1 = (Test) MapUtil.mapToBean(map, Test.class);
+			}
+			if (!StringUtils.isEmpty(topics)) {
+				topicList = JsonUtil.jsonToList(topics, Topic.class);
+			}
+			if (!StringUtils.isEmpty(scoreOptions)) {
+				scoreOptionList = JsonUtil.jsonToList(scoreOptions, ScoreOption.class);
+			}
+			if (!StringUtils.isEmpty(scoreRanks)) {
+				scoreRankList = JsonUtil.jsonToList(scoreRanks, ScoreRank.class);
+			}
+			if (!StringUtils.isEmpty(scoreResult)) {
+				// 参数处理
+				map = om.readValue(scoreResult, new TypeReference<Map<String, Object>>() {});
+				scoreResult1 = (ScoreResult) MapUtil.mapToBean(map, ScoreResult.class);
+			}
+			//图片
+			testService.save(test1);
+			//题目保存
+			for(Topic t:topicList) {
+				t.setTestId(test1.getId());
+				topicService.save(t);
+				//选项保存
+				for(ScoreOption so:scoreOptionList) {
+					so.setTopicId(t.getId());
+					scoreOptionService.save(so);
 				}
-			}else{
-				return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
-			}	
+				//结果保存
+				scoreResult1.setTestId(test1.getId());
+				scoreResultService.save(scoreResult1);
+				//评分保存
+				for(ScoreRank sr:scoreRankList) {
+					sr.setTestId(test1.getId());
+					scoreRankService.save(sr);
+				}
+			}
+			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
@@ -223,47 +238,45 @@ public class TestController {
 	 * @param pictureFile
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping(value = "/editSingleTopic")
 	//@RequiresPermissions("test:edit")
-	public String editSingleTopic(String params,MultipartFile pictureFile) {
+	public String editSingleTopic(String tests,String topics,String singleOptions) {
+		Test test = new Test();
+		Topic topic = new Topic();
+//		SingleOption singleOption = new SingleOption();
+		List<SingleOption> singleOptionList = new ArrayList<SingleOption>();
 		try {
-			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
-				try {
-					ObjectMapper om = new ObjectMapper();
-					Map<String, Object> map = new HashMap<String, Object>();
-					if (!StringUtils.isEmpty(params)) {
-						// 参数处理
-						map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
-					}
-					Test test = (Test) map.get("test");
-					Topic topic = (Topic) map.get("topic");
-					List<SingleOption> singleOptions = (List<SingleOption>) map.get("singleOption");
-					//题编辑
-					String path = UploadUtil.uploadPicture(pictureFile);
-					test.setImage(path);
-					testService.update(test);
-					//题目编辑
-					topic.setTestId(test.getId());
-					topicService.update(topic);
-					//选项（结果）编辑
-					for(SingleOption s:singleOptions) {
-						s.setTopicId(topic.getId());
-						singleOptionService.update(s);
-					}
-					return "{ \"success\" : true }";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
-				}
-			} else{
-				return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(tests)) {
+				// 参数处理
+				map = om.readValue(tests, new TypeReference<Map<String, Object>>() {});
+				
+				test = (Test) MapUtil.mapToBean(map, Test.class);
 			}
+			if (!StringUtils.isEmpty(topics)) {
+				// 参数处理
+				map = om.readValue(topics, new TypeReference<Map<String, Object>>() {});
+				topic = (Topic) MapUtil.mapToBean(map,Topic.class);
+			}
+			if (!StringUtils.isEmpty(singleOptions)) {
+				singleOptionList = JsonUtil.jsonToList(singleOptions, SingleOption.class);
+			}
+			//题保存
+			testService.update(test);
+			//题目保存
+			topic.setTestId(test.getId());
+			topicService.update(topic);
+			//选项（结果）保存
+			for(SingleOption s:singleOptionList) {
+				s.setTopicId(topic.getId());
+				singleOptionService.update(s);
+			}
+			return "{ \"success\" : true }";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			return "{ \"success\" : false }";
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
 	
@@ -272,56 +285,57 @@ public class TestController {
 	 * @param test
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@ResponseBody	
 	@RequestMapping(value = "/editScoreTopic")
-	public String editScoreTopic(String params,MultipartFile pictureFile) {
+	public String editScoreTopic(String test,String topics,String scoreOptions,String scoreRanks,String scoreResult) {
+		Test test1 = new Test();
+		List<Topic> topicList = new ArrayList<Topic>();
+		List<ScoreOption> scoreOptionList = new ArrayList<ScoreOption>();
+		List<ScoreRank> scoreRankList = new ArrayList<ScoreRank>();
+		ScoreResult scoreResult1 = new ScoreResult();
 		try {
-			if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
-				try {
-					ObjectMapper om = new ObjectMapper();
-					Map<String, Object> map = new HashMap<String, Object>();
-					if (!StringUtils.isEmpty(params)) {
-						// 参数处理
-						map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
-					}
-					Test test = (Test) map.get("test");
-					List<Topic> topics = (List<Topic>) map.get("topic");
-					List<ScoreOption> scoreOptions = (List<ScoreOption>) map.get("scoreOption");
-					List<ScoreRank> scoreRanks = (List<ScoreRank>) map.get("scoreRank");
-					ScoreResult scoreResult = (ScoreResult) map.get("scoreResult");
-					//图片
-					String path = UploadUtil.uploadPicture(pictureFile);
-					test.setImage(path);
-					testService.update(test);
-					//题目保存
-					for(Topic t:topics) {
-						t.setTestId(test.getId());
-						topicService.update(t);
-						//查询当前保存的题目
-						Topic topic2 = topicService.findByTopic(t.getTopic());
-						//选项保存
-						for(ScoreOption so:scoreOptions) {
-							so.setTopicId(topic2.getId());
-							scoreOptionService.update(so);
-						}
-						//结果保存
-						scoreResult.setTestId(test.getId());
-						scoreResultService.update(scoreResult);
-						//评分保存
-						for(ScoreRank sr:scoreRanks) {
-							sr.setTestId(test.getId());
-							scoreRankService.update(sr);
-						}
-					}
-					return "{ \"success\" : true }";
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(test)) {
+				// 参数处理
+				map = om.readValue(test, new TypeReference<Map<String, Object>>() {});
+				test1 = (Test) MapUtil.mapToBean(map, Test.class);
+			}
+			if (!StringUtils.isEmpty(topics)) {
+				topicList = JsonUtil.jsonToList(topics, Topic.class);
+			}
+			if (!StringUtils.isEmpty(scoreOptions)) {
+				scoreOptionList = JsonUtil.jsonToList(scoreOptions, ScoreOption.class);
+			}
+			if (!StringUtils.isEmpty(scoreRanks)) {
+				scoreRankList = JsonUtil.jsonToList(scoreRanks, ScoreRank.class);
+			}
+			if (!StringUtils.isEmpty(scoreResult)) {
+				// 参数处理
+				map = om.readValue(scoreResult, new TypeReference<Map<String, Object>>() {});
+				scoreResult1 = (ScoreResult) MapUtil.mapToBean(map, ScoreResult.class);
+			}
+			//图片
+			testService.update(test1);
+			//题目保存
+			for(Topic t:topicList) {
+				t.setTestId(test1.getId());
+				topicService.update(t);
+				//选项保存
+				for(ScoreOption so:scoreOptionList) {
+					so.setTopicId(t.getId());
+					scoreOptionService.update(so);
 				}
-			}else{
-				return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
-			}	
+				//结果保存
+				scoreResult1.setTestId(test1.getId());
+				scoreResultService.update(scoreResult1);
+				//评分保存
+				for(ScoreRank sr:scoreRankList) {
+					sr.setTestId(test1.getId());
+					scoreRankService.update(sr);
+				}
+			}
+			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";

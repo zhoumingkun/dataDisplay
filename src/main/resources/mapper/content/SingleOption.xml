@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.SingleOption">
 
 	<insert id="save" parameterType="SingleOption" keyProperty="id" useGeneratedKeys="true">
-		insert into service_single_option (createTime,updateTime,option,topicId,result,rank) 
-		values (#{createTime},#{updateTime},#{option},#{topicId},#{result},#{rank})
+		insert into service_single_option (createTime,updateTime,options,topicId,result,rank) 
+		values (#{createTime},#{updateTime},#{options},#{topicId},#{result},#{rank})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -44,7 +44,7 @@
 	<update id="update" parameterType="SingleOption">
 		update service_single_option
 		<set>
-			<if test="option != null and option != ''">option = #{option},</if>
+			<if test="options != null and options != ''">options = #{options},</if>
 			<if test="topicId != null and topicId != ''">topicId = #{topicId},</if>
 			<if test="result != null and result != ''">result = #{result},</if>
 			<if test="rank != null and rank != ''">rank = #{rank},</if>
@@ -60,8 +60,8 @@
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
-		    <if test=" option != null and option != '' ">
-				and option = #{option}
+		    <if test=" options != null and options != '' ">
+				and options = #{options}
 			</if>
 			<if test=" topicId != null and topicId != '' ">
 				and topicId = #{topicId}

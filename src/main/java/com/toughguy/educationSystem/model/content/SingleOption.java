@@ -13,7 +13,7 @@ import com.toughguy.educationSystem.util.JsonUtil;
 public class SingleOption extends AbstractModel {
 	private int id;
 	private int  topicId;     //测试题目id  service_test_topic
-	private String option;    //选项（A,B,C,D）
+	private String options;    //选项（A,B,C,D）
 	private String  result;   //结果答案
 	private int  rank;        //级别（1优秀  2良好  3危险）
 	
@@ -23,11 +23,11 @@ public class SingleOption extends AbstractModel {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getOption() {
-		return option;
+	public String getOptions() {
+		return options;
 	}
-	public void setOption(String option) {
-		this.option = option;
+	public void setOptions(String options) {
+		this.options = options;
 	}
 	
 	public int getTopicId() {
@@ -53,6 +53,9 @@ public class SingleOption extends AbstractModel {
 	@Override
 	public String toString(){
 		return JsonUtil.objectToJson(this);
+	}
+	public SingleOption() {
+		super();
 	}
 	
 	

@@ -44,6 +44,9 @@ public class Topic extends AbstractModel {
 	public String toString(){
 		return JsonUtil.objectToJson(this);
 	}
+	public Topic() {
+		super();
+	}
 	
 	
 
