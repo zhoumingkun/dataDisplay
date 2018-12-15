@@ -19,7 +19,7 @@ public class Sizhengjianshe extends AbstractModel {
 	private String image;    //图片
 	private int state;       //状态
 	private int hits;        //浏览量
-	private String source;   //来源
+	private String articleSource;   //来源
 	public int getId() {
 		return id;
 	}
@@ -66,11 +66,12 @@ public class Sizhengjianshe extends AbstractModel {
 	public void setHits(int hits) {
 		this.hits = hits;
 	}
-	public String getSource() {
-		return source;
+	
+	public String getArticleSource() {
+		return articleSource;
 	}
-	public void setSource(String source) {
-		this.source = source;
+	public void setArticleSource(String articleSource) {
+		this.articleSource = articleSource;
 	}
 	public String getSummarize() {
 		return summarize;

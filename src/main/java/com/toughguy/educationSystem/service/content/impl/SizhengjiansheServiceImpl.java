@@ -27,9 +27,9 @@ public class SizhengjiansheServiceImpl extends GenericServiceImpl<Sizhengjianshe
  	}
 
 	@Override
-	public List<Sizhengjianshe> findBySource(String source) {
+	public List<Sizhengjianshe> findBySource(String articleSource) {
 		// TODO Auto-generated method stub
-		return ((ISizhengjiansheDao)dao).findBySource(source);
+		return ((ISizhengjiansheDao)dao).findBySource(articleSource);
 	}
 
 }

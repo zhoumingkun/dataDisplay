@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.Zhengcefagui">
 
 	<insert id="save" parameterType="Zhengcefagui" keyProperty="id" useGeneratedKeys="true">
-		insert into content_zhengcefagui (createTime,updateTime,title, author,content,summarize,image,state,hits,source) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits},#{source})
+		insert into content_zhengcefagui (createTime,updateTime,title, author,content,summarize,image,state,hits,articleSource) 
+		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits},#{articleSource})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -51,7 +51,7 @@
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
-			<if test="source != null and source != ''">source = #{source},</if>
+			<if test="articleSource != null and articleSource != ''">articleSource = #{articleSource},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -77,8 +77,8 @@
 			<if test=" hits != null and hits != '' ">
 				and hits = #{hits}
 			</if>
-			<if test=" source != null and source != '' ">
-				and source = #{source}
+			<if test=" articleSource != null and articleSource != '' ">
+				and articleSource = #{articleSource}
 			</if>
 		</where>
 	</sql>

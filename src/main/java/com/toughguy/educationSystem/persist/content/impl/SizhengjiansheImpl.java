@@ -24,9 +24,9 @@ public class SizhengjiansheImpl extends GenericDaoImpl<Sizhengjianshe, Integer> 
  	}
 
 	@Override
-	public List<Sizhengjianshe> findBySource(String source) {
+	public List<Sizhengjianshe> findBySource(String articleSource) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".findBySource", source);
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findBySource", articleSource);
 	}
 
 }

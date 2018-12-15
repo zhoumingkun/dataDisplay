@@ -19,6 +19,6 @@ public interface ISizhengjiansheDao extends IGenericDao<Sizhengjianshe, Integer>
  	/**
  	 * 根据标来源查询
  	 * */
- 	public List<Sizhengjianshe> findBySource(String source);
+ 	public List<Sizhengjianshe> findBySource(String articleSource);
 
 }

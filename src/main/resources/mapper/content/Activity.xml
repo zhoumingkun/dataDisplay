@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.Activity">
 
 	<insert id="save" parameterType="Activity" keyProperty="id" useGeneratedKeys="true">
-		insert into content_activity (createTime,updateTime,title, author,content,summarize,image,state,hits,source) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits}#{source})
+		insert into content_activity (createTime,updateTime,title, author,content,summarize,image,state,hits,articleSource) 
+		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits}#{articleSource})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -17,7 +17,7 @@
 		select * from content_activity where id = #{id}
 	</select>
 	<!-- 查询新信息 -->
-	<select id="findNew" parameterType="Activity" resultType="Map">
+	<select id="findNew"  resultType="Activity">
 		select * from content_activity where createTime =
 		 ( select max( createTime ) from content_activity )
 	</select>
@@ -60,7 +60,7 @@
 			<if test="image != null and image != ''">image = #{image},</if>
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
-			<if test="source != null and source != ''">source = #{source},</if>
+			<if test="articleSource != null and articleSource != ''">articleSource = #{articleSource},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -86,8 +86,8 @@
 			<if test=" hits != null and hits != '' ">
 				and hits = #{hits}
 			</if>
-			<if test=" source != null and source != '' ">
-				and source = #{source}
+			<if test=" articleSource != null and articleSource != '' ">
+				and articleSource = #{articleSource}
 			</if>
 			<if test=" titleLike != null and titleLike != '' ">
  				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')

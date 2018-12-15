@@ -34,28 +34,26 @@ public class SizhengjiansheController {
 	@Autowired
 	private ISizhengjiansheService sizhengjiansheService;
 	
-//	@ResponseBody	
-//	@RequestMapping(value = "/save")
-//	//@RequiresPermissions("sizhengjianshe:save")
-//	public String saveSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
-//		try {
-//			sizhengjiansheService.save(sizhengjianshe);
-//			return "{ \"success\" : true }";
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
-//		}
-//	}
-	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 	//@RequiresPermissions("sizhengjianshe:save")
-	public String saveSizhengjianshe(Sizhengjianshe sizhengjianshe,MultipartFile pictureFile) {
+	public String saveSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
+		try {
+			sizhengjiansheService.save(sizhengjianshe);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
+	@ResponseBody	
+	@RequestMapping(value = "/uploadImage")
+	//@RequiresPermissions("sizhengjianshe:uploadImage")
+	public String uploadImage(MultipartFile pictureFile) {
 		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
 			try {
 			 String path = UploadUtil.uploadPicture(pictureFile);
-			 sizhengjianshe.setImage(path);
-			 sizhengjiansheService.save(sizhengjianshe);
 			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -65,40 +63,20 @@ public class SizhengjiansheController {
 			return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
 		}	
 	}
-	
-//	@ResponseBody
-//	@RequestMapping(value = "/edit")
-//	//@RequiresPermissions("sizhengjianshe:edit")
-//	public String editSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
-//		try {
-//			 sizhengjiansheService.update(sizhengjianshe);
-//			return "{ \"success\" : true }";
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//			return "{ \"success\" : false }";
-//		}
-//	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
 	//@RequiresPermissions("sizhengjianshe:edit")
-	public String editSizhengjianshe(Sizhengjianshe sizhengjianshe,MultipartFile pictureFile) {
-		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
-			try {
-				String path = UploadUtil.uploadPicture(pictureFile);
-				sizhengjianshe.setImage(path);
-				sizhengjiansheService.update(sizhengjianshe);
-			 return "{ \"success\" : true ,\"msg\" :\""+ path +"\"}";
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "{ \"success\" : false ,\"msg\" : \"上传失败\"}";
-			}
-		}else{
-			return "{ \"success\" : false , \"msg\" : \"请上传正确图片格式的图片\"}";
-		}	
+	public String editSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
+		try {
+			 sizhengjiansheService.update(sizhengjianshe);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return "{ \"success\" : false }";
+		}
 	}
-	
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
@@ -137,7 +115,12 @@ public class SizhengjiansheController {
 		}
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value = "/getById")
+//	@RequiresPermissions("sizhengjianshe:getById")
+	public Sizhengjianshe getById(int id) {
+		return sizhengjiansheService.find(id);
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
@@ -188,9 +171,9 @@ public class SizhengjiansheController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/findBy")
+	@RequestMapping(value = "/findBySource")
 	//@RequiresPermissions("activity:findByTitle")
-	public List<Sizhengjianshe> findBySource(String source){
-		return sizhengjiansheService.findBySource(source);
+	public List<Sizhengjianshe> findBySource(String articleSource){
+		return sizhengjiansheService.findBySource(articleSource);
 	}
 }

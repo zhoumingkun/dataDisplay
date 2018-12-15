@@ -19,5 +19,5 @@ public interface ISizhengjiansheService extends IGenericService<Sizhengjianshe, 
  	/**
  	 * 根据标来源查询
  	 * */
- 	public List<Sizhengjianshe> findBySource(String source);
+ 	public List<Sizhengjianshe> findBySource(String articleSource);
 }

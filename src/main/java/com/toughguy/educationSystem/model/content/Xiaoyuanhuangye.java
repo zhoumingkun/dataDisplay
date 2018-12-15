@@ -18,7 +18,7 @@ public class Xiaoyuanhuangye extends AbstractModel {
 	private String positionName; //职位名称
 	private String phone;        //电话
 	private String adress;       //地址
-	private String source;       //来源
+	private String articleSource;       //来源
 	
 	public int getId() {
 		return id;
@@ -83,13 +83,15 @@ public class Xiaoyuanhuangye extends AbstractModel {
 		return JsonUtil.objectToJson(this);
 	}
 
-	public String getSource() {
-		return source;
+	public String getArticleSource() {
+		return articleSource;
 	}
 
-	public void setSource(String source) {
-		this.source = source;
+	public void setArticleSource(String articleSource) {
+		this.articleSource = articleSource;
 	}
+
+	
 	
 
 	
