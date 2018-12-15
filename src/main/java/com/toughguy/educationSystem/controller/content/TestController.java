@@ -1,11 +1,21 @@
 package com.toughguy.educationSystem.controller.content;
 
 import java.awt.geom.Area;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +42,7 @@ import com.toughguy.educationSystem.service.content.prototype.IScoreResultServic
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
+import com.toughguy.educationSystem.util.GetIpAndMacUtil;
 import com.toughguy.educationSystem.util.JsonUtil;
 import com.toughguy.educationSystem.util.MapUtil;
 import com.toughguy.educationSystem.util.UploadUtil;
@@ -183,7 +194,15 @@ public class TestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getSingleTopic")
-	public String getSingleTopic(int testId) {
+	public String getSingleTopic(int testId,HttpServletRequest request) {
+		try {
+			System.out.println(GetIpAndMacUtil.getIp(request));
+			System.out.println(GetIpAndMacUtil.getMacAddress(GetIpAndMacUtil.getIp(request)));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("错啦");
+		}
 		ObjectMapper om = new ObjectMapper();
 		Map<String, Object> result = new HashMap<String, Object>();
 		Test test = testService.find(testId);
@@ -434,6 +453,4 @@ public class TestController {
 	public Test get(int id) {
 		return testService.find(id);
 	}
-	
-	
 }

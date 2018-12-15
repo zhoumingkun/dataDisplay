@@ -26,14 +26,14 @@ public class AccountResultImpl extends GenericDaoImpl<AccountResult, Integer> im
 	@Override
 	public int findTesterPassSum(Map<String, Object> params) {
 		// TODO Auto-generated method stub
-		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".testerPassSum",params);
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterPassSum",params);
 		return count;
 	}
 
 	@Override
 	public int findTesterFailureSum(Map<String, Object> params) {
 		// TODO Auto-generated method stub
-		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".testFailureSum",params);
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterFailureSum",params);
 		return count;
 	}
 

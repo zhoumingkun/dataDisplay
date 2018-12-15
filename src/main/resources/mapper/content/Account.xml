@@ -30,13 +30,13 @@
 	
 	<!-- 分页查询信息 -->
 	<select id="findPaginated" resultType="Account" parameterType="Map">
-		select * from service_account
+		select * from service_account sa left join service_account_result sar on sa.id = sar.accountId left join service_test st on sar.testId = st.id
 		<include refid="paramsSQL"/>
 		ORDER BY integral desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
-		select count(*) from service_account
+		select count(*) from service_account sa left join service_account_result sar on sa.id = sar.accountId left join service_test st on sar.testId = st.id
 		<include refid="paramsSQL"/>
 	</select>
 	<!-- 查询某题的危险学生列表 -->
@@ -89,7 +89,7 @@
 				and integral = #{integral}
 			</if>
 			<if test=" type != null and type != '' ">
-				and type = #{type}
+				and sa.type = #{type}
 			</if>
 			
 		</where>

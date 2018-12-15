@@ -3,7 +3,7 @@ package com.toughguy.educationSystem.service.content.prototype;
 import java.util.List;
 
 import com.toughguy.educationSystem.model.content.Test;
-import com.toughguy.educationSystem.model.content.Xiaoyuanhuangye;
+import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeOrganization;
 import com.toughguy.educationSystem.service.prototype.IGenericService;
 
 /**

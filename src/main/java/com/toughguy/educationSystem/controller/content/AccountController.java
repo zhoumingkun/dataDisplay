@@ -139,9 +139,12 @@ public class AccountController {
 			List<Account> as = pg.getData();
 			for(Account a:as) {
 				int riskAssessment = accountResultService.findRiskAssessment(a.getId());
-				a.setRiskAssessment(riskAssessment);
-				a.setPassword("");
-				newas.add(a);
+				if(riskAssessment == 0) {
+				} else {
+					a.setRiskAssessment(riskAssessment);
+					a.setPassword("");
+					newas.add(a);
+				}
 			}
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();

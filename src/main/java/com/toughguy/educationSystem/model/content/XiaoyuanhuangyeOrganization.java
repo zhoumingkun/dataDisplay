@@ -5,19 +5,16 @@ import com.toughguy.educationSystem.model.AbstractModel;
 import com.toughguy.educationSystem.util.JsonUtil;
 
 /**
- * 校园黄页实体类
+ * 校园黄页机构实体类
  * @author ZMK
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
-public class Xiaoyuanhuangye extends AbstractModel {
+public class XiaoyuanhuangyeOrganization extends AbstractModel {
 	private int id;
+	private String organizationName; //机构名称
 	private int type;             //类型（1管理机构，2学院机构）
 	private String author;       //作者
-	private String sectionName;  //部门名字
-	private String positionName; //职位名称
-	private String phone;        //电话
-	private String adress;       //地址
 	private String articleSource;       //来源
 	
 	public int getId() {
@@ -29,6 +26,14 @@ public class Xiaoyuanhuangye extends AbstractModel {
 	}
 
 	
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
 
 	public int getType() {
 		return type;
@@ -44,38 +49,6 @@ public class Xiaoyuanhuangye extends AbstractModel {
 
 	public void setAuthor(String author) {
 		this.author = author;
-	}
-
-	public String getSectionName() {
-		return sectionName;
-	}
-
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
-	}
-
-	public String getPositionName() {
-		return positionName;
-	}
-
-	public void setPositionName(String positionName) {
-		this.positionName = positionName;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAdress() {
-		return adress;
-	}
-
-	public void setAdress(String adress) {
-		this.adress = adress;
 	}
 
 	@Override

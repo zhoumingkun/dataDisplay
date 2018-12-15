@@ -1,67 +1,102 @@
 package com.toughguy.educationSystem.controller.content;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.model.content.Xiaoyuanhuangye;
+import com.toughguy.educationSystem.model.content.SingleOption;
+import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeDepartment;
+import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeOrganization;
+import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.pagination.PagerModel;
-import com.toughguy.educationSystem.service.content.prototype.IXiaoyuanhuangyeService;
+import com.toughguy.educationSystem.service.content.prototype.IXiaoyuanhuangyeDepartmentService;
+import com.toughguy.educationSystem.service.content.prototype.IXiaoyuanhuangyeOrganizationService;
+import com.toughguy.educationSystem.util.JsonUtil;
 
 @Controller
 @RequestMapping(value = "/xiaoyuanhuangye")
 public class XiaoyuanhuangyeController {
+	
 	@Autowired
-	private IXiaoyuanhuangyeService xiaoyuanhuangyeService;
+	private IXiaoyuanhuangyeOrganizationService xiaoyuanhuangyeOrganizationService;
+	@Autowired
+	private IXiaoyuanhuangyeDepartmentService xiaoyuanhuangyeDepartmentService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 	//@RequiresPermissions("xiaoyuanhuangye:save")
-	public String saveXiaoyuanhuangye(Xiaoyuanhuangye xiaoyuanhuangye) {
+	public String save(XiaoyuanhuangyeOrganization xiaoyuanhuangyeOrgainzation,String params) {
 		try {
-			xiaoyuanhuangyeService.save(xiaoyuanhuangye);
+			xiaoyuanhuangyeOrganizationService.save(xiaoyuanhuangyeOrgainzation);
+			List<XiaoyuanhuangyeDepartment> xyhyd = new ArrayList<XiaoyuanhuangyeDepartment>();
+			if (!StringUtils.isEmpty(params)) {
+				xyhyd = JsonUtil.jsonToList(params, XiaoyuanhuangyeDepartment.class);
+			}
+			for(XiaoyuanhuangyeDepartment x:xyhyd) {
+				x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+				xiaoyuanhuangyeDepartmentService.save(x);
+			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
-	
-	@ResponseBody
+	@ResponseBody	
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("xiaoyuanhuangye:edit")
-	public String editXiaoyuanhuangye(Xiaoyuanhuangye xiaoyuanhuangye) {
+	//@RequiresPermissions("xiaoyuanhuangye:save")
+	public String edit(XiaoyuanhuangyeOrganization xiaoyuanhuangyeOrgainzation,String params) {
 		try {
-			xiaoyuanhuangyeService.update(xiaoyuanhuangye);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return "{ \"success\" : false }";
-		}
-	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("xiaoyuanhuangye:detele")
-	public String deleteXiaoyuanhuangye(int id) {
-		try {
-			xiaoyuanhuangyeService.delete(id);
+			xiaoyuanhuangyeOrganizationService.update(xiaoyuanhuangyeOrgainzation);
+			List<XiaoyuanhuangyeDepartment> xyhyd = new ArrayList<XiaoyuanhuangyeDepartment>();
+			if (!StringUtils.isEmpty(params)) {
+				xyhyd = JsonUtil.jsonToList(params, XiaoyuanhuangyeDepartment.class);
+			}
+			for(XiaoyuanhuangyeDepartment x:xyhyd) {
+				x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+				xiaoyuanhuangyeDepartmentService.update(x);
+			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
-
+	@ResponseBody	
+	@RequestMapping(value = "/findAllDepartment")
+	//@RequiresPermissions("xiaoyuanhuangye:findAllDepartment")
+	public List<XiaoyuanhuangyeDepartment> findAllDepartment(int id) {
+		try {
+			return xiaoyuanhuangyeDepartmentService.findAllDepartment(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@ResponseBody	
+	@RequestMapping(value = "/delete")
+	//@RequiresPermissions("xiaoyuanhuangye:delete")
+	public String delete(int id) {
+		try {
+				xiaoyuanhuangyeDepartmentService.delete(id);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/data")
 	//@RequiresPermissions("xiaoyuanhuangye:data")
@@ -73,7 +108,7 @@ public class XiaoyuanhuangyeController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<Xiaoyuanhuangye> pg = xiaoyuanhuangyeService.findPaginated(map);
+			PagerModel<XiaoyuanhuangyeOrganization> pg = xiaoyuanhuangyeOrganizationService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -85,34 +120,4 @@ public class XiaoyuanhuangyeController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	
-	
-	
-	@ResponseBody
-	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("xiaoyuanhuangye:findAll")
-	public List<Xiaoyuanhuangye> findAll() {
-		return xiaoyuanhuangyeService.findAll();
-	}
-	
-	/**
-	 * 根据部门名称查询
-	 * */
-	@ResponseBody
-	@RequestMapping(value = "/findBySectionName")
-	// @RequiresPermissions("xiaoyuanhuangye:findBySectionName")
-	public List<Xiaoyuanhuangye> findBySectionName(String sectionName) {
-		return xiaoyuanhuangyeService.findBySectionName(sectionName);
-	}
-	
-	/**
-	 * 根据类型查询部门名称
-	 * */
-	@ResponseBody
-	@RequestMapping(value = "/findSectionNameByType")
-	// @RequiresPermissions("xiaoyuanhuangye:findSectionNameByType")
-	public Xiaoyuanhuangye findSectionNameByType(int type)  {
-		return xiaoyuanhuangyeService.findSectionNameByType(type);
-	}
-	
 }
