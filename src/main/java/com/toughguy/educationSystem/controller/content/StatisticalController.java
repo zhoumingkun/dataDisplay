@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.toughguy.educationSystem.dto.StatisticalDTO;
@@ -47,7 +48,7 @@ public class StatisticalController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/findSumByTestId")
-	public StatisticalDTO findSumByTestId (int testId) {
+	public StatisticalDTO findSumByTestId (@RequestParam int testId) {
 		StatisticalDTO s = new StatisticalDTO();
 		Map<String, Object> params = new HashMap<String,Object>();
 		params.put("testId", testId);

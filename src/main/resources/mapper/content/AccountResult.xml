@@ -54,20 +54,21 @@
 	
 	<!-- 查询平台测试总人次  -->
 	<select id="findTesterSum" resultType="int" parameterType="Map">
-		select COUNT(*) from service_account_result
-		<include refid="paramsSQL"/>
+		select COUNT(*) from service_account_result sar left join service_test st on sar.testId = st.id
+		where testId = #{testId}
 	</select>
 	
 	<!-- 查询平台测试合格人次  -->
 	<select id="findTesterPassSum" resultType="int" parameterType="Map">
-		select COUNT(DISTINCT accountId,rank) from service_account_result where rank = 1 or rank = 2
-		<include refid="paramsSQL"/>
+		select COUNT(DISTINCT accountId,rank) from service_account_result 
+		where testId = #{testId} and rank = 1 or rank = 2
 	</select>
 	
 	<!-- 查询平台测试不合格人次  -->
 	<select id="findTesterFailureSum" resultType="int" parameterType="Map">
-		select COUNT(DISTINCT accountId,rank) from service_account_result where rank = 3
-		<include refid="paramsSQL"/>
+		select COUNT(DISTINCT accountId,rank) from service_account_result sar left join service_test st on sar.testId = st.id
+		where testId = #{testId}
+		and rank = 3
 	</select>
 
 	<!-- 根据用户id查询  -->
@@ -78,7 +79,7 @@
 	</select>
 	
 	<!-- 查询某个账号（学生）的危险测评题数 -->
-	<select id="findRiskAssessment" resultType="int">
+	<select id="findRiskAssessment" resultType="Integer">
 		select count(sar.id) from service_account sa 
 		LEFT JOIN service_account_result sar 
 		on sar.accountId = sa.id 

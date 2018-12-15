@@ -20,7 +20,7 @@ public class Test extends AbstractModel {
 	private int state;       //状态
 	private int hits;        //浏览量
 	private String form;     //试题形式
-	private String source;   //来源
+	private String articleSource;   //来源
 	
 	private int testerPassSum;  //测试合格人次(页面使用)
 	private int testerFailureSum;   //测试不合格人次(页面使用)
@@ -84,11 +84,11 @@ public class Test extends AbstractModel {
 	public void setForm(String form) {
 		this.form = form;
 	}
-	public String getSource() {
-		return source;
+	public String getArticleSource() {
+		return articleSource;
 	}
-	public void setSource(String source) {
-		this.source = source;
+	public void setArticleSource(String articleSource) {
+		this.articleSource = articleSource;
 	}
 	public int getTesterPassSum() {
 		return testerPassSum;

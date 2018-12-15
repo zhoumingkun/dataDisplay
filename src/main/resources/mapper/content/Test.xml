@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.Test">
 
 	<insert id="save" parameterType="Test" keyProperty="id" useGeneratedKeys="true">
-		insert into service_test (createTime,updateTime,type,title, author,summarize,image,state,hits,form,source) 
-		values (#{createTime},#{updateTime},#{type},#{title}, #{author},#{summarize},#{image},#{state},#{hits},#{form},#{source})
+		insert into service_test (createTime,updateTime,type,title, author,summarize,image,state,hits,form,articleSource) 
+		values (#{createTime},#{updateTime},#{type},#{title}, #{author},#{summarize},#{image},#{state},#{hits},#{form},#{articleSource})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -57,7 +57,7 @@
 			<if test="state != null and state != ''">state = #{state},</if>
 			<if test="hits != null and hits != ''">hits = #{hits},</if>
 			<if test="form != null and form != ''">form = #{form},</if>
-			<if test="source != null and source != ''">source = #{source},</if>
+			<if test="articleSource != null and articleSource != ''">articleSource = #{articleSource},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -95,8 +95,8 @@
 			<if test=" form != null and form != '' ">
 				and form = #{form}
 			</if>
-			<if test=" source != null and source != '' ">
-				and source = #{source}
+			<if test=" articleSource != null and articleSource != '' ">
+				and articleSource = #{articleSource}
 			</if>
 			<if test=" titleLike != null and titleLike != '' ">
 				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
