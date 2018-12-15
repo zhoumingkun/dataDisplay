@@ -42,7 +42,6 @@ import com.toughguy.educationSystem.service.content.prototype.IScoreResultServic
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
-import com.toughguy.educationSystem.util.GetIpAndMacUtil;
 import com.toughguy.educationSystem.util.JsonUtil;
 import com.toughguy.educationSystem.util.MapUtil;
 import com.toughguy.educationSystem.util.UploadUtil;
