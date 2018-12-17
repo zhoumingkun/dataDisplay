@@ -26,9 +26,10 @@
 	
 	<!-- 根据机构id查询部门 -->
 	<select id="findAllDepartment" resultType="XiaoyuanhuangyeDepartment" parameterType="int">
-		select sxd.*,sxo.articleSource from service_xiaoyuanhuangye_department sxd left join service_xiaoyuanhuangye_organization sxo on sxd.organizationId = sxo.id where sxd.orgainzationId = #{id}
-		<include refid="paramsSQL"/>
+		select sxd.*,sxo.articleSource from service_xiaoyuanhuangye_department sxd left join service_xiaoyuanhuangye_organization sxo on sxd.organizationId = sxo.id where sxd.organizationId = #{id}
+		
 	</select>
+	 
 
 	<!-- 分页查询信息 -->
 	<select id="findPaginated" resultType="XiaoyuanhuangyeDepartment" parameterType="Map">
