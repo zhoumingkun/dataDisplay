@@ -1,6 +1,7 @@
 package com.toughguy.educationSystem.persist.content.impl;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeDepartment;

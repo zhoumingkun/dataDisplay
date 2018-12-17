@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.educationSystem.model.content.Activity;
 import com.toughguy.educationSystem.model.content.Guizhangzhidu;
 import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.pagination.PagerModel;
@@ -87,7 +88,13 @@ public class ZhengcefaguiController {
 		}
 	}
 	
-	
+
+	@ResponseBody
+	@RequestMapping(value = "/getById")
+//	@RequiresPermissions("zhengcefagui:getById")
+	public Zhengcefagui getById(int id) {
+		return zhengcefaguiService.find(id);
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")

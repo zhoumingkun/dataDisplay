@@ -36,7 +36,7 @@
 	<select id="findPaginated" resultType="Activity" parameterType="Map">
 		select * from content_activity
 		<include refid="paramsSQL"/>
-		ORDER BY createTime desc  limit #{offset}, #{limit}
+		ORDER BY updateTime desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
@@ -91,6 +91,9 @@
 			</if>
 			<if test=" titleLike != null and titleLike != '' ">
  				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
+ 			</if>
+ 			<if test=" articleSourceLike != null and articleSourceLike != '' ">
+ 				and articleSource like concat(concat('%', #{articleSourceLike, jdbcType=VARCHAR}),'%')
  			</if>
 		</where>
 	</sql>

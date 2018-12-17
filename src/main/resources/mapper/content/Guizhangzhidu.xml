@@ -32,7 +32,7 @@
 	<select id="findPaginated" resultType="Guizhangzhidu" parameterType="Map">
 		select * from content_guizhangzhidu
 		<include refid="paramsSQL"/>
-		ORDER BY createTime desc  limit #{offset}, #{limit}
+		ORDER BY updateTime desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
@@ -85,6 +85,9 @@
 			<if test=" articleSource != null and articleSource != '' ">
 				and articleSource = #{articleSource}
 			</if>
+			<if test=" articleSourceLike != null and articleSourceLike != '' ">
+ 				and articleSource like concat(concat('%', #{articleSourceLike, jdbcType=VARCHAR}),'%')
+ 			</if>
 			<if test=" titleLike != null and titleLike != '' ">
  				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
  			</if>
