@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.educationSystem.model.content.XiaoyuanhuangyeOrganization">
+
+	<insert id="save" parameterType="XiaoyuanhuangyeOrganization" keyProperty="id" useGeneratedKeys="true">
+		insert into service_xiaoyuanhuangye_organization (createTime,updateTime,organizationName,type, author,articleSource
+		) 
+		values (#{createTime},#{updateTime},#{organizationName},#{type}, #{author},#{articleSource})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from service_xiaoyuanhuangye_organization where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="XiaoyuanhuangyeOrganization">
+		select * from service_xiaoyuanhuangye_organization where id = #{id}
+	</select>
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="XiaoyuanhuangyeOrganization" parameterType="Map">
+		select * from service_xiaoyuanhuangye_organization
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="XiaoyuanhuangyeOrganization" parameterType="Map">
+		select * from service_xiaoyuanhuangye_organization
+		<include refid="paramsSQL"/>
+		ORDER BY createTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from service_xiaoyuanhuangye_organization
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="XiaoyuanhuangyeOrganization">
+		update service_xiaoyuanhuangye_organization
+		<set>
+			<if test="organizationName != null and organizationName != ''">organizationName = #{organizationName},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="author != null and author != ''">author = #{author},</if>
+			<if test="articleSource != null and articleSource != ''">articleSource = #{articleSource},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+			<if test=" organizationName != null and organizationName != '' ">
+				and organizationName = #{organizationName}
+			</if>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test=" author != null and author != '' ">
+				and author = #{author}
+			</if>
+			<if test=" articleSource != null and articleSource != '' ">
+				and articleSource = #{articleSource}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
