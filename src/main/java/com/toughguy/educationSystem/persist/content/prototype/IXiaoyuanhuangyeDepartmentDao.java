@@ -2,6 +2,8 @@ package com.toughguy.educationSystem.persist.content.prototype;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeDepartment;
 import com.toughguy.educationSystem.persist.prototype.IGenericDao;
 

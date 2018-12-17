@@ -18,54 +18,67 @@ public class XiaoyuanhuangyeDepartment extends AbstractModel {
 	private int organizationId;  //机构id
 	
 	private String articleSource;       //来源
+	
+
 	public int getId() {
 		return id;
 	}
+
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAdress() {
-		return adress;
-	}
-
-	public void setAdress(String adress) {
-		this.adress = adress;
-	}
 
 	public String getPositionName() {
 		return positionName;
 	}
 
+
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
 	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+	public String getAdress() {
+		return adress;
+	}
+
+
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
 
 	public int getOrganizationId() {
 		return organizationId;
 	}
 
+
 	public void setOrganizationId(int organizationId) {
 		this.organizationId = organizationId;
 	}
-	
+
 
 	public String getArticleSource() {
 		return articleSource;
 	}
 
+
 	public void setArticleSource(String articleSource) {
 		this.articleSource = articleSource;
 	}
+
 
 	@Override
 	public String toString(){

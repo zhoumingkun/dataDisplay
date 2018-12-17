@@ -32,7 +32,7 @@
 	<select id="findPaginated" resultType="Interaction" parameterType="Map">
 		select * from content_interaction
 		<include refid="paramsSQL"/>
-		ORDER BY createTime desc  limit #{offset}, #{limit}
+		ORDER BY updateTime desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
