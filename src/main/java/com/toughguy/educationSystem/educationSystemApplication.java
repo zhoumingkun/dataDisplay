@@ -43,7 +43,7 @@ public class educationSystemApplication {
 //	    factory.setSessionTimeout(60, TimeUnit.MINUTES);
 //	    return factory;
 		 TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-		    factory.setPort(8080);
+		    factory.setPort(8083);
 		    factory.setContextPath("/educationSystem");
 		    factory.setSessionTimeout(60, TimeUnit.MINUTES);
 		    return factory;
