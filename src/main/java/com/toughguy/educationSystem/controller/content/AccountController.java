@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,10 +46,30 @@ public class AccountController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/reset")
+//	@RequiresPermissions("account:reset")
+	public String resetPwd(int id) {
+		try {
+			Account account = accountService.find(id);
+			account.setPassword(new DefaultPasswordService().encryptPassword("123456"));
+			accountService.update(account);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/edit")
 	//@RequiresPermissions("account:edit")
-	public String editAccount(Account account) {
+	public String editAccount(Account newAccount) {
 		try {
+			Account account = accountService.find(newAccount.getId());
+			account.setSex(newAccount.getSex());
+			account.setPassword(new DefaultPasswordService().encryptPassword(newAccount.getPassword()));
+			account.setPhoneNum(newAccount.getPhoneNum());
+			account.setIntegral(newAccount.getIntegral());
 			accountService.update(account);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
@@ -77,7 +98,18 @@ public class AccountController {
 			return "{ \"success\" : false }";
 		}
 	}
-	
+	@ResponseBody
+	@RequestMapping(value = "/deleteAccount")
+	//@RequiresPermissions("account:detele")
+	public String deleteAccount(int id) {
+		try {
+			accountService.delete(id);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
 	/**
 	 * 将学生测评改为(安全)
 	 * @param id
@@ -86,7 +118,7 @@ public class AccountController {
 	@ResponseBody
 	@RequestMapping(value = "/delete")
 	//@RequiresPermissions("account:detele")
-	public String deleteAccount(int id) {
+	public String deleteAccountResult(int id) {
 		try {
 			List<AccountResult> ars = accountResultService.findByAccountId(id);
 			for(AccountResult ar:ars) {

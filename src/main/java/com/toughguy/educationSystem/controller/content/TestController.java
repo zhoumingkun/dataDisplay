@@ -42,7 +42,6 @@ import com.toughguy.educationSystem.service.content.prototype.IScoreResultServic
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
 import com.toughguy.educationSystem.service.content.prototype.ITopicService;
-import com.toughguy.educationSystem.util.GetIpAndMacUtil;
 import com.toughguy.educationSystem.util.JsonUtil;
 import com.toughguy.educationSystem.util.MapUtil;
 import com.toughguy.educationSystem.util.UploadUtil;
@@ -195,14 +194,7 @@ public class TestController {
 	@ResponseBody
 	@RequestMapping(value = "/getSingleTopic")
 	public String getSingleTopic(int testId,HttpServletRequest request) {
-		try {
-			System.out.println(GetIpAndMacUtil.getIp(request));
-			System.out.println(GetIpAndMacUtil.getMacAddress(GetIpAndMacUtil.getIp(request)));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("错啦");
-		}
+		
 		ObjectMapper om = new ObjectMapper();
 		Map<String, Object> result = new HashMap<String, Object>();
 		Test test = testService.find(testId);
