@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.educationSystem.dto.XiaoyuanhuangyeDTO;
 import com.toughguy.educationSystem.model.content.SingleOption;
 import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeDepartment;
 import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeOrganization;
@@ -64,14 +65,44 @@ public class XiaoyuanhuangyeController {
 			if (!StringUtils.isEmpty(params)) {
 				xyhyd = JsonUtil.jsonToList(params, XiaoyuanhuangyeDepartment.class);
 			}
-			for(XiaoyuanhuangyeDepartment x:xyhyd) {
-				x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
-				xiaoyuanhuangyeDepartmentService.update(x);
+			if(xyhyd.get(0).getId() == 0) {
+				for(XiaoyuanhuangyeDepartment x:xyhyd) {
+					x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+					xiaoyuanhuangyeDepartmentService.save(x);
+				}
+			} else {
+				for(XiaoyuanhuangyeDepartment x:xyhyd) {
+					x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+					xiaoyuanhuangyeDepartmentService.update(x);
+				}
 			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	/**
+	 * 编辑前获取机构与部门
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody	
+	@RequestMapping(value = "/findAll")
+	public XiaoyuanhuangyeDTO findAll(int organizationId) {
+		try {
+			XiaoyuanhuangyeOrganization xyhyo = xiaoyuanhuangyeOrganizationService.find(organizationId);
+			List<XiaoyuanhuangyeDepartment> xyhyd = xiaoyuanhuangyeDepartmentService.findAllDepartment(organizationId);
+			XiaoyuanhuangyeDTO xyhyDTO = new XiaoyuanhuangyeDTO();
+			xyhyDTO.setArticleSource(xyhyo.getArticleSource());
+			xyhyDTO.setAuthor(xyhyo.getAuthor());
+			xyhyDTO.setOrganizationName(xyhyo.getOrganizationName());
+			xyhyDTO.setType(xyhyo.getType());
+			xyhyDTO.setXiaoyuanhuangyeDepartment(xyhyd);
+			return xyhyDTO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	@ResponseBody	
