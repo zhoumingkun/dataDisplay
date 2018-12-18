@@ -65,7 +65,7 @@
 			<if test="sex != null and sex != ''">sex = #{sex},</if>
 			<if test="integral != null and integral != ''">integral = #{integral},</if>
 			<if test="type != null and type != ''">type = #{type},</if>
-			<if test="signDate != null and signDate != ''">signDate = #{signDate},</if>
+			<if test="signDate != null">signDate = #{signDate},</if>
 			
 		</set>
 		where id = #{id}

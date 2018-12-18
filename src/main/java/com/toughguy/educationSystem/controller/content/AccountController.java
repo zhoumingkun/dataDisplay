@@ -254,21 +254,16 @@ public class AccountController {
 	@ResponseBody
 	@RequestMapping(value = "/signIn")
 	public String signIn(int id) {
+		System.out.println(id);
 		Account a = accountService.find(id);
-		if(a.getSignDate().toString() == null) {
+		if(a.getSignDate() == null || "".equals(a.getSignDate())) {
 			a.setIntegral(a.getIntegral() + 2);
-			Date newDate = new Date();
-			a.setSignDate(newDate);
+			a.setSignDate(DateUtil.now());
+			accountService.update(a);
 			return "{ \"integral\":" + a.getIntegral() + "}";
 		} else {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date signDate = null;
-			try {
-				signDate = format.parse(a.getSignDate().toString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			signDate = DateUtil.now();
 			boolean timeSignIsToday = DateUtil.isToday(signDate);
 			if(timeSignIsToday) {
 				return "{ \"success\": false}";

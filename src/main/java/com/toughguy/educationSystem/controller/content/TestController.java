@@ -443,6 +443,8 @@ public class TestController {
 	@ResponseBody
 	@RequestMapping(value = "/get")
 	public Test get(int id) {
-		return testService.find(id);
+		Test test =  testService.find(id);
+		test.setHits(test.getHits() + 1);
+		return test;
 	}
 }
