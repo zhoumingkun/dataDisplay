@@ -114,12 +114,18 @@ public class SizhengjiansheController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	
+	/**
+	 * 这个只用于小程序文档访问使用（统计浏览量）
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("sizhengjianshe:getById")
 	public Sizhengjianshe getById(int id) {
-		return sizhengjiansheService.find(id);
+		Sizhengjianshe szjs =  sizhengjiansheService.find(id);
+		szjs.setHits(szjs.getHits() + 1);
+		return szjs;
 	}
 	
 	@ResponseBody
