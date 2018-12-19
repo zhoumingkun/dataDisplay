@@ -23,7 +23,7 @@ public class Account extends AbstractModel {
 	private int integral;  //积分
 	private int  type;     //身份类型    （1学生  2老师）
 	private Date SignDate;  //签到时间
-	
+	private String  openId;  //openId
 	private int riskAssessment; //危险测评题数
 	
 	public int getId() {
@@ -94,5 +94,12 @@ public class Account extends AbstractModel {
 	public String toString(){
 		return JsonUtil.objectToJson(this);
 	}
+	public String getOpenId() {
+		return openId;
+	}
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+	
 
 }
