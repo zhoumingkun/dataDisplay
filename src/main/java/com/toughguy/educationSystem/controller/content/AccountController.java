@@ -53,8 +53,24 @@ public class AccountController {
 	//@RequiresPermissions("account:save")
 	public String saveAccount(Account account,String openId) {
 		try {
-			accountService.save(account);
-			return "{ \"success\" : true }";
+			boolean isOpenId = false;
+			List<Account> accounts = accountService.findAll();
+			for(Account a:accounts) {
+				if(a.getOpenId() == null || "".equals(a.getOpenId())) {
+					
+				} else {
+					if(a.getOpenId().equals(openId)) {
+						//已注册过
+						isOpenId = true;
+					}
+				}
+			}
+			if(isOpenId) {
+				return "{ \"success\" : false,\"msg\": \"该微信已注册，请直接登录\"}";
+			} else {
+				accountService.save(account);
+				return "{ \"success\" : true },\"msg\": \"注册成功\"}";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
