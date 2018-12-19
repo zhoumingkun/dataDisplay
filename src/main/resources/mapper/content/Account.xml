@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.Account">
 
 	<insert id="save" parameterType="Account" keyProperty="id" useGeneratedKeys="true">
-		insert into service_account (createTime,updateTime,account,password,weixinNum,phoneNum,integral,type) 
-		values (#{createTime},#{updateTime},#{account},#{password},#{weixinNum},#{phoneNum},#{sex},#{integral},#{type})
+		insert into service_account (createTime,updateTime,account,password,weixinNum,phoneNum,sex,integral,type,signDate,openId) 
+		values (#{createTime},#{updateTime},#{account},#{password},#{weixinNum},#{phoneNum},#{sex},#{integral},#{type},#{signDate},#{openId})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -16,6 +16,7 @@
 	<select id="find" parameterType="int" resultType="Account">
 		select * from service_account where id = #{id}
 	</select>
+	
 	
 	<!-- 根据状态查询内容 -->
 	<select id="findByState" parameterType="int" resultType="Account">
@@ -66,6 +67,7 @@
 			<if test="integral != null and integral != ''">integral = #{integral},</if>
 			<if test="type != null and type != ''">type = #{type},</if>
 			<if test="signDate != null">signDate = #{signDate},</if>
+			<if test="openId != null">openId = #{openId},</if>
 			
 		</set>
 		where id = #{id}
@@ -90,6 +92,12 @@
 			</if>
 			<if test=" type != null and type != '' ">
 				and sa.type = #{type}
+			</if>
+			<if test=" signDate != null and signDate != '' ">
+				and signDate = #{signDate}
+			</if>
+			<if test=" openId != null and openId != '' ">
+				and openId = #{openId}
 			</if>
 			
 		</where>
