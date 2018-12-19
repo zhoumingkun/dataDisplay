@@ -18,4 +18,6 @@ public interface IAccountService extends IGenericService<Account, Integer>{
 	 * @return
 	 */
 	public PagerModel<Account> findAllByRisk(Map<String, Object> params);
+	
+	public Account findByOpenId(String openId);
 }

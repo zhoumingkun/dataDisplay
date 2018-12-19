@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.toughguy.educationSystem.model.content.Account;
+import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.persist.content.prototype.IAccountDao;
 import com.toughguy.educationSystem.persist.impl.GenericDaoImpl;
@@ -37,6 +38,12 @@ public class AccountImpl extends GenericDaoImpl<Account, Integer> implements IAc
 	private int getRiskTotalNumOfItems(Map<String, Object> params) {
 		int count = (Integer) sqlSessionTemplate.selectOne(typeNameSpace + ".getRiskTotalNumOfItems", params);
 		return count;
+	}
+	
+	@Override
+	public Account findByOpenId(String openId) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByOpenId", openId);
 	}
 	
 

@@ -51,7 +51,7 @@ public class AccountController {
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 	//@RequiresPermissions("account:save")
-	public String saveAccount(Account account) {
+	public String saveAccount(Account account,String openId) {
 		try {
 			accountService.save(account);
 			return "{ \"success\" : true }";

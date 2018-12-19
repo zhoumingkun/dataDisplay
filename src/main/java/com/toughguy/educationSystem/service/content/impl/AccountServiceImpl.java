@@ -25,6 +25,10 @@ public class AccountServiceImpl extends GenericServiceImpl<Account, Integer> imp
 		// TODO Auto-generated method stub
 		return ((IAccountDao)dao).findAllByRisk(params);
 	}
-	
+	@Override
+	public Account findByOpenId(String openId) {
+		// TODO Auto-generated method stub
+		return ((IAccountDao)dao).findByOpenId(openId);
+	}
 
 }
