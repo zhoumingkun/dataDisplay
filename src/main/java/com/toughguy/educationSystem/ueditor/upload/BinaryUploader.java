@@ -1,88 +1,71 @@
 package com.toughguy.educationSystem.ueditor.upload;
 
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.toughguy.educationSystem.ueditor.PathFormat;
 import com.toughguy.educationSystem.ueditor.define.AppInfo;
 import com.toughguy.educationSystem.ueditor.define.BaseState;
 import com.toughguy.educationSystem.ueditor.define.FileType;
 import com.toughguy.educationSystem.ueditor.define.State;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class BinaryUploader {
-    static Logger logger = LoggerFactory.getLogger(BinaryUploader.class);
-    
-	public static final State save(HttpServletRequest request, Map<String, Object> conf) {
-		
-		boolean isAjaxUpload = request.getHeader( "X_Requested_With" ) != null;
 
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
-		}
-		
-		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-
-        if ( isAjaxUpload ) {
-            upload.setHeaderEncoding( "UTF-8" );
+    public static final State save(HttpServletRequest request, Map<String, Object> conf) {
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
         }
 
-		try {
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			MultipartFile file = multipartRequest.getFile("upfile");
+        MultipartFile file = ((MultipartHttpServletRequest) request).getFile("upfile");
+        try {
+            if (file == null) {
+                return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
+            }
 
-			String savePath = (String) conf.get("savePath");
-			String localSavePathPrefix = (String) conf.get("localSavePathPrefix");
-			String originFileName = file.getOriginalFilename();
-			String suffix = FileType.getSuffixByFilename(originFileName);
+            String savePath = (String) conf.get("savePath");
+            String originFileName = file.getOriginalFilename();
+            String suffix = FileType.getSuffixByFilename(file.getOriginalFilename());
 
-			originFileName = originFileName.substring(0, originFileName.length() - suffix.length());
-			savePath = savePath + suffix;
-			
-			long maxSize = ((Long) conf.get("maxSize")).longValue();
+            originFileName = originFileName.substring(0,
+                    originFileName.length() - suffix.length());
+            savePath = savePath + suffix;
 
-			if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
-				return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
-			}
-			savePath = PathFormat.parse(savePath, originFileName);
-			localSavePathPrefix = localSavePathPrefix + savePath; 
-			String physicalPath = localSavePathPrefix;
-			logger.info("BinaryUploader physicalPath:{},savePath:{}",localSavePathPrefix,savePath);
-			InputStream is = file.getInputStream();
-			
-			//在此处调用ftp的上传图片的方法将图片上传到文件服务器
-			String path = physicalPath.substring(0, physicalPath.lastIndexOf("/"));
-			String picName = physicalPath.substring(physicalPath.lastIndexOf("/")+1, physicalPath.length());
-			State storageState = StorageManager.saveFileByInputStream(request, is, path, picName, maxSize);
-			
-			is.close();
+            long maxSize = ((Long) conf.get("maxSize")).longValue();
 
-			if (storageState.isSuccess()) {
-				storageState.putInfo("type", suffix);
-				storageState.putInfo("original", originFileName + suffix);
-			}
+            if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
+                return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
+            }
 
-			return storageState;
-		} catch (Exception e) {
-			return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
-		}
-	}
+            savePath = PathFormat.parse(savePath, originFileName);
+            String physicalPath = (String) conf.get("rootPath") + savePath;
 
-	private static boolean validType(String type, String[] allowTypes) {
-		List<String> list = Arrays.asList(allowTypes);
+            InputStream is = file.getInputStream();
+            State storageState = StorageManager.saveFileByInputStream(is, physicalPath, maxSize);
+            is.close();
 
-		return list.contains(type);
-	}
+            if (storageState.isSuccess()) {
+                storageState.putInfo("url", PathFormat.format(savePath));
+                storageState.putInfo("type", suffix);
+                storageState.putInfo("original", originFileName + suffix);
+            }
+
+            return storageState;
+        } catch (IOException e) {
+        }
+        return new BaseState(false, AppInfo.IO_ERROR);
+    }
+
+    private static boolean validType(String type, String[] allowTypes) {
+        List<String> list = Arrays.asList(allowTypes);
+
+        return list.contains(type);
+    }
 }

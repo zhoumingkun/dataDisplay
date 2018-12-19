@@ -1,20 +1,17 @@
 package com.toughguy.educationSystem.ueditor.upload;
 
+import com.toughguy.educationSystem.ueditor.PathFormat;
+import com.toughguy.educationSystem.ueditor.define.AppInfo;
+import com.toughguy.educationSystem.ueditor.define.BaseState;
+import com.toughguy.educationSystem.ueditor.define.FileType;
+import com.toughguy.educationSystem.ueditor.define.State;
+
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.toughguy.educationSystem.ueditor.PathFormat;
-import com.toughguy.educationSystem.ueditor.define.FileType;
-import com.toughguy.educationSystem.ueditor.define.State;
-import com.toughguy.educationSystem.ueditor.define.AppInfo;
-import com.toughguy.educationSystem.ueditor.define.BaseState;
 
 public final class Base64Uploader {
-    static Logger logger = LoggerFactory.getLogger(Base64Uploader.class);
+
 	public static State save(String content, Map<String, Object> conf) {
 		
 		byte[] data = decode(content);
@@ -29,12 +26,10 @@ public final class Base64Uploader {
 
 		String savePath = PathFormat.parse((String) conf.get("savePath"),
 				(String) conf.get("filename"));
-		String localSavePathPrefix = PathFormat.parse((String) conf.get("localSavePathPrefix"),
-                (String) conf.get("filename"));
+		
 		savePath = savePath + suffix;
-		localSavePathPrefix = localSavePathPrefix + suffix;
-		String physicalPath = localSavePathPrefix;
-		logger.info("Base64Uploader physicalPath:{},savePath:{}",localSavePathPrefix,savePath);
+		String physicalPath = (String) conf.get("rootPath") + savePath;
+
 		State storageState = StorageManager.saveBinaryFile(data, physicalPath);
 
 		if (storageState.isSuccess()) {
@@ -47,7 +42,7 @@ public final class Base64Uploader {
 	}
 
 	private static byte[] decode(String content) {
-		return Base64.decodeBase64(StringUtils.getBytesUtf8(content));
+		return Base64.decodeBase64(content);
 	}
 
 	private static boolean validSize(byte[] data, long length) {

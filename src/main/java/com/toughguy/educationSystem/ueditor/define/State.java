@@ -2,17 +2,17 @@ package com.toughguy.educationSystem.ueditor.define;
 
 /**
  * 处理状态接口
- * @author
+ * @author hancong03@baidu.com
  *
  */
 public interface State {
 	
-	public boolean isSuccess ();
+	public boolean isSuccess();
 	
-	public void putInfo( String name, String val );
+	public void putInfo(String name, String val);
 	
-	public void putInfo ( String name, long val );
+	public void putInfo(String name, long val);
 	
-	public String toJSONString ();
+	public String toJSONString();
 
 }

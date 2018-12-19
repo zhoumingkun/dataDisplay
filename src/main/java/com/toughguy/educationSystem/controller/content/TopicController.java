@@ -110,8 +110,9 @@ public class TopicController {
 	public TopicAndSingleOptionDTO findTopicAndSingleOption(int testId) {
 		TopicAndSingleOptionDTO tas = new TopicAndSingleOptionDTO();
 		List<Topic> ts = topicService.findByTestId(testId);
+		System.out.println(ts.size());
 		//单题
-		if(ts.size()>0 && ts.size()<1) {
+		if(ts.size()>0 && ts.size()<2) {
 			for(Topic t:ts) {
 				tas.setTopic(t.getTopic());
 				tas.setSingleOption(singleOptionService.findByTopicId(t.getId()));
