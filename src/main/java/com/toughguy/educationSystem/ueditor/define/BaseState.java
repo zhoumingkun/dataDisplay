@@ -6,8 +6,6 @@ import java.util.Map;
 
 import com.toughguy.educationSystem.ueditor.Encoder;
 
-
-
 public class BaseState implements State {
 
 	private boolean state = false;

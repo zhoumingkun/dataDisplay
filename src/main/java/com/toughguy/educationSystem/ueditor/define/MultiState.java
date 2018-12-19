@@ -8,13 +8,10 @@ import java.util.Map;
 
 import com.toughguy.educationSystem.ueditor.Encoder;
 
-
-
-
 /**
  * 多状态集合状态
  * 其包含了多个状态的集合, 其本身自己也是一个状态
- * @author 
+ * @author hancong03@baidu.com
  *
  */
 public class MultiState implements State {
