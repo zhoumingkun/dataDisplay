@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.educationSystem.model.content.Activity;
 import com.toughguy.educationSystem.model.content.Guizhangzhidu;
+import com.toughguy.educationSystem.model.content.Sizhengjianshe;
 import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.service.content.prototype.IGuizhangzhiduService;
@@ -87,12 +88,18 @@ public class GuizhangzhiduController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	
+	/**
+	 * 这个只用于小程序文档访问使用（统计浏览量）
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("guizhangzhidu:getById")
 	public Guizhangzhidu getById(int id) {
-		return guizhangzhiduService.find(id);
+		Guizhangzhidu guizhangzhidu =  guizhangzhiduService.find(id);
+		guizhangzhidu.setHits(guizhangzhidu.getHits() + 1);
+		return guizhangzhidu;
 	}
 	
 	@ResponseBody

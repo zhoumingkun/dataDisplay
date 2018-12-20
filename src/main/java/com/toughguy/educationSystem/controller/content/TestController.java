@@ -437,7 +437,7 @@ public class TestController {
 		return testService.findAll();
 	}
 	/**
-	 * 获取某道题的第一页详情
+	 * 获取某道题的第一页详情(统计浏览量)
 	 * @return
 	 */
 	@ResponseBody

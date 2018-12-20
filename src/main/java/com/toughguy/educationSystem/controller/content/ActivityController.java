@@ -86,12 +86,18 @@ public class ActivityController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	
+	/**
+	 * 这个只用于小程序文档访问使用（统计浏览量）
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("activity:getById")
 	public Activity getById(int id) {
-		return activityService.find(id);
+		Activity activity =  activityService.find(id);
+		activity.setHits(activity.getHits() + 1);
+		return activity;
 	}
 	
 	@ResponseBody
