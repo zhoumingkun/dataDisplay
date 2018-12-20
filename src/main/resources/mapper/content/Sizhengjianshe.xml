@@ -90,6 +90,7 @@
 			<if test=" articleSource != null and articleSource != '' ">
 				and articleSource = #{articleSource}
 			</if>
+			
 			<if test=" titleLike != null and titleLike != '' ">
  				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
  			</if>

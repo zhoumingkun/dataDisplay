@@ -57,25 +57,30 @@ public class XiaoyuanhuangyeController {
 	}
 	@ResponseBody	
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("xiaoyuanhuangye:save")
+	//@RequiresPermissions("xiaoyuanhuangye:edit")
 	public String edit(XiaoyuanhuangyeOrganization xiaoyuanhuangyeOrgainzation,String params) {
 		try {
 			xiaoyuanhuangyeOrganizationService.update(xiaoyuanhuangyeOrgainzation);
 			List<XiaoyuanhuangyeDepartment> xyhyd = new ArrayList<XiaoyuanhuangyeDepartment>();
+			if(params == null || "".equals(params)){
+				xiaoyuanhuangyeOrganizationService.update(xiaoyuanhuangyeOrgainzation);
+				if(xyhyd.get(0).getId() == 0) {
+					for(XiaoyuanhuangyeDepartment x:xyhyd) {
+						x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+						xiaoyuanhuangyeDepartmentService.save(x);
+					}
+				} else {
+					for(XiaoyuanhuangyeDepartment x:xyhyd) {
+						x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+						xiaoyuanhuangyeDepartmentService.update(x);
+					}
+				}
+			}
+				
 			if (!StringUtils.isEmpty(params)) {
 				xyhyd = JsonUtil.jsonToList(params, XiaoyuanhuangyeDepartment.class);
 			}
-			if(xyhyd.get(0).getId() == 0) {
-				for(XiaoyuanhuangyeDepartment x:xyhyd) {
-					x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
-					xiaoyuanhuangyeDepartmentService.save(x);
-				}
-			} else {
-				for(XiaoyuanhuangyeDepartment x:xyhyd) {
-					x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
-					xiaoyuanhuangyeDepartmentService.update(x);
-				}
-			}
+			
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,6 +94,7 @@ public class XiaoyuanhuangyeController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/findAll")
+	//@RequiresPermissions("xiaoyuanhuangye:findAll")
 	public XiaoyuanhuangyeDTO findAll(int organizationId) {
 		try {
 			XiaoyuanhuangyeOrganization xyhyo = xiaoyuanhuangyeOrganizationService.find(organizationId);
@@ -117,18 +123,29 @@ public class XiaoyuanhuangyeController {
 		}
 	}
 	@ResponseBody	
-	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("xiaoyuanhuangye:delete")
-	public String delete(int id) {
+	@RequestMapping(value = "/deleteOrganization")
+	//@RequiresPermissions("xiaoyuanhuangye:deleteOrganization")
+	public String deleteOrganization(int id) {
 		try {
-				xiaoyuanhuangyeDepartmentService.delete(id);
+			xiaoyuanhuangyeOrganizationService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
 		}
 	}
-	
+	@ResponseBody	
+	@RequestMapping(value = "/deleteDepartment")
+	//@RequiresPermissions("xiaoyuanhuangye:deleteDepartment")
+	public String deleteDepartment(int id) {
+		try {
+			xiaoyuanhuangyeDepartmentService.delete(id);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
 	@ResponseBody
 	@RequestMapping(value = "/data")
 	//@RequiresPermissions("xiaoyuanhuangye:data")

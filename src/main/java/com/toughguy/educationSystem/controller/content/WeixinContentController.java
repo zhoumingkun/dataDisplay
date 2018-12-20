@@ -43,7 +43,7 @@ public class WeixinContentController {
 
 	@ResponseBody	
 	@RequestMapping(value = "/getToken")
-	//@RequiresPermissions("account:save")
+	//@RequiresPermissions("weixinContent:getToken")
 	public  String getToken() throws Exception {
 	String TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
     //appid
@@ -70,7 +70,7 @@ public class WeixinContentController {
 }
 	@ResponseBody	
 	@RequestMapping(value = "/getContent")
-	//@RequiresPermissions("account:save")
+	//@RequiresPermissions("weixinContent:getContent")
 	public static List<Material> getMaterialList(String ACCESS_TOKEN,String type ,String offset, String count) throws Exception {
 		String TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
 //		String ACCESS_TOKEN = "16_QsdYWJqGge2bIMaAkp7faaNqsm-mONl23_Z-Q490YBM2V4CIjpG3gSIAnCkGbrMDP4xS8ZD077oHglscdOAgexsBRJN6iy4gVP0uWDhH_OYEfwrwkX1Q6UAzhO0OrRSfGZ7iDhhak8AwW2lwBWTjAIARMJ";

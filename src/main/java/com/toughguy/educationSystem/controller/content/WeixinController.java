@@ -44,6 +44,7 @@ public class WeixinController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/getOpenId", method = RequestMethod.GET)//此处填自己要用到的项目名。
+	//@RequiresPermissions("/wechat:getOpenId")
 	 public static String getOpenId(@RequestParam(value="code",required=false)String code) {//接收用户传过来的code，required=false表明如果这个参数没有传过来也可以。
 		  //接收从客户端获取的code
 		  //向微信后台发起请求获取openid的url

@@ -90,7 +90,7 @@ public class InteractionController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("activity:findAll")
+	//@RequiresPermissions("interaction:findAll")
 	public List<Interaction> findAll() {
 		return interactionService.findAll();
 	}

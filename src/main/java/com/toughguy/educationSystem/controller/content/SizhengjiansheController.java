@@ -93,7 +93,7 @@ public class SizhengjiansheController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("content:data")
+	//@RequiresPermissions("sizhengjianshe:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -171,14 +171,14 @@ public class SizhengjiansheController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findByTitle")
-	//@RequiresPermissions("activity:findByTitle")
+	//@RequiresPermissions("sizhengjianshe:findByTitle")
 	public List<Sizhengjianshe> findByTitle(String title){
 		return sizhengjiansheService.findByTitle(title);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findBySource")
-	//@RequiresPermissions("activity:findByTitle")
+	//@RequiresPermissions("sizhengjianshe:findBySource")
 	public List<Sizhengjianshe> findBySource(String articleSource){
 		return sizhengjiansheService.findBySource(articleSource);
 	}

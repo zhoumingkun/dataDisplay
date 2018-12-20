@@ -106,7 +106,7 @@ public class TopicController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findTopicAndSingleOption")
-	//@RequiresPermissions("topic:findAll")
+	//@RequiresPermissions("topic:findTopicAndSingleOption")
 	public TopicAndSingleOptionDTO findTopicAndSingleOption(int testId) {
 		TopicAndSingleOptionDTO tas = new TopicAndSingleOptionDTO();
 		List<Topic> ts = topicService.findByTestId(testId);

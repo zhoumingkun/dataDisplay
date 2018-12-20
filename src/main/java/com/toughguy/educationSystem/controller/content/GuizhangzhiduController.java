@@ -111,7 +111,7 @@ public class GuizhangzhiduController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findByTitle")
-	//@RequiresPermissions("activity:findByTitle")
+	//@RequiresPermissions("guizhangzhidu:findByTitle")
 	public List<Guizhangzhidu> findByTitle(String title){
 		return guizhangzhiduService.findByTitle(title);
 	}

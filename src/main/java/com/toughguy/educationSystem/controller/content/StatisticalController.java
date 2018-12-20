@@ -29,6 +29,7 @@ public class StatisticalController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/findSum")
+	//@RequiresPermissions("statistical:findSum")
 	public StatisticalDTO findSum () {
 		StatisticalDTO s = new StatisticalDTO();
 		Map<String, Object> params = new HashMap<String,Object>();
@@ -48,6 +49,7 @@ public class StatisticalController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/findSumByTestId")
+	//@RequiresPermissions("statistical:findSumByTestId")
 	public StatisticalDTO findSumByTestId (@RequestParam int testId) {
 		StatisticalDTO s = new StatisticalDTO();
 		Map<String, Object> params = new HashMap<String,Object>();

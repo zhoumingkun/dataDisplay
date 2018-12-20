@@ -26,7 +26,7 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("xiaoyuanhuangye:save")
+	//@RequiresPermissions("zhengcefagui:save")
 	public String saveZhengcefagui(Zhengcefagui zhengcefagui) {
 		try {
 			zhengcefaguiService.save(zhengcefagui);
@@ -112,7 +112,7 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/findByTitle")
-	//@RequiresPermissions("activity:findByTitle")
+	//@RequiresPermissions("zhengcefagui:findByTitle")
 	public List<Zhengcefagui> findByTitle(String title){
 		return zhengcefaguiService.findByTitle(title);
 	}

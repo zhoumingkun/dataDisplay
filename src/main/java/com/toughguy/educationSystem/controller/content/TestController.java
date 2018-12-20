@@ -67,7 +67,7 @@ public class TestController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/uploadPic")
-	//@RequiresPermissions("safety:upload")
+	//@RequiresPermissions("test:uploadPic")
 	public String uploadPicture(MultipartFile pictureFile){
 		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
 			try {
@@ -88,6 +88,7 @@ public class TestController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/saveSingleTopic")
+	//@RequiresPermissions("test:saveSingleTopic")
 	public String saveSingleTopic(String test,String topic,String singleOptions) {
 		Test test1 = new Test();
 		Topic topic1 = new Topic();
@@ -132,6 +133,7 @@ public class TestController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/saveScoreTopic")
+	//@RequiresPermissions("test:saveScoreTopic")
 	public String saveScoreTopic(String test,String topics,String scoreOptions,String scoreRanks,String scoreResult) {
 		Test test1 = new Test();
 		List<Topic> topicList = new ArrayList<Topic>();
@@ -193,6 +195,7 @@ public class TestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getSingleTopic")
+	//@RequiresPermissions("test:getSingleTopic")
 	public String getSingleTopic(int testId,HttpServletRequest request) {
 		
 		ObjectMapper om = new ObjectMapper();
@@ -218,6 +221,7 @@ public class TestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getScoreTopic")
+	//@RequiresPermissions("test:getScoreTopic")
 	public String getScoreTopic(int testId) {
 		ObjectMapper om = new ObjectMapper();
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -251,7 +255,7 @@ public class TestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/editSingleTopic")
-	//@RequiresPermissions("test:edit")
+	//@RequiresPermissions("test:editSingleTopic")
 	public String editSingleTopic(String tests,String topics,String singleOptions) {
 		Test test = new Test();
 		Topic topic = new Topic();
@@ -298,6 +302,7 @@ public class TestController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/editScoreTopic")
+	//@RequiresPermissions("test:editScoreTopic")
 	public String editScoreTopic(String test,String topics,String scoreOptions,String scoreRanks,String scoreResult) {
 		Test test1 = new Test();
 		List<Topic> topicList = new ArrayList<Topic>();
@@ -355,7 +360,7 @@ public class TestController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("activity:detele")
+	//@RequiresPermissions("test:detele")
 	public String deletetest(int id) {
 		try {
 			testService.delete(id);
@@ -391,6 +396,7 @@ public class TestController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/dataStatistical")
+	//@RequiresPermissions("test:dataStatistical")
 	public String dataStatistical(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -442,6 +448,7 @@ public class TestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/get")
+	//@RequiresPermissions("test:get")
 	public Test get(int id) {
 		Test test =  testService.find(id);
 		test.setHits(test.getHits() + 1);
