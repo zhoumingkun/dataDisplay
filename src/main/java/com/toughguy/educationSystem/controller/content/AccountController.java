@@ -306,6 +306,18 @@ public class AccountController {
 	}
 	
 	/**
+	 * 通过openId获取某个用户的积分
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getIntegralByOpenId")
+	public String getIntegralByOpenId(String openId) {
+		Account a = accountService.findByOpenId(openId);
+		return "{ \"integral\":" + a.getIntegral() + "}";
+	}
+	
+	/**
 	 * 获取某个用户的积分
 	 * @param id
 	 * @return
@@ -318,14 +330,14 @@ public class AccountController {
 	}
 	/**
 	 * 签到
-	 * @param id
+	 * @param openId
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/signIn")
-	public String signIn(int id) {
-		System.out.println(id);
-		Account a = accountService.find(id);
+	public String signIn(String openId) {
+		System.out.println(openId);
+		Account a = accountService.findByOpenId(openId);
 		if(a.getSignDate() == null || "".equals(a.getSignDate())) {
 			a.setIntegral(a.getIntegral() + 2);
 			a.setSignDate(DateUtil.now());
