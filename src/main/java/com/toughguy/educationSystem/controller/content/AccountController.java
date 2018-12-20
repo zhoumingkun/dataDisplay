@@ -85,8 +85,6 @@ public class AccountController {
 	@RequestMapping(value="/loginWX",method=RequestMethod.POST)
 	@ResponseBody
 	public String login(Account account, HttpServletRequest request){	
-		System.out.println(account.getAccount());
-		System.out.println(account.getPassword() +"chushi");
 		if(account.getAccount() == null || account.getAccount().trim() == ""){
 			return "{ \"success\" : false ,\"code\":\"账户不能为空\" }";
 		}else if(account.getPassword() == null || account.getPassword().trim() == ""){

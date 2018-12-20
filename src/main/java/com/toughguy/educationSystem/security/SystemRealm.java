@@ -60,7 +60,7 @@ public class SystemRealm extends AuthorizingRealm{
 		                user.getUserPass(), //密码
 		                getName() //realm name
 		        );
-		        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(user.getId())); //设置盐
+		        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(user.getUserName())); //设置盐
 
 		        return authenticationInfo;
 	}
