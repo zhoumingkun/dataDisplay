@@ -1,10 +1,15 @@
 package com.toughguy.educationSystem.config;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.credential.PasswordMatcher;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -15,6 +20,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.toughguy.educationSystem.security.AccountRealm;
+import com.toughguy.educationSystem.security.CustomRealmAuthenticator;
 import com.toughguy.educationSystem.security.SystemRealm;
 
 @Configuration
@@ -45,21 +52,45 @@ public class ShiroConfig {
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return bean;
     }
-	
+	//SecurityManager 是 Shiro 架构的核心，通过它来链接Realm和用户(文档中称之为Subject.)
 	//-- 配置核心安全事务管理器
 	@Bean(name="securityManager")
-	public SecurityManager securitManager(@Qualifier("systemRealm") SystemRealm systemRealm){
-		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-		manager.setRealm(systemRealm);
-		manager.setSessionManager(sessionManager());  
-		return manager;
-	}
-	//-- 配置自定义权限认证授权器
+    public SecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        //设置realm.
+        securityManager.setAuthenticator(customRealmAuthenticator());
+        List<Realm> realms = new ArrayList<>();
+        //添加多个Realm
+        realms.add(systemRealm());
+        realms.add(accountRealm());
+        securityManager.setRealms(realms);
+        // 自定义session管理 使用redis
+        securityManager.setSessionManager(sessionManager());
+        return securityManager;
+    }
+	 /**
+     * 系统自带的Realm管理，主要针对多realm
+     * */
+    @Bean
+    public CustomRealmAuthenticator customRealmAuthenticator(){
+        //自己重写的ModularRealmAuthenticator
+    	CustomRealmAuthenticator customRealmAuthenticator = new CustomRealmAuthenticator();
+    	customRealmAuthenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+        return customRealmAuthenticator;
+    }
+	//-- 配置自定义权限认证授权器user
 	@Bean(name="systemRealm")
-	public SystemRealm systemRealm(@Qualifier("credentialsMatcher") CredentialsMatcher credentialsMatcher){
+	public SystemRealm systemRealm(){
 		SystemRealm systemRealm = new SystemRealm();
-		systemRealm.setCredentialsMatcher(credentialsMatcher);
+		systemRealm.setCredentialsMatcher(credentialsMatcher());
 		return systemRealm;
+	}
+	//-- 配置自定义权限认证授权器account
+	@Bean(name="accountRealm")
+	public AccountRealm accountRealm(){
+		AccountRealm accountRealm = new AccountRealm();
+		accountRealm.setCredentialsMatcher(credentialsMatcher());
+		return accountRealm;
 	}
 	//-- 配置密码比较器
 	@Bean(name="credentialsMatcher")

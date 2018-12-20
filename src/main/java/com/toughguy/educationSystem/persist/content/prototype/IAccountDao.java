@@ -20,4 +20,10 @@ public interface IAccountDao extends IGenericDao<Account, Integer>{
 	public PagerModel<Account> findAllByRisk(Map<String, Object> params);
 	
 	public Account findByOpenId(String openId);
+	/**
+	 * 根据account查询学生
+	 * @param account
+	 * @return
+	 */
+	public Account findByAccount(String account);
 }

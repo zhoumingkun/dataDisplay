@@ -1,3 +1,4 @@
+
 package com.toughguy.educationSystem.security;
 
 
@@ -7,11 +8,13 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -21,27 +24,9 @@ import com.toughguy.educationSystem.service.authority.prototype.IAuthorityServic
 import com.toughguy.educationSystem.service.authority.prototype.IUserService;
 
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the"License"); 
- * you may not use this file except in compliance with the License.  
- * You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
- * See the License for the specific language governing permissions and limitations under the License.
- * Copyright [2017] [RanJi] [Email-jiran1221@163.com]
- * 
- * Shiro框架实现类
- * @author RanJi
- * @date 2013-10-1
- * @since JDK1.7
- * @version 1.0
+ * 管理员realm
+ * @author BOBO
+ *
  */
 public class SystemRealm extends AuthorizingRealm{
 	
@@ -58,17 +43,26 @@ public class SystemRealm extends AuthorizingRealm{
 	 * 编写认证代码
 	 */
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken authToken) throws AuthenticationException {
-		//-- 1. 基于userName和password的令牌
-		UsernamePasswordToken token = (UsernamePasswordToken)authToken;
-		//-- 2. 根据验证单的填写的名字从后台查找用户
-		User user = userService.findByUserName(token.getUsername());
-		//-- 3. 返回认证材料信息
-		AuthenticationInfo authenInfo = null;
-		if(user != null)
-			authenInfo = new SimpleAuthenticationInfo(user.getUserName(),user.getUserPass(),getName());
-		return authenInfo;
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+//				logger.info("开始User身份认证..");
+		        CustomLoginToken userToken = (CustomLoginToken)token;
+		        String userName =  userToken.getUsername();
+		        User user = userService.findByUserName(userName);
+
+		        if (user == null) {
+		            //没有返回登录用户名对应的SimpleAuthenticationInfo对象时,就会在LoginController中抛出UnknownAccountException异常
+		            throw new UnknownAccountException("用户不存在！");
+		        }
+
+		        //验证通过返回一个封装了用户信息的AuthenticationInfo实例即可。
+		        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+		                user, //用户信息
+		                user.getUserPass(), //密码
+		                getName() //realm name
+		        );
+		        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(user.getId())); //设置盐
+
+		        return authenticationInfo;
 	}
 	
 	/**

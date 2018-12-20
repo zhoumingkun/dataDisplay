@@ -35,6 +35,7 @@ import com.toughguy.educationSystem.persist.authority.prototype.IOperationDao;
 import com.toughguy.educationSystem.persist.authority.prototype.IResourceDao;
 import com.toughguy.educationSystem.persist.authority.prototype.IRoleDao;
 import com.toughguy.educationSystem.persist.authority.prototype.IUserDao;
+import com.toughguy.educationSystem.security.CustomLoginToken;
 import com.toughguy.educationSystem.util.JsonUtil;
 
 
@@ -142,7 +143,7 @@ public class LoginController {
 		//ModelAndView mv = new ModelAndView();
 	    try{
 	    	Subject currentUser = SecurityUtils.getSubject();
-	    	UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),user.getUserPass());
+	    	CustomLoginToken token = new CustomLoginToken(user.getUserName(),user.getUserPass(),"USER");
 	    	currentUser.login(token);
 	    } catch ( UnknownAccountException e ) {
 	    	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";

@@ -42,7 +42,6 @@ public class CorsConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public CorsFilter corsFilter() {
-    	System.out.println("进来没");
         final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
