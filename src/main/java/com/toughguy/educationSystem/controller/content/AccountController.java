@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -34,10 +35,14 @@ import com.toughguy.educationSystem.model.authority.User;
 import com.toughguy.educationSystem.model.content.Account;
 import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.pagination.PagerModel;
+import com.toughguy.educationSystem.security.CustomLoginToken;
 import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 import com.toughguy.educationSystem.service.content.prototype.IAccountService;
 import com.toughguy.educationSystem.util.DateUtil;
 import com.toughguy.educationSystem.util.JsonUtil;
+import com.toughguy.educationSystem.util.MD5Util;
+
+import net.minidev.json.JSONUtil;
 
 @Controller
 @RequestMapping(value = "/account")
@@ -69,7 +74,7 @@ public class AccountController {
 				return "{ \"success\" : false,\"msg\": \"该微信已注册，请直接登录\"}";
 			} else {
 				accountService.save(account);
-				return "{ \"success\" : true },\"msg\": \"注册成功\"}";
+				return "{ \"success\" : true ,\"msg\": \"注册成功\"}";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,25 +84,37 @@ public class AccountController {
 	
 	@RequestMapping(value="/loginWX",method=RequestMethod.POST)
 	@ResponseBody
-	public String login(Account account, HttpServletRequest request){		
-		
-	    try{
-	    	Subject currentAccount = SecurityUtils.getSubject();
-	    	UsernamePasswordToken token = new UsernamePasswordToken(account.getAccount(),account.getPassword());
-	    	currentAccount.login(token);
-	    } catch ( UnknownAccountException e ) {
-	    	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
-        } catch ( IncorrectCredentialsException e ) {
+	public String login(Account account, HttpServletRequest request){	
+		System.out.println(account.getAccount());
+		System.out.println(account.getPassword() +"chushi");
+		if(account.getAccount() == null || account.getAccount().trim() == ""){
+			return "{ \"success\" : false ,\"code\":\"账户不能为空\" }";
+		}else if(account.getPassword() == null || account.getPassword().trim() == ""){
+			return "{ \"success\" : false ,\"code\":\"密码不能为空\" }";
+		}
+		//获取Subject实例对象
+		//在shiro里面所有的用户的会话信息都会由Shiro来进行控制，那么也就是说只要是与用户有关的一切的处理信息操作都可以通过Shiro取得，
+		// 实际上可以取得的信息可以有用户名、主机名称等等，这所有的信息都可以通过Subject接口取得
+		Subject subject = SecurityUtils.getSubject();
+		 //将用户名和密码封装到继承了UsernamePasswordToken的userToken
+		CustomLoginToken userToken = new CustomLoginToken(account.getAccount(), account.getPassword(), "ACCOUNT");
+        userToken.setRememberMe(false);
+        try {
+            //认证
+        	System.out.println("认证密码"+ account.getPassword());
+            // 传到ModularRealmAuthenticator类中，然后根据ADMIN_LOGIN_TYPE传到AdminShiroRealm的方法进行认证
+            subject.login(userToken);
+            //Admin存入session
+            SecurityUtils.getSubject().getSession().setAttribute("account",(Account)subject.getPrincipal());
+            return "{ \"success\" : true ,\"code\":\"登录成功\" }";
+        } catch (Exception e) {
+            //认证失败就会抛出AuthenticationException这个异常，就对异常进行相应的操作，这里的处理是抛出一个自定义异常ResultException
+            //到时候我们抛出自定义异常ResultException，用户名或者密码错误
+            e.printStackTrace();
         	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
         }
-	    return "{ \"success\" : true }";
+	}
 		
-		
-		}
-		
-	
-	
-	
 	@ResponseBody
 	@RequestMapping(value = "/reset")
 //	@RequiresPermissions("account:reset")

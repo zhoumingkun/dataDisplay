@@ -45,6 +45,11 @@ public class AccountImpl extends GenericDaoImpl<Account, Integer> implements IAc
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByOpenId", openId);
 	}
+	@Override
+	public Account findByAccount(String account) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByAccount",account);
+	}
 	
 
 }

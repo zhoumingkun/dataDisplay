@@ -21,6 +21,10 @@
 	<select id="findByOpenId" parameterType="String" resultType="Account">
 		select * from service_account where openId = #{openId}
 	</select>
+	<!-- 根据account查询某个信息 -->
+	<select id="findByAccount" parameterType="String" resultType="Account">
+		select * from service_account where account = #{account}
+	</select>
 	<!-- 根据状态查询内容 -->
 	<select id="findByState" parameterType="int" resultType="Account">
 		select * from service_account where state = #{state}
