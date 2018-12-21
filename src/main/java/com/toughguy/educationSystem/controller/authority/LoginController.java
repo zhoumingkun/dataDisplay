@@ -152,9 +152,7 @@ public class LoginController {
 		// 实际上可以取得的信息可以有用户名、主机名称等等，这所有的信息都可以通过Subject接口取得
 		Subject subject = SecurityUtils.getSubject();
 		 //将用户名和密码封装到继承了UsernamePasswordToken的userToken
-		System.out.println(user.getUserPass());
 		CustomLoginToken userToken = new CustomLoginToken(user.getUserName(), user.getUserPass(), "ACCOUNT");
-		System.out.println("-------------------------"+userToken.getPassword());
 		userToken.setRememberMe(false);
         try {
             //认证
@@ -202,7 +200,6 @@ public class LoginController {
         } catch (Exception e) {
             //认证失败就会抛出AuthenticationException这个异常，就对异常进行相应的操作，这里的处理是抛出一个自定义异常ResultException
             //到时候我们抛出自定义异常ResultException，用户名或者密码错误
-            e.printStackTrace();
         	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
         }
 	}

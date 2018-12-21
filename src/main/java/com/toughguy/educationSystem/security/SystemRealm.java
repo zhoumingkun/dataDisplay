@@ -74,11 +74,11 @@ public class SystemRealm extends AuthorizingRealm{
 		//-- 以下的代码是测试代码，假设所有的用户都会有"user:list"的权限
 		//-- 在实际的开发中，我们会自己写好user-role-permission模块，然后从数据库中查询，用户的权限
 		//-- 并可以赋予用户权限
-		String userName = (String)principals.fromRealm(getName()).iterator().next();
+		User user = (User) principals.fromRealm(getName()).iterator().next();
+		String userName = user.getUserName();
 		SimpleAuthorizationInfo info = null;
 		if(userName != null && !"".equals(userName)){
 			info = new SimpleAuthorizationInfo();
-			User user  = userService.findByUserName(userName);
 			List <Operation> oprList = authService.findOperationsByUserId(user.getId());
 			for (Operation o:oprList){
 				String []permission = o.getPermission().split(",");
