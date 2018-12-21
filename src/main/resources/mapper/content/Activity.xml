@@ -4,7 +4,7 @@
 
 	<insert id="save" parameterType="Activity" keyProperty="id" useGeneratedKeys="true">
 		insert into content_activity (createTime,updateTime,title, author,content,summarize,image,state,hits,articleSource) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits}#{articleSource})
+		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits},#{articleSource})
 	</insert>
 	
 	<!-- 删除某个信息 -->

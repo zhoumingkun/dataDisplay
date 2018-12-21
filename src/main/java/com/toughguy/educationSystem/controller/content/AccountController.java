@@ -83,6 +83,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/loginWX",method=RequestMethod.POST)
+	//@RequiresPermissions("account:loginWX")
 	@ResponseBody
 	public String login(Account account, HttpServletRequest request){	
 		if(account.getAccount() == null || account.getAccount().trim() == ""){
@@ -153,6 +154,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addIntegral")
+	//@RequiresPermissions("account:addIntegral")
 	public String addIntegral(int id,int addIntegral) {
 		try {
 			Account a = accountService.find(id);
@@ -168,7 +170,7 @@ public class AccountController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/deleteAccount")
-	//@RequiresPermissions("account:detele")
+	//@RequiresPermissions("account:deleteAccount")
 	public String deleteAccount(int id) {
 		try {
 			accountService.delete(id);
@@ -224,7 +226,7 @@ public class AccountController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/dataRiskAssessment")
-	//@RequiresPermissions("account:data")
+	//@RequiresPermissions("account:dataRiskAssessment")
 	public String dataRiskAssessment(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -264,7 +266,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/dataRiskByTask")
-	//@RequiresPermissions("account:data")
+	//@RequiresPermissions("account:dataRiskByTask")
 	public String dataRiskByTask(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -310,6 +312,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getIntegralByOpenId")
+	//@RequiresPermissions("account:getIntegralByOpenId")
 	public String getIntegralByOpenId(String openId) {
 		Account a = accountService.findByOpenId(openId);
 		return "{ \"integral\":" + a.getIntegral() + "}";
@@ -322,6 +325,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getIntegral")
+	//@RequiresPermissions("account:getIntegral")
 	public String getIntegral(int id) {
 		Account a = accountService.find(id);
 		return "{ \"integral\":" + a.getIntegral() + "}";
@@ -333,6 +337,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/signIn")
+	//@RequiresPermissions("account:signIn")
 	public String signIn(String openId) {
 		System.out.println(openId);
 		Account a = accountService.findByOpenId(openId);
