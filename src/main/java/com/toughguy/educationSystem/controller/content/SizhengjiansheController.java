@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class SizhengjiansheController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("sizhengjianshe:save")
+	@RequiresPermissions("sizhengjianshe:save")
 	public String saveSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
 		try {
 			sizhengjiansheService.save(sizhengjianshe);
@@ -66,7 +67,7 @@ public class SizhengjiansheController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("sizhengjianshe:edit")
+	@RequiresPermissions("sizhengjianshe:edit")
 	public String editSizhengjianshe1(Sizhengjianshe sizhengjianshe) {
 		try {
 			 sizhengjiansheService.update(sizhengjianshe);
@@ -80,7 +81,7 @@ public class SizhengjiansheController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("sizhengjianshe:detele")
+	@RequiresPermissions("sizhengjianshe:detele")
 	public String deleteSizhengjianshe(int id) {
 		try {
 			sizhengjiansheService.delete(id);
@@ -114,18 +115,12 @@ public class SizhengjiansheController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	/**
-	 * 这个只用于小程序文档访问使用（统计浏览量）
-	 * @param id
-	 * @return
-	 */
+	
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("sizhengjianshe:getById")
 	public Sizhengjianshe getById(int id) {
-		Sizhengjianshe szjs =  sizhengjiansheService.find(id);
-		szjs.setHits(szjs.getHits() + 1);
-		return szjs;
+		return  sizhengjiansheService.find(id);
 	}
 	
 	@ResponseBody

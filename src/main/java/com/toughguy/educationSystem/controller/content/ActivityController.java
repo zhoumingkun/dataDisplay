@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class ActivityController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("activity:save")
+	@RequiresPermissions("activity:save")
 	public String saveActivity(Activity activity) {
 		try {
 			activityService.save(activity);
@@ -37,7 +38,7 @@ public class ActivityController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("activity:edit")
+	@RequiresPermissions("activity:edit")
 	public String editActivity(Activity activity) {
 		try {
 			activityService.update(activity);
@@ -52,7 +53,7 @@ public class ActivityController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("activity:detele")
+	@RequiresPermissions("activity:detele")
 	public String deleteActivity(int id) {
 		try {
 			activityService.delete(id);
@@ -86,18 +87,12 @@ public class ActivityController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	/**
-	 * 这个只用于小程序文档访问使用（统计浏览量）
-	 * @param id
-	 * @return
-	 */
+	
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("activity:getById")
 	public Activity getById(int id) {
-		Activity activity =  activityService.find(id);
-		activity.setHits(activity.getHits() + 1);
-		return activity;
+		return  activityService.find(id);
 	}
 	
 	@ResponseBody

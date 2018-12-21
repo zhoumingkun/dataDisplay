@@ -18,6 +18,7 @@ import java.util.concurrent.TimeoutException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +68,7 @@ public class TestController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/uploadPic")
-	//@RequiresPermissions("test:uploadPic")
+	@RequiresPermissions("test:uploadPic")
 	public String uploadPicture(MultipartFile pictureFile){
 		if(UploadUtil.isPicture(pictureFile.getOriginalFilename())){
 			try {
@@ -88,7 +89,7 @@ public class TestController {
 	 */
 	@ResponseBody	
 	@RequestMapping(value = "/saveSingleTopic")
-	//@RequiresPermissions("test:saveSingleTopic")
+	@RequiresPermissions("test:saveSingleTopic")
 	public String saveSingleTopic(String test,String topic,String singleOptions) {
 		Test test1 = new Test();
 		Topic topic1 = new Topic();
@@ -255,7 +256,7 @@ public class TestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/editSingleTopic")
-	//@RequiresPermissions("test:editSingleTopic")
+	@RequiresPermissions("test:editSingleTopic")
 	public String editSingleTopic(String tests,String topics,String singleOptions) {
 		Test test = new Test();
 		Topic topic = new Topic();
@@ -360,7 +361,7 @@ public class TestController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("test:detele")
+	@RequiresPermissions("test:detele")
 	public String deletetest(int id) {
 		try {
 			testService.delete(id);

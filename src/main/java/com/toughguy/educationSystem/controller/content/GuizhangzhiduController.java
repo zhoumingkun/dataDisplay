@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class GuizhangzhiduController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("guizhangzhidu:save")
+	@RequiresPermissions("guizhangzhidu:save")
 	public String saveGuizhangzhidu(Guizhangzhidu guizhangzhidu) {
 		try {
 			guizhangzhiduService.save(guizhangzhidu);
@@ -39,7 +40,7 @@ public class GuizhangzhiduController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("guizhangzhidu:edit")
+	@RequiresPermissions("guizhangzhidu:edit")
 	public String editGuizhangzhidu(Guizhangzhidu guizhangzhidu) {
 		try {
 			guizhangzhiduService.update(guizhangzhidu);
@@ -54,7 +55,7 @@ public class GuizhangzhiduController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("guizhangzhidu:detele")
+	@RequiresPermissions("guizhangzhidu:detele")
 	public String deleteGuizhangzhidu(int id) {
 		try {
 			guizhangzhiduService.delete(id);
@@ -88,18 +89,12 @@ public class GuizhangzhiduController {
 			return "{ \"total\" : 0, \"rows\" : [] }";
 		}
 	}
-	/**
-	 * 这个只用于小程序文档访问使用（统计浏览量）
-	 * @param id
-	 * @return
-	 */
+	
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("guizhangzhidu:getById")
 	public Guizhangzhidu getById(int id) {
-		Guizhangzhidu guizhangzhidu =  guizhangzhiduService.find(id);
-		guizhangzhidu.setHits(guizhangzhidu.getHits() + 1);
-		return guizhangzhidu;
+		return  guizhangzhiduService.find(id);
 	}
 	
 	@ResponseBody

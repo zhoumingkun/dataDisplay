@@ -19,6 +19,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,7 +155,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addIntegral")
-	//@RequiresPermissions("account:addIntegral")
+	@RequiresPermissions("account:addIntegral")
 	public String addIntegral(int id,int addIntegral) {
 		try {
 			Account a = accountService.find(id);
@@ -187,7 +188,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("account:detele")
+	@RequiresPermissions("account:detele")
 	public String deleteAccountResult(int id) {
 		try {
 			List<AccountResult> ars = accountResultService.findByAccountId(id);

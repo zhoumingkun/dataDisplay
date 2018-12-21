@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("zhengcefagui:save")
+	@RequiresPermissions("zhengcefagui:save")
 	public String saveZhengcefagui(Zhengcefagui zhengcefagui) {
 		try {
 			zhengcefaguiService.save(zhengcefagui);
@@ -39,7 +40,7 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("zhengcefagui:edit")
+	@RequiresPermissions("zhengcefagui:edit")
 	public String editZhengcefagui(Zhengcefagui zhengcefagui) {
 		try {
 			zhengcefaguiService.update(zhengcefagui);
@@ -54,7 +55,7 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("zhengcefagui:detele")
+	@RequiresPermissions("zhengcefagui:detele")
 	public String deleteZhengcefagui(int id) {
 		try {
 			zhengcefaguiService.delete(id);
@@ -89,18 +90,12 @@ public class ZhengcefaguiController {
 		}
 	}
 	
-	/**
-	 * 这个只用于小程序文档访问使用（统计浏览量）
-	 * @param id
-	 * @return
-	 */
+	
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("zhengcefagui:getById")
 	public Zhengcefagui getById(int id) {
-		Zhengcefagui zhengcefagui =  zhengcefaguiService.find(id);
-		zhengcefagui.setHits(zhengcefagui.getHits() + 1);
-		return zhengcefagui;
+		return  zhengcefaguiService.find(id);
 	}
 	
 	@ResponseBody

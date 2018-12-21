@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class XiaoyuanhuangyeController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	//@RequiresPermissions("xiaoyuanhuangye:save")
+	@RequiresPermissions("xiaoyuanhuangye:save")
 	public String save(XiaoyuanhuangyeOrganization xiaoyuanhuangyeOrgainzation,String params) {
 		try {
 			xiaoyuanhuangyeOrganizationService.save(xiaoyuanhuangyeOrgainzation);
@@ -57,7 +58,7 @@ public class XiaoyuanhuangyeController {
 	}
 	@ResponseBody	
 	@RequestMapping(value = "/edit")
-	//@RequiresPermissions("xiaoyuanhuangye:edit")
+	@RequiresPermissions("xiaoyuanhuangye:edit")
 	public String edit(XiaoyuanhuangyeOrganization xiaoyuanhuangyeOrgainzation,String params) {
 		try {
 			xiaoyuanhuangyeOrganizationService.update(xiaoyuanhuangyeOrgainzation);
@@ -124,7 +125,7 @@ public class XiaoyuanhuangyeController {
 	}
 	@ResponseBody	
 	@RequestMapping(value = "/deleteOrganization")
-	//@RequiresPermissions("xiaoyuanhuangye:deleteOrganization")
+	@RequiresPermissions("xiaoyuanhuangye:deleteOrganization")
 	public String deleteOrganization(int id) {
 		try {
 			xiaoyuanhuangyeOrganizationService.delete(id);
@@ -136,7 +137,7 @@ public class XiaoyuanhuangyeController {
 	}
 	@ResponseBody	
 	@RequestMapping(value = "/deleteDepartment")
-	//@RequiresPermissions("xiaoyuanhuangye:deleteDepartment")
+	@RequiresPermissions("xiaoyuanhuangye:deleteDepartment")
 	public String deleteDepartment(int id) {
 		try {
 			xiaoyuanhuangyeDepartmentService.delete(id);
