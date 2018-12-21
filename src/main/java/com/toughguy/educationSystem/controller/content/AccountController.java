@@ -83,11 +83,8 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value="/loginWX",method=RequestMethod.POST)
-	//@RequiresPermissions("account:/loginWX")
 	@ResponseBody
 	public String login(Account account, HttpServletRequest request){	
-		System.out.println(account.getAccount());
-		System.out.println(account.getPassword() +"chushi");
 		if(account.getAccount() == null || account.getAccount().trim() == ""){
 			return "{ \"success\" : false ,\"code\":\"账户不能为空\" }";
 		}else if(account.getPassword() == null || account.getPassword().trim() == ""){
@@ -156,7 +153,6 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addIntegral")
-//	@RequiresPermissions("account:addIntegral")
 	public String addIntegral(int id,int addIntegral) {
 		try {
 			Account a = accountService.find(id);
@@ -172,7 +168,7 @@ public class AccountController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/deleteAccount")
-	//@RequiresPermissions("account:deteleAccount")
+	//@RequiresPermissions("account:detele")
 	public String deleteAccount(int id) {
 		try {
 			accountService.delete(id);
@@ -228,7 +224,7 @@ public class AccountController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/dataRiskAssessment")
-	//@RequiresPermissions("account:dataRiskAssessment")
+	//@RequiresPermissions("account:data")
 	public String dataRiskAssessment(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -268,7 +264,7 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/dataRiskByTask")
-	//@RequiresPermissions("account:dataRiskByTask")
+	//@RequiresPermissions("account:data")
 	public String dataRiskByTask(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -314,7 +310,6 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getIntegralByOpenId")
-	//@RequiresPermissions("account:getIntegralByOpenId")
 	public String getIntegralByOpenId(String openId) {
 		Account a = accountService.findByOpenId(openId);
 		return "{ \"integral\":" + a.getIntegral() + "}";
@@ -327,7 +322,6 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getIntegral")
-	//@RequiresPermissions("account:getIntegral")
 	public String getIntegral(int id) {
 		Account a = accountService.find(id);
 		return "{ \"integral\":" + a.getIntegral() + "}";
@@ -339,7 +333,6 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/signIn")
-	//@RequiresPermissions("account:signIn")
 	public String signIn(String openId) {
 		System.out.println(openId);
 		Account a = accountService.findByOpenId(openId);
