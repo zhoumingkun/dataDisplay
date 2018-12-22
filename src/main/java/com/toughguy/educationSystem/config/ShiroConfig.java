@@ -47,8 +47,8 @@ public class ShiroConfig {
       //小程序匿名访问
         filterChainDefinitionMap.put("/wechat/**","anon");
         filterChainDefinitionMap.put("/weixinContent/**","anon");
-//        filterChainDefinitionMap.put("/**", "authc");//表示需要认证才可以访问
-        filterChainDefinitionMap.put("/**", "anon");
+        filterChainDefinitionMap.put("/**", "authc");//表示需要认证才可以访问
+//        filterChainDefinitionMap.put("/**", "anon");
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return bean;
     }

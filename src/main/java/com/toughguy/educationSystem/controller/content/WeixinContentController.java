@@ -3,11 +3,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +27,7 @@ import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeDepartment;
 import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeOrganization;
 import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.pagination.PagerModel;
+import com.toughguy.educationSystem.security.CustomLoginToken;
 import com.toughguy.educationSystem.service.content.prototype.IAccountService;
 import com.toughguy.educationSystem.service.content.prototype.IActivityService;
 import com.toughguy.educationSystem.service.content.prototype.IGuizhangzhiduService;
@@ -59,6 +65,66 @@ public class WeixinContentController {
 	@Autowired
 	private IAccountService accountService;
     
+	@ResponseBody	
+	@RequestMapping(value = "/save")
+	//@RequiresPermissions("account:save")
+	public String saveAccount(Account account,String openId) {
+		try {
+			boolean isOpenId = false;
+			List<Account> accounts = accountService.findAll();
+			for(Account a:accounts) {
+				if(a.getOpenId() == null || "".equals(a.getOpenId())) {
+					
+				} else {
+					if(a.getOpenId().equals(openId)) {
+						//已注册过
+						isOpenId = true;
+					}
+				}
+			}
+			if(isOpenId) {
+				return "{ \"success\" : false,\"msg\": \"该微信已注册，请直接登录\"}";
+			} else {
+				accountService.save(account);
+				return "{ \"success\" : true ,\"msg\": \"注册成功\"}";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
+	@RequestMapping(value="/loginWX",method=RequestMethod.POST)
+	//@RequiresPermissions("account:loginWX")
+	@ResponseBody
+	public String login(Account account, HttpServletRequest request){	
+		if(account.getAccount() == null || account.getAccount().trim() == ""){
+			return "{ \"success\" : false ,\"code\":\"账户不能为空\" }";
+		}else if(account.getPassword() == null || account.getPassword().trim() == ""){
+			return "{ \"success\" : false ,\"code\":\"密码不能为空\" }";
+		}
+		//获取Subject实例对象
+		//在shiro里面所有的用户的会话信息都会由Shiro来进行控制，那么也就是说只要是与用户有关的一切的处理信息操作都可以通过Shiro取得，
+		// 实际上可以取得的信息可以有用户名、主机名称等等，这所有的信息都可以通过Subject接口取得
+		Subject subject = SecurityUtils.getSubject();
+		 //将用户名和密码封装到继承了UsernamePasswordToken的userToken
+		CustomLoginToken userToken = new CustomLoginToken(account.getAccount(), account.getPassword(), "ACCOUNT");
+        userToken.setRememberMe(false);
+        try {
+            //认证
+        	System.out.println("认证密码"+ account.getPassword());
+            // 传到ModularRealmAuthenticator类中，然后根据ADMIN_LOGIN_TYPE传到AdminShiroRealm的方法进行认证
+            subject.login(userToken);
+            //Admin存入session
+            SecurityUtils.getSubject().getSession().setAttribute("account",(Account)subject.getPrincipal());
+            return "{ \"success\" : true ,\"code\":\"登录成功\" }";
+        } catch (Exception e) {
+            //认证失败就会抛出AuthenticationException这个异常，就对异常进行相应的操作，这里的处理是抛出一个自定义异常ResultException
+            //到时候我们抛出自定义异常ResultException，用户名或者密码错误
+            e.printStackTrace();
+        	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
+        }
+	}
     @ResponseBody
 	@RequestMapping(value = "/findNew")
 	//@RequiresPermissions("activity:findNew")
