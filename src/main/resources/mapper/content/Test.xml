@@ -14,7 +14,7 @@
 	
 	<!-- 查询某个信息 -->
 	<select id="find" parameterType="int" resultType="Test">
-		select * from service_test where id = #{id}
+		select * from service_test where id = #{testId}
 	</select>
 	
 	<!-- 根据状态查询内容 -->

@@ -11,6 +11,7 @@ import com.toughguy.educationSystem.ueditor.ActionEnter;
 
 
 @Controller
+@RequestMapping(value = "/ueditor")
 public class UeditorController {
 
 	@RequestMapping("/")
@@ -22,7 +23,7 @@ public class UeditorController {
 	private ActionEnter actionEnter;
 
 	@ResponseBody
-	@RequestMapping("/ueditor/exec")
+	@RequestMapping("/exec")
 	public String exe(HttpServletRequest request){
 		return actionEnter.exec(request);
 	}

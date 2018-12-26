@@ -203,17 +203,31 @@ public class TestController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		Test test = testService.find(testId);
 		List<Topic> topics = topicService.findByTestId(testId);
-		List<SingleOption> singleOptions = singleOptionService.findByTopicId(topics.get(0).getId());
-		result.put("test", test);
-		result.put("topics", topics.get(0));
-		result.put("singleOptions", singleOptions);
-		try {
-			return om.writeValueAsString(result);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(topics.size()!=0){
+			List<SingleOption> singleOptions = singleOptionService.findByTopicId(topics.get(0).getId());
+			result.put("test", test);
+			result.put("topics", topics.get(0));
+			result.put("singleOptions", singleOptions);
+			try {
+				return om.writeValueAsString(result);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}else{
 			return null;
 		}
+//		result.put("test", test);
+//		result.put("topics", topics.get(0));
+//		result.put("singleOptions", singleOptions);
+//		try {
+//			return om.writeValueAsString(result);
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return null;
+//		}
 	}
 	/**
 	 * 获取分值题题目+选项+结果

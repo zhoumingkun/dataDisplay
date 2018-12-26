@@ -130,39 +130,7 @@ public class SizhengjiansheController {
 		return sizhengjiansheService.findAll();
 	}
 	
-	/**
-	 * 图片上传
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws IOException
-	 */
-	@Value("${uploadDir}")   
-	private String uploadDir;
-	@ResponseBody
-	@RequestMapping(value = "/uploadImage" ,method = { RequestMethod.POST,RequestMethod.GET})
-    public String uploadImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("进入上传图片方法！");
-        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
-        MultipartFile multipartFile =  req.getFile("file");
-        //服务器路径需要换
-//	        String realPath = "C:/Users/Administrator/git/reportingSystem/upload/barcode";
-        String realPath = uploadDir;
-        String path = BackupUtil.rename("jpg");
-        try {
-            File dir = new File(path);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            File file  =  new File(realPath,path);
-            multipartFile.transferTo(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-        return path;
-    }
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "/findByTitle")

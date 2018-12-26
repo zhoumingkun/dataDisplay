@@ -1,27 +1,18 @@
 package com.toughguy.educationSystem.controller.content;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.educationSystem.dto.UserDTO;
-import com.toughguy.educationSystem.model.authority.Operation;
-import com.toughguy.educationSystem.model.authority.Role;
-import com.toughguy.educationSystem.model.authority.User;
 import com.toughguy.educationSystem.model.content.Account;
 import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.pagination.PagerModel;
@@ -40,10 +27,6 @@ import com.toughguy.educationSystem.security.CustomLoginToken;
 import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 import com.toughguy.educationSystem.service.content.prototype.IAccountService;
 import com.toughguy.educationSystem.util.DateUtil;
-import com.toughguy.educationSystem.util.JsonUtil;
-import com.toughguy.educationSystem.util.MD5Util;
-
-import net.minidev.json.JSONUtil;
 
 @Controller
 @RequestMapping(value = "/account")
