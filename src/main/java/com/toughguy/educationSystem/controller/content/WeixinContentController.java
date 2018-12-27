@@ -1,4 +1,5 @@
 package com.toughguy.educationSystem.controller.content;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -432,15 +433,14 @@ public class WeixinContentController {
 			accountService.update(a);
 			return "{ \"integral\":" + a.getIntegral() + "}";
 		} else {
-			Date signDate = null;
-			signDate = DateUtil.now();
-			boolean timeSignIsToday = DateUtil.isToday(signDate);
+			//获取今天的日期
+			boolean timeSignIsToday = DateUtil.isToday(a.getSignDate());
 			if(timeSignIsToday) {
 				return "{ \"success\": false}";
 			} else {
 				a.setIntegral(a.getIntegral() + 2);
-				Date newDate = new Date();
-				a.setSignDate(newDate);
+				a.setSignDate(DateUtil.now());
+				accountService.update(a);
 				return "{ \"integral\":" + a.getIntegral() + "}";
 			}
 		}
