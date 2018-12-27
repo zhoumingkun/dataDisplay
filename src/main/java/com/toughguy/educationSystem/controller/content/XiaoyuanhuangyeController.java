@@ -61,27 +61,32 @@ public class XiaoyuanhuangyeController {
 	@RequiresPermissions("xiaoyuanhuangye:edit")
 	public String edit(XiaoyuanhuangyeOrganization xiaoyuanhuangyeOrgainzation,String params) {
 		try {
+			System.out.println(xiaoyuanhuangyeOrgainzation.getId());
 			xiaoyuanhuangyeOrganizationService.update(xiaoyuanhuangyeOrgainzation);
 			List<XiaoyuanhuangyeDepartment> xyhyd = new ArrayList<XiaoyuanhuangyeDepartment>();
-			if(params == null || "".equals(params)){
-				xiaoyuanhuangyeOrganizationService.update(xiaoyuanhuangyeOrgainzation);
-				if(xyhyd.get(0).getId() == 0) {
+			List<XiaoyuanhuangyeDepartment> xyhydOld = xiaoyuanhuangyeDepartmentService.findAllDepartment(xiaoyuanhuangyeOrgainzation.getId());
+			if (!StringUtils.isEmpty(params)) {
+				xyhyd = JsonUtil.jsonToList(params, XiaoyuanhuangyeDepartment.class);
+				if(xyhydOld == null) {
 					for(XiaoyuanhuangyeDepartment x:xyhyd) {
 						x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
 						xiaoyuanhuangyeDepartmentService.save(x);
 					}
 				} else {
-					for(XiaoyuanhuangyeDepartment x:xyhyd) {
-						x.setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
-						xiaoyuanhuangyeDepartmentService.update(x);
+					for(int i = 0;i<xyhyd.size();i++) {
+						xyhyd.get(i).setOrganizationId(xiaoyuanhuangyeOrgainzation.getId());
+						try {
+							XiaoyuanhuangyeDepartment old = xyhydOld.get(i);
+							xyhyd.get(i).setId(old.getId());
+							xiaoyuanhuangyeDepartmentService.update(xyhyd.get(i));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							xiaoyuanhuangyeDepartmentService.save(xyhyd.get(i));
+						}
+						
 					}
 				}
 			}
-				
-			if (!StringUtils.isEmpty(params)) {
-				xyhyd = JsonUtil.jsonToList(params, XiaoyuanhuangyeDepartment.class);
-			}
-			
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();

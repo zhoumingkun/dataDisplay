@@ -272,6 +272,7 @@ public class TestController {
 	@RequestMapping(value = "/editSingleTopic")
 	@RequiresPermissions("test:editSingleTopic")
 	public String editSingleTopic(String tests,String topics,String singleOptions) {
+		System.out.println(singleOptions);
 		Test test = new Test();
 		Topic topic = new Topic();
 //		SingleOption singleOption = new SingleOption();
@@ -291,16 +292,32 @@ public class TestController {
 				topic = (Topic) MapUtil.mapToBean(map,Topic.class);
 			}
 			if (!StringUtils.isEmpty(singleOptions)) {
+				System.out.println("ccccccccccccccc");
 				singleOptionList = JsonUtil.jsonToList(singleOptions, SingleOption.class);
 			}
 			//题保存
 			testService.update(test);
 			//题目保存
-			topic.setTestId(test.getId());
-			topicService.update(topic);
+//			topic.setTestId(test.getId());
+			List<Topic> topics1 = topicService.findByTestId(test.getId());
+			topics1.get(0).setImage(topic.getImage());
+			topics1.get(0).setTestId(test.getId());
+			topics1.get(0).setTopic(topic.getTopic());
+			topicService.update(topics1.get(0));
 			//选项（结果）保存
+			List<SingleOption> singleOptions2 = singleOptionService.findByTopicId(topics1.get(0).getId());
+			for(int i = 0;i<singleOptionList.size();i++) {
+				try {
+					SingleOption so = singleOptions2.get(i);
+					singleOptionList.get(i).setId(so.getId());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					singleOptionList.get(i).setTopicId(topics1.get(0).getId());
+					singleOptionService.save(singleOptionList.get(i));
+				}
+			}
 			for(SingleOption s:singleOptionList) {
-				s.setTopicId(topic.getId());
+				s.setTopicId(topics1.get(0).getId());
 				singleOptionService.update(s);
 			}
 			return "{ \"success\" : true }";
@@ -375,7 +392,7 @@ public class TestController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("test:detele")
+	@RequiresPermissions("test:delete")
 	public String deletetest(int id) {
 		try {
 			testService.delete(id);
