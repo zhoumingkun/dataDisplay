@@ -442,10 +442,9 @@ public class TestController {
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
 			List<Test> ts = pg.getData();
-			Map<String, Object> params1 = new HashMap<String, Object>();
-			int testerPassSum = accountResultService.findTesterPassSumByTestId(params1);
-			int testerFailureSum = accountResultService.findTesterFailureSumByTestId(params1);
 			for(Test t:ts) {
+				int testerPassSum = accountResultService.findTesterPassSumByTestId(t.getId());
+				int testerFailureSum = accountResultService.findTesterFailureSumByTestId(t.getId());
 				t.setTesterPassSum(testerPassSum);
 				t.setTesterFailureSum(testerFailureSum);
 			}

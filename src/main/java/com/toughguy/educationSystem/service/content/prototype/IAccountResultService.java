@@ -51,10 +51,10 @@ public interface IAccountResultService extends IGenericService<AccountResult, In
 	 * 查询平台测试合格人次
 	 * @return
 	 */
-	public int findTesterPassSumByTestId(Map<String, Object> params);
+	public int findTesterPassSumByTestId(int testId);
 	/**
 	 * 查询平台测试不合格人次
 	 * @return
 	 */
-	public int findTesterFailureSumByTestId(Map<String, Object> params);
+	public int findTesterFailureSumByTestId(int testId);
 }

@@ -49,11 +49,11 @@ public interface IAccountResultDao extends IGenericDao<AccountResult, Integer>{
 	 * 查询平台测试合格人次（某题）
 	 * @return
 	 */
-	public int findTesterPassSumByTestId(Map<String, Object> params);
+	public int findTesterPassSumByTestId(int testId);
 	/**
 	 * 查询平台测试不合格人次（某题）
 	 * @return
 	 */
-	public int findTesterFailureSumByTestId(Map<String, Object> params);
+	public int findTesterFailureSumByTestId(int testId);
 
 }

@@ -54,9 +54,9 @@ public class StatisticalController {
 		StatisticalDTO s = new StatisticalDTO();
 		Map<String, Object> params = new HashMap<String,Object>();
 		params.put("testId", testId);
-		int oneTesterSum = accountResultService.findTesterSum(params); //某题的测试人次
-		int oneTesterPassSum = accountResultService.findTesterPassSum(params);  //某题测试合格人次
-		int oneTesterFailureSum = accountResultService.findTesterFailureSum(params);  //某题测试不合格人次
+		int oneTesterSum = accountResultService.findTesterSumByTestId(params); //某题的测试人次
+		int oneTesterPassSum = accountResultService.findTesterPassSumByTestId(testId);  //某题测试合格人次
+		int oneTesterFailureSum = accountResultService.findTesterFailureSumByTestId(testId);  //某题测试不合格人次
 		s.setOneTesterSum(oneTesterSum);
 		s.setOneTesterPassSum(oneTesterPassSum);
 		s.setOneTesterFailureSum(oneTesterFailureSum);
