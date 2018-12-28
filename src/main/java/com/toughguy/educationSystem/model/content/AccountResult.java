@@ -12,7 +12,7 @@ import com.toughguy.educationSystem.util.JsonUtil;
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class AccountResult extends AbstractModel {
 	private int  id;
-	private int  accountId;  //账户id
+	private String  openId;  //账户openId
 	private int  testId;     //测试id  service_test
 	private int  rank;       //级别（1优秀  2良好  3危险）
 	private int  type;       //身份类型    （1学生  2老师）
@@ -25,11 +25,11 @@ public class AccountResult extends AbstractModel {
 	}
 	
 	
-	public int getAccountId() {
-		return accountId;
+	public String getOpenId() {
+		return openId;
 	}
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 	public int getTestId() {
 		return testId;

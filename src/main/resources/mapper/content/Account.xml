@@ -38,27 +38,27 @@
 	
 	<!-- 分页查询信息 -->
 	<select id="findPaginated" resultType="Account" parameterType="Map">
-		select * from service_account sa left join service_account_result sar on sa.id = sar.accountId left join service_test st on sar.testId = st.id
+		select DISTINCT sa.* from service_account sa left join service_account_result sar on sa.openId = sar.openId left join service_test st on sar.testId = st.id
 		<include refid="paramsSQL"/>
 		ORDER BY integral desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
-		select count(*) from service_account sa left join service_account_result sar on sa.id = sar.accountId left join service_test st on sar.testId = st.id
+		select count(*) from service_account sa left join service_account_result sar on sa.openId = sar.openId left join service_test st on sar.testId = st.id
 		<include refid="paramsSQL"/>
 	</select>
 	<!-- 查询某题的危险学生列表 -->
 	<select id="findAllByRisk" resultType="Account" parameterType="Map">
 		select DISTINCT sa.* from service_account sa 
 		LEFT JOIN service_account_result sar 
-		ON sar.accountId = sa.id where sa.type = 1 and sar.rank = 3 
+		ON sa.openId = sar.openId where sa.type = 1 and sar.rank = 3 
 		<include refid="paramsSQL"/>
 		ORDER BY createTime desc  limit #{offset}, #{limit}
 	</select>
 	<select id="getRiskTotalOfItems" parameterType="Map" resultType="int">
 		select count(DISTINCT sa.*) from service_account sa 
 		LEFT JOIN service_account_result sar 
-		ON sar.accountId = sa.id where sa.type = 1 and sar.rank = 3 
+		ON sa.openId = sar.openId where sa.type = 1 and sar.rank = 3 
 		<include refid="paramsSQL"/>
 	</select>
 

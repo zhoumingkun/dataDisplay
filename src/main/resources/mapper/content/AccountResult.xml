@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.educationSystem.model.content.AccountResult">
 
 	<insert id="save" parameterType="AccountResult" keyProperty="id" useGeneratedKeys="true">
-		insert into service_account_result (createTime,updateTime,testId,accountId,rank,type) 
-		values (#{createTime},#{updateTime},#{testId},#{accountId},#{rank},#{type})
+		insert into service_account_result (createTime,updateTime,testId,openId,rank,type) 
+		values (#{createTime},#{updateTime},#{testId},#{openId},#{rank},#{type})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -45,7 +45,7 @@
 		update service_account_result
 		<set>
 		    <if test="testId != null and testId != ''">testId = #{testId},</if>
-		    <if test="accountId != null and accountId != ''">accountId = #{accountId},</if>
+		    <if test="openId != null and openId != ''">openId = #{openId},</if>
 			<if test="rank != null and rank != ''">rank = #{rank},</if>
 			<if test="type != null and type != ''">type = #{type},</if>
 		</set>
@@ -69,9 +69,9 @@
 		where  rank = 1 or rank = 2
 	</select>
 	<!-- 查询某道题测试合格人次  -->
-	<select id="findTesterPassSumByTestId" resultType="int" parameterType="Map">
+	<select id="findTesterPassSumByTestId" resultType="int" parameterType="int">
 		select COUNT(*) from service_account_result 
-		where testId = #{testId} and rank = 1 or rank = 2
+		where testId = #{testId} and (rank = 1 or rank = 2)
 	</select>
 	
 	<!-- 查询平台测试不合格人次  -->
@@ -80,7 +80,7 @@
 		 where rank = 3
 	</select>
 	<!-- 查询某道题测试不合格人次  -->
-	<select id="findTesterFailureSumByTestId" resultType="int" parameterType="Map">
+	<select id="findTesterFailureSumByTestId" resultType="int" parameterType="int">
 		select COUNT(*) from service_account_result sar left join service_test st on sar.testId = st.id
 		where testId = #{testId}
 		and rank = 3
@@ -89,15 +89,15 @@
 	<!-- 根据用户id查询  -->
 	<select id="findByAccountId" resultType="AccountResult" parameterType="int">
 		select sar.* from service_account_result sar 
-		left join service_account sa on sar.accountId = sa.id
+		left join service_account sa on sar.openId = sa.openId
 		where sa.id = #{id}
 	</select>
 	
 	<!-- 查询某个账号（学生）的危险测评题数 -->
 	<select id="findRiskAssessment" resultType="Integer">
-		select count(sar.id) from service_account sa 
-		LEFT JOIN service_account_result sar 
-		on sar.accountId = sa.id 
+		select count(distinct sar.id) from service_account_result sar
+		LEFT JOIN service_account sa 
+		on sar.openId = sa.openId 
 		where sar.rank = 3 and sa.id = #{id}
 	</select>
 	<!-- 通用的设置条件的查询SQL语句 -->
@@ -106,8 +106,8 @@
 		    <if test=" testId != null and testId != '' ">
 				and testId = #{testId}
 			</if>
-			<if test=" accountId != null and accountId != '' ">
-				and accountId = #{accountId}
+			<if test=" openId != null and openId != '' ">
+				and openId = #{openId}
 			</if>
 			<if test=" rank != null and rank != '' ">
 				and rank = #{rank}

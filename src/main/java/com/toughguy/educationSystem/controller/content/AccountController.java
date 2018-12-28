@@ -223,6 +223,7 @@ public class AccountController {
 			//为了不把密码传到前台，而创建的新list
 			List<Account> newas = new ArrayList<>();
 			List<Account> as = pg.getData();
+			System.out.println(as.size());
 			for(Account a:as) {
 				int riskAssessment = accountResultService.findRiskAssessment(a.getId());
 				if(riskAssessment == 0) {
