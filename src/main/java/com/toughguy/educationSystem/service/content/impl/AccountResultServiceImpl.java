@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.toughguy.educationSystem.dto.StatisticalDTO;
 import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.persist.content.prototype.IAccountResultDao;
 import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
@@ -65,6 +66,12 @@ public class AccountResultServiceImpl extends GenericServiceImpl<AccountResult, 
 	public int findTesterFailureSumByTestId(int testId) {
 		// TODO Auto-generated method stub
 		return ((IAccountResultDao)dao).findTesterFailureSumByTestId(testId);
+	}
+
+	@Override
+	public List<StatisticalDTO> findGroupByCreateTime(int testId) {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findGroupByCreateTime(testId);
 	}
 
 

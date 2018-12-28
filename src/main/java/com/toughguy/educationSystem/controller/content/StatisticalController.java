@@ -1,6 +1,8 @@
 package com.toughguy.educationSystem.controller.content;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +63,26 @@ public class StatisticalController {
 		s.setOneTesterPassSum(oneTesterPassSum);
 		s.setOneTesterFailureSum(oneTesterFailureSum);
 		return s;
+	}
+	/**
+	 * 某道题的测试合格率统计表
+	 * @return
+	 */
+	@ResponseBody	
+	@RequestMapping(value = "/findGroupByCreateTime")
+	//@RequiresPermissions("statistical:findSumByTestId")
+	public List<StatisticalDTO> findGroupByCreateTime (@RequestParam int testId) {
+		//合格人次
+		int oneTesterPassSum = accountResultService.findTesterPassSumByTestId(testId);
+		List<StatisticalDTO> sDTO1s = new ArrayList<StatisticalDTO>();
+		List<StatisticalDTO> sDTO2s = accountResultService.findGroupByCreateTime(testId);
+		for(StatisticalDTO s:sDTO2s) {
+			StatisticalDTO sDTO = new StatisticalDTO();
+			sDTO.setCreateTime(s.getCreateTime());
+			sDTO.setOneTesterSum(s.getOneTesterSum());
+			sDTO.setOneTesterPassSum(oneTesterPassSum);
+			sDTO1s.add(sDTO);
+		}
+		return sDTO1s;
 	}
 }

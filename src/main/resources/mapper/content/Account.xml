@@ -51,12 +51,11 @@
 	<select id="findAllByRisk" resultType="Account" parameterType="Map">
 		select DISTINCT sa.* from service_account sa 
 		LEFT JOIN service_account_result sar 
-		ON sa.openId = sar.openId where sa.type = 1 and sar.rank = 3 
-		<include refid="paramsSQL"/>
+		ON sa.openId = sar.openId where sa.type = 1 and sar.rank = 3 and testId = #{testId}
 		ORDER BY createTime desc  limit #{offset}, #{limit}
 	</select>
 	<select id="getRiskTotalOfItems" parameterType="Map" resultType="int">
-		select count(DISTINCT sa.*) from service_account sa 
+		select count(DISTINCT sa.id) from service_account sa 
 		LEFT JOIN service_account_result sar 
 		ON sa.openId = sar.openId where sa.type = 1 and sar.rank = 3 
 		<include refid="paramsSQL"/>

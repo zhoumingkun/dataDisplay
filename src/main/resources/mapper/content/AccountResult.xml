@@ -85,6 +85,11 @@
 		where testId = #{testId}
 		and rank = 3
 	</select>
+	<!-- 认识自我本题测试合格率统计表 -->
+	<select id="findGroupByCreateTime" resultType="com.toughguy.educationSystem.dto.StatisticalDTO" parameterType="int">
+		SELECT createTime, count(*) oneTesterSum
+		FROM service_account_result where testId = #{testId} GROUP BY DATE_FORMAT(createTime, '%Y-%M-%D') order by createTime asc 
+	</select>
 
 	<!-- 根据用户id查询  -->
 	<select id="findByAccountId" resultType="AccountResult" parameterType="int">

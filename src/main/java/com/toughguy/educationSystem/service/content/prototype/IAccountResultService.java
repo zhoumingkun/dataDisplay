@@ -3,6 +3,7 @@ package com.toughguy.educationSystem.service.content.prototype;
 import java.util.List;
 import java.util.Map;
 
+import com.toughguy.educationSystem.dto.StatisticalDTO;
 import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.service.prototype.IGenericService;
 
@@ -57,4 +58,9 @@ public interface IAccountResultService extends IGenericService<AccountResult, In
 	 * @return
 	 */
 	public int findTesterFailureSumByTestId(int testId);
+	/**
+	 * 认识自我本题测试合格率统计表（某题）
+	 * @return
+	 */
+	public List<StatisticalDTO> findGroupByCreateTime(int testId);
 }

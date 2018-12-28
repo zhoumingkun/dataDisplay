@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.toughguy.educationSystem.dto.StatisticalDTO;
 import com.toughguy.educationSystem.model.content.Account;
 import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.persist.content.prototype.IAccountResultDao;
@@ -70,6 +71,12 @@ public class AccountResultImpl extends GenericDaoImpl<AccountResult, Integer> im
 		// TODO Auto-generated method stub
 		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterFailureSumByTestId",testId);
 		return count;
+	}
+
+	@Override
+	public List<StatisticalDTO> findGroupByCreateTime(int testId) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findGroupByCreateTime",testId);
 	}
 
 

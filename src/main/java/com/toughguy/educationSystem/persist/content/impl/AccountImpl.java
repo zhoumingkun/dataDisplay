@@ -36,7 +36,7 @@ public class AccountImpl extends GenericDaoImpl<Account, Integer> implements IAc
 	}
 	// -- 获取总的条目数 (分页查询中使用)
 	private int getRiskTotalNumOfItems(Map<String, Object> params) {
-		int count = (Integer) sqlSessionTemplate.selectOne(typeNameSpace + ".getRiskTotalNumOfItems", params);
+		int count = (Integer) sqlSessionTemplate.selectOne(typeNameSpace + ".getRiskTotalOfItems", params);
 		return count;
 	}
 	

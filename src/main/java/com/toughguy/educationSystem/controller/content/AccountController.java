@@ -171,12 +171,36 @@ public class AccountController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("account:detele")
+	@RequiresPermissions("account:delete")
 	public String deleteAccountResult(int id) {
 		try {
 			List<AccountResult> ars = accountResultService.findByAccountId(id);
 			for(AccountResult ar:ars) {
 				ar.setRank(2);
+				accountResultService.update(ar);
+			}
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	/**
+	 * 将学生测评改为(安全)
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/deleteByTestId")
+	@RequiresPermissions("account:delete")
+	public String deleteByTestId(int id,int testId) {
+		try {
+			List<AccountResult> ars = accountResultService.findByAccountId(id);
+			for(AccountResult ar:ars) {
+				if(ar.getTestId() == testId) {
+					ar.setRank(2);
+					accountResultService.update(ar);
+				}
 			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
