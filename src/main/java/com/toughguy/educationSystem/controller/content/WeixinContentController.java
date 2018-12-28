@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.educationSystem.dto.TopicAndSingleOptionDTO;
 import com.toughguy.educationSystem.model.content.Account;
+import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.model.content.Activity;
 import com.toughguy.educationSystem.model.content.Guizhangzhidu;
 import com.toughguy.educationSystem.model.content.Sizhengjianshe;
@@ -29,6 +30,7 @@ import com.toughguy.educationSystem.model.content.XiaoyuanhuangyeOrganization;
 import com.toughguy.educationSystem.model.content.Zhengcefagui;
 import com.toughguy.educationSystem.pagination.PagerModel;
 import com.toughguy.educationSystem.security.CustomLoginToken;
+import com.toughguy.educationSystem.service.content.prototype.IAccountResultService;
 import com.toughguy.educationSystem.service.content.prototype.IAccountService;
 import com.toughguy.educationSystem.service.content.prototype.IActivityService;
 import com.toughguy.educationSystem.service.content.prototype.IGuizhangzhiduService;
@@ -65,7 +67,22 @@ public class WeixinContentController {
 	private ISingleOptionService singleOptionService;
 	@Autowired
 	private IAccountService accountService;
+	@Autowired
+	private IAccountResultService accountResultService;
     
+	@ResponseBody	
+	@RequestMapping(value = "/saveAccountResult")
+	//@RequiresPermissions("accountResult:save")
+	public String saveAccountResult(AccountResult accountResult) {
+		try {
+			accountResultService.save(accountResult);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 	//@RequiresPermissions("account:save")
