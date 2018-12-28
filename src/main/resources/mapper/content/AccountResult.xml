@@ -55,18 +55,33 @@
 	<!-- 查询平台测试总人次  -->
 	<select id="findTesterSum" resultType="int" parameterType="Map">
 		select COUNT(*) from service_account_result sar left join service_test st on sar.testId = st.id
+		
+	</select>
+	<!-- 查询某道题测试总人次  -->
+	<select id="findTesterSumByTestId" resultType="int" parameterType="Map">
+		select COUNT(*) from service_account_result sar left join service_test st on sar.testId = st.id
 		where testId = #{testId}
 	</select>
 	
 	<!-- 查询平台测试合格人次  -->
 	<select id="findTesterPassSum" resultType="int" parameterType="Map">
-		select COUNT(DISTINCT accountId,rank) from service_account_result 
+		select COUNT(*) from service_account_result 
+		where  rank = 1 or rank = 2
+	</select>
+	<!-- 查询某道题测试合格人次  -->
+	<select id="findTesterPassSumByTestId" resultType="int" parameterType="Map">
+		select COUNT(*) from service_account_result 
 		where testId = #{testId} and rank = 1 or rank = 2
 	</select>
 	
 	<!-- 查询平台测试不合格人次  -->
 	<select id="findTesterFailureSum" resultType="int" parameterType="Map">
-		select COUNT(DISTINCT accountId,rank) from service_account_result sar left join service_test st on sar.testId = st.id
+		select COUNT(*) from service_account_result 
+		 where rank = 3
+	</select>
+	<!-- 查询某道题测试不合格人次  -->
+	<select id="findTesterFailureSumByTestId" resultType="int" parameterType="Map">
+		select COUNT(*) from service_account_result sar left join service_test st on sar.testId = st.id
 		where testId = #{testId}
 		and rank = 3
 	</select>

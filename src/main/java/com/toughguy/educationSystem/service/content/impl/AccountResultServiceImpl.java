@@ -48,6 +48,24 @@ public class AccountResultServiceImpl extends GenericServiceImpl<AccountResult, 
 		// TODO Auto-generated method stub
 		return ((IAccountResultDao)dao).findByAccountId(id);
 	}
+	
+	@Override
+	public int findTesterSumByTestId(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findTesterSumByTestId(params);
+	}
+
+	@Override
+	public int findTesterPassSumByTestId(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findTesterPassSumByTestId(params);
+	}
+
+	@Override
+	public int findTesterFailureSumByTestId(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return ((IAccountResultDao)dao).findTesterFailureSumByTestId(params);
+	}
 
 
 }

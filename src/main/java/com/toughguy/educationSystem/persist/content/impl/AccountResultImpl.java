@@ -49,6 +49,28 @@ public class AccountResultImpl extends GenericDaoImpl<AccountResult, Integer> im
 		 List<AccountResult> ars = sqlSessionTemplate.selectList(typeNameSpace + ".findByAccountId",id);
 		return ars;
 	}
+	
+	
+	@Override
+	public int findTesterSumByTestId(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterSumByTestId",params);
+		return count;
+	}
+
+	@Override
+	public int findTesterPassSumByTestId(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterPassSumByTestId",params);
+		return count;
+	}
+
+	@Override
+	public int findTesterFailureSumByTestId(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		int count = sqlSessionTemplate.selectOne(typeNameSpace + ".findTesterFailureSumByTestId",params);
+		return count;
+	}
 
 
 }

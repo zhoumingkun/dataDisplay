@@ -443,8 +443,8 @@ public class TestController {
 			Map<String, Object> result = new HashMap<String, Object>();
 			List<Test> ts = pg.getData();
 			Map<String, Object> params1 = new HashMap<String, Object>();
-			int testerPassSum = accountResultService.findTesterPassSum(params1);
-			int testerFailureSum = accountResultService.findTesterFailureSum(params1);
+			int testerPassSum = accountResultService.findTesterPassSumByTestId(params1);
+			int testerFailureSum = accountResultService.findTesterFailureSumByTestId(params1);
 			for(Test t:ts) {
 				t.setTesterPassSum(testerPassSum);
 				t.setTesterFailureSum(testerFailureSum);

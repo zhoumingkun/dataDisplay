@@ -39,5 +39,21 @@ public interface IAccountResultDao extends IGenericDao<AccountResult, Integer>{
 	 * @return
 	 */
 	public List<AccountResult> findByAccountId(int id);
+	
+	/**
+	 * 查询测试总人数（某题）
+	 * @return
+	 */
+	public int findTesterSumByTestId(Map<String, Object> params);
+	/**
+	 * 查询平台测试合格人次（某题）
+	 * @return
+	 */
+	public int findTesterPassSumByTestId(Map<String, Object> params);
+	/**
+	 * 查询平台测试不合格人次（某题）
+	 * @return
+	 */
+	public int findTesterFailureSumByTestId(Map<String, Object> params);
 
 }
