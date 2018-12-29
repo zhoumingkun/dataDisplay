@@ -1,6 +1,4 @@
 package com.toughguy.educationSystem.controller.content;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,10 +114,14 @@ public class WeixinContentController {
 	//@RequiresPermissions("account:loginWX")
 	@ResponseBody
 	public String login(Account account, HttpServletRequest request){	
+		Account account1 = accountService.findByAccount(account.getAccount());
 		if(account.getAccount() == null || account.getAccount().trim() == ""){
 			return "{ \"success\" : false ,\"code\":\"账户不能为空\" }";
 		}else if(account.getPassword() == null || account.getPassword().trim() == ""){
 			return "{ \"success\" : false ,\"code\":\"密码不能为空\" }";
+		}
+		if(account.getOpenId() != account1.getOpenId()) {
+			return "{ \"success\" : false ,\"code\":\"该账号不是你的\" }";
 		}
 		//获取Subject实例对象
 		//在shiro里面所有的用户的会话信息都会由Shiro来进行控制，那么也就是说只要是与用户有关的一切的处理信息操作都可以通过Shiro取得，
@@ -128,6 +130,7 @@ public class WeixinContentController {
 		 //将用户名和密码封装到继承了UsernamePasswordToken的userToken
 		CustomLoginToken userToken = new CustomLoginToken(account.getAccount(), account.getPassword(), "ACCOUNT");
         userToken.setRememberMe(false);
+        
         try {
             //认证
         	System.out.println("认证密码"+ account.getPassword());
