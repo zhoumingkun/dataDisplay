@@ -87,8 +87,13 @@ public class WeixinContentController {
 	public String saveAccount(Account account,String openId) {
 		try {
 			boolean isOpenId = false;
+			boolean isAccount = false;
 			List<Account> accounts = accountService.findAll();
 			for(Account a:accounts) {
+				if(account.getAccount().equals(a.getAccount())) {
+					//用户名重复
+					isAccount = true;
+				}
 				if(a.getOpenId() == null || "".equals(a.getOpenId())) {
 					
 				} else {
@@ -97,6 +102,9 @@ public class WeixinContentController {
 						isOpenId = true;
 					}
 				}
+			}
+			if(isAccount) {
+				return "{ \"success\" : false,\"msg\": \"该账号已被注册\"}";
 			}
 			if(isOpenId) {
 				return "{ \"success\" : false,\"msg\": \"该微信已注册，请直接登录\"}";
@@ -122,10 +130,10 @@ public class WeixinContentController {
 			return "{ \"success\" : false ,\"code\":\"密码不能为空\" }";
 		}
 		if(account1 == null) {
-			return "{ \"success\" : false ,\"code\":\"账号不存在\" }";
+			return "{ \"success\" : false ,\"code\":\"您输入的账号或密码不正确,请重新输入\" }";
 		} else {
-			if(account.getOpenId() != account1.getOpenId()) {
-				return "{ \"success\" : false ,\"code\":\"该账号不是你的\" }";
+			if(!account.getOpenId().equals(account1.getOpenId())) {
+				return "{ \"success\" : false ,\"code\":\"该账号与微信不匹配，请重新输入\" }";
 			}
 		}
 		//获取Subject实例对象
@@ -148,7 +156,7 @@ public class WeixinContentController {
             //认证失败就会抛出AuthenticationException这个异常，就对异常进行相应的操作，这里的处理是抛出一个自定义异常ResultException
             //到时候我们抛出自定义异常ResultException，用户名或者密码错误
             e.printStackTrace();
-        	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
+        	return "{ \"success\" : false ,\"code\":\"您输入的账号或密码不正确,请重新输入\" }";
         }
 	}
     @ResponseBody
