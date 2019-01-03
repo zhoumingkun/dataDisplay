@@ -200,6 +200,7 @@ public class WeixinContentController {
 	public Sizhengjianshe getSizheng(int id) {
 		Sizhengjianshe szjs =  sizhengjiansheService.find(id);
 		szjs.setHits(szjs.getHits() + 1);
+		sizhengjiansheService.update(szjs);
 		return szjs;
 	}
 	
@@ -237,6 +238,7 @@ public class WeixinContentController {
 	public Activity getActivity(int id) {
 		Activity activity =  activityService.find(id);
 		activity.setHits(activity.getHits() + 1);
+		activityService.update(activity);
 		return activity;
 	}
 	
@@ -275,6 +277,7 @@ public class WeixinContentController {
 	public Zhengcefagui getZhengce(int id) {
 		Zhengcefagui zhengcefagui =  zhengcefaguiService.find(id);
 		zhengcefagui.setHits(zhengcefagui.getHits() + 1);
+		zhengcefaguiService.update(zhengcefagui);
 		return zhengcefagui;
 	}
 	
@@ -312,6 +315,7 @@ public class WeixinContentController {
 	public Guizhangzhidu getGuizhang(int id) {
 		Guizhangzhidu guizhangzhidu =  guizhangzhiduService.find(id);
 		guizhangzhidu.setHits(guizhangzhidu.getHits() + 1);
+		guizhangzhiduService.update(guizhangzhidu);
 		return guizhangzhidu;
 	}
 	
@@ -385,6 +389,7 @@ public class WeixinContentController {
 	public Test getTest(int id) {
 		Test test =  testService.find(id);
 		test.setHits(test.getHits() + 1);
+		testService.update(test);
 		return test;
 	}
 	
