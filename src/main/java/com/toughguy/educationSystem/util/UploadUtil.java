@@ -43,7 +43,7 @@ public class UploadUtil {
 	 */
 	public static boolean isPicture(String fileName) {
 		String extName = FilenameUtils.getExtension(fileName);
-		if ("jpg".equals(extName) || "jpeg".equals(extName) || "png".equals(extName) || "bmp".equals(extName) || "gif".equals(extName)) {
+		if ("jpg".equals(extName) || "jpeg".equals(extName) || "png".equals(extName) || "bmp".equals(extName) || "gif".equals(extName) || "JPEG".equals(extName) || "JPG".equals(extName) || "PNG".equals(extName) || "BMP".equals(extName) || "GIF".equals(extName)) {
 			return true;
 		} else {
 			return false;
