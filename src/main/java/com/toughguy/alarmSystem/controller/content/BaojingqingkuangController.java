@@ -61,11 +61,21 @@ public class BaojingqingkuangController {
 		int time2 = Integer.parseInt(time);					//转换为数字2019
 		int month2 = Integer.parseInt(month)-1;				//转换为数字09
 		Map<String,String> map = new HashMap<>();
-		if(list.get(0).getTjyf().substring(5).equals("01")) {
+		if(list.get(0).getTjyf().substring(5).equals("00")) {
 			for (int i = 0; i < list.size(); i++) {
 				list.get(i).setTjyf(time2-1+"-12");
 			} 
-		}else {
+			
+		}/*else {
+			String sss =null;
+			if(month2<10) {
+				sss="0"+month2;
+			}else {
+				sss=month2+"";
+			}
+			if(list.get(0).getTjyf().equals(time+"-"+sss)) {
+				return "{ \"success\" : false, \"msg\" : \"只可添加上月数据\" }";
+			}
 			for (int i = 0; i < list.size(); i++) {
 				String s =null;
 				if(month2<10) {
@@ -75,7 +85,7 @@ public class BaojingqingkuangController {
 				}
 				list.get(i).setTjyf(time2+"-"+s);
 			}
-		}
+		}*/
 		if(month=="01" || month.equals("01")) {				//如果是一月份填报时间就应该是去年的12月份
 			month="12";
 			time2=time2-1;
