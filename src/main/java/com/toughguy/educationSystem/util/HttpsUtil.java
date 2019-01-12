@@ -42,6 +42,7 @@ public class HttpsUtil {
             String str = null;
             StringBuffer buffer = new StringBuffer();
             while ((str = bufferedReader.readLine()) != null) {
+            	System.out.println("qqqq"+str);
                 buffer.append(str);
             }
             bufferedReader.close();
