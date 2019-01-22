@@ -51,7 +51,7 @@ public class AccountResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("accountResult:detele")
+	//@RequiresPermissions("accountResult:delete")
 	public String deleteAccountResult(int id) {
 		try {
 			accountResultService.delete(id);

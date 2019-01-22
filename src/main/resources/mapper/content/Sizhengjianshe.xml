@@ -41,12 +41,12 @@
 	</select>
 	
 	<!-- 根据标题查询某个信息 -->
- 	<select id="findByTitle" parameterType="String" resultType="Test">
+ 	<select id="findByTitle" parameterType="String" resultType="Sizhengjianshe">
  		select * from content_sizhengjianshe where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
  	</select>
  	
  	<!-- 根据来源查询某个信息 -->
- 	<select id="findBySource" parameterType="String" resultType="Test">
+ 	<select id="findBySource" parameterType="String" resultType="Sizhengjianshe">
  		select * from content_sizhengjianshe where articleSource like concat(concat('%', #{articleSourceLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
  	</select>
 

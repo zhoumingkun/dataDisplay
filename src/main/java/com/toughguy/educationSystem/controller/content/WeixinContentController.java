@@ -20,6 +20,7 @@ import com.toughguy.educationSystem.model.content.Account;
 import com.toughguy.educationSystem.model.content.AccountResult;
 import com.toughguy.educationSystem.model.content.Activity;
 import com.toughguy.educationSystem.model.content.Guizhangzhidu;
+import com.toughguy.educationSystem.model.content.Notice;
 import com.toughguy.educationSystem.model.content.Sizhengjianshe;
 import com.toughguy.educationSystem.model.content.Test;
 import com.toughguy.educationSystem.model.content.Topic;
@@ -32,6 +33,7 @@ import com.toughguy.educationSystem.service.content.prototype.IAccountResultServ
 import com.toughguy.educationSystem.service.content.prototype.IAccountService;
 import com.toughguy.educationSystem.service.content.prototype.IActivityService;
 import com.toughguy.educationSystem.service.content.prototype.IGuizhangzhiduService;
+import com.toughguy.educationSystem.service.content.prototype.INoticeService;
 import com.toughguy.educationSystem.service.content.prototype.ISingleOptionService;
 import com.toughguy.educationSystem.service.content.prototype.ISizhengjiansheService;
 import com.toughguy.educationSystem.service.content.prototype.ITestService;
@@ -67,7 +69,9 @@ public class WeixinContentController {
 	private IAccountService accountService;
 	@Autowired
 	private IAccountResultService accountResultService;
-    
+	@Autowired
+	private INoticeService noticeService;
+	
 	@ResponseBody	
 	@RequestMapping(value = "/saveAccountResult")
 	//@RequiresPermissions("accountResult:save")
@@ -482,6 +486,50 @@ public class WeixinContentController {
 				return "{ \"integral\":" + a.getIntegral() + "}";
 			}
 		}
+	}
+	
+	/**
+	 * 校园公告
+	 * @param openId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/dataNotice")
+	//@RequiresPermissions("notice:data")
+	public String data(String params,HttpSession session) {
+		try {
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (!StringUtils.isEmpty(params)) {
+				// 参数处理
+				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
+			}
+			PagerModel<Notice> pg = noticeService.findPaginated(map);
+			
+			// 序列化查询结果为JSON
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", pg.getTotal());
+			result.put("rows", pg.getData());
+			return om.writeValueAsString(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"total\" : 0, \"rows\" : [] }";
+		}
+	}
+	
+	
+	/**
+	 * 小程序获校园公告(统计浏览量)
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getNotice")
+	//@RequiresPermissions("notice:get")
+	public Notice getNotice(int id) {
+		Notice notice =  noticeService.find(id);
+		notice.setHits(notice.getHits() + 1);
+		noticeService.update(notice);
+		return notice;
 	}
 
 	

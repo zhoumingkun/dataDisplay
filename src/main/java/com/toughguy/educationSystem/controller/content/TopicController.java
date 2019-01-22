@@ -55,7 +55,7 @@ public class TopicController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("topic:detele")
+	//@RequiresPermissions("topic:delete")
 	public String deleteTopic(int id) {
 		try {
 			topicService.delete(id);

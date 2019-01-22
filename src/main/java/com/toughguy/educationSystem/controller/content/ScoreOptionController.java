@@ -51,7 +51,7 @@ public class ScoreOptionController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("scoreOption:detele")
+	//@RequiresPermissions("scoreOption:delete")
 	public String deleteScoreOption(int id) {
 		try {
 			scoreOptionService.delete(id);

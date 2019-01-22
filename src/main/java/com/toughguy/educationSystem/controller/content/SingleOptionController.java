@@ -51,7 +51,7 @@ public class SingleOptionController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("singleOption:detele")
+	//@RequiresPermissions("singleOption:delete")
 	public String deleteSingleOption(int id) {
 		try {
 			singleOptionService.delete(id);

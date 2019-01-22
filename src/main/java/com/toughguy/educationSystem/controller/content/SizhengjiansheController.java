@@ -81,7 +81,7 @@ public class SizhengjiansheController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("sizhengjianshe:detele")
+	@RequiresPermissions("sizhengjianshe:delete")
 	public String deleteSizhengjianshe(int id) {
 		try {
 			sizhengjiansheService.delete(id);

@@ -51,7 +51,7 @@ public class ScoreResultController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	//@RequiresPermissions("scoreResult:detele")
+	//@RequiresPermissions("scoreResult:delete")
 	public String deleteScoreResult(int id) {
 		try {
 			scoreResultService.delete(id);

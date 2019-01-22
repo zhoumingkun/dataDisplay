@@ -45,7 +45,7 @@
 	</select>
 	
 	<!-- 根据标题查询某个信息 -->
- 	<select id="findByTitle" parameterType="String" resultType="Test">
+ 	<select id="findByTitle" parameterType="String" resultType="Activity">
  		select * from content_activity where title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%') ORDER BY createTime desc
  	</select>
 

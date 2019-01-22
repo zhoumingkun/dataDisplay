@@ -53,7 +53,7 @@ public class ActivityController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("activity:detele")
+	@RequiresPermissions("activity:delete")
 	public String deleteActivity(int id) {
 		try {
 			activityService.delete(id);
