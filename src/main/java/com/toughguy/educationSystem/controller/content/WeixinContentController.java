@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -119,6 +120,46 @@ public class WeixinContentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/editAccount")
+	//@RequiresPermissions("account:edit")
+	public String editAccount(Account newAccount,String openId) {
+//		List<Account> accounts = accountService.findByOpenId(openId);
+		try {
+			Account account = accountService.findByOpenId(openId);
+			if(account == null){
+				return "{ \"success\" : false ,\"msg\":\"未注册，请先注册\" }";
+			}else{
+//			Account account = accountService.find(newAccount.getId());
+			account.setSex(account.getSex());
+			System.out.println(account.getSex());
+//			newAccount.setAccount(newAccount.getAccount());
+//			newAccount.setPassword(new DefaultPasswordService().encryptPassword(newAccount.getPassword()));
+			account.setPhoneNum(account.getPhoneNum());
+			System.out.println(account.getPhoneNum());
+			account.setWeixinNum(account.getWeixinNum());
+			System.out.println(account.getWeixinNum());
+			account.setIntegral(account.getIntegral());
+			System.out.println(account.getIntegral());
+			account.setType(account.getType());
+			System.out.println(account.getType());
+			account.setOpenId(openId);
+			System.out.println(openId);
+			account.setSignDate(account.getSignDate());
+			System.out.println(account.getSignDate());
+			account.setPassword(new DefaultPasswordService().encryptPassword(newAccount.getPassword()));
+			account.setAccount(newAccount.getAccount());
+			accountService.update(account);
+			System.out.println("全部"+account);
+			return "{ \"success\" : true }";
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return "{ \"success\" : false }";
 		}
 	}
 	

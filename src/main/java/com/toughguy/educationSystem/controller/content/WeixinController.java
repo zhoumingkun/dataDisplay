@@ -162,11 +162,14 @@ public class WeixinController {
 	    		JSONObject json = (JSONObject) jsonArray.get(i);
 	    		json = json.getJSONObject("content");
 	    		System.out.println(json);
+//	    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	    		Material material = new Material();
+	    		String update_time = json.getString("update_time");
 	    		
 	    		JSONArray arr = json.getJSONArray("news_item");
 	    		json = (JSONObject) arr.get(0);
 	    		
-	    		Material material = new Material();
+//	    		Material material = new Material();
 	    		String title = json.getString("title");
 	    		String author = json.getString("author");
 	    		String digest = json.getString("digest");
@@ -175,6 +178,7 @@ public class WeixinController {
 	    		System.out.println(thumb_media_id);
 	    		String url = json.getString("url");
 	    		String content = json.getString("content");
+	    		System.out.println("时间"+update_time);
 	    		material.setTitle(title);
 	    		material.setAuthor(author);
 	    		material.setDigest(digest);
@@ -183,6 +187,7 @@ public class WeixinController {
 	    		material.setUrl(url);
 	    		material.setContent(content);
 	    		material.setShow_cover_pic(1);
+	    		material.setUpdate_time(update_time);
 	    	    lists.add(material);
 	    		}
 	    		} catch (JSONException e) {  

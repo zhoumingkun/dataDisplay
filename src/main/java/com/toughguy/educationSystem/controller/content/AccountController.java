@@ -116,14 +116,17 @@ public class AccountController {
 	@ResponseBody
 	@RequestMapping(value = "/edit")
 	//@RequiresPermissions("account:edit")
-	public String editAccount(Account newAccount) {
+	public String editAccount(Account newAccount,String openId) {
+//		List<Account> accounts = accountService.findByOpenId(openId);
 		try {
-			Account account = accountService.find(newAccount.getId());
+			Account account = accountService.findByOpenId(openId);
+//			Account account = accountService.find(newAccount.getId());
 			account.setSex(newAccount.getSex());
 			account.setPassword(new DefaultPasswordService().encryptPassword(newAccount.getPassword()));
 			account.setPhoneNum(newAccount.getPhoneNum());
 			account.setIntegral(newAccount.getIntegral());
 			accountService.update(account);
+			
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception

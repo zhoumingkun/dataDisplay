@@ -1,5 +1,7 @@
 package com.toughguy.educationSystem.model.content;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.toughguy.educationSystem.model.AbstractModel;
 import com.toughguy.educationSystem.util.JsonUtil;
@@ -19,6 +21,7 @@ public class Material extends AbstractModel {
 	 private String url;//图文页的URL，或者，当获取的列表是图片素材列表时，该字段是图片的URL
 	 private int show_cover_pic;//是否显示封面，0为false，即不显示，1为true，即显示
 	 private String thumb_url;//是否显示封面，0为false，即不显示，1为true，即显示
+	 private String update_time;//这篇图文消息素材的最后更新时间
 	public String getTitle() {
 		return title;
 	}
@@ -66,6 +69,12 @@ public class Material extends AbstractModel {
 	}
 	public void setThumb_url(String thumb_url) {
 		this.thumb_url = thumb_url;
+	}
+	public String getUpdate_time() {
+		return update_time;
+	}
+	public void setUpdate_time(String update_time) {
+		this.update_time = update_time;
 	}
 	
 	 
