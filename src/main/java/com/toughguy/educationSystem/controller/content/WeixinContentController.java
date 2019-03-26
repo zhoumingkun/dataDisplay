@@ -112,7 +112,7 @@ public class WeixinContentController {
 				return "{ \"success\" : false,\"msg\": \"该账号已被注册\"}";
 			}
 			if(isOpenId) {
-				return "{ \"success\" : false,\"msg\": \"该微信已注册，请直接登录\"}";
+				return "{ \"success\" : false,\"msg\": \"该微信用户已注册，请直接登录\"}";
 			} else {
 				accountService.save(account);
 				return "{ \"success\" : true ,\"msg\": \"注册成功\"}";
