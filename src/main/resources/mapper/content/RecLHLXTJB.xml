@@ -34,7 +34,7 @@
 	
 	<!-- 查询来话类型地级市数据(有行政区划)-->
 	<select id="findCityIncomingType" parameterType="Map" resultType="RecLHLXTJB">
-		SELECT  xzqh.xzqhmc AS xzqhdm,lhlxtjb.jjsl AS jjsl ,lhlxtjb.tjrq,lhlxdmb.bjfsmc as bjfsdm 
+		SELECT  xzqh.xzqhmc AS xzqhdm,lhlxtjb.jjsl AS jjsl ,lhlxtjb.tjrq,lhlxdmb.lhlxmc as lhlxdm
         FROM REC_LHLXTJB lhlxtjb 
         LEFT  JOIN  DICT_LHLXDMB lhlxdmb ON lhlxtjb.lhlxdm=lhlxdmb.lhlxdm  
         LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=lhlxtjb.xzqhdm  
