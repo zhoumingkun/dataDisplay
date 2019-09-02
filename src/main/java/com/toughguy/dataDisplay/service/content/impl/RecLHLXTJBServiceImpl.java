@@ -4,10 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -69,6 +71,25 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 	@Override
 	public Map<String, Object> findSIncomingType(String startTime, String endTime) {
 		// TODO Auto-generated method stub
+        List<String> days = new ArrayList<String>();						//获取时间区间的全部日期
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        try {
+            Date start = dateFormat.parse(startTime);
+            Date end = dateFormat.parse(endTime);
+            Calendar tempStart = Calendar.getInstance();
+            tempStart.setTime(start);
+            Calendar tempEnd = Calendar.getInstance();
+            tempEnd.setTime(end);
+            tempEnd.add(Calendar.DATE, +1);// 日期加1(包含结束)
+            while (tempStart.before(tempEnd)) {
+                days.add(dateFormat.format(tempStart.getTime()));
+                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+		
 		Map<String,Object> smap= new HashMap<>();
 		Map<String,String> map = new HashMap<>();
 		map.put("startTime", startTime);
@@ -103,23 +124,46 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 					z=z+list.get(i).getJjsl();
 					arr.add(lhlx);
 				}
+			}			
+			for(int a =0;a<7;a++) {
+				if(arr.size()>0) {
+					try {
+						if(days.get(a)!= arr.get(a).getTjrq() && !days.get(a).equals(arr.get(a).getTjrq())) {		//
+							RecLHLXTJB lhlx= new RecLHLXTJB();
+							lhlx.setLhlxdm(name);
+							lhlx.setTjrq(days.get(a));
+							lhlx.setJjsl(0);
+							arr.add(a,lhlx);
+							a=0;
+						}
+					}catch (Exception e) {
+						// TODO: handle exception
+						RecLHLXTJB lhlx= new RecLHLXTJB();
+						lhlx.setLhlxdm(name);
+						lhlx.setTjrq(days.get(a));
+						lhlx.setJjsl(0);
+						arr.add(a,lhlx);
+						a=0;
+					}
+				}
 			}
-
 			num.put(name,z+"");
 			z=0;
 			sevenmap.put(name, arr);
 		}
 		smap.put("sevenDays", sevenmap);
 		System.out.println("-----------------"+num);
-		Map<String,Integer> proportion = new HashMap<>();
-		DecimalFormat df = new DecimalFormat("0.00");
+		Map<String,String> proportion = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.00000");
+		DecimalFormat dft = new DecimalFormat("0.00");
 		for(String name :set) {
 			if(num.get(name)==null || num.get(name).equals("null")) {
-				proportion.put(name, 0);
+				proportion.put(name, "0");
 			}else {
 				int one = Integer.parseInt(num.get(name));
-				int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
-				proportion.put(name, u);
+				String format = df.format((float) one/total);
+				Double aa = Double.parseDouble(format);
+				proportion.put(name, dft.format(aa*100)+"");
 			}
 		}
 		smap.put("proportion", proportion);
@@ -148,6 +192,26 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 	@Override
 	public Map<String, Object> findCityIncomingType(String startTime, String endTime, String xzqhdm) {
 		// TODO Auto-generated method stub
+        List<String> days = new ArrayList<String>();						//获取时间区间的全部日期
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        try {
+            Date start = dateFormat.parse(startTime);
+            Date end = dateFormat.parse(endTime);
+            Calendar tempStart = Calendar.getInstance();
+            tempStart.setTime(start);
+            Calendar tempEnd = Calendar.getInstance();
+            tempEnd.setTime(end);
+            tempEnd.add(Calendar.DATE, +1);// 日期加1(包含结束)
+            while (tempStart.before(tempEnd)) {
+                days.add(dateFormat.format(tempStart.getTime()));
+                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+		
+		
 		Map<String,String> map = new HashMap<>();
 		Map<String,Object> cmap = new HashMap<>();
 		map.put("startTime", startTime);
@@ -182,29 +246,52 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 					arr.add(lhlx);
 				}
 			}
+			for(int a =0;a<7;a++) {
+				if(arr.size()>0) {
+					try {
+						if(days.get(a)!= arr.get(a).getTjrq() && !days.get(a).equals(arr.get(a).getTjrq())) {		//
+							RecLHLXTJB lhlx= new RecLHLXTJB();
+							lhlx.setLhlxdm(name);
+							lhlx.setTjrq(days.get(a));
+							lhlx.setJjsl(0);
+							arr.add(a,lhlx);
+							a=0;
+						}
+					}catch (Exception e) {
+						// TODO: handle exception
+						RecLHLXTJB lhlx= new RecLHLXTJB();
+						lhlx.setLhlxdm(name);
+						lhlx.setTjrq(days.get(a));
+						lhlx.setJjsl(0);
+						arr.add(a,lhlx);
+						a=0;
+					}
+					
+				}
+				
+			}
+			System.out.println("-------------------"+arr);
 			num.put(name, z+"");
 			cmap.put(name, arr);
 		}
-		Map<String,Integer> proportion = new HashMap<>();
-		DecimalFormat df = new DecimalFormat("0.00");
+		Map<String,String> proportion = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.0000");
+		DecimalFormat dft = new DecimalFormat("0.00");
 		for(String name:set) {
 			if(num.get(name)==null || num.get(name).equals("null")) {
-				proportion.put(name, 0);
+				proportion.put(name, "0");
 			}else {
 				int one = Integer.parseInt(num.get(name));
-				int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
-				proportion.put(name, u);
+				String format = df.format((float) one/total);
+				Double aa = Double.parseDouble(format);
+				proportion.put(name, dft.format(aa*100)+"");
 			}
 		}
 		cmap.put("proportion", proportion);
 		return cmap;
 	}
 
-
-	
-			            
-			           
-				            
+		            
 				            
 
 }
