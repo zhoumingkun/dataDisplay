@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.alarmSystem.model.content.Zhengcefagui;
+import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.pagination.PagerModel;
-import com.toughguy.alarmSystem.service.content.prototype.IZhengcefaguiService;
+import com.toughguy.alarmSystem.service.content.prototype.ISaoheichueService;
 
 @Controller
-@RequestMapping(value = "/zhengcefagui")
-public class ZhengcefaguiController {
+@RequestMapping(value = "/saoheichue")
+public class SaoheichueController {
 	@Autowired
-	private IZhengcefaguiService zhengcefaguiService;
+	private ISaoheichueService saoheichueService;
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("zhengcefagui:save")
-	public String saveZhengcefagui(Zhengcefagui zhengcefagui) {
+	@RequiresPermissions("saoheichue:save")
+	public String saveSaoheichue(Saoheichue saoheichue) {
 		try {
-			zhengcefaguiService.save(zhengcefagui);
+			saoheichueService.save(saoheichue);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,10 +37,10 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("zhengcefagui:edit")
-	public String editZhengcefagui(Zhengcefagui zhengcefagui) {
+	@RequiresPermissions("saoheichue:edit")
+	public String editSaoheichue(Saoheichue saoheichue) {
 		try {
-			zhengcefaguiService.update(zhengcefagui);
+			saoheichueService.update(saoheichue);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -52,10 +52,10 @@ public class ZhengcefaguiController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/delete")
-	@RequiresPermissions("zhengcefagui:delete")
-	public String deleteZhengcefagui(int id) {
+	@RequiresPermissions("saoheichue:delete")
+	public String deleteSaoheichue(int id) {
 		try {
-			zhengcefaguiService.delete(id);
+			saoheichueService.delete(id);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class ZhengcefaguiController {
 
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	//@RequiresPermissions("zhengcefagui:data")
+	//@RequiresPermissions("saoheichue:data")
 	public String data(String params,HttpSession session) {
 		try {
 			ObjectMapper om = new ObjectMapper();
@@ -74,7 +74,7 @@ public class ZhengcefaguiController {
 				// 参数处理
 				map = om.readValue(params, new TypeReference<Map<String, Object>>() {});
 			}
-			PagerModel<Zhengcefagui> pg = zhengcefaguiService.findPaginated(map);
+			PagerModel<Saoheichue> pg = saoheichueService.findPaginated(map);
 			
 			// 序列化查询结果为JSON
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -91,22 +91,17 @@ public class ZhengcefaguiController {
 	@ResponseBody
 	@RequestMapping(value = "/getById")
 //	@RequiresPermissions("zhengcefagui:getById")
-	public Zhengcefagui getById(int id) {
-		return  zhengcefaguiService.find(id);
+	public Saoheichue getById(int id) {
+		return  saoheichueService.find(id);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
 	//@RequiresPermissions("zhengcefagui:findAll")
-	public List<Zhengcefagui> findAll() {
-		return zhengcefaguiService.findAll();
+	public List<Saoheichue> findAll() {
+		return saoheichueService.findAll();
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/findByTitle")
-	//@RequiresPermissions("zhengcefagui:findByTitle")
-	public List<Zhengcefagui> findByTitle(String title){
-		return zhengcefaguiService.findByTitle(title);
-	}
+	
 	
 }

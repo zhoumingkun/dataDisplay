@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.alarmSystem.model.content.Baojingqingkuang">
+
+	<insert id="save" parameterType="Baojingqingkuang" keyProperty="id" useGeneratedKeys="true">
+		insert into bjqk (createTime,updateTime,xzqh,tbdw,bjqk,wffzaj,zaaj,hzsg,jtsg,zazhsg,zs,jf,jtbl,gmqz,zsxr,jwjd,qt,hj,tbr) 
+		values (#{createTime},#{updateTime},#{xzqh}, #{tbdw},#{bjqk},#{wffzaj},#{zaaj},#{hzsg},#{jtsg},#{zazhsg},#{zs},#{jf},#{jtbl},#{gmqz},#{zsxr},#{jwjd},#{qt},#{hj},#{tbr})
+	</insert>
+	
+	<!-- 删除某个信息 -->
+	<delete id="delete" parameterType="int" >
+		delete from bjqk where id = #{id}
+	</delete>
+	
+	<!-- 查询某个信息 -->
+	<select id="find" parameterType="int" resultType="Baojingqingkuang">
+		select * from bjqk where id = #{id}
+	</select>
+	
+	
+	
+	<!-- 查询全部信息 -->
+	<select id="findAll" resultType="Baojingqingkuang" parameterType="Map">
+		select * from bjqk
+		<include refid="paramsSQL"/>
+	</select>
+	
+	<!-- 分页查询信息 -->
+	<select id="findPaginated" resultType="Baojingqingkuang" parameterType="Map">
+		select * from bjqk
+		<include refid="paramsSQL"/>
+		ORDER BY updateTime desc  limit #{offset}, #{limit}
+	</select>
+	
+	<select id="getTotalOfItems" parameterType="Map" resultType="int">
+		select count(*) from bjqk
+		<include refid="paramsSQL"/>
+	</select>
+
+	<!-- 修个某条信息 -->
+	<update id="update" parameterType="Baojingqingkuang">
+		update bjqk
+		<set>
+		    <if test="xzqh != null and xzqh != ''">xzqh = #{xzqh},</if>
+		    <if test="tbdw != null and tbdw != ''">tbdw = #{tbdw},</if>
+			<if test="bjqk != null and bjqk != ''">bjqk = #{bjqk},</if>
+			<if test="wffzaj != null and wffzaj != ''">wffzaj = #{wffzaj},</if>
+			<if test="zaaj != null and zaaj != ''">zaaj = #{zaaj},</if>
+			<if test="hzsg != null and hzsg != ''">hzsg = #{hzsg},</if>
+			<if test="jtsg != null and jtsg != ''">jtsg = #{jtsg},</if>
+			<if test="zazhsg != null and zazhsg != ''">zazhsg = #{zazhsg},</if>
+			<if test="zs != null and zs != ''">zs = #{zs},</if>
+			<if test="jf != null and jf != ''">jf = #{jf},</if>
+			<if test="jtbl != null and jtbl != ''">jtbl = #{jtbl},</if>
+			<if test="gmqz != null and gmqz != ''">gmqz = #{gmqz},</if>
+			<if test="zsxr != null and zsxr != ''">zsxr = #{zsxr},</if>
+			<if test="jwjd != null and jwjd != ''">jwjd = #{jwjd},</if>
+			<if test="qt != null and qt != ''">qt = #{qt},</if>
+			<if test="hj != null and hj != ''">hj = #{hj},</if>
+			<if test="tbr != null and tbr != ''">tbr = #{tbr},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 通用的设置条件的查询SQL语句 -->
+	<sql id="paramsSQL">
+		<where>
+			<if test=" xzqh != null and xzqh != '' ">
+				and xzqh = #{xzqh}
+			</if>
+			<if test=" tbdw != null and tbdw != '' ">
+				and tbdw = #{tbdw}
+			</if>
+			<if test=" tbr != null and tbr != '' ">
+				and tbr = #{tbr}
+			</if>
+			
+		</where>
+	</sql>
+	
+</mapper>

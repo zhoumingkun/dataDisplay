@@ -1,57 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.educationSystem.model.content.Zhengcefagui">
+<mapper namespace="com.toughguy.alarmSystem.model.content.Saoheichue">
 
-	<insert id="save" parameterType="Zhengcefagui" keyProperty="id" useGeneratedKeys="true">
-		insert into content_zhengcefagui (createTime,updateTime,title, author,content,summarize,image,state,hits,articleSource) 
-		values (#{createTime},#{updateTime},#{title}, #{author},#{content},#{summarize},#{image},#{state},#{hits},#{articleSource})
+	<insert id="save" parameterType="Saoheichue" keyProperty="id" useGeneratedKeys="true">
+		insert into shce (createTime,updateTime,xzqh, tbdw,shcedzxs,djqbfzxs,djwwfzxs,phstfzxs,ffjzfzxs,dxwlfzxs,hj,tbr) 
+		values (#{createTime},#{updateTime},#{xzqh}, #{tbdw},#{shcedzxs},#{djqbfzxs},#{djwwfzxs},#{phstfzxs},#{ffjzfzxs},#{dxwlfzxs},#{hj},#{tbr})
 	</insert>
 	
 	<!-- 删除某个信息 -->
 	<delete id="delete" parameterType="int" >
-		delete from content_zhengcefagui where id = #{id}
+		delete from shce where id = #{id}
 	</delete>
 	
 	<!-- 查询某个信息 -->
-	<select id="find" parameterType="int" resultType="Zhengcefagui">
-		select * from content_zhengcefagui where id = #{id}
+	<select id="find" parameterType="int" resultType="Saoheichue">
+		select * from shce where id = #{id}
 	</select>
 	
-	<!-- 根据状态查询内容 -->
-	<select id="findByState" parameterType="int" resultType="Zhengcefagui">
-		select * from content_zhengcefagui where state = #{state}
-	</select>
+	
 	
 	<!-- 查询全部信息 -->
-	<select id="findAll" resultType="Zhengcefagui" parameterType="Map">
-		select * from content_zhengcefagui
+	<select id="findAll" resultType="Saoheichue" parameterType="Map">
+		select * from shce
 		<include refid="paramsSQL"/>
 	</select>
 	
 	<!-- 分页查询信息 -->
-	<select id="findPaginated" resultType="Zhengcefagui" parameterType="Map">
-		select * from content_zhengcefagui
+	<select id="findPaginated" resultType="Saoheichue" parameterType="Map">
+		select * from shce
 		<include refid="paramsSQL"/>
 		ORDER BY updateTime desc  limit #{offset}, #{limit}
 	</select>
 	
 	<select id="getTotalOfItems" parameterType="Map" resultType="int">
-		select count(*) from content_zhengcefagui
+		select count(*) from shce
 		<include refid="paramsSQL"/>
 	</select>
 
 	<!-- 修个某条信息 -->
-	<update id="update" parameterType="Zhengcefagui">
-		update content_zhengcefagui
+	<update id="update" parameterType="Saoheichue">
+		update shce
 		<set>
-			<if test="title != null and title != ''">title = #{title},</if>
-			<if test="author != null and author != ''">author = #{author},</if>
-			<if test="content != null and content != ''">content = #{content},</if>
-			<if test="summarize != null and summarize != ''">summarize = #{summarize},</if>
-			<if test="image != null and image != ''">image = #{image},</if>
-			<if test="state != null and state != ''">state = #{state},</if>
-			<if test="hits != null and hits != ''">hits = #{hits},</if>
-			<if test="articleSource != null and articleSource != ''">articleSource = #{articleSource},</if>
+			<if test="xzqh != null and xzqh != ''">xzqh = #{xzqh},</if>
+			<if test="tbdw != null and tbdw != ''">tbdw = #{tbdw},</if>
+			<if test="shcedzxs != null and shcedzxs != ''">shcedzxs = #{shcedzxs},</if>
+			<if test="djqbfzxs != null and djqbfzxs != ''">djqbfzxs = #{djqbfzxs},</if>
+			<if test="djwwfzxs != null and djwwfzxs != ''">djwwfzxs = #{djwwfzxs},</if>
+			<if test="phstfzxs != null and phstfzxs != ''">phstfzxs = #{phstfzxs},</if>
+			<if test="ffjzfzxs != null and ffjzfzxs != ''">ffjzfzxs = #{ffjzfzxs},</if>
+			<if test="dxwlfzxs != null and dxwlfzxs != ''">dxwlfzxs = #{dxwlfzxs},</if>
+			<if test="hj != null and hj != ''">hj = #{hj},</if>
+			<if test="tbr != null and tbr != ''">tbr = #{tbr},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -59,33 +58,16 @@
 	<!-- 通用的设置条件的查询SQL语句 -->
 	<sql id="paramsSQL">
 		<where>
-			<if test=" title != null and title != '' ">
-				and title = #{title}
+			<if test=" xzqh != null and xzqh != '' ">
+				and xzqh = #{xzqh}
 			</if>
-			<if test=" author != null and author != '' ">
-				and author = #{author}
+			<if test=" tbdw != null and tbdw != '' ">
+				and tbdw = #{tbdw}
 			</if>
-			<if test=" type != null and type != '' ">
-				and type = #{type}
+			<if test=" tbr != null and tbr != '' ">
+				and tbr = #{tbr}
 			</if>
-			<if test=" state != null and state != '' ">
-				and state = #{state}
-			</if>
-			<if test=" summarize != null and summarize != '' ">
-				and summarize = #{summarize}
-			</if>
-			<if test=" hits != null and hits != '' ">
-				and hits = #{hits}
-			</if>
-			<if test=" articleSource != null and articleSource != '' ">
-				and articleSource = #{articleSource}
-			</if>
-			<if test=" titleLike != null and titleLike != '' ">
- 				and title like concat(concat('%', #{titleLike, jdbcType=VARCHAR}),'%')
- 			</if>
- 			<if test=" articleSourceLike != null and articleSourceLike != '' ">
- 				and articleSource like concat(concat('%', #{articleSourceLike, jdbcType=VARCHAR}),'%')
- 			</if>
+			
 		</where>
 	</sql>
 	
