@@ -12,9 +12,9 @@ import com.toughguy.alarmSystem.util.JsonUtil;
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class Baojingqingkuang extends AbstractModel {
 	private int id;
-	private int xzqh;    //行政区划代码
+	private String xzqh;    //行政区划
 	private String tbdw;   //填报单位
-	private int bjqk;  //报警情况
+	private String bjqk;  //报警情况
 	private int wffzaj;       //违法犯罪案件
 	private int zaaj;    //治安案件
 	private int hzsg;       //火灾事故
@@ -36,11 +36,18 @@ public class Baojingqingkuang extends AbstractModel {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getXzqh() {
+	
+	public String getXzqh() {
 		return xzqh;
 	}
-	public void setXzqh(int xzqh) {
+	public void setXzqh(String xzqh) {
 		this.xzqh = xzqh;
+	}
+	public String getBjqk() {
+		return bjqk;
+	}
+	public void setBjqk(String bjqk) {
+		this.bjqk = bjqk;
 	}
 	public String getTbdw() {
 		return tbdw;
@@ -48,12 +55,7 @@ public class Baojingqingkuang extends AbstractModel {
 	public void setTbdw(String tbdw) {
 		this.tbdw = tbdw;
 	}
-	public int getBjqk() {
-		return bjqk;
-	}
-	public void setBjqk(int bjqk) {
-		this.bjqk = bjqk;
-	}
+	
 	public int getWffzaj() {
 		return wffzaj;
 	}
@@ -137,6 +139,13 @@ public class Baojingqingkuang extends AbstractModel {
 	}
 	public void setTbr(String tbr) {
 		this.tbr = tbr;
+	}
+	@Override
+	public String toString() {
+		return "Baojingqingkuang [id=" + id + ", xzqh=" + xzqh + ", tbdw=" + tbdw + ", bjqk=" + bjqk + ", wffzaj="
+				+ wffzaj + ", zaaj=" + zaaj + ", hzsg=" + hzsg + ", jtsg=" + jtsg + ", zazhsg=" + zazhsg + ", zs=" + zs
+				+ ", jf=" + jf + ", jtbl=" + jtbl + ", gmqz=" + gmqz + ", zsxr=" + zsxr + ", jwjd=" + jwjd + ", qt="
+				+ qt + ", hj=" + hj + ", tbr=" + tbr + "]";
 	}
 	
 	

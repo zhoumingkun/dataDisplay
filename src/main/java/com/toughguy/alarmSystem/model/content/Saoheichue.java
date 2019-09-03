@@ -12,7 +12,7 @@ import com.toughguy.alarmSystem.util.JsonUtil;
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class Saoheichue extends AbstractModel {
 	private int id;
-	private int xzqh;    //行政区划代码
+	private String xzqh;    //行政区划
 	private String tbdw;   //填报单位
 	private int shcedzxs;  //报警情况
 	private int djqbfzxs;       //违法犯罪案件
@@ -29,10 +29,11 @@ public class Saoheichue extends AbstractModel {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getXzqh() {
+	
+	public String getXzqh() {
 		return xzqh;
 	}
-	public void setXzqh(int xzqh) {
+	public void setXzqh(String xzqh) {
 		this.xzqh = xzqh;
 	}
 	public String getTbdw() {
@@ -88,6 +89,12 @@ public class Saoheichue extends AbstractModel {
 	}
 	public void setTbr(String tbr) {
 		this.tbr = tbr;
+	}
+	@Override
+	public String toString() {
+		return "Saoheichue [id=" + id + ", xzqh=" + xzqh + ", tbdw=" + tbdw + ", shcedzxs=" + shcedzxs + ", djqbfzxs="
+				+ djqbfzxs + ", djwwfzxs=" + djwwfzxs + ", phstfzxs=" + phstfzxs + ", ffjzfzxs=" + ffjzfzxs
+				+ ", dxwlfzxs=" + dxwlfzxs + ", hj=" + hj + ", tbr=" + tbr + "]";
 	}
 	
 	
