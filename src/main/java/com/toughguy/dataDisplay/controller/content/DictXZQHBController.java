@@ -32,17 +32,23 @@ public class DictXZQHBController {
 	@Autowired
 	private IDictXZQHBService dictXZQHBService;
 	
-	
-	
-
-	
-	
-	@ResponseBody
-	@RequestMapping(value = "/getAll")
+	/**
+	 * 查询全部行政区划全部数据
+	 * @return
+	 */
+	@RequestMapping(value = "/findAll")
 //	@RequiresPermissions("dictXZQHB:getById")
 	public List<DictXZQHB> getAll() {
 		return  dictXZQHBService.findAll();
 	}
 	
+	@RequestMapping("/alterJJSLSX")
+	public String save(List<DictXZQHB> list) {
+		return  dictXZQHBService.save(list);
+	}
 
+	@RequestMapping("/findMapProportion")
+	public Map<String,Object> findMapProportion(){
+		return  dictXZQHBService.findMapProportion();
+	}
 }

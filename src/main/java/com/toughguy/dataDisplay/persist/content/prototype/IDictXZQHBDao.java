@@ -12,8 +12,10 @@ import com.toughguy.dataDisplay.persist.prototype.IGenericDao;
  *
  */
 public interface IDictXZQHBDao extends IGenericDao<DictXZQHB, Integer> {
-	
+	//查询行政区划全部数据
 	public List<DictXZQHB> findAll();
 	
+	//修改行政区划表地图峰值的数据
+	public void save(DictXZQHB xzqh);
 	
 }

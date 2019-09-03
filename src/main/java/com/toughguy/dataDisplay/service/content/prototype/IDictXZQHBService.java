@@ -11,5 +11,13 @@ import com.toughguy.dataDisplay.service.prototype.IGenericService;
  *
  */
 public interface IDictXZQHBService extends IGenericService<DictXZQHB, Integer>{
+	//查询行政区划全部数据
 	public List<DictXZQHB> findAll();
+	
+	//修改行政区划表地图峰值的数据
+	public String save(List<DictXZQHB> list);
+
+	//查询各个地市的占比情况
+	public Map<String, Object> findMapProportion();
+	
 }

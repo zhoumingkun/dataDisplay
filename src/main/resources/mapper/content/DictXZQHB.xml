@@ -6,14 +6,10 @@
 	<select id="findAll" parameterType="Map" resultType="DictXZQHB">
 		select * from DICT_XZQHB
 	</select>
+	
+	<!-- 修改某个数据 -->
 	<update id="update" parameterType="DictXZQHB">
-		update DICT_XZQHB
-		<set>
-			<if test="xzqhdm != null and sampleNo != ''">sampleNo = #{sampleNo},</if>
-			<if test="xzqhmc != null and position != ''">position = #{position},</if>
-			<if test="jjslsx != null and otherState != ''">otherState = #{otherState},</if>
-		</set>
-		where xzqhdm = #{xzqhdm}
+		update DICT_XZQHB set jjslsx = #{jjslsx} where xzqhdm = #{xzqhdm}
 	</update>
 	
 

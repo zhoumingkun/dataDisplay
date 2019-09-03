@@ -21,6 +21,12 @@ public class DictXZQHBImpl extends GenericDaoImpl<DictXZQHB, Integer> implements
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findAll");
 	}
 
+	@Override
+	public void save(DictXZQHB xzqh) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update(typeNameSpace + ".save",xzqh);
+	}
+
 	
 	
 }
