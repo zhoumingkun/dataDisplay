@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.dataDisplay.model.content.RecGrade">
+	<update id="alterGrade" parameterType="RecGrade">
+		update REC_GRADE set proportion=#{proportion} where gradedm=#{gradedm}
+	</update>
+	
+	<select id="selectAll" parameterType="RecGrade" resultType="RecGrade">
+		select * from REC_GRADE
+	</select>
+</mapper>
