@@ -294,9 +294,16 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 		Set<String> set = new HashSet<>();
 		set.add("电话报警");
 		set.add("来人(来电)报警");
+		set.add("投案自首");
+		set.add("工作中发现");
+		set.add("扭送现行");
+		set.add("比对报警");
+		set.add("上级交办");
 		set.add("技防报警");
-		set.add("其它报警方式");
 		set.add("短信报警");
+		set.add("网络报警");
+		set.add("其它部门移送");
+		set.add("其它报警方式");
 		int total = 0;
 		for(int i =0 ;i<list.size();i++) {
 			total=total+list.get(i).getJjsl();
