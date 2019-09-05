@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.educationSystem.model.authority.User">
+<mapper namespace="com.toughguy.alarmSystem.model.authority.User">
 
 	<insert id="save" parameterType="User" keyProperty="id" useGeneratedKeys="true">
-		insert into auth_user (guid, createTime,updateTime,userName, userPass,phone,email,libraryId) 
-		values (#{guid}, #{createTime},#{updateTime},#{userName}, #{userPass},#{phone},#{email},#{libraryId})
+		insert into auth_user (guid, createTime,updateTime,userName, userPass,unitName) 
+		values (#{guid}, #{createTime},#{updateTime},#{userName}, #{userPass},#{unitName})
 	</insert>
 	
 	<!-- 存储某个用户和角色的对应关系 -->
@@ -85,10 +85,8 @@
 		<set>
 			<if test="userName != null and userName != ''">userName = #{userName},</if>
 			<if test="userPass != null and userPass != ''">userPass = #{userPass},</if>
-			<if test="phone != null and phone != ''">phone = #{phone},</if>
-			<if test="email != null and email != ''">email = #{email},</if>
 			<if test="updateTime != null">updateTime = #{updateTime},</if>
-			<if test="libraryId != null">libraryId = #{libraryId},</if>
+			<if test="unitName != null">unitName = #{unitName},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -122,23 +120,14 @@
 				and userPass like concat(concat('%', #{userPassLike, jdbcType=VARCHAR}),'%')
 			</if>
 			
-			<if test=" phone != null and phone != '' ">
-				and phone = #{phone}
+			<if test=" unitName != null and unitName != '' ">
+				and unitName = #{unitName}
 			</if>
-			<if test=" phoneLike != null and phoneLike != '' ">
-				and phone like concat(concat('%', #{phoneLike, jdbcType=VARCHAR}),'%')
-			</if>
-			
-			<if test=" email != null and email != '' ">
-				and email = #{email}
-			</if>
-			<if test=" emailLike != null and emailLike != '' ">
-				and email like concat(concat('%', #{emailLike, jdbcType=VARCHAR}),'%')
+			<if test=" unitNameLike != null and unitNameLike != '' ">
+				and unitName like concat(concat('%', #{unitNameLike, jdbcType=VARCHAR}),'%')
 			</if>
 			
-			<if test=" libraryId != null and libraryId != '' ">
-				and libraryId = #{libraryId}
-			</if>
+			
 		</where>
 	</sql>
 	

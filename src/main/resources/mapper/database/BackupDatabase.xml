@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.educationSystem.model.database.BackupDatabaseInfo">
+<mapper namespace="com.toughguy.alarmSystem.model.content.BackupDatabaseInfo">
 
 	<insert id="save" parameterType="BackupDatabaseInfo" keyProperty="id" useGeneratedKeys="true">
 		insert into database_backupInfo (guid, createTime,updateTime,infoName,path,remark,fileSize) 

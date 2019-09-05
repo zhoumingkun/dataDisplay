@@ -35,7 +35,6 @@ import com.toughguy.alarmSystem.persist.authority.prototype.IOperationDao;
 import com.toughguy.alarmSystem.persist.authority.prototype.IResourceDao;
 import com.toughguy.alarmSystem.persist.authority.prototype.IRoleDao;
 import com.toughguy.alarmSystem.persist.authority.prototype.IUserDao;
-import com.toughguy.alarmSystem.security.CustomLoginToken;
 import com.toughguy.alarmSystem.util.JsonUtil;
 
 
@@ -122,9 +121,8 @@ public class LoginController {
     
     
 	
-	
-	/**
-	 * 登录（PC端）
+    /**
+	 * 登录
 	 * @param user
 	 * @param session
 	 * @param request
@@ -134,72 +132,59 @@ public class LoginController {
 	//@SystemControllerLog(description="登录系统")
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public String login(User user, String verityCode, HttpSession session,HttpServletRequest request, String captcha){		
+	public String login(User user, HttpSession session,HttpServletRequest request){		
 		//-- 产生的验证码获取的方法，若需要认证则自己写验证的逻辑, verityCode为用户输入的验证码，嘿嘿，简单吧
 //		String rightCode = (String)session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		if(!captcha.equals(verityCode.trim())){
-			return "{ \"success\" : false ,\"code\":\"您输入的验证码信息不正确,请重新输入\" }";
-		}
+//		if(!captcha.equals(verityCode.trim())){
+//			return "{ \"success\" : false ,\"code\":\"您输入的验证码信息不正确,请重新输入\" }";
+//		}
 		//ModelAndView mv = new ModelAndView();
-		if(user.getUserName() == null || user.getUserName().trim() == ""){
-			return "{ \"success\" : false ,\"code\":\"账户不能为空\" }";
-		}else if(user.getUserPass() == null || user.getUserPass().trim() == ""){
-			return "{ \"success\" : false ,\"code\":\"密码不能为空\" }";
-		}
-		//获取Subject实例对象
-		//在shiro里面所有的用户的会话信息都会由Shiro来进行控制，那么也就是说只要是与用户有关的一切的处理信息操作都可以通过Shiro取得，
-		// 实际上可以取得的信息可以有用户名、主机名称等等，这所有的信息都可以通过Subject接口取得
-		Subject subject = SecurityUtils.getSubject();
-		 //将用户名和密码封装到继承了UsernamePasswordToken的userToken
-		CustomLoginToken userToken = new CustomLoginToken(user.getUserName(), user.getUserPass(), "ACCOUNT");
-		userToken.setRememberMe(false);
-        try {
-            //认证
-            // 传到ModularRealmAuthenticator类中，然后根据ADMIN_LOGIN_TYPE传到AdminShiroRealm的方法进行认证
-            subject.login(userToken);
-            //Admin存入session
-            SecurityUtils.getSubject().getSession().setAttribute("user",(User)subject.getPrincipal());
-            User u = userDao.findUserInfoByUserName(user.getUserName());
-    		List<Role> roles = roleDao.findByUserId(u.getId());
-    		String roleDisplayName = "";
-    		for(Role role:roles) {
-    			roleDisplayName += role.getDisplayName() + ",";
-    		}
-    		String newRoleDisplayName = roleDisplayName.substring(0, roleDisplayName.length()-1);
-    		UserDTO ut = new UserDTO();
-    		List<Operation> list = operationDao.findByUserId(u.getId());
-    		String name = "";          //用户拥有的操作名称
-    		String ResourceName ="";   
-    		for (Operation operation : list) {
-    			String permission = operation.getPermission();
-    			name += permission+",";
-    			int resourceId = operation.getResourceId();
-    			String reName = resourceDao.find(resourceId).getResourceName();
-    			ResourceName += reName+",";
-    		}
-    		//去重
-    		String [] stringArr= ResourceName.substring(0, ResourceName.length()-1).split(",");;
-    		Set set = new HashSet();
-    		for (int i = 0; i < stringArr.length; i++) {
-    			set.add(stringArr[i]);
-    		}
-    		stringArr = (String[]) set.toArray(new String[0]);
-    		String resourceName = ""; //用户拥有的资源名称
-    		for (int i = 0; i < stringArr.length; i++) {
-    			resourceName +=stringArr[i]+",";
-    		}
-            ut.setRoleName(newRoleDisplayName);
-    		ut.setPermissions(name.substring(0, name.length()-1));
-    		ut.setResourceName(resourceName.substring(0, resourceName.length()-1));
-    		ut.setToken(session.getId());
-    		BeanUtils.copyProperties(u, ut); //省去set的烦恼，利用beanUtils进行属性copy
-    		String userDTO = JsonUtil.objectToJson(ut);
-    		//mv.setViewName("redirect:/index.html");
-    		return "{ \"success\" : true ,\"user\":"+userDTO+"}";
-        } catch (Exception e) {
-            //认证失败就会抛出AuthenticationException这个异常，就对异常进行相应的操作，这里的处理是抛出一个自定义异常ResultException
-            //到时候我们抛出自定义异常ResultException，用户名或者密码错误
+	    try{
+	    	Subject currentUser = SecurityUtils.getSubject();
+	    	UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),user.getUserPass());
+	    	currentUser.login(token);
+	    } catch ( UnknownAccountException e ) {
+	    	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
+        } catch ( IncorrectCredentialsException e ) {
         	return "{ \"success\" : false ,\"code\":\"您输入的用户名或密码不正确,请重新输入\" }";
         }
+		
+		User u = userDao.findUserInfoByUserName(user.getUserName());
+		List<Role> roles = roleDao.findByUserId(u.getId());
+		String roleDisplayName = "";
+		for(Role role:roles) {
+			roleDisplayName += role.getDisplayName() + ",";
+		}
+		String newRoleDisplayName = roleDisplayName.substring(0, roleDisplayName.length()-1);
+		UserDTO ut = new UserDTO();
+		List<Operation> list = operationDao.findByUserId(u.getId());
+		String name = "";          //用户拥有的操作名称
+		String ResourceName ="";   
+		for (Operation operation : list) {
+			String permission = operation.getPermission();
+			name += permission+",";
+			int resourceId = operation.getResourceId();
+			String reName = resourceDao.find(resourceId).getResourceName();
+			ResourceName += reName+",";
+		}
+		//去重
+		String [] stringArr= ResourceName.substring(0, ResourceName.length()-1).split(",");;
+		Set set = new HashSet();
+		for (int i = 0; i < stringArr.length; i++) {
+			set.add(stringArr[i]);
+		}
+		stringArr = (String[]) set.toArray(new String[0]);
+		String resourceName = ""; //用户拥有的资源名称
+		for (int i = 0; i < stringArr.length; i++) {
+			resourceName +=stringArr[i]+",";
+		}
+        ut.setRoleName(newRoleDisplayName);
+		ut.setPermissions(name.substring(0, name.length()-1));
+		ut.setResourceName(resourceName.substring(0, resourceName.length()-1));
+		ut.setToken(session.getId());
+		BeanUtils.copyProperties(u, ut); //省去set的烦恼，利用beanUtils进行属性copy
+		String userDTO = JsonUtil.objectToJson(ut);
+		//mv.setViewName("redirect:/index.html");
+		return "{ \"success\" : true ,\"user\":"+userDTO+"}";
 	}
 }

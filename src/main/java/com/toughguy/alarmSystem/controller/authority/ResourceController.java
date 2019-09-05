@@ -103,7 +103,7 @@ public class ResourceController {
 	//@SystemControllerLog(description="权限管理-资源列表")
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("resource:list")
+//	@RequiresPermissions("resource:list")
 	public String data(String params,HttpSession session) {
 		return authService.findAllResourceInduleOperation(params);
 	}

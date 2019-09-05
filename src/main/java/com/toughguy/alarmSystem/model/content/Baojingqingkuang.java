@@ -20,6 +20,7 @@ public class Baojingqingkuang extends AbstractModel {
 	private int hzsg;       //火灾事故
 	private int jtsg;        //交通事故
 	private int zazhsg;   //治安灾害事故
+	private int zhsg;   //灾害事故
 	private int zs;   //来自杀源
 	private int jf;   //纠纷
 	private int jtbl;   //家庭暴力
@@ -29,6 +30,7 @@ public class Baojingqingkuang extends AbstractModel {
 	private int qt;   //其他
 	private int hj;   //合计
 	private String tbr;   //填报人
+	
 	
 	public int getId() {
 		return id;
@@ -140,6 +142,14 @@ public class Baojingqingkuang extends AbstractModel {
 	public void setTbr(String tbr) {
 		this.tbr = tbr;
 	}
+	
+	public int getZhsg() {
+		return zhsg;
+	}
+	public void setZhsg(int zhsg) {
+		this.zhsg = zhsg;
+	}
+
 	@Override
 	public String toString() {
 		return "Baojingqingkuang [id=" + id + ", xzqh=" + xzqh + ", tbdw=" + tbdw + ", bjqk=" + bjqk + ", wffzaj="

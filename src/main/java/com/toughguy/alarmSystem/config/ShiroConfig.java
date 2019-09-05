@@ -19,8 +19,6 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.toughguy.alarmSystem.security.CustomRealmAuthenticator;
 import com.toughguy.alarmSystem.security.SystemRealm;
 
 @Configuration
@@ -37,7 +35,7 @@ public class ShiroConfig {
         //配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap=new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login", "anon"); //表示可以匿名访问
-        filterChainDefinitionMap.put("/loginWX", "anon"); //表示可以匿名访问(小程序)
+//        filterChainDefinitionMap.put("/loginWX", "anon"); //表示可以匿名访问(小程序)
         filterChainDefinitionMap.put("/captcha","anon");
         filterChainDefinitionMap.put("/common/**", "anon"); 
         filterChainDefinitionMap.put("/default/**","anon");
@@ -54,29 +52,14 @@ public class ShiroConfig {
     }
 	//SecurityManager 是 Shiro 架构的核心，通过它来链接Realm和用户(文档中称之为Subject.)
 	//-- 配置核心安全事务管理器
-	@Bean(name="securityManager")
-    public SecurityManager securityManager() {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        //设置realm.
-        securityManager.setAuthenticator(customRealmAuthenticator());
-        List<Realm> realms = new ArrayList<>();
-        //添加多个Realm
-        realms.add(systemRealm());
-        securityManager.setRealms(realms);
-        // 自定义session管理 使用redis
-        securityManager.setSessionManager(sessionManager());
-        return securityManager;
-    }
-	 /**
-     * 系统自带的Realm管理，主要针对多realm
-     * */
-    @Bean
-    public CustomRealmAuthenticator customRealmAuthenticator(){
-        //自己重写的ModularRealmAuthenticator
-    	CustomRealmAuthenticator customRealmAuthenticator = new CustomRealmAuthenticator();
-    	customRealmAuthenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
-        return customRealmAuthenticator;
-    }
+		@Bean(name="securityManager")
+		public SecurityManager securitManager(@Qualifier("systemRealm") SystemRealm systemRealm){
+			DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
+			manager.setRealm(systemRealm);
+			manager.setSessionManager(sessionManager());  
+			return manager;
+		}
+	
 	//-- 配置自定义权限认证授权器user
 	@Bean(name="systemRealm")
 	public SystemRealm systemRealm(){

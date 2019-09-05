@@ -114,8 +114,7 @@ public class UserController {
 			User user = userService.find(newUser.getId());
 			user.setUserName(newUser.getUserName());
 			user.setUserPass(new DefaultPasswordService().encryptPassword(newUser.getUserPass()));
-			user.setPhone(newUser.getPhone());
-			user.setEmail(newUser.getEmail());
+			user.setUnitName(newUser.getUnitName());
 			userService.update(user);
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
@@ -208,7 +207,7 @@ public class UserController {
 	@ResponseBody
 	//@SystemControllerLog(description="权限管理-用户列表")
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("user:list")
+//	@RequiresPermissions("user:list")
 	public String data(String params,HttpSession session) {
 		return authService.findAllUserInduleRoles(params);
 	}

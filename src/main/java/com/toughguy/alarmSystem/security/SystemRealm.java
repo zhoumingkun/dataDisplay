@@ -43,26 +43,17 @@ public class SystemRealm extends AuthorizingRealm{
 	 * 编写认证代码
 	 */
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-//				logger.info("开始User身份认证..");
-		        CustomLoginToken userToken = (CustomLoginToken)token;
-		        String userName =  userToken.getUsername();
-		        User user = userService.findByUserName(userName);
-
-		        if (user == null) {
-		            //没有返回登录用户名对应的SimpleAuthenticationInfo对象时,就会在LoginController中抛出UnknownAccountException异常
-		            throw new UnknownAccountException("用户不存在！");
-		        }
-
-		        //验证通过返回一个封装了用户信息的AuthenticationInfo实例即可。
-		        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-		                user, //用户信息
-		                user.getUserPass(), //密码
-		                getName() //realm name
-		        );
-		        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(user.getUserName())); //设置盐
-
-		        return authenticationInfo;
+	protected AuthenticationInfo doGetAuthenticationInfo(
+			AuthenticationToken authToken) throws AuthenticationException {
+		//-- 1. 基于userName和password的令牌
+		UsernamePasswordToken token = (UsernamePasswordToken)authToken;
+		//-- 2. 根据验证单的填写的名字从后台查找用户
+		User user = userService.findByUserName(token.getUsername());
+		//-- 3. 返回认证材料信息
+		AuthenticationInfo authenInfo = null;
+		if(user != null)
+			authenInfo = new SimpleAuthenticationInfo(user.getUserName(),user.getUserPass(),getName());
+		return authenInfo;
 	}
 	
 	/**

@@ -92,7 +92,7 @@ public class RoleController {
 	//@SystemControllerLog(description="权限管理-角色列表")
 	@ResponseBody
 	@RequestMapping(value = "/data")
-	@RequiresPermissions("role:list")
+//	@RequiresPermissions("role:list")
 	public String data(String params) {
 		try {
 			ObjectMapper om = new ObjectMapper();

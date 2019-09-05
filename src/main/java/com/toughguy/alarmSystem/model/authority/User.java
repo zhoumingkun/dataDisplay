@@ -35,10 +35,10 @@ public class User extends AbstractModel {
 	private int id;
 	private String userName;  //用户名
 	private String userPass;  //密码
-	private String phone;  //电话
-	private String email;  //邮箱
+	private String unitName;  //所属单位名称
+	
 	private List<Role> roleList = new ArrayList<Role>();  //页面显示字段（解决前台缓存列表页直接获取用户角色信息）
-	private int libraryId; //库id
+	
 	
 	
 	
@@ -76,34 +76,15 @@ public class User extends AbstractModel {
 		this.userPass = userPass;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	
-	
-	public int getLibraryId() {
-		return libraryId;
+	public String getUnitName() {
+		return unitName;
 	}
 
-	public void setLibraryId(int libraryId) {
-		this.libraryId = libraryId;
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
 	}
 
-	
-
-	
 	public String getRolesName() {
 		return rolesName;
 	}
