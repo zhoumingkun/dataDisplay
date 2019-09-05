@@ -5,18 +5,23 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
 import com.toughguy.alarmSystem.pagination.PagerModel;
 import com.toughguy.alarmSystem.service.content.prototype.IBaojingqingkuangService;
 
-@Controller
+@RestController
 @RequestMapping(value = "/baojingqingkuang")
 public class BaojingqingkuangController {
 	@Autowired
@@ -102,6 +107,78 @@ public class BaojingqingkuangController {
 		return baojingqingkuangService.findAll();
 	}
 	
+
+	
+	
+	/**
+	 * 省厅报警情况柱状图
+	 * @return
+	 */
+	@RequestMapping("/findAllBJ")
+	//@RequiresPermissions("baojingqingkuang:findAllBJ")
+	public Map<String ,Baojingqingkuang> findAllBJ() {
+		return baojingqingkuangService.findAllBJ();
+	}
+	
+	
+	
+	/**
+	 * 地级市报警情况柱状图
+	 * @return
+	 */
+	@RequestMapping("/findOneBJ")
+	//@RequiresPermissions("baojingqingkuang:findOneBJ")
+	public Map<String ,Baojingqingkuang> findOneBJ(String xzqh) {
+		return baojingqingkuangService.findOneBJ(xzqh);
+	}
+	
+	
+	/**
+	 * 地级市添加报警情况统计表
+	 * @return
+	 */
+	@RequestMapping("/insertAll")
+	//@RequiresPermissions("baojingqingkuang:insertAll")
+	public Map<String ,String> insertAll(List<Baojingqingkuang> list) {
+		return baojingqingkuangService.insertAll(list);
+	}
+	
+	
+	/**
+	 * 省厅查询报警情况统计表
+	 * @return
+	 * 前端需要传递查询月时间区间
+	 */
+	@RequestMapping("/selectAll")
+	//@RequiresPermissions("baojingqingkuang:selectAll")
+	public List<Baojingqingkuang> selectAll(String starttime,String stoptime) {
+		return baojingqingkuangService.selectAll(starttime,stoptime);
+	}
+	
+	/**
+	 * 地级市查询报警情况统计表
+	 * @return
+	 * 前端需要传递查询月时间区间和行政规划
+	 */
+	@RequestMapping("/selectOne")
+	//@RequiresPermissions("baojingqingkuang:selectOne")
+	public List<Baojingqingkuang> selectOne(String starttime,String stoptime,String xzqh) {
+		return baojingqingkuangService.selectOne(starttime,stoptime,xzqh);
+	}
+	
+	
+	
+	/**
+	 * 查询报警情况列表展示
+	 * 传递时间为某年某月
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/selectList")
+	//@RequiresPermissions("baojingqingkuang:selectList")
+	public Map<String,Object> selectList(@RequestParam(name="time")String time,@RequestParam(name="xzqh")String xzqh) {
+		return baojingqingkuangService.selectList(time,xzqh);
+	}
 	
 	
 }
