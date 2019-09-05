@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
+import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.model.content.RecLHLXTJB;
 import com.toughguy.dataDisplay.persist.content.prototype.IRecLHLXTJBDao;
 import com.toughguy.dataDisplay.service.content.prototype.IRecLHLXTJBService;
@@ -84,7 +85,6 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
 		List<RecLHLXTJB> list = recLHLXTJBDao.findLHLXSevenDayShen(map);
-		System.out.println(list);
 		Set<String> set = new HashSet<>();
 		set.add("报警求助、举报投诉");
 		set.add("处警反馈");
@@ -171,7 +171,6 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 		map.put("endTime", endTime);
 		List<RecLHLXTJB> list = recLHLXTJBDao.findLHLXSevenDayShen(map);		//查询出时间区间的全省的来话类型数据
 		List<RecLHLXTJB> listxzqh = recLHLXTJBDao.findSIncomingTypeXZQH(map);		//查询出时间区间的全省的来话类型数据(含行政区划)
-		System.out.println(list);
 		Set<String> set = new HashSet<>();
 		set.add("报警求助、举报投诉");
 		set.add("处警反馈");
@@ -227,7 +226,6 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 			sevenmap.put(name, arr);
 		}
 		smap.put("sevenDays", sevenmap);
-		System.out.println("-----------------"+num);
 		Map<String,String> proportion = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.00000");
 		DecimalFormat dft = new DecimalFormat("0.00");
@@ -242,13 +240,14 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 			}
 		}
 		smap.put("proportion", proportion);
-
 		Set<String> set2= new HashSet<>();
 		for(int i=0;i<listxzqh.size();i++) {
 			set2.add(listxzqh.get(i).getXzqhdm());
 		}
+		Map<String,Object> ndgemgt = new HashMap<>();
 		for(String name:set) {
 			Map<String,String> xzqhnumber = new HashMap<>();
+			Map<String,String> hmap = new HashMap<>();
 			for(String xzqh:set2) {
 				int h=0;
 				for(int i=0;i<listxzqh.size();i++) {
@@ -257,9 +256,28 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 					}
 				}
 				xzqhnumber.put(xzqh+"市", h+"");
+				if(h==0) {
+					hmap.put(xzqh+"市", "0");
+				}else {
+					int one = Integer.parseInt(num.get(name));		
+					String format = df.format((float)h/one);
+					Double aa = Double.parseDouble(format);
+					hmap.put(xzqh+"市", dft.format(aa*100));
+				}
 			}
+			ndgemgt.put(name, hmap);
 			smap.put(name, xzqhnumber);
 		}
+		List<String> arrlist = new ArrayList<>();
+		arrlist.add("报警求助、举报投诉");
+		arrlist.add("处警反馈");
+		arrlist.add("信息咨询");
+		arrlist.add("重复报警");
+		arrlist.add("骚扰电话");
+		arrlist.add("系统测试");
+		arrlist.add("其它处理类型");
+		smap.put("type", arrlist);
+		smap.put("rose", ndgemgt);
 		return smap;
 	}
 	
@@ -345,7 +363,6 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 				}
 				
 			}
-			System.out.println("-------------------"+arr);
 			num.put(name, z+"");
 			cmap.put(name, arr);
 		}
@@ -363,6 +380,31 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 			}
 		}
 		cmap.put("proportion", proportion);
+		List<String> arrlist = new ArrayList<>();
+		arrlist.add("报警求助、举报投诉");
+		arrlist.add("处警反馈");
+		arrlist.add("信息咨询");
+		arrlist.add("重复报警");
+		arrlist.add("骚扰电话");
+		arrlist.add("系统测试");
+		arrlist.add("其它处理类型");
+		cmap.put("type", arrlist);
+		Map<String,Object> omap = new HashMap<>();
+		for(int i=0;i<arrlist.size();i++) {
+			Map<String,String> arrmap= new HashMap<>();
+			List<RecLHLXTJB> object =(List<RecLHLXTJB>) cmap.get(arrlist.get(i));
+			for(int ii =0;ii<object.size();ii++) {
+				arrmap.put(object.get(ii).getTjrq().substring(4,6)+"-"+object.get(ii).getTjrq().substring(6), object.get(ii).getJjsl()+"");
+			}
+			omap.put(arrlist.get(i), arrmap);
+		}
+		cmap.put("num", omap);
+		List<String> daysList = new ArrayList<>();
+		for(int i =0;i<days.size();i++) {
+			String time =days.get(i).substring(4,6)+"-"+days.get(i).substring(6);
+			daysList.add(time);
+		}
+		cmap.put("days", daysList);
 		return cmap;
 	}
 

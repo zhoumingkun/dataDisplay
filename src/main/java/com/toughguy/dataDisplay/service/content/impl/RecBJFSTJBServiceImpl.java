@@ -171,7 +171,6 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 		map.put("endTime", endTime);
 		List<RecBJFSTJB> list = recBJFSTJBDao.findBJFSSevenDayShen(map);		//查询出时间区间的全省的警情数据
 		List<RecBJFSTJB> listxzqh = recBJFSTJBDao.findSAlarmModeXZQH(map);		//查询出时间区间的全省的警情数据
-		System.out.println(list);
 		Set<String> set = new HashSet<>();
 		set.add("电话报警");
 		set.add("来人(来电)报警");
@@ -226,7 +225,6 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 			sevenmap.put(name, arr);
 		}
 		smap.put("sevenDays", sevenmap);
-		System.out.println("-----------------"+num);
 		Map<String,String> proportion = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.0000");
 		DecimalFormat dft = new DecimalFormat("0.00");
@@ -246,8 +244,10 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 		for(int i=0;i<listxzqh.size();i++) {
 			set2.add(listxzqh.get(i).getXzqhdm());
 		}
+		Map<String,Object> ndgemgt = new HashMap<>();
 		for(String name:set) {
 			Map<String,String> xzqhnumber = new HashMap<>();
+			Map<String,String> hmap = new HashMap<>();
 			for(String xzqh:set2) {
 				int h=0;
 				for(int i=0;i<listxzqh.size();i++) {
@@ -256,9 +256,26 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 					}
 				}
 				xzqhnumber.put(xzqh+"市", h+"");
+				if(h==0) {
+					hmap.put(xzqh+"市", "0");
+				}else {
+					int one = Integer.parseInt(num.get(name));		
+					String format = df.format((float)h/one);
+					Double aa = Double.parseDouble(format);
+					hmap.put(xzqh+"市", dft.format(aa*100));
+				}
 			}
+			ndgemgt.put(name, hmap);
 			smap.put(name, xzqhnumber);
 		}
+		List<String> arrlist = new ArrayList<>();
+		arrlist.add("电话报警");
+		arrlist.add("来人(来电)报警");
+		arrlist.add("技防报警");
+		arrlist.add("其它报警方式");
+		arrlist.add("短信报警");
+		smap.put("type", arrlist);
+		smap.put("rose", ndgemgt);
 		return smap;
 	}
 
@@ -365,6 +382,37 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 			}
 		}
 		cmap.put("proportion", proportion);
+		List<String> arrlist = new ArrayList<>();
+		arrlist.add("电话报警");
+		arrlist.add("来人(来电)报警");
+		arrlist.add("投案自首");
+		arrlist.add("工作中发现");
+		arrlist.add("扭送现行");
+		arrlist.add("比对报警");
+		arrlist.add("上级交办");
+		arrlist.add("技防报警");
+		arrlist.add("短信报警");
+		arrlist.add("网络报警");
+		arrlist.add("其它部门移送");
+		arrlist.add("其它报警方式");
+		cmap.put("type", arrlist);
+		
+		Map<String,Object> omap = new HashMap<>();
+		for(int i=0;i<arrlist.size();i++) {
+			Map<String,String> arrmap= new HashMap<>();
+			List<RecBJFSTJB> object =(List<RecBJFSTJB>) cmap.get(arrlist.get(i));
+			for(int ii =0;ii<object.size();ii++) {
+				arrmap.put(object.get(ii).getTjrq().substring(4,6)+"-"+object.get(ii).getTjrq().substring(6), object.get(ii).getJjsl()+"");
+			}
+			omap.put(arrlist.get(i), arrmap);
+		}
+		cmap.put("num", omap);
+		List<String> daysList = new ArrayList<>();
+		for(int i =0;i<days.size();i++) {
+			String time =days.get(i).substring(4,6)+"-"+days.get(i).substring(6);
+			daysList.add(time);
+		}
+		cmap.put("days", daysList);
 		return cmap;
 	}
 			            

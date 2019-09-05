@@ -78,8 +78,6 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
 		List<RecJJLXTJB> list = recJJLXTJBDao.findJJLXSevenDayShen(map);		//查询出时间区间的全省的警情数据
-		
-		System.out.println(list);
 		Set<String> set = new HashSet<>();
 		set.add("110报警");
 		set.add("122报警");
@@ -162,11 +160,12 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		
 		Map<String,Object> smap= new HashMap<>();
 		Map<String,String> map = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.0000");
+		DecimalFormat dft = new DecimalFormat("0.00");
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
 		List<RecJJLXTJB> list = recJJLXTJBDao.findAlarmData(map);		//查询出时间区间的全省的警情数据
 		List<RecJJLXTJB> listxzqh = recJJLXTJBDao.findAlarmDataXZQH(map);		//查询出时间区间的全省的警情数据
-		System.out.println(list);
 		Set<String> set = new HashSet<>();
 		set.add("110报警");
 		set.add("122报警");
@@ -221,10 +220,7 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 			sevenmap.put(name, arr);
 		}
 		smap.put("sevenDays", sevenmap);
-		System.out.println("-----------------"+num);
 		Map<String,String> proportion = new HashMap<>();
-		DecimalFormat df = new DecimalFormat("0.0000");
-		DecimalFormat dft = new DecimalFormat("0.00");
 		for(String name:set) {
 			if(num.get(name)==null || num.get(name).equals("null")) {
 				proportion.put(name, "0");
@@ -240,8 +236,10 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		for(int i=0;i<listxzqh.size();i++) {
 			set2.add(listxzqh.get(i).getXzqhdm());
 		}
+		Map<String,Object> ndgemgt = new HashMap<>();
 		for(String name:set) {
 			Map<String,String> xzqhnumber = new HashMap<>();
+			Map<String,String> hmap = new HashMap<>();
 			for(String xzqh:set2) {
 				int h=0;
 				for(int i=0;i<listxzqh.size();i++) {
@@ -250,12 +248,28 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 					}
 				}
 				xzqhnumber.put(xzqh+"市", h+"");
+				if(h==0) {
+					hmap.put(xzqh+"市", "0");
+				}else {
+					int one = Integer.parseInt(num.get(name));		
+					String format = df.format((float)h/one);
+					Double aa = Double.parseDouble(format);
+					hmap.put(xzqh+"市", dft.format(aa*100));
+				}
 			}
+			ndgemgt.put(name, hmap);
 			smap.put(name, xzqhnumber);
 		}
+		List<String> arrlist = new ArrayList<>();
+		arrlist.add("110报警");
+		arrlist.add("122报警");
+		arrlist.add("119报警");
+		arrlist.add("综合报警");
+		arrlist.add("其它接警类型");
+		smap.put("type", arrlist);
+		smap.put("rose", ndgemgt);
 		return smap;
 	}
-	
 
 	@Override
 	public Map<String, Object> findCityAlarmData(String startTime, String endTime, String xzqhdm) {
@@ -352,12 +366,32 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 			}
 		}
 		cmap.put("proportion", proportion);
+		List<String> arrlist = new ArrayList<>();
+		arrlist.add("110报警");
+		arrlist.add("122报警");
+		arrlist.add("119报警");
+		arrlist.add("综合报警");
+		arrlist.add("其它接警类型");
+		cmap.put("type", arrlist);
+		Map<String,Object> omap = new HashMap<>();
+		for(int i=0;i<arrlist.size();i++) {
+			Map<String,String> arrmap= new HashMap<>();
+			List<RecJJLXTJB> object =(List<RecJJLXTJB>) cmap.get(arrlist.get(i));
+			for(int ii =0;ii<object.size();ii++) {
+				arrmap.put(object.get(ii).getTjrq().substring(4,6)+"-"+object.get(ii).getTjrq().substring(6), object.get(ii).getJjsl()+"");
+			}
+			omap.put(arrlist.get(i), arrmap);
+		}
+		cmap.put("num", omap);
+		List<String> daysList = new ArrayList<>();
+		for(int i =0;i<days.size();i++) {
+			String time =days.get(i).substring(4,6)+"-"+days.get(i).substring(6);
+			daysList.add(time);
+		}
+		cmap.put("days", daysList);
 		return cmap;
 	}
 	
-			            
-			           
-				            
-				            
+		            
 
 }
