@@ -173,10 +173,9 @@ public class BaojingqingkuangController {
 	 * 传递时间为某年某月
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/selectList")
 	//@RequiresPermissions("baojingqingkuang:selectList")
-	public Map<String,Object> selectList(@RequestParam(name="time")String time,@RequestParam(name="xzqh")String xzqh) {
+	public Map<String,Object> selectList(String time,String xzqh) {
 		return baojingqingkuangService.selectList(time,xzqh);
 	}
 	
