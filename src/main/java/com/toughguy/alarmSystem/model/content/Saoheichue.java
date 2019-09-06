@@ -23,6 +23,7 @@ public class Saoheichue extends AbstractModel {
 	private int hj;   //来自杀源
 	private String tbr;   //填报人
 	private String tjyf;	//统计月份
+	private String state;	//状态   正常1   非正常-1
 	
 	public int getId() {
 		return id;
@@ -98,12 +99,21 @@ public class Saoheichue extends AbstractModel {
 	public void setTjyf(String tjyf) {
 		this.tjyf = tjyf;
 	}
+	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	@Override
 	public String toString() {
 		return "Saoheichue [id=" + id + ", xzqh=" + xzqh + ", tbdw=" + tbdw + ", shcedzxs=" + shcedzxs + ", djqbfzxs="
 				+ djqbfzxs + ", djwwfzxs=" + djwwfzxs + ", phstfzxs=" + phstfzxs + ", ffjzfzxs=" + ffjzfzxs
-				+ ", dxwlfzxs=" + dxwlfzxs + ", hj=" + hj + ", tbr=" + tbr + ", tjyf=" + tjyf + "]";
+				+ ", dxwlfzxs=" + dxwlfzxs + ", hj=" + hj + ", tbr=" + tbr + ", tjyf=" + tjyf + ", state=" + state
+				+ "]";
 	}
+
 
 	
 	
