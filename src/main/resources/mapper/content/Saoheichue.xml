@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.alarmSystem.model.content.Saoheichue">
 
 	<insert id="save" parameterType="Saoheichue" keyProperty="id" useGeneratedKeys="true">
-		insert into shce (createTime,updateTime,xzqh, tbdw,shcedzxs,djqbfzxs,djwwfzxs,phstfzxs,ffjzfzxs,dxwlfzxs,hj,tbr) 
-		values (#{createTime},#{updateTime},#{xzqh}, #{tbdw},#{shcedzxs},#{djqbfzxs},#{djwwfzxs},#{phstfzxs},#{ffjzfzxs},#{dxwlfzxs},#{hj},#{tbr})
+		insert into shce (createTime,updateTime,xzqh, tbdw,shcedzxs,djqbfzxs,djwwfzxs,phstfzxs,ffjzfzxs,dxwlfzxs,hj,tbr,tjyf,state) 
+		values (#{createTime},#{updateTime},#{xzqh}, #{tbdw},#{shcedzxs},#{djqbfzxs},#{djwwfzxs},#{phstfzxs},#{ffjzfzxs},#{dxwlfzxs},#{hj},#{tbr},#{tjyf},#{state})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -36,7 +36,62 @@
 		select count(*) from shce
 		<include refid="paramsSQL"/>
 	</select>
-
+	
+	<!-- 查询省厅的扫黑除恶统计表数据 -->
+	<select id="findAllSH" parameterType="Map" resultType="Saoheichue">
+		SELECT SUM(shcedzxs) as shcedzxs,SUM(djqbfzxs) as djqbfzxs,SUM(djwwfzxs) as djwwfzxs,SUM(phstfzxs) as phstfzxs,SUM(ffjzfzxs) as ffjzfzxs,SUM(dxwlfzxs) as dxwlfzxs
+		FROM shce  
+		WHERE createTime&gt;=#{starttime} AND createTime&lt;#{stoptime};
+	</select>
+	
+	<!-- 查询地级市的扫黑除恶统计表数据 -->
+	<select id="findOneSH" parameterType="Map" resultType="Saoheichue">
+		SELECT SUM(shcedzxs) as shcedzxs,SUM(djqbfzxs) as djqbfzxs,SUM(djwwfzxs) as djwwfzxs,SUM(phstfzxs) as phstfzxs,SUM(ffjzfzxs) as ffjzfzxs,SUM(dxwlfzxs) as dxwlfzxs
+		FROM shce  
+		WHERE xzqh=#{xzqh} AND createTime&gt;=#{starttime} AND createTime&lt;#{stoptime};
+	</select>
+	
+	<!-- 省厅查询省厅某月份的扫黑除恶统计表数据 -->
+	<select id="selectAll" parameterType="String" resultType="Saoheichue">
+		SELECT xzqh,tbdw,createTime,shcedzxs,djqbfzxs,djwwfzxs,phstfzxs,ffjzfzxs,dxwlfzxs,hj,tbr
+		FROM shce  
+		WHERE tjyf like #{time} ;
+	</select>
+	
+	<!-- 省厅查询地级市某月份的 扫黑除恶统计表数据 -->
+	<select id="selectOne" parameterType="Map" resultType="Saoheichue">
+		SELECT xzqh,tbdw,createTime,shcedzxs,djqbfzxs,djwwfzxs,phstfzxs,ffjzfzxs,dxwlfzxs,hj,tbr
+		FROM shce  
+		WHERE tjyf like #{time} AND xzqh=#{xzqh};
+	</select>
+	
+	<!-- 查询扫黑除恶列表数据(什么都没选或只选时间) 返回数据把查询出来的createtime 暂且返回到tbdw中-->
+	<select id="selectAllList" parameterType="Map" resultType="Saoheichue">
+		select xzqh,createTime as tbdw ,tbr ,tjyf from shce 
+		<if test="time != 'null' and xzqh =='全省' ">
+		 where tjyf like #{time} ;
+		</if>
+	</select>
+	
+	<!-- 查询扫黑除恶列表数据(选时间和地市或选地市不选时间) 返回数据把查询出来的createtime 暂且返回到tbdw中-->
+	<select id="selectList" parameterType="Map" resultType="Saoheichue">
+		select xzqh,createTime as tbdw ,tbr ,tjyf  from shce where xzqh= #{xzqh} 
+		<if test="time != 'null' and xzqh !='全省' ">
+		 AND tjyf like #{time} ;
+		</if>
+	</select>
+	
+	<!-- 通过填报月份查询数据库这条数据是否存在 -->
+	<select id="findOne" parameterType="Map" resultType="Saoheichue">
+		select * from shce where tjyf= #{time} AND xzqh= #{xzqh} 
+	</select>
+	
+	<!-- 地级市修改扫黑除恶数据 -->
+	<update id="updateAll" parameterType="Saoheichue" >
+		update shce set tbdw=#{tbdw},shcedzxs=#{shcedzxs},djqbfzxs=#{djqbfzxs},djwwfzxs=#{djwwfzxs},phstfzxs=#{phstfzxs},ffjzfzxs=#{ffjzfzxs},dxwlfzxs=#{dxwlfzxs},hj=#{hj},tbr=#{tbr}
+		where id=#{id}
+	</update>
+	
 	<!-- 修个某条信息 -->
 	<update id="update" parameterType="Saoheichue">
 		update shce
