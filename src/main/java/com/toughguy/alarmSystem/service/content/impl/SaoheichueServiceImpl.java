@@ -139,7 +139,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 			return saoheichue;
 		}else if(!time.equals("null") && xzqh.equals("全省")){
 			//选了时间 没选地市
-			String date = "%"+time.substring(0, 7)+"%";
+			String date = "%"+time+"%";
 			Map<String,String> map = new HashMap<>();
 			map.put("xzqh", xzqh);
 			map.put("time",date);
@@ -158,7 +158,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 	
 		}else if(!time.equals("null") && !xzqh.equals("全省")) {
 			//选了时间  选了地市
-			String date = "%"+time.substring(0, 7)+"%";
+			String date = "%"+time+"%";
 			Map<String,String> map = new HashMap<>();
 			map.put("xzqh", xzqh);
 			map.put("time",date);
