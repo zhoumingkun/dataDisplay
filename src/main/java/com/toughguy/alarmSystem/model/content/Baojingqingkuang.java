@@ -30,7 +30,8 @@ public class Baojingqingkuang extends AbstractModel {
 	private int qt;   //其他
 	private int hj;   //合计
 	private String tbr;   //填报人
-	
+	private String tjyf;	//统计月份
+	private String state;	//状态   正常1   非正常-1
 	
 	public int getId() {
 		return id;
@@ -150,13 +151,27 @@ public class Baojingqingkuang extends AbstractModel {
 		this.zhsg = zhsg;
 	}
 
+	public String getTjyf() {
+		return tjyf;
+	}
+	public void setTjyf(String tjyf) {
+		this.tjyf = tjyf;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	@Override
 	public String toString() {
 		return "Baojingqingkuang [id=" + id + ", xzqh=" + xzqh + ", tbdw=" + tbdw + ", bjqk=" + bjqk + ", wffzaj="
-				+ wffzaj + ", zaaj=" + zaaj + ", hzsg=" + hzsg + ", jtsg=" + jtsg + ", zazhsg=" + zazhsg + ", zs=" + zs
-				+ ", jf=" + jf + ", jtbl=" + jtbl + ", gmqz=" + gmqz + ", zsxr=" + zsxr + ", jwjd=" + jwjd + ", qt="
-				+ qt + ", hj=" + hj + ", tbr=" + tbr + "]";
+				+ wffzaj + ", zaaj=" + zaaj + ", hzsg=" + hzsg + ", jtsg=" + jtsg + ", zazhsg=" + zazhsg + ", zhsg="
+				+ zhsg + ", zs=" + zs + ", jf=" + jf + ", jtbl=" + jtbl + ", gmqz=" + gmqz + ", zsxr=" + zsxr
+				+ ", jwjd=" + jwjd + ", qt=" + qt + ", hj=" + hj + ", tbr=" + tbr + ", tjyf=" + tjyf + ", state="
+				+ state + "]";
 	}
+
 	
 	
 
