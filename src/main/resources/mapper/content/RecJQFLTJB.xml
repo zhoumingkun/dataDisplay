@@ -6,20 +6,20 @@
 	<select id="findJQFLNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.tjrq ,sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc  
         from REC_JQFLTJB jqfltjb
-        LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,2)=substr(jqfldmb.fldm,1,2) 
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON jqfltjb.fldm=jqfldmb.fldm
         WHERE tjrq=#{tjTime} and jqfldmb.fllx=1
         group by jqfltjb.tjrq ,jqfldmb.flmc
         ORDER BY jjsl desc
 	</select>
 	
-	<!-- 查询各大类的警情分类总和数量（首页今日、昨日、前日）-->
+	<!-- 查询各大类的警情分类总和数量（首页今日、昨日、前日）
 	<select id="findJQFLNumHJ" parameterType="String" resultType="int">
 		SELECT  sum(jqfltjb.jjsl)as jjsl
         from REC_JQFLTJB jqfltjb 
         WHERE tjrq=#{tjTime} 
        
 	</select>
-	
+	-->
 	<!-- 查询各大类的警情分类数量近七天（首页）
 	<select id="findJQFLSevenDayNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldm  
@@ -55,11 +55,12 @@
 	<select id="findJQFLsecondNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,jqfldmb1.flmc as sjdmmc
         from REC_JQFLTJB jqfltjb
-        LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON jqfltjb.fldm=jqfldmb.fldm
         LEFT JOIN DICT_JQFLDMB jqfldmb1 ON jqfldmb.sjdm=jqfldmb1.fldm
         WHERE tjrq=#{tjTime} 
         and jqfldmb.fllx=2
         group by jqfldmb.flmc,jqfldmb1.flmc
+        
 	</select>
 	
 	<!-- 查询各第二类的警情分类数量（二级页面近七日）
@@ -79,7 +80,7 @@
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,xzqhb.xzqhmc as xzqhdm
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
-        LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,2)=substr(jqfldmb.fldm,1,2) 
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON jqfltjb.fldm=jqfldmb.fldm
         LEFT JOIN DICT_JQFLDMB jqfldmb1 ON jqfldmb.sjdm=jqfldmb1.fldm
         WHERE tjrq=#{tjTime}   
         and jqfldmb.fllx=1
@@ -87,14 +88,14 @@
         group by jqfldmb.flmc,xzqhb.xzqhmc
 	</select>
 	
-	<!-- 查询各大类的警情分类总和数量（首页今日、昨日、前日）-->
+	<!-- 查询各大类的警情分类总和数量（首页今日、昨日、前日）
 	<select id="findJQFLNumXZQHHJ" parameterType="Map" resultType="RecJQFLTJB">
 		SELECT  sum(jqfltjb.jjsl)as jjsl
         from REC_JQFLTJB jqfltjb 
         WHERE tjrq=#{tjTime} 
         and jqfltjb.xzqhdm=substr(#{xzqhdm},1,4)
 	</select>
-	
+	-->
 	<!-- 查询各大类的警情分类数量（二级页面各行政区划近七日）startTime endTime xzqhdm
 	<select id="findJQFLSevenDayNumXZQH" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.xzqhdm,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc
@@ -113,7 +114,7 @@
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc as xzqhdm  
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
-        LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON jqfltjb.fldm=jqfldmb.fldm
         LEFT JOIN DICT_JQFLDMB jqfldmb1 ON jqfldmb.sjdm=jqfldmb1.fldm
         WHERE tjrq=#{tjTime}   
         and jqfldmb.fllx=2
