@@ -3,6 +3,8 @@ package com.toughguy.alarmSystem.controller.content;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -179,5 +181,36 @@ public class BaojingqingkuangController {
 		return baojingqingkuangService.selectList(time,xzqh);
 	}
 	
+	
+	//导出省报警情况
+	@ResponseBody	
+	@RequestMapping(value = "/exportShenBaojing")
+//	@RequiresPermissions("exportShenBaojing:export")
+	public String ExportShenBaojingqingkuang(HttpServletResponse response,String tjyf) {
+		try {
+			baojingqingkuangService.ExportShenBjqk(response, tjyf);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false }";
+		}
+	}
+	
+	
+	//导出市级报警情况
+	@ResponseBody	
+	@RequestMapping(value = "/exportShiBaojing")
+//	@RequiresPermissions("exportShenBaojing:export")
+	public String ExportShiBaojingqingkuang(HttpServletResponse response,String tjyf,String xzqh) {
+		try {
+			baojingqingkuangService.ExportShiBjqk(response, tjyf, xzqh);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false }";
+		}
+	}
+	
+		
 	
 }

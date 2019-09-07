@@ -17,8 +17,40 @@
 		select * from bjqk where id = #{id}
 	</select>
 	
+	<!-- 根据时间段查询全省报警情况（导出） -->
+	<select id="findByTjyfTime" parameterType="Map" resultType="Baojingqingkuang">
+		SELECT bjqk.bjqk,SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
+		FROM bjqk 
+		WHERE tjyf=#{tjyf}  group by bjqk;
+	</select>
 	
+	<!-- 根据时间段查询省报警情况合计（导出） -->
+	<select id="findShenHj" parameterType="String" resultType="Baojingqingkuang">
+		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
+		FROM bjqk 
+		WHERE tjyf=#{tjyf} and bjqk!="出动警力" 
+		and bjqk!="处置报警(起)" and bjqk!="现场抓获违法犯罪人员(人)" 
+		and bjqk!="逃犯(人)" and bjqk!="救助伤员(人)" 
+		and bjqk!="救助群众(人)" and bjqk!="继续盘问(人)" 
+		and bjqk!="无效报警(起)" and bjqk!="死亡(人)" and bjqk!="受伤(人)";
+	</select>
 	
+	<!-- 根据时间段查询各地市报警情况（导出） -->
+	<select id="findByTjyfAndRegion" parameterType="Map" resultType="Baojingqingkuang">
+		select * from bjqk where tjyf=#{tjyf} and xzqh=#{xzqh}
+	</select>
+	
+	<!-- 根据时间段查询各地市报警合计（导出） -->
+	<select id="findShiHj" parameterType="Map" resultType="Baojingqingkuang">
+		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
+		FROM bjqk
+        WHERE tjyf=#{tjyf} and xzqh=#{xzqh}
+        and bjqk!="出动警力" 
+		and bjqk!="处置报警(起)" and bjqk!="现场抓获违法犯罪人员(人)" 
+		and bjqk!="逃犯(人)" and bjqk!="救助伤员(人)" 
+		and bjqk!="救助群众(人)" and bjqk!="继续盘问(人)" 
+		and bjqk!="无效报警(起)" and bjqk!="死亡(人)" and bjqk!="受伤(人)";
+	</select>
 	<!-- 查询全部信息 -->
 	<select id="findAll" resultType="Baojingqingkuang" parameterType="Map">
 		select * from bjqk

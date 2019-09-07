@@ -27,4 +27,18 @@ public interface IBaojingqingkuangDao extends IGenericDao<Baojingqingkuang, Inte
 	
 	//选了时间  没选地市(没选时间  没选地市 )
 	public List<Baojingqingkuang> selectAllList(Map<String,String> map);
+	
+	//导出省报警情况报表
+	public List<Baojingqingkuang> findByTjyfTime(Map<String,String> map);
+	
+	//导出省报警情况报表（合计）
+	public Baojingqingkuang  findShenHj(String tjyf);
+		
+	//导出市报警情况报表
+	public List<Baojingqingkuang> findByTjyfAndRegion(Map<String,String> map);
+	
+	//导出市报警情况报表（合计）
+	public Baojingqingkuang  findShiHj(Map<String,String> map);
+
+	
 }

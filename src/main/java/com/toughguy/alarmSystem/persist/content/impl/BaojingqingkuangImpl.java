@@ -49,4 +49,35 @@ public class BaojingqingkuangImpl extends GenericDaoImpl<Baojingqingkuang, Integ
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".selectAllList", map);
 	}
+	
+	//导出省报警情况表
+	@Override
+	public List<Baojingqingkuang> findByTjyfTime(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTjyfTime", map);
+	}
+	
+	//导出省报警情况表（合计）
+		@Override
+		public Baojingqingkuang findShenHj(String tjyf) {
+			// TODO Auto-generated method stub
+			return sqlSessionTemplate.selectOne(typeNameSpace + ".findShenHj", tjyf);
+		}
+		
+	
+	//导出市报警情况表
+		@Override
+	public List<Baojingqingkuang> findByTjyfAndRegion(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTjyfAndRegion", map);
+		}
+		
+	//导出省报警情况表（合计）
+		@Override
+	public Baojingqingkuang findShiHj(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findShiHj", map);
+		}
+	
+	
 }

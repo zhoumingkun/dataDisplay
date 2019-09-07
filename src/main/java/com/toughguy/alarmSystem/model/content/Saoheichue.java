@@ -14,13 +14,13 @@ public class Saoheichue extends AbstractModel {
 	private int id;
 	private String xzqh;    //行政区划
 	private String tbdw;   //填报单位
-	private int shcedzxs;  //报警情况
-	private int djqbfzxs;       //违法犯罪案件
-	private int djwwfzxs;    //治安案件
-	private int phstfzxs;       //火灾事故
-	private int ffjzfzxs;        //交通事故
-	private int dxwlfzxs;   //治安灾害事故
-	private int hj;   //来自杀源
+	private int shcedzxs;  //扫黑除恶违法犯罪专项斗争有关警情线索
+	private int djqbfzxs;       //打击整治枪爆违法犯罪专项行动有关警情线索
+	private int djwwfzxs;    //打击文物犯罪专项行动有关警情线索
+	private int phstfzxs;       //破坏生态环境犯罪专项行动有关警情线索
+	private int ffjzfzxs;        //非法集资违法犯罪专项行动有关警情线索
+	private int dxwlfzxs;   //打击电信网络新型违法犯罪专项行动有关警情线索
+	private int hj;   //合计
 	private String tbr;   //填报人
 	
 	public int getId() {
