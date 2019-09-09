@@ -1,5 +1,9 @@
 package com.toughguy.alarmSystem.service.content.impl;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
@@ -16,6 +29,7 @@ import com.toughguy.alarmSystem.persist.content.prototype.IBaojingqingkuangDao;
 import com.toughguy.alarmSystem.persist.content.prototype.ISaoheichueDao;
 import com.toughguy.alarmSystem.service.content.prototype.ISaoheichueService;
 import com.toughguy.alarmSystem.service.impl.GenericServiceImpl;
+import com.toughguy.alarmSystem.util.POIUtils;
 
 
 /**
@@ -25,6 +39,8 @@ import com.toughguy.alarmSystem.service.impl.GenericServiceImpl;
  */
 @Service
 public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Integer> implements ISaoheichueService{
+	@Autowired
+	ISaoheichueDao  saoheichueDao;
 
 	@Override
 	public Map<String, Saoheichue> findAllSH() {
@@ -230,6 +246,950 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		((ISaoheichueDao)dao).updateAll(saoheichue);
 	}
 
-	
+	//导出省扫黑除恶表
+	@Override
+	public void ExportShenShce(HttpServletResponse response, String tjyf) {
+        try {
+			
+			//输入模板文件
+			XSSFWorkbook xssfWorkbook = new XSSFWorkbook(new FileInputStream("upload/base/扫黑除恶表（模板）.xlsx"));
+			SXSSFWorkbook workbook = new SXSSFWorkbook(xssfWorkbook, 1000);
+			workbook.setCompressTempFiles(false);
+			POIUtils utils = new POIUtils();
+			//对应Excel文件中的sheet，0代表第一个
+			Sheet sh = xssfWorkbook.getSheetAt(0); 
+			
+			Map<String,String> map = new HashMap<>();
+			map.put("tjyf", tjyf);
+			List<Saoheichue> soaheichueReport = saoheichueDao.findByTjyfTime(map);
+			System.out.println(soaheichueReport);
+			System.out.println(soaheichueReport.size());
+			Date date = new Date();
+			SimpleDateFormat saoheiTime = new SimpleDateFormat("yyyy-MM-dd");
+			String time = saoheiTime.format(date);
+			String year =tjyf.substring(0,4);			//2019
+			String month =tjyf.substring(5,7);         //09
+			sh.getRow(1).getCell(7).setCellValue(time); 	//填报人（暂无）
+			//第一行数据内容
+			Row row1 = sh.createRow(1);
+			Cell cell01=row1.createCell(0);
+			cell01.setCellStyle(utils.Style8(workbook));
+	        cell01.setCellValue("填报时间：");//填报时间（当前导出时间）
+	        
+	        Cell cell02=row1.createCell(1);
+			cell02.setCellStyle(utils.Style8(workbook));
+	        cell02.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
+	        
+//	        Cell cell03=row1.createCell(6);
+//			cell03.setCellStyle(utils.Style8(workbook));
+//	        cell03.setCellValue("填报人：");//填报人（暂无）
+//	        
+//			Cell cell04=row1.createCell(7);
+//			cell04.setCellStyle(utils.Style8(workbook));
+//	        cell04.setCellValue("苏鹏琪");//填报人（暂无）
+	        
+			for(int j=0; j<soaheichueReport.size(); j++) {
+				if(soaheichueReport.get(j).getXzqh().equals("太原")){
+					System.out.println("进来啦");
+					Row row3 = sh.createRow(3);
+					
+					Cell cell00=row3.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("1");
+		            
+		            Cell cell000=row3.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("太原");
+		            
+					Cell cell1=row3.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row3.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row3.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row3.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row3.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row3.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		            
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("大同")){
+					Row row4 = sh.createRow(4);
+					Cell cell00=row4.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("2");
+		            
+		            Cell cell000=row4.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("大同");
+		            
+					Cell cell1=row4.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row4.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row4.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row4.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row4.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row4.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("朔州")){
+					Row row5 = sh.createRow(5);
+					Cell cell00=row5.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("3");
+		            
+		            Cell cell000=row5.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("朔州");
+		            
+					Cell cell1=row5.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row5.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row5.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row5.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row5.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row5.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("忻州")){
+					Row row6 = sh.createRow(6);
+					Cell cell00=row6.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("4");
+		            
+		            Cell cell000=row6.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("忻州");
+		            
+					Cell cell1=row6.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row6.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row6.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row6.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row6.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row6.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("吕梁")){
+					Row row7 = sh.createRow(7);
+					Cell cell00=row7.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("5");
+		            
+		            Cell cell000=row7.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("吕梁");
+		            
+					Cell cell1=row7.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row7.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row7.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row7.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row7.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row7.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("晋中")){
+					Row row8 = sh.createRow(8);
+					Cell cell00=row8.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("6");
+		            
+		            Cell cell000=row8.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("晋中");
+		            
+					Cell cell1=row8.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row8.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row8.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row8.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row8.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row8.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("阳泉")){
+					Row row9 = sh.createRow(9);
+					Cell cell00=row9.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("7");
+		            
+		            Cell cell000=row9.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("阳泉");
+		            
+					Cell cell1=row9.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row9.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row9.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row9.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row9.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row9.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("长治")){
+					Row row10 = sh.createRow(10);
+					Cell cell00=row10.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("8");
+		            
+		            Cell cell000=row10.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("长治");
+		            
+					Cell cell1=row10.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row10.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row10.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row10.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row10.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row10.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("晋城")){
+					Row row11 = sh.createRow(11);
+					Cell cell00=row11.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("9");
+		            
+		            Cell cell000=row11.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("晋城");
+		            
+					Cell cell1=row11.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row11.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row11.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row11.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row11.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row11.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("临汾")){
+					Row row12 = sh.createRow(12);
+					Cell cell00=row12.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("10");
+		            
+		            Cell cell000=row12.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("临汾");
+		            
+					Cell cell1=row12.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row12.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row12.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row12.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row12.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row12.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				else if(soaheichueReport.get(j).getXzqh().equals("运城")){
+					Row row13 = sh.createRow(13);
+					Cell cell00=row13.createCell(0);
+		            cell00.setCellStyle(utils.Style6(workbook));
+		            cell00.setCellValue("11");
+		            
+		            Cell cell000=row13.createCell(1);
+		            cell000.setCellStyle(utils.Style6(workbook));
+		            cell000.setCellValue("运城");
+		            
+					Cell cell1=row13.createCell(2);
+		            cell1.setCellStyle(utils.Style6(workbook));
+		            cell1.setCellValue(soaheichueReport.get(j).getShcedzxs());
+		            
+		            Cell cell2=row13.createCell(3);
+		            cell2.setCellStyle(utils.Style6(workbook));
+		            cell2.setCellValue(soaheichueReport.get(j).getDjqbfzxs());
+		            
+		            Cell cell3=row13.createCell(4);
+		            cell3.setCellStyle(utils.Style6(workbook));
+		            cell3.setCellValue(soaheichueReport.get(j).getDjwwfzxs());
+		            
+		            Cell cell4=row13.createCell(5);
+		            cell4.setCellStyle(utils.Style6(workbook));
+		            cell4.setCellValue(soaheichueReport.get(j).getPhstfzxs());
+		            
+		            Cell cell5=row13.createCell(6);
+		            cell5.setCellStyle(utils.Style6(workbook));
+		            cell5.setCellValue(soaheichueReport.get(j).getFfjzfzxs());
+		            
+		            Cell cell6=row13.createCell(7);
+		            cell6.setCellStyle(utils.Style6(workbook));
+		            cell6.setCellValue(soaheichueReport.get(j).getDxwlfzxs());
+		        	}
+				Saoheichue saoheichue = saoheichueDao.findShenHj(tjyf);
+				//合计1
+		        Row row14 = sh.createRow(14);
+		        CellRangeAddress region1 = new CellRangeAddress(14, (short) 14, 0, (short) 1);
+				Cell cell0001 = row14.createCell(0);
+				utils.setRegionStyle(sh, region1, utils.Style6(workbook));
+				sh.addMergedRegion(region1);
+				cell0001.setCellValue("合计");
+				
+		        Cell cell1=row14.createCell(2);
+				cell1.setCellStyle(utils.Style6(workbook));
+				cell1.setCellValue(saoheichue.getShcedzxs());
+				//合计2
+		        Cell cell2=row14.createCell(3);
+				cell2.setCellStyle(utils.Style6(workbook));
+				cell2.setCellValue(saoheichue.getDjqbfzxs());
+				//合计3
+		        Cell cell3=row14.createCell(4);
+				cell3.setCellStyle(utils.Style6(workbook));
+				cell3.setCellValue(saoheichue.getDjwwfzxs());
+				//合计4
+		        Cell cell4=row14.createCell(5);
+				cell4.setCellStyle(utils.Style6(workbook));
+				cell4.setCellValue(saoheichue.getPhstfzxs());
+				//合计5
+		        Cell cell5=row14.createCell(6);
+				cell5.setCellStyle(utils.Style6(workbook));
+				cell5.setCellValue(saoheichue.getFfjzfzxs());
+				//合计6
+		        Cell cell6=row14.createCell(7);
+				cell6.setCellStyle(utils.Style6(workbook));
+				cell6.setCellValue(saoheichue.getDxwlfzxs());
+			}
+		
+			String year2 =tjyf.substring(0,4);			//2019
+			String month2 =tjyf.substring(5,7);         //09
+			String title =year2+"年"+month2+"月"+"扫黑除恶等专项行动有关警情线索统计表";
+			OutputStream out = response.getOutputStream();
+			response.reset();
+			response.setHeader("Content-disposition", "attachment; filename="+new String( title.getBytes("gb2312"), "ISO8859-1" )+".xlsx");
+			response.setContentType("application/vnd.ms-excel;charset=utf-8");
+	        out.flush();
+			workbook.write(out);
+	        out.close();
+	        workbook.dispose();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	//导出市扫黑除恶表
+	@Override
+	public void ExportShiShce(HttpServletResponse response, String tjyf, String xzqh) {
+try {
+			
+			//输入模板文件
+			XSSFWorkbook xssfWorkbook = new XSSFWorkbook(new FileInputStream("upload/base/扫黑除恶表（模板）.xlsx"));
+			SXSSFWorkbook workbook = new SXSSFWorkbook(xssfWorkbook, 1000);
+			workbook.setCompressTempFiles(false);
+			POIUtils utils = new POIUtils();
+			//对应Excel文件中的sheet，0代表第一个
+			Sheet sh = xssfWorkbook.getSheetAt(0); 
+			
+			Map<String,String> map = new HashMap<>();
+			map.put("tjyf", tjyf);
+			map.put("xzqh", xzqh);
+			Saoheichue soaheichueReport = saoheichueDao.findByTjyfAndRegion(map);
+			System.out.println(soaheichueReport);
+			Date date = new Date();
+			SimpleDateFormat saoheiTime = new SimpleDateFormat("yyyy-MM-dd");
+			String time = saoheiTime.format(date);
+			String year =tjyf.substring(0,4);			//2019
+			String month =tjyf.substring(5,7);         //09
+			sh.getRow(1).getCell(7).setCellValue(time); 	//填报人（暂无）
+			//第一行数据内容
+			Row row1 = sh.createRow(1);
+			Cell cell01=row1.createCell(0);
+			cell01.setCellStyle(utils.Style8(workbook));
+	        cell01.setCellValue("填报时间：");//填报时间（当前导出时间）
+	        
+	        Cell cell02=row1.createCell(1);
+			cell02.setCellStyle(utils.Style8(workbook));
+	        cell02.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
+	        
+	        Cell cell03=row1.createCell(6);
+			cell03.setCellStyle(utils.Style8(workbook));
+	        cell03.setCellValue("填报人：");//填报人（暂无）
+	        
+			Cell cell04=row1.createCell(7);
+			cell04.setCellStyle(utils.Style8(workbook));
+	        cell04.setCellValue(soaheichueReport.getTbr());//填报人（暂无）
+	        
+	        if(soaheichueReport.getXzqh().equals("太原")){
+				System.out.println("进来啦");
+				Row row3 = sh.createRow(3);
+				Cell cell00=row3.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("1");
+	            
+	            Cell cell000=row3.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("太原");
+	            
+				Cell cell1=row3.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row3.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row3.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row3.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row3.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row3.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	            
+	        	}
+			else if(soaheichueReport.getXzqh().equals("大同")){
+				Row row4 = sh.createRow(4);
+				Cell cell00=row4.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("2");
+	            
+	            Cell cell000=row4.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("大同");
+	            
+				Cell cell1=row4.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row4.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row4.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row4.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row4.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row4.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("朔州")){
+				Row row5 = sh.createRow(5);
+				Cell cell00=row5.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("3");
+	            
+	            Cell cell000=row5.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("朔州");
+	            
+				Cell cell1=row5.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row5.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row5.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row5.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row5.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row5.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("忻州")){
+				Row row6 = sh.createRow(6);
+				
+				Cell cell00=row6.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("4");
+	            
+	            Cell cell000=row6.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("忻州");
+	            
+	            
+				Cell cell1=row6.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row6.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row6.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row6.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row6.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row6.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("吕梁")){
+				Row row7 = sh.createRow(7);
+				Cell cell00=row7.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("5");
+	            
+	            Cell cell000=row7.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("吕梁");
+	            
+				Cell cell1=row7.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row7.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row7.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row7.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row7.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row7.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("晋中")){
+				Row row8 = sh.createRow(8);
+				Cell cell00=row8.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("6");
+	            
+	            Cell cell000=row8.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("晋中");
+	            
+				Cell cell1=row8.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row8.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row8.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row8.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row8.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row8.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("阳泉")){
+				Row row9 = sh.createRow(9);
+				Cell cell00=row9.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("7");
+	            
+	            Cell cell000=row9.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("阳泉");
+	            
+				Cell cell1=row9.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row9.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row9.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row9.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row9.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row9.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("长治")){
+				Row row10 = sh.createRow(10);
+				Cell cell00=row10.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("8");
+	            
+	            Cell cell000=row10.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("长治");
+	            
+				Cell cell1=row10.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row10.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row10.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row10.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row10.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row10.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("晋城")){
+				Row row11 = sh.createRow(11);
+				Cell cell00=row11.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("9");
+	            
+	            Cell cell000=row11.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("晋城");
+	            
+				Cell cell1=row11.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row11.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row11.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row11.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row11.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row11.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("临汾")){
+				Row row12 = sh.createRow(12);
+				Cell cell00=row12.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("10");
+	            
+	            Cell cell000=row12.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("临汾");
+				Cell cell1=row12.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row12.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row12.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row12.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row12.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row12.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+			else if(soaheichueReport.getXzqh().equals("运城")){
+				Row row13 = sh.createRow(13);
+				Cell cell00=row13.createCell(0);
+	            cell00.setCellStyle(utils.Style6(workbook));
+	            cell00.setCellValue("11");
+	            
+	            Cell cell000=row13.createCell(1);
+	            cell000.setCellStyle(utils.Style6(workbook));
+	            cell000.setCellValue("运城");
+	            
+				Cell cell1=row13.createCell(2);
+	            cell1.setCellStyle(utils.Style6(workbook));
+	            cell1.setCellValue(soaheichueReport.getShcedzxs());
+	            
+	            Cell cell2=row13.createCell(3);
+	            cell2.setCellStyle(utils.Style6(workbook));
+	            cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+	            
+	            Cell cell3=row13.createCell(4);
+	            cell3.setCellStyle(utils.Style6(workbook));
+	            cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+	            
+	            Cell cell4=row13.createCell(5);
+	            cell4.setCellStyle(utils.Style6(workbook));
+	            cell4.setCellValue(soaheichueReport.getPhstfzxs());
+	            
+	            Cell cell5=row13.createCell(6);
+	            cell5.setCellStyle(utils.Style6(workbook));
+	            cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+	            
+	            Cell cell6=row13.createCell(7);
+	            cell6.setCellStyle(utils.Style6(workbook));
+	            cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+	        	}
+	      //合计1
+	        Row row14 = sh.createRow(14);
+			CellRangeAddress region1 = new CellRangeAddress(14, (short) 14, 0, (short) 1);
+			Cell cell0001 = row14.createCell(0);
+			utils.setRegionStyle(sh, region1, utils.Style6(workbook));
+			sh.addMergedRegion(region1);
+			cell0001.setCellValue("合计:");
+			
+	        Cell cell1=row14.createCell(2);
+			cell1.setCellStyle(utils.Style6(workbook));
+			cell1.setCellValue(soaheichueReport.getShcedzxs());
+			//合计2
+	        Cell cell2=row14.createCell(3);
+			cell2.setCellStyle(utils.Style6(workbook));
+			cell2.setCellValue(soaheichueReport.getDjqbfzxs());
+			//合计3
+	        Cell cell3=row14.createCell(4);
+			cell3.setCellStyle(utils.Style6(workbook));
+			cell3.setCellValue(soaheichueReport.getDjwwfzxs());
+			//合计4
+	        Cell cell4=row14.createCell(5);
+			cell4.setCellStyle(utils.Style6(workbook));
+			cell4.setCellValue(soaheichueReport.getPhstfzxs());
+			//合计5
+	        Cell cell5=row14.createCell(6);
+			cell5.setCellStyle(utils.Style6(workbook));
+			cell5.setCellValue(soaheichueReport.getFfjzfzxs());
+			//合计6
+	        Cell cell6=row14.createCell(7);
+			cell6.setCellStyle(utils.Style6(workbook));
+			cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+
+			String year2 =tjyf.substring(0,4);			//2019
+			String month2 =tjyf.substring(5,7);         //09
+			String title =year2+"年"+month2+"月"+"扫黑除恶等专项行动有关警情线索统计表";
+			OutputStream out = response.getOutputStream();
+			response.reset();
+			response.setHeader("Content-disposition", "attachment; filename="+new String( title.getBytes("gb2312"), "ISO8859-1" )+".xlsx");
+			response.setContentType("application/vnd.ms-excel;charset=utf-8");
+	        out.flush();
+			workbook.write(out);
+	        out.close();
+	        workbook.dispose();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 }

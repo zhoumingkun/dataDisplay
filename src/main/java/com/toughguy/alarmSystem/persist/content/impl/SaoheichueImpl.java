@@ -65,5 +65,23 @@ public class SaoheichueImpl extends GenericDaoImpl<Saoheichue, Integer> implemen
 		// TODO Auto-generated method stub
 		sqlSessionTemplate.update(typeNameSpace + ".updateAll", saoheichue);
 	}
+	//导出省扫黑除恶表
+	@Override
+	public List<Saoheichue> findByTjyfTime(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTjyfTime", map);
+		}
+	//导出市扫黑除恶表
+	@Override
+	public Saoheichue findByTjyfAndRegion(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findByTjyfAndRegion", map);
+		}
+	//导出省扫黑除恶表（合计）
+	@Override
+	public Saoheichue findShenHj(String tjyf) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findShenHj", tjyf);
+	}
 
 }

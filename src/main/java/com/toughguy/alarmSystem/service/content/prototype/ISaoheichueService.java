@@ -2,6 +2,8 @@ package com.toughguy.alarmSystem.service.content.prototype;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
 import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.service.prototype.IGenericService;
@@ -55,4 +57,28 @@ public interface ISaoheichueService extends IGenericService<Saoheichue, Integer>
 	 * @return
 	 */
 	public void updateAll(Saoheichue saoheichue);
+
+	/**
+	 * 导出省扫黑除恶表
+	 * @return
+	 */
+	public void ExportShenShce(HttpServletResponse response,String tjyf);
+	/**
+	 * 导出市扫黑除恶表
+	 * @return
+	 */
+	public void ExportShiShce(HttpServletResponse response, String tjyf, String xzqh);
+//	/**
+//	 * 导出省查询方法
+//	 * @return
+//	 */
+//	public  List<Saoheichue> findByTjyfTime(Map<String, String> map) {
+//	}
+//	/**
+//	 * 导出市查询方法
+//	 * @return
+//	 */
+//	public  List<Saoheichue> findByTjyfAndRegion(Map<String, String> map) {
+//	}
+	
 }

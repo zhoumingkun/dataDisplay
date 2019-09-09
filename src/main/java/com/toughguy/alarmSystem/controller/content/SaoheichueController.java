@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -204,6 +206,33 @@ public class SaoheichueController {
 	public Map<String,Object> selectList(String time,String xzqh) {
 		return saoheichueService.selectList(time,xzqh);
 	}
+	
+	//导出省报警情况
+		@ResponseBody	
+		@RequestMapping(value = "/exportShenSaohei")
+//		@RequiresPermissions("exportShenBaojing:export")
+		public String ExportShenSaoheichue(HttpServletResponse response,String tjyf) {
+			try {
+				saoheichueService.ExportShenShce(response, tjyf);
+				return "{ \"success\" : true }";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "{ \"success\" : false }";
+			}
+		}
+	//导出市报警情况
+		@ResponseBody	
+		@RequestMapping(value = "/exportShiSaohei")
+//		@RequiresPermissions("exportShenBaojing:export")
+		public String ExportShiSaoheichue(HttpServletResponse response,String tjyf,String xzqh) {
+			try {
+				saoheichueService.ExportShiShce(response, tjyf,xzqh);
+				return "{ \"success\" : true }";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "{ \"success\" : false }";
+			}
+		}
 	
 
 }

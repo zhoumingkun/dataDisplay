@@ -17,8 +17,24 @@
 		select * from shce where id = #{id}
 	</select>
 	
+	<!-- 根据时间段查询全省扫黑除恶（导出） -->
+	<select id="findByTjyfTime" parameterType="Map" resultType="Saoheichue">
+		select * from shce where tjyf= #{tjyf}
+	</select>
 	
-	
+	<!-- 根据时间段查询全省扫黑除恶（导出合计） -->
+	<select id="findShenHj" parameterType="String" resultType="Saoheichue">
+		SELECT SUM(shcedzxs) as shcedzxs,SUM(djqbfzxs) as djqbfzxs,
+		SUM(djwwfzxs) as djwwfzxs,SUM(phstfzxs) as phstfzxs,
+        SUM(ffjzfzxs) as ffjzfzxs ,
+        SUM(dxwlfzxs) as dxwlfzxs
+        from shce 
+        where tjyf= #{tjyf}
+	</select>
+	<!-- 根据时间段查询市扫黑除恶（导出） -->
+	<select id="findByTjyfAndRegion" parameterType="Map" resultType="Saoheichue">
+		select * from shce where tjyf= #{tjyf} and xzqh= #{xzqh}
+	</select>
 	<!-- 查询全部信息 -->
 	<select id="findAll" resultType="Saoheichue" parameterType="Map">
 		select * from shce

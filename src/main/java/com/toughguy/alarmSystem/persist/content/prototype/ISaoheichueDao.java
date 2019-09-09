@@ -63,4 +63,22 @@ public interface ISaoheichueDao extends IGenericDao<Saoheichue, Integer>{
 	 * @return
 	 */
 	public void updateAll(Saoheichue saoheichue);
+	
+	/**
+	 * 导出省报警情况报表
+	 * @return
+	 */
+	public List<Saoheichue> findByTjyfTime(Map<String,String> map);
+	
+	/**
+	 * 导出省报警情况报表（合计）
+	 * @return
+	 */
+	public Saoheichue  findShenHj(String tjyf);
+	/**
+	 * 导出市报警情况报表
+	 * @return
+	 */
+	public Saoheichue findByTjyfAndRegion(Map<String,String> map);
+	
 }
