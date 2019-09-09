@@ -72,7 +72,7 @@ public class BaojingqingkuangImpl extends GenericDaoImpl<Baojingqingkuang, Integ
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findByTjyfAndRegion", map);
 		}
 		
-	//导出省报警情况表（合计）
+	//导出市报警情况表（合计）
 		@Override
 	public Baojingqingkuang findShiHj(Map<String, String> map) {
 		// TODO Auto-generated method stub

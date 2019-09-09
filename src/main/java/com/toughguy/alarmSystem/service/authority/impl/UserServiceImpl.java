@@ -122,5 +122,10 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer> implement
 	public List<User> findAll(){
 		return super.findAll();
 	}*/
+	
+	@Override
+	public String findUnitNameById(User user) {
+		return ((IUserDao) dao).findUnitNameById(user);
+	}
 
 }

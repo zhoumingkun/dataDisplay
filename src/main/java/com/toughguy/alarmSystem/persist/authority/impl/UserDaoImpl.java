@@ -84,5 +84,12 @@ public class UserDaoImpl extends GenericDaoImpl<User, Integer> implements IUserD
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findByuserName", userName);
 	}
+	
+
+	@Override
+	public String findUnitNameById(User user) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne(typeNameSpace + ".findUnitNameById", user);
+	}
 
 }

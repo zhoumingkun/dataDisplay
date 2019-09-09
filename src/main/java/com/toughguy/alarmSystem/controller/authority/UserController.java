@@ -64,7 +64,7 @@ public class UserController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("user:save")
+//	@RequiresPermissions("user:save")
 	//@SystemControllerLog(description="权限管理-添加用户")
 	public String saveUser(User user) {
 		try {
@@ -108,7 +108,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/edit")
 	//@SystemControllerLog(description="权限管理-更新用户")
-	@RequiresPermissions("user:edit")
+//	@RequiresPermissions("user:edit")
 	public String editUser(User newUser) {
 		try {
 			User user = userService.find(newUser.getId());
@@ -126,7 +126,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/auth")
-	@RequiresPermissions("user:auth")
+//	@RequiresPermissions("user:auth")
 	//@SystemControllerLog(description="权限管理-给用户分配角色")
 	public String authUser(String roleIds, int userId) {
 		try{
@@ -207,7 +207,7 @@ public class UserController {
 	@ResponseBody
 	//@SystemControllerLog(description="权限管理-用户列表")
 	@RequestMapping(value = "/data")
-//	@RequiresPermissions("user:list")
+	//@RequiresPermissions("user:list")
 	public String data(String params,HttpSession session) {
 		return authService.findAllUserInduleRoles(params);
 	}
@@ -225,5 +225,14 @@ public class UserController {
 			return "{ \"success\" : true }";
 		}
 	}
-}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findUnitNameById")
+//	@RequiresPermissions("user:detele")
+	public String findUnitNameById(User user) {
+		String unitName=userService.findUnitNameById(user);
+		return  unitName;
+		}
+	}
+
 
