@@ -27,9 +27,9 @@ public class BaojingqingkuangImpl extends GenericDaoImpl<Baojingqingkuang, Integ
 	}
 
 	@Override
-	public List<Baojingqingkuang> selectAll(Map<String, String> map) {
+	public List<Baojingqingkuang> selectAll(String time) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".selectAll", map);
+		return sqlSessionTemplate.selectList(typeNameSpace + ".selectAll", time);
 	}
 
 	@Override
@@ -77,6 +77,18 @@ public class BaojingqingkuangImpl extends GenericDaoImpl<Baojingqingkuang, Integ
 	public Baojingqingkuang findShiHj(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".findShiHj", map);
+		}
+
+		@Override
+		public List<Baojingqingkuang> findOne(Map<String, String> map) {
+			// TODO Auto-generated method stub
+			return sqlSessionTemplate.selectList(typeNameSpace + ".findOne", map);
+		}
+
+		@Override
+		public void updateAll(Baojingqingkuang baojingqingkuang) {
+			// TODO Auto-generated method stub
+			sqlSessionTemplate.update(typeNameSpace + ".updateAll", baojingqingkuang);
 		}
 	
 	

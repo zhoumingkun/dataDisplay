@@ -18,7 +18,7 @@ public interface IBaojingqingkuangDao extends IGenericDao<Baojingqingkuang, Inte
 	
 	public Baojingqingkuang findOneBJ(Map<String,String> map);
 	
-	public List<Baojingqingkuang> selectAll(Map<String,String> map );
+	public List<Baojingqingkuang> selectAll(String time);
 	
 	public List<Baojingqingkuang> selectOne(Map<String,String> map);
 	
@@ -40,5 +40,16 @@ public interface IBaojingqingkuangDao extends IGenericDao<Baojingqingkuang, Inte
 	//导出市报警情况报表（合计）
 	public Baojingqingkuang  findShiHj(Map<String,String> map);
 
+	/**
+	 * 地级市报警情况查询是否添加过数据
+	 * @return
+	 */
+	public List<Baojingqingkuang> findOne(Map<String,String> map);
+	
+	/**
+	 * 地级市报警情况修改数据
+	 * @return
+	 */
+	public void updateAll(Baojingqingkuang baojingqingkuang);
 	
 }

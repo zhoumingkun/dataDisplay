@@ -27,7 +27,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
+import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.persist.content.prototype.IBaojingqingkuangDao;
+import com.toughguy.alarmSystem.persist.content.prototype.ISaoheichueDao;
 import com.toughguy.alarmSystem.service.content.prototype.IBaojingqingkuangService;
 import com.toughguy.alarmSystem.service.impl.GenericServiceImpl;
 import com.toughguy.alarmSystem.util.POIUtils;
@@ -53,11 +55,27 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		String year =sf.format(date).substring(0,4);			//2019
 		String month =sf.format(date).substring(5,7);			//09
-		String starttime=year+"-"+month+"-"+"01";				//2019-09-01
-		int stop = Integer.parseInt(month)+1;					//2019-10-01
-		String stoptime=year+"-"+stop+"-"+"01";
-		map.put("starttime", starttime);
-		map.put("stoptime", stoptime);
+		int time2 = Integer.parseInt(year);					   //转换为数字2019
+		int month2 = Integer.parseInt(month)-1;				   //转换为数字08    0801-0901
+		if(month=="01" || month.equals("01")) {		
+			String stoptime=year+"-"+month+"-"+"01";					//2019-01-01
+			time2=time2-1;
+			month="12";
+			String starttime=time2+"-"+month+"-"+"01";				//2018-12-01
+			map.put("starttime", starttime);
+			map.put("stoptime", stoptime);
+		}else {
+			String s="";
+			if(month2<10) {
+				s ="0"+month2;
+			}else {
+				s=month2+"";
+			}
+			String starttime=year+"-"+s+"-"+"01";				//2019-08-01
+			String stoptime=year+"-"+month+"-"+"01";				//2019-09-01
+			map.put("starttime", starttime);
+			map.put("stoptime", stoptime);
+		}
 		Map<String,Baojingqingkuang> bjqk = new HashMap<>();
 		bjqk.put("bjqk", ((IBaojingqingkuangDao)dao).findAllBJ(map));
 		return bjqk ;
@@ -73,53 +91,70 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		String year =sf.format(date).substring(0,4);			//2019
 		String month =sf.format(date).substring(5,7);			//09
 		String starttime=year+"-"+month+"-"+"01";				//2019-09-01
-		int stop = Integer.parseInt(month)+1;					//2019-10-01 
-		String stoptime=year+"-"+stop+"-"+"01";
+		int month2 = Integer.parseInt(month)+1;					//月+1
+		int year2=Integer.parseInt(year)-1;						//年-1
+		String s="";
+		if(month2<10) {
+			s ="0"+month2;
+		}else {
+			s=month2+"";
+		}
+		String stoptime=year+"-"+s+"-"+"01";
 		map.put("starttime", starttime);
 		map.put("stoptime", stoptime);
 		map.put("xzqh", xzqh);
-		Map<String,Baojingqingkuang> djbjqk = new HashMap<>();
-		djbjqk.put("djbjqk", ((IBaojingqingkuangDao)dao).findOneBJ(map));
-		return djbjqk ;
-	}
-
-
-	@Override
-	public Map<String, String> insertAll(List<Baojingqingkuang> list) {
-		// TODO Auto-generated method stub
-		try {
-			for(int i =0;i<list.size(); i++) {
-				Baojingqingkuang baojing = list.get(i);
-				((IBaojingqingkuangDao)dao).save(baojing);
+		Baojingqingkuang baojingqingkuang = ((IBaojingqingkuangDao)dao).findOneBJ(map);		//看当前月是否已经有数据了
+		if(baojingqingkuang==null) {		//截至当前还未提交
+			if(month=="01" || month.equals("01")) {	
+				String stopdate=year+"-"+month+"-"+"01";					//2019-01-01
+				month="12";
+				String startdate=year2+"-"+month+"-"+"01";					//2018-12-01    
+				map.put("starttime", startdate);
+				map.put("stoptime", stopdate);
+				map.put("xzqh", xzqh);
+				Map<String,Baojingqingkuang> bjqk = new HashMap<>();
+				bjqk.put("bjqk",((IBaojingqingkuangDao)dao).findOneBJ(map) );
+				return bjqk ;
+			}else {
+				int parseInt = Integer.parseInt(month)-1;
+				String ss="";
+				if(parseInt<10) {
+					ss="0"+parseInt;
+				}else {
+					ss=parseInt+"";
+				}
+				String startdate=year+"-"+ss+"-"+"01";					//2019-08-01
+				String stopdate=year+"-"+month+"-"+"01";					//2019-09-01
+				map.put("starttime", startdate);
+				map.put("stoptime", stopdate);
+				map.put("xzqh", xzqh);
+				Map<String,Baojingqingkuang> bjqk = new HashMap<>();
+				bjqk.put("bjqk", ((IBaojingqingkuangDao)dao).findOneBJ(map));
+				return bjqk ;
 			}
-			Map<String,String> map = new HashMap<>();
-			map.put("200", "添加成功");
-			return map;
-		} catch (Exception e) {
-			// TODO: handle exception
-			Map<String,String> map = new HashMap<>();
-			map.put("400", "添加失败");
-			return map;
+		}else {
+			Map<String,Baojingqingkuang> bjqk = new HashMap<>();
+			bjqk.put("djshce", baojingqingkuang);
+			return bjqk ;
 		}
 	}
 
 
+
 	@Override
-	public List<Baojingqingkuang> selectAll(String starttime,String stoptime) {
+	public List<Baojingqingkuang> selectAll(String time) {
 		// TODO Auto-generated method stub
-		Map<String,String> map = new HashMap<>();
-		map.put("starttime", starttime);
-		map.put("stoptime", stoptime);
-		return ((IBaojingqingkuangDao)dao).selectAll(map);
+		String date = "%"+time+"%";
+		return ((IBaojingqingkuangDao)dao).selectAll(date);
 	}
 
 
 	@Override
-	public List<Baojingqingkuang> selectOne(String starttime,String stoptime, String xzqh) {
+	public List<Baojingqingkuang> selectOne(String time,String xzqh) {
 		// TODO Auto-generated method stub
-		Map<String,String> map = new HashMap<>();
-		map.put("starttime", starttime);
-		map.put("stoptime", stoptime);
+		Map<String ,String> map = new HashMap<String, String>();
+		String date = "%"+time+"%";
+		map.put("time", date);
 		map.put("xzqh", xzqh);
 		return  ((IBaojingqingkuangDao)dao).selectOne(map);
 	}
@@ -150,7 +185,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		}else if(!time.equals("null") && xzqh.equals("全省")){
 			//选了时间 没选地市
 			System.out.println("2");
-			String date = "%"+time.substring(0, 7)+"%";
+			String date = "%"+time+"%";
 			Map<String,String> map = new HashMap<>();
 			map.put("xzqh", xzqh);
 			map.put("time",date);
@@ -169,7 +204,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 	
 		}else if(!time.equals("null") && !xzqh.equals("全省")) {
 			//选了时间  选了地市
-			String date = "%"+time.substring(0, 7)+"%";
+			String date = "%"+time+"%";
 			Map<String,String> map = new HashMap<>();
 			map.put("xzqh", xzqh);
 			map.put("time",date);
@@ -2906,6 +2941,20 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+
+
+		@Override
+		public List<Baojingqingkuang> findOne(Map<String, String> map) {
+			// TODO Auto-generated method stub
+			return ((IBaojingqingkuangDao)dao).findOne(map);
+		}
+
+
+		@Override
+		public void updateAll(Baojingqingkuang baojingqingkuang) {
+			// TODO Auto-generated method stub
+			((IBaojingqingkuangDao)dao).updateAll(baojingqingkuang);
 		}
 
 }

@@ -3,8 +3,8 @@
 <mapper namespace="com.toughguy.alarmSystem.model.content.Baojingqingkuang">
 
 	<insert id="save" parameterType="Baojingqingkuang" keyProperty="id" useGeneratedKeys="true">
-		insert into bjqk (createTime,updateTime,xzqh,tbdw,bjqk,wffzaj,zaaj,hzsg,jtsg,zazhsg,zs,jf,jtbl,gmqz,zsxr,jwjd,qt,hj,tbr) 
-		values (#{createTime},#{updateTime},#{xzqh}, #{tbdw},#{bjqk},#{wffzaj},#{zaaj},#{hzsg},#{jtsg},#{zazhsg},#{zhsg},#{zs},#{jf},#{jtbl},#{gmqz},#{zsxr},#{jwjd},#{qt},#{hj},#{tbr})
+		insert into bjqk (createTime,updateTime,xzqh,tbdw,bjqk,wffzaj,zaaj,hzsg,jtsg,zazhsg,zhsg,zs,jf,jtbl,gmqz,zsxr,jwjd,qt,hj,tbr,tjyf,state) 
+		values (#{createTime},#{updateTime},#{xzqh}, #{tbdw},#{bjqk},#{wffzaj},#{zaaj},#{hzsg},#{jtsg},#{zazhsg},#{zhsg},#{zs},#{jf},#{jtbl},#{gmqz},#{zsxr},#{jwjd},#{qt},#{hj},#{tbr},#{tjyf},#{state})
 	</insert>
 	
 	<!-- 删除某个信息 -->
@@ -70,14 +70,14 @@
 	</select>
 
 	
-	<!-- 查询省厅的报警情况统计表数据 -->
+	<!-- 查询省厅的报警情况统计图数据 -->
 	<select id="findAllBJ" parameterType="Map" resultType="Baojingqingkuang">
 		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
 		FROM bjqk 
 		WHERE createTime&gt;=#{starttime} AND createTime&lt;#{stoptime};
 	</select>
 
-	<!-- 查询地级市的报警情况统计表数据 -->
+	<!-- 查询地级市的报警情况统计图数据 -->
 	<select id="findOneBJ" parameterType="Map" resultType="Baojingqingkuang">
 		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
 		FROM bjqk 
@@ -85,17 +85,17 @@
 	</select>
 
 	<!-- 省厅查询报警情况统计表数据 -->
-	<select id="selectAll" parameterType="Map" resultType="Baojingqingkuang">
+	<select id="selectAll" parameterType="String" resultType="Baojingqingkuang">
 		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
 		FROM bjqk 
-		WHERE createTime&gt;=#{starttime} AND createTime&lt;#{stoptime} group by bjqk;	
+		WHERE tjyf like #{time}  group by bjqk;	
 	</select>
 
 	<!-- 地级市查询报警情况统计表数据 -->
 	<select id="selectOne" parameterType="Map" resultType="Baojingqingkuang">
 		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
 		FROM bjqk 
-		WHERE xzqh=#{xzqh} AND  createTime&gt;=#{starttime} AND createTime&lt;#{stoptime} group by bjqk;	
+		WHERE xzqh=#{xzqh} AND  tjyf like #{time}  group by bjqk;	
 	</select>
 
 	<!-- 查询报警情况列表展示(选择地市  选或不选时间)因为Baojingqingkuang中无createTime 把createTime 返回到bjqk中 -->
@@ -104,7 +104,7 @@
 		FROM bjqk 
 		WHERE xzqh=#{xzqh}  
 		<if test="time != 'null' and xzqh !='全省' ">
-		 AND createTime like #{time} ;
+		 AND tjyf like #{time} ;
 		</if>
 	</select>
 
@@ -113,11 +113,20 @@
 		SELECT createTime as bjqk , tbr ,xzqh
 		FROM bjqk 
 		<if test="time != 'null' and xzqh =='全省' ">
-		 where createTime like #{time} ;
+		 where tjyf like #{time} ;
 		</if>
 	</select>
 
-
+	<!-- 通过填报月份查询数据库这条数据是否存在 -->
+	<select id="findOne" parameterType="Map" resultType="Baojingqingkuang">
+		select * from bjqk where tjyf= #{time} AND xzqh= #{xzqh} 
+	</select>
+	
+	<!-- 地级市修改报警情况数据 -->
+	<update id="updateAll" parameterType="Baojingqingkuang" >
+		update bjqk set tbdw=#{tbdw},wffzaj=#{wffzaj},zaaj=#{zaaj},hzsg=#{hzsg},jtsg=#{jtsg},zazhsg=#{zazhsg},zhsg=#{zhsg},zs=#{zs},jf=#{jf},jtbl=#{jtbl},gmqz=#{gmqz},zsxr=#{zsxr},jwjd=#{jwjd},qt=#{qt},hj=#{hj},tbr=#{tbr}
+		where id=#{id}
+	</update>
 
 	<!-- 修个某条信息 -->
 	<update id="update" parameterType="Baojingqingkuang">

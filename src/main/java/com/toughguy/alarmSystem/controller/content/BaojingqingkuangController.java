@@ -1,5 +1,7 @@
 package com.toughguy.alarmSystem.controller.content;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
+import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.pagination.PagerModel;
 import com.toughguy.alarmSystem.service.content.prototype.IBaojingqingkuangService;
 
@@ -31,16 +34,73 @@ public class BaojingqingkuangController {
 	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("baojingqingkuang:save")
-	public String saveBaojingqingkuang(Baojingqingkuang baojingqingkuang) {
-		try {
-			baojingqingkuangService.save(baojingqingkuang);
-			return "{ \"success\" : true }";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+//	@RequiresPermissions("baojingqingkuang:save")
+	public String saveBaojingqingkuang(@RequestBody List<Baojingqingkuang> list) {
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		String time = sf.format(date).substring(0,4);		//截取年
+		String month = sf.format(date).substring(5,7);		//截取月份
+		int time2 = Integer.parseInt(time);					//转换为数字2019
+		int month2 = Integer.parseInt(month)-1;				//转换为数字09
+		Map<String,String> map = new HashMap<>();
+		if(month=="01" || month.equals("01")) {				//如果是一月份填报时间就应该是去年的12月份
+			month="12";
+			time2=time2-1;
+			if(list.get(0).getTjyf().equals(time2+"-"+month)) {
+				map.put("time", time2+"-"+month);
+				map.put("xzqh", list.get(0).getXzqh());
+			}else {
+				return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+			}
+		}else {
+			String s =null;
+			if(month2<10) {
+				s="0"+month2;
+			}else {
+				s=month2+"";
+			}
+			if(list.get(0).getTjyf().equals(time+"-"+s)) {
+				map.put("time",time+"-"+s);
+				map.put("xzqh", list.get(0).getXzqh());
+			}else {
+				return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+			}
+		}
+		
+		List<Baojingqingkuang> one = baojingqingkuangService.findOne(map);			//查询是否存在这个月的记录
+		if(one.size()<=0) {												//没有数据添加
+			try{
+				if(list.size()>0) {
+					for(int i=0;i<list.size();i++) {
+						list.get(i).setState("1");
+						baojingqingkuangService.save(list.get(i));
+					}
+					return "{ \"success\" : true }";
+				}else {
+					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+			}
+		}else {
+			try{
+				if(list.size()>0) {
+					for(int i=0;i<list.size();i++) {
+						list.get(i).setId(one.get(i).getId());
+						baojingqingkuangService.updateAll(list.get(i));
+					}
+					return "{ \"success\" : true }";
+				}else {
+					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+				return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+			}
 		}
 	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
@@ -135,16 +195,6 @@ public class BaojingqingkuangController {
 	}
 	
 	
-	/**
-	 * 地级市添加报警情况统计表
-	 * @return
-	 */
-	@RequestMapping("/insertAll")
-	//@RequiresPermissions("baojingqingkuang:insertAll")
-	public Map<String ,String> insertAll(List<Baojingqingkuang> list) {
-		return baojingqingkuangService.insertAll(list);
-	}
-	
 	
 	/**
 	 * 省厅查询报警情况统计表
@@ -153,8 +203,8 @@ public class BaojingqingkuangController {
 	 */
 	@RequestMapping("/selectAll")
 	//@RequiresPermissions("baojingqingkuang:selectAll")
-	public List<Baojingqingkuang> selectAll(String starttime,String stoptime) {
-		return baojingqingkuangService.selectAll(starttime,stoptime);
+	public List<Baojingqingkuang> selectAll(String time) {
+		return baojingqingkuangService.selectAll(time);
 	}
 	
 	/**
@@ -164,8 +214,9 @@ public class BaojingqingkuangController {
 	 */
 	@RequestMapping("/selectOne")
 	//@RequiresPermissions("baojingqingkuang:selectOne")
-	public List<Baojingqingkuang> selectOne(String starttime,String stoptime,String xzqh) {
-		return baojingqingkuangService.selectOne(starttime,stoptime,xzqh);
+	public List<Baojingqingkuang> selectOne(String time,String xzqh) {
+		System.out.println("-------------------"+baojingqingkuangService.selectOne(time,xzqh));
+		return baojingqingkuangService.selectOne(time,xzqh);
 	}
 	
 	

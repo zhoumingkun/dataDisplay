@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
+import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.service.prototype.IGenericService;
 
 /**
@@ -25,23 +26,18 @@ public interface IBaojingqingkuangService extends IGenericService<Baojingqingkua
 	 */
 	public Map<String ,Baojingqingkuang> findOneBJ(String xzqh);
 	   
-	/**
-	 * 地级市添加报警情况统计表
-	 * @return
-	 */
-	public Map<String ,String> insertAll(List<Baojingqingkuang> list);
 
 	/**
 	 * 省厅查询报警情况统计表
 	 * @return
 	 */
-	public List<Baojingqingkuang> selectAll(String starttime,String stoptime);
+	public List<Baojingqingkuang> selectAll(String time);
 	
 	/**
 	 * 地级市查询报警情况统计表
 	 * @return
 	 */
-	public List<Baojingqingkuang> selectOne(String starttime,String stoptime,String xzqh);
+	public List<Baojingqingkuang> selectOne(String time,String xzqh);
 	
 	
 	
@@ -65,6 +61,16 @@ public interface IBaojingqingkuangService extends IGenericService<Baojingqingkua
 
 	
 	
+	/**
+	 * 地级市报警情况查询是否添加过数据
+	 * @return
+	 */
+	public List<Baojingqingkuang> findOne(Map<String,String> map);
 	
+	/**
+	 * 地级市报警情况修改数据
+	 * @return
+	 */
+	public void updateAll(Baojingqingkuang baojingqingkuang);
 	
 }
