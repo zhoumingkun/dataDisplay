@@ -2,6 +2,7 @@ package com.toughguy.alarmSystem.controller.content;
 
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class DelayedController {
 	 * @return
 	 */
 	@RequestMapping("/selectDelayed")
-//	@RequiresPermissions("saoheichue:selectDelayed")
+//	@RequiresPermissions("delayed:selectDelayed")
 	public String selectDelayed(Delayed delayed) {
 		return delayedService.selectDelayed(delayed);
 	}
@@ -42,6 +43,7 @@ public class DelayedController {
 	 * @return
 	 */
 	@RequestMapping("/selectAll")
+//	@RequiresPermissions("delayed:selectAll")
 	public Map<String,Object> selectAll() {
 		return delayedService.selectAll();
 	}
