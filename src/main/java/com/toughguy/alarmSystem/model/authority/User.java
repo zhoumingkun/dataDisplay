@@ -35,7 +35,7 @@ public class User extends AbstractModel {
 	private int id;
 	private String userName;  //用户名
 	private String userPass;  //密码
-	private String unitName;  //所属单位名称
+	private String unitName;  //所属地域
 	
 	private List<Role> roleList = new ArrayList<Role>();  //页面显示字段（解决前台缓存列表页直接获取用户角色信息）
 	
@@ -75,8 +75,8 @@ public class User extends AbstractModel {
 	public void setUserPass(String userPass) {
 		this.userPass = userPass;
 	}
-
 	
+
 	public String getUnitName() {
 		return unitName;
 	}

@@ -87,4 +87,11 @@ public interface IUserDao extends IGenericDao<User, Integer> {
 	 * 
 	 */
 	public List<User> findByuserName(String userName);
+	
+	/**
+	 * 根据用户id查找用户地域
+	 * @param userName 用户名
+	 * 
+	 */
+	public String findUnitNameById(User user);
 }

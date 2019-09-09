@@ -39,6 +39,11 @@
 	<select id="find" parameterType="int" resultType="User">
 		select * from auth_user where id = #{id}
 	</select>
+	<!-- 根据用户id查询某个用户 地域-->
+	<select id="findUnitNameById" parameterType="User" resultType="String">
+		select unitName from auth_user where id = #{id}
+	</select>
+	
 		
 	<!-- 根据用户名称查是否重复 -->
 	<select id="findByuserName" parameterType="String" resultType="User">
@@ -119,6 +124,7 @@
 			<if test=" userPassLike != null and userPassLike != '' ">
 				and userPass like concat(concat('%', #{userPassLike, jdbcType=VARCHAR}),'%')
 			</if>
+			
 			
 			<if test=" unitName != null and unitName != '' ">
 				and unitName = #{unitName}

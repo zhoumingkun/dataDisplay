@@ -715,7 +715,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 						
 						Cell cell00=row10.createCell(3);
 			            cell00.setCellStyle(utils.Style6(workbook));
-			            cell00.setCellValue(BaojingReport.get(j).getWffzaj());
+			            cell00.setCellValue(BaojingReport.get(j).getHj());
 			            
 						Cell cell1=row10.createCell(4);
 			            cell1.setCellStyle(utils.Style6(workbook));
@@ -1844,8 +1844,8 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        cell01.setCellValue("苏鹏琪");////填报人
 			        
 			        Map<String,String> map2 = new HashMap<>();
-					map.put("tjyf", tjyf);
-					map.put("xzqh", xzqh);
+					map2.put("tjyf", tjyf);
+					map2.put("xzqh", xzqh);
 			        Baojingqingkuang baojingHj = baojingqingkuangDao.findShiHj(map2);
 			        //合计1
 			        Row row4 = sh.createRow(4);
@@ -1864,9 +1864,10 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 					cell000001.setCellStyle(utils.Style6(workbook));
 					cell000001.setCellValue("1");
 					
-			        Cell cell04=row4.createCell(3);
+					Cell cell04=row4.createCell(3);
 					cell04.setCellStyle(utils.Style6(workbook));
 					cell04.setCellValue(baojingHj.getHj());
+					
 					//合计2
 			        Cell cell05=row4.createCell(4);
 					cell05.setCellStyle(utils.Style6(workbook));
@@ -2267,7 +2268,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 							
 							Cell cell00=row10.createCell(3);
 				            cell00.setCellStyle(utils.Style6(workbook));
-				            cell00.setCellValue(BaojingReport.get(j).getWffzaj());
+				            cell00.setCellValue(BaojingReport.get(j).getHj());
 				            
 							Cell cell1=row10.createCell(4);
 				            cell1.setCellStyle(utils.Style6(workbook));
