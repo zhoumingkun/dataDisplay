@@ -117,6 +117,17 @@ public class SaoheichueController {
 	public String editSaoheichue(@RequestBody List<Saoheichue> saoheichue) {
 		try {
 			for(int i=0;i<saoheichue.size();i++) {
+				Map<String,String> map = new HashMap<>();
+				map.put("time", saoheichue.get(i).getTjyf());
+				map.put("xzqh", saoheichue.get(i).getXzqh());
+				List<Saoheichue> findOne = saoheichueService.findOne(map);
+				System.out.println(findOne.size());
+				if(findOne.size()<=0 || findOne==null ) {
+					System.out.println("1=============================="+saoheichue.get(i).getTbr());
+					if(saoheichue.get(i).getShcedzxs()!=0 || saoheichue.get(i).getDjqbfzxs()!=0 || saoheichue.get(i).getDjwwfzxs()!=0 || saoheichue.get(i).getPhstfzxs()!=0 || saoheichue.get(i).getFfjzfzxs()!=0 || saoheichue.get(i).getDxwlfzxs()!=0 || saoheichue.get(i).getTbr()!=null ) {
+						return "{ \"success\" : false, \"msg\" : \"不可添加地市信息\" }";
+					}
+				}
 				saoheichueService.updateAllShen(saoheichue.get(i));
 			}
 			return "{ \"success\" : true }";
