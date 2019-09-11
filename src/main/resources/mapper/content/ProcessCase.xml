@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.toughguy.dataDisplay.model.content.ProcessCase">
+	<!-- 查询当天立案总数 -->
+	<select id="findTotal" resultType="ProcessCase" parameterType="String">
+		select sum(ajsl) as ajsl from rec_qlczfba where lasj=#{lasj}
+	</select>
+	
+	<!-- 查询案件类别 -->
+	<select id="findCaseCategory" resultType="ProcessCase" parameterType="String">
+		select ajlbmc ,sum(ajsl) as ajsl  from rec_qlczfba where lasj=#{lasj} group by ajlbmc
+	</select>
+	
+	<!-- 查询地级市的立案数 -->
+	<select id="findCityCaseNum" resultType="ProcessCase" parameterType="String">
+		select xzqh.xzqhmc as sljsdw ,sum(qlczfba.ajsl) as ajsl
+   		from rec_qlczfba qlczfba 
+    	LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=qlczfba.sljsdw 
+    	where lasj=#{lasj}
+    	group by substr(sljsdw,0,4),xzqh.xzqhmc
+	</select>
+
+</mapper>
