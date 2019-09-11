@@ -22,5 +22,11 @@ public class RecGradeImpl extends GenericDaoImpl<RecGrade, Integer> implements I
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".selectAll");
 	}
+	
+	@Override
+	public void updateGrade(RecGrade grade) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update(typeNameSpace + ".updateGrade",grade);
+	}
 
 }

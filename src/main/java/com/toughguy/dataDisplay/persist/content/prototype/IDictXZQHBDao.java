@@ -18,4 +18,7 @@ public interface IDictXZQHBDao extends IGenericDao<DictXZQHB, Integer> {
 	//修改行政区划表地图峰值的数据
 	public void save(DictXZQHB xzqh);
 	
+	//修改行政区划表地图峰值的数据
+	public void updateXZQH(DictXZQHB xzqh);
+	
 }

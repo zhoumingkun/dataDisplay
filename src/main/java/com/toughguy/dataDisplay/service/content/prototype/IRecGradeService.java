@@ -1,7 +1,6 @@
 package com.toughguy.dataDisplay.service.content.prototype;
 
 import java.util.List;
-
 import com.toughguy.dataDisplay.model.content.RecGrade;
 import com.toughguy.dataDisplay.service.prototype.IGenericService;
 
@@ -12,5 +11,7 @@ public interface IRecGradeService extends IGenericService<RecGrade, Integer> {
 
 	public List<RecGrade> selectAll();
 	
-
+	public void alterGrade(RecGrade grade);
+	
+	public void updateGrade(RecGrade grade);
 }

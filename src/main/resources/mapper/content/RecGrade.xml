@@ -8,4 +8,9 @@
 	<select id="selectAll" parameterType="RecGrade" resultType="RecGrade">
 		select * from REC_GRADE
 	</select>
+	
+	<!-- 修个某条信息 -->
+	<update id="updateGrade" parameterType="RecGrade">
+		update REC_GRADE set proportion=#{proportion} where gradedm=#{gradedm}
+	</update>
 </mapper>

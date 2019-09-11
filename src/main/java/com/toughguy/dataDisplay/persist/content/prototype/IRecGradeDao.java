@@ -12,4 +12,6 @@ public interface IRecGradeDao extends IGenericDao<RecGrade, Integer>  {
 	public void alterGrade(RecGrade grade);
 
 	public List<RecGrade> selectAll();
+	
+	public void updateGrade(RecGrade grade);
 }

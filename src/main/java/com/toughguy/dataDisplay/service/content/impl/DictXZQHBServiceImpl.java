@@ -72,6 +72,12 @@ public class DictXZQHBServiceImpl extends GenericServiceImpl<DictXZQHB, Integer>
 			return "{ \"success\" : false }";
 		}
 	}
+	
+	@Override
+	public void updateXZQH(DictXZQHB xzqh) {
+		// TODO Auto-generated method stub
+		((IDictXZQHBDao)dao).updateXZQH(xzqh);
+	}
 
 	@Override
 	public Map<String, Object> findMapProportion() {

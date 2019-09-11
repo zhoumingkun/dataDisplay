@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.toughguy.dataDisplay.model.content.DictXZQHB;
+import com.toughguy.dataDisplay.model.content.RecGrade;
 import com.toughguy.dataDisplay.persist.content.prototype.IDictXZQHBDao;
 import com.toughguy.dataDisplay.persist.impl.GenericDaoImpl;
 /**
@@ -25,6 +26,12 @@ public class DictXZQHBImpl extends GenericDaoImpl<DictXZQHB, Integer> implements
 	public void save(DictXZQHB xzqh) {
 		// TODO Auto-generated method stub
 		sqlSessionTemplate.update(typeNameSpace + ".save",xzqh);
+	}
+	
+	@Override
+	public void updateXZQH(DictXZQHB xzqh) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update(typeNameSpace + ".updateXZQH",xzqh);
 	}
 
 	

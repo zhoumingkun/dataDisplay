@@ -37,5 +37,18 @@ public class RecGradeServiceImpl extends GenericServiceImpl<RecGrade, Integer> i
 		// TODO Auto-generated method stub
 		return recGradeDao.selectAll();
 	} 
+	
+	@Override
+	public void alterGrade(RecGrade grade) {
+		// TODO Auto-generated method stub
+		((IRecGradeDao)dao).alterGrade(grade);
+	}
+	
+	@Override
+	public void updateGrade(RecGrade grade) {
+		// TODO Auto-generated method stub
+		((IRecGradeDao)dao).updateGrade(grade);
+	}
+
 
 }

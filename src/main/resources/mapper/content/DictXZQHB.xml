@@ -12,6 +12,10 @@
 		update DICT_XZQHB set jjslsx = #{jjslsx} where xzqhdm = #{xzqhdm}
 	</update>
 	
+	<!-- 修改某个数据 -->
+	<update id="updateXZQH" parameterType="DictXZQHB">
+		update DICT_XZQHB set jjslsx = #{jjslsx} where xzqhdm = #{xzqhdm}
+	</update>
 
 	
 	
