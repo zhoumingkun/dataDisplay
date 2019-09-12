@@ -333,7 +333,6 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		boss.put("hj", ee);
 		boss.put("tbr", ff);
 		boss.put("tjyf", gg);
-		System.out.println(boss);
 		return boss;
 	}
 

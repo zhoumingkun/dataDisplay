@@ -42,7 +42,6 @@ public class BaojingqingkuangController {
 	@RequestMapping(value = "/save")
 //	@RequiresPermissions("baojingqingkuang:save")
 	public String saveBaojingqingkuang(@RequestBody List<Baojingqingkuang> list) {
-		System.out.println(list);
 		Date date = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		Delayed dela= new Delayed();
@@ -143,7 +142,6 @@ public class BaojingqingkuangController {
 	@RequestMapping(value = "/edit")
 //	@RequiresPermissions("baojingqingkuang:edit")
 	public String editBaojingqingkuang(@RequestBody List<Baojingqingkuang> list) {
-		System.out.println(list);
 		try {
 			Map<String,String> map = new HashMap<>();
 			map.put("time",list.get(0).getTjyf());
@@ -290,6 +288,18 @@ public class BaojingqingkuangController {
 		}
 	}
 	
+	/**
+	 * 查询填报单位
+	 * @return
+	 */
+	@RequestMapping("/findOne")
+	//@RequiresPermissions("baojingqingkuang:findOne")
+	public List<Baojingqingkuang> findOne(String time,String xzqh) {
+		Map<String,String> map = new HashMap<>();
+		map.put("time", time);
+		map.put("xzqh", xzqh);
+		return baojingqingkuangService.findOne(map);
+	}
 	
 	//导出市级报警情况
 	@ResponseBody	

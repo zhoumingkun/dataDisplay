@@ -37,7 +37,6 @@ public class DelayedServiceImpl extends GenericServiceImpl<Delayed, Integer> imp
 				return "{ \"success\" : false, \"msg\" : \"请延迟合适的日期\" }";
 			}
 			delayed.setDelayedStop(delayedStop);
-			System.out.println("------------------------"+time.substring(0,7)+"-"+(day+(Integer.parseInt(delayed.getDelayedDay())))+""+"--------------------------------");
 			delayed.setState("-1");
 			try {
 				((IDelayedDao)dao).save(delayed);

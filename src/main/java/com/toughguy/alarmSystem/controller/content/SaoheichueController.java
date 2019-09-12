@@ -115,7 +115,6 @@ public class SaoheichueController {
 	@RequestMapping(value = "/edit")
 //	@RequiresPermissions("saoheichue:edit")
 	public String editSaoheichue(@RequestBody List<Saoheichue> saoheichue) {
-		System.out.println(saoheichue);
 		try {
 			for(int i=0;i<saoheichue.size();i++) {
 				saoheichueService.updateAllShen(saoheichue.get(i));

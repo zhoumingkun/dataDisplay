@@ -198,7 +198,6 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		int i =findShenHj.getWffzaj()+findShenHj.getZaaj()+findShenHj.getHzsg()+findShenHj.getJtsg()+findShenHj.getZazhsg()+findShenHj.getZhsg()+findShenHj.getZs()+findShenHj.getJf()+findShenHj.getJtbl()+findShenHj.getGmqz()+findShenHj.getZsxr()+findShenHj.getJwjd()+findShenHj.getQt();
 		map.put("hj", i);
 		map.put("HJ", findShenHj);
-		System.out.println(map);
 		return map;
 	}
 
@@ -207,7 +206,6 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 	public Map<String,Object> selectOne(String time,String xzqh) {
 		// TODO Auto-generated method stub
 		String date = "%"+time+"%";
-		System.out.println(time+"-------------"+xzqh);
 		Map<String ,String> map2 = new HashMap<String, String>();
 		map2.put("time", date);
 		map2.put("xzqh", xzqh);
@@ -216,14 +214,11 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		map3.put("tjyf", time);
 		map3.put("xzqh", xzqh);
 		Baojingqingkuang findShenHj = ((IBaojingqingkuangDao)dao).findShiHj(map3);
-		System.out.println("-------------------"+list);
-		System.out.println("------------------------2"+findShenHj);
 		Map<String,Object> map = new HashMap<>();
 		map.put("list", list);
 		int i =findShenHj.getWffzaj()+findShenHj.getZaaj()+findShenHj.getHzsg()+findShenHj.getJtsg()+findShenHj.getZazhsg()+findShenHj.getZhsg()+findShenHj.getZs()+findShenHj.getJf()+findShenHj.getJtbl()+findShenHj.getGmqz()+findShenHj.getZsxr()+findShenHj.getJwjd()+findShenHj.getQt();
 		map.put("hj", i);
 		map.put("HJ", findShenHj);
-		System.out.println(map);
 		return map;
 	}
 
@@ -234,7 +229,6 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		// TODO Auto-generated method stub
 		if(time.equals("null") && xzqh.equals("全省")) {
 			//什么都没选
-			System.out.println("1");
 			Map<String,String> map = new HashMap<>();
 			map.put("xzqh", xzqh);
 			map.put("time",time);
@@ -252,7 +246,6 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			return baojingList;	
 		}else if(!time.equals("null") && xzqh.equals("全省")){
 			//选了时间 没选地市
-			System.out.println("2");
 			String date = "%"+time+"%";
 			Map<String,String> map = new HashMap<>();
 			map.put("xzqh", xzqh);
@@ -340,8 +333,6 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				map.put("tjyf", tjyf);
 				
 				List<Baojingqingkuang> BaojingReport = baojingqingkuangDao.findByTjyfTime(map);
-				System.out.println(BaojingReport);
-				System.out.println(BaojingReport.size());
 				Date date = new Date();
 				SimpleDateFormat dateBaojing = new SimpleDateFormat("yyyy-MM-dd");
 				String time = dateBaojing.format(date);
