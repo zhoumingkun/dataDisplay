@@ -71,8 +71,21 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 			map.put("starttime", starttime);
 			map.put("stoptime", stoptime);
 		}
+		Saoheichue sh = ((ISaoheichueDao)dao).findAllSH(map);
+		if(sh==null) {
+			Map<String,Saoheichue> shce = new HashMap<>();
+			Saoheichue sc = new Saoheichue();
+			sc.setShcedzxs(0);
+			sc.setDjqbfzxs(0);
+			sc.setDjwwfzxs(0);
+			sc.setPhstfzxs(0);
+			sc.setFfjzfzxs(0);
+			sc.setDxwlfzxs(0);
+			shce.put("shce", sc);
+			return shce ;
+		}
 		Map<String,Saoheichue> shce = new HashMap<>();
-		shce.put("shce", ((ISaoheichueDao)dao).findAllSH(map));
+		shce.put("shce", sh);
 		return shce ;
 	}
 
@@ -85,7 +98,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		String year =sf.format(date).substring(0,4);			//2019
 		String month =sf.format(date).substring(5,7);			//09
 		String starttime=year+"-"+month+"-"+"01";				//2019-09-01
-		int month2 = Integer.parseInt(month)+1;					//月+1
+		int month2 = Integer.parseInt(month)-1;					//月+1
 		int year2=Integer.parseInt(year)-1;						//年-1
 		String s="";
 		if(month2<10) {
@@ -94,11 +107,29 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 			s=month2+"";
 		}
 		String stoptime=year+"-"+s+"-"+"01";
-		map.put("starttime", starttime);
-		map.put("stoptime", stoptime);
+		if(month=="01" || month.equals("01")) {
+			stoptime=year2+"-12-01";
+		}
+		map.put("starttime", stoptime);		//2019-08-01
+		map.put("stoptime", starttime);		//2019-09-01
 		map.put("xzqh", xzqh);
-		Saoheichue saoheichue = ((ISaoheichueDao)dao).findOneSH(map);		//看当前月是否已经有数据了
-		if(saoheichue==null) {		//截至当前还未提交
+		Saoheichue sh = ((ISaoheichueDao)dao).findOneSH(map);		//看当前月是否已经有数据了
+		if(sh==null) {
+			Map<String,Saoheichue> shce = new HashMap<>();
+			Saoheichue sc = new Saoheichue();
+			sc.setShcedzxs(0);
+			sc.setDjqbfzxs(0);
+			sc.setDjwwfzxs(0);
+			sc.setPhstfzxs(0);
+			sc.setFfjzfzxs(0);
+			sc.setDxwlfzxs(0);
+			shce.put("djshce", sc);
+			return shce ;
+		}
+		Map<String,Saoheichue> djshce = new HashMap<>();
+		djshce.put("djshce", sh);
+		return djshce ;
+		/*if(saoheichue==null) {		//截至当前还未提交
 			if(month=="01" || month.equals("01")) {	
 				String stopdate=year+"-"+month+"-"+"01";					//2019-01-01
 				month="12";
@@ -130,7 +161,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 			Map<String,Saoheichue> djshce = new HashMap<>();
 			djshce.put("djshce", saoheichue);
 			return djshce ;
-		}
+		}*/
 	}
 
 	@Override
@@ -189,7 +220,8 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 				aaa.put("mc", mc);
 				aaa.put("xzqh", list.get(i).getXzqh());
 				aaa.put("tbr", list.get(i).getTbr());
-				aaa.put("createTime", list.get(i).getTbdw());
+				aaa.put("createtime", list.get(i).getTbdw());
+				aaa.put("id", list.get(i).getId()+"");
 				saoheichue.put(list.get(i).getTjyf().substring(0, 7), aaa);
 			}
 			return saoheichue;
@@ -210,6 +242,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 				String mc=list.get(i).getTjyf().substring(0, 4)+"年"+list.get(i).getTjyf().substring(5, 7)+"月"+list.get(i).getXzqh()+"扫黑除恶等专项行动有关警情线索统计月表";
 				aaa.put("mc",mc);
 				aaa.put("createtime",list.get(i).getTbdw());
+				aaa.put("id", list.get(i).getId()+"");
 				saoheichue.put(list.get(i).getTjyf().substring(0, 7), aaa);
 			}
 			return saoheichue;
@@ -218,10 +251,90 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 	}
 
 	@Override
-	public List<Saoheichue> selectAll(String time) {
+	public Map<String,Object> selectAll(String time) {
 		// TODO Auto-generated method stub
 		String date = "%"+time+"%";
-		return ((ISaoheichueDao)dao).selectAll(date);
+		List<Saoheichue> list = ((ISaoheichueDao)dao).selectAll(date);
+		
+		Map<String,String> a = new HashMap<>();
+		Map<String,Object> aa = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			a.put(list.get(i).getXzqh(),list.get(i).getShcedzxs()+"");
+		}
+		aa.put("shcedzxs", a);
+		
+		Map<String,String> b = new HashMap<>();
+		Map<String,Object> bb = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			b.put(list.get(i).getXzqh(),list.get(i).getDjqbfzxs()+"");
+		}
+		bb.put("djqbfzxs", b);
+
+
+		Map<String,String> j = new HashMap<>();
+		Map<String,Object> jj = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			j.put(list.get(i).getXzqh(),list.get(i).getDjwwfzxs()+"");
+		}
+		jj.put("djwwfzxs", j);
+		
+		Map<String,String> k = new HashMap<>();
+		Map<String,Object> kk = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			k.put(list.get(i).getXzqh(),list.get(i).getPhstfzxs()+"");
+		}
+		kk.put("phstfzxs", k);
+		
+		Map<String,String> c = new HashMap<>();
+		Map<String,Object> cc = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			c.put(list.get(i).getXzqh(),list.get(i).getFfjzfzxs()+"");
+		}
+		cc.put("ffjzfzxs", c);
+		
+		Map<String,String> d = new HashMap<>();
+		Map<String,Object> dd = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			d.put(list.get(i).getXzqh(),list.get(i).getDxwlfzxs()+"");
+		}
+		dd.put("dxwlfzxs", d);
+		
+		Map<String,String> e = new HashMap<>();
+		Map<String,Object> ee = new HashMap<>();
+		/*for(int i =0;i<list.size();i++) {
+			e.put(list.get(i).getXzqh(),list.get(i).getHj()+"");
+		}
+		ee.put("hj", a);*/
+		
+		String tjyf=time;
+		Saoheichue hj = ((ISaoheichueDao)dao).findShenHj(tjyf);
+		ee.put("hj", hj);
+		Map<String,String> f = new HashMap<>();
+		Map<String,Object> ff = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			f.put(list.get(i).getXzqh(),list.get(i).getTbr()+"");
+		}
+		ff.put("tbr", f);
+		
+		Map<String,String> g = new HashMap<>();
+		Map<String,Object> gg = new HashMap<>();
+		for(int i =0;i<list.size();i++) {
+			g.put(list.get(i).getXzqh(),list.get(i).getTjyf()+"");
+		}
+		gg.put("tjyf", g);
+		
+		Map<String,Object> boss=new HashMap<>();
+		boss.put("shcedzxs", aa);
+		boss.put("djqbfzxs", bb);
+		boss.put("djwwfzxs", jj);
+		boss.put("phstfzxs", kk);
+		boss.put("ffjzfzxs", cc);
+		boss.put("dxwlfzxs", dd);
+		boss.put("hj", ee);
+		boss.put("tbr", ff);
+		boss.put("tjyf", gg);
+		System.out.println(boss);
+		return boss;
 	}
 
 	@Override
@@ -246,6 +359,12 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		((ISaoheichueDao)dao).updateAll(saoheichue);
 	}
 
+	@Override
+	public void updateAllShen(Saoheichue saoheichue) {
+		// TODO Auto-generated method stub
+		((ISaoheichueDao)dao).updateAllShen(saoheichue);
+	}
+	
 	//导出省扫黑除恶表
 	@Override
 	public void ExportShenShce(HttpServletResponse response, String tjyf) {
@@ -1190,6 +1309,8 @@ try {
 			e.printStackTrace();
 		}
 	}
+
+
 
 
 }

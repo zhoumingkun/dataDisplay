@@ -86,21 +86,21 @@
 
 	<!-- 省厅查询报警情况统计表数据 -->
 	<select id="selectAll" parameterType="String" resultType="Baojingqingkuang">
-		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
+		SELECT bjqk,SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
 		FROM bjqk 
 		WHERE tjyf like #{time}  group by bjqk;	
 	</select>
 
 	<!-- 地级市查询报警情况统计表数据 -->
 	<select id="selectOne" parameterType="Map" resultType="Baojingqingkuang">
-		SELECT SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
+		SELECT bjqk,SUM(wffzaj) as wffzaj,SUM(zaaj) as zaaj,SUM(hzsg) as hzsg,SUM(jtsg) as jtsg,SUM(zazhsg) as zazhsg,SUM(zhsg) as zhsg,SUM(zs) as zs,SUM(jf) as jf,SUM(jtbl) as jtbl,SUM(gmqz) as gmqz,SUM(zsxr) as zsxr,SUM(jwjd) as jwjd,SUM(qt) as qt,SUM(hj) as hj 
 		FROM bjqk 
 		WHERE xzqh=#{xzqh} AND  tjyf like #{time}  group by bjqk;	
 	</select>
 
 	<!-- 查询报警情况列表展示(选择地市  选或不选时间)因为Baojingqingkuang中无createTime 把createTime 返回到bjqk中 -->
 	<select id="selectList" parameterType="Map" resultType="Baojingqingkuang">
-		SELECT createTime as bjqk , tbr ,xzqh
+		SELECT id, createTime as bjqk , tbr ,xzqh,tjyf
 		FROM bjqk 
 		WHERE xzqh=#{xzqh}  
 		<if test="time != 'null' and xzqh !='全省' ">
@@ -110,7 +110,7 @@
 
 	<!-- 查询报警情况列表展示(不选地市  选或者不选时间) 因为Baojingqingkuang中无createTime 把createTime 返回到bjqk中 -->
 	<select id="selectAllList" parameterType="Map" resultType="Baojingqingkuang">
-		SELECT createTime as bjqk , tbr ,xzqh
+		SELECT createTime as bjqk , tbr ,xzqh,tjyf
 		FROM bjqk 
 		<if test="time != 'null' and xzqh =='全省' ">
 		 where tjyf like #{time} ;
@@ -125,7 +125,7 @@
 	<!-- 地级市修改报警情况数据 -->
 	<update id="updateAll" parameterType="Baojingqingkuang" >
 		update bjqk set tbdw=#{tbdw},wffzaj=#{wffzaj},zaaj=#{zaaj},hzsg=#{hzsg},jtsg=#{jtsg},zazhsg=#{zazhsg},zhsg=#{zhsg},zs=#{zs},jf=#{jf},jtbl=#{jtbl},gmqz=#{gmqz},zsxr=#{zsxr},jwjd=#{jwjd},qt=#{qt},hj=#{hj},tbr=#{tbr}
-		where id=#{id}
+		where bjqk=#{bjqk} AND xzqh=#{xzqh} AND tjyf=#{tjyf}
 	</update>
 
 	<!-- 修个某条信息 -->
@@ -149,6 +149,7 @@
 			<if test="qt != null and qt != ''">qt = #{qt},</if>
 			<if test="hj != null and hj != ''">hj = #{hj},</if>
 			<if test="tbr != null and tbr != ''">tbr = #{tbr},</if>
+			<if test="tjyf != null and tjyf != ''">tjyf = #{tjyf},</if>
 		</set>
 		where id = #{id}
 	</update>

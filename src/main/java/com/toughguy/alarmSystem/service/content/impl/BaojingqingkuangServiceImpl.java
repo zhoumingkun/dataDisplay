@@ -77,8 +77,28 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			map.put("starttime", starttime);
 			map.put("stoptime", stoptime);
 		}
+		Baojingqingkuang bj = ((IBaojingqingkuangDao)dao).findAllBJ(map);
+		if(bj==null) {
+			Baojingqingkuang baojing = new Baojingqingkuang();
+			baojing.setWffzaj(0);
+			baojing.setZaaj(0);
+			baojing.setHzsg(0);
+			baojing.setJtsg(0);
+			baojing.setZazhsg(0);
+			baojing.setZhsg(0);
+			baojing.setZs(0);
+			baojing.setJf(0);
+			baojing.setJtbl(0);
+			baojing.setGmqz(0);
+			baojing.setZsxr(0);
+			baojing.setJwjd(0);
+			baojing.setQt(0);
+			Map<String,Baojingqingkuang> bjqk = new HashMap<>();
+			bjqk.put("bjqk", baojing);
+			return bjqk ;
+		}
 		Map<String,Baojingqingkuang> bjqk = new HashMap<>();
-		bjqk.put("bjqk", ((IBaojingqingkuangDao)dao).findAllBJ(map));
+		bjqk.put("bjqk", bj);
 		return bjqk ;
 	}
 
@@ -92,7 +112,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		String year =sf.format(date).substring(0,4);			//2019
 		String month =sf.format(date).substring(5,7);			//09
 		String starttime=year+"-"+month+"-"+"01";				//2019-09-01
-		int month2 = Integer.parseInt(month)+1;					//月+1
+		int month2 = Integer.parseInt(month)-1;					//月+1
 		int year2=Integer.parseInt(year)-1;						//年-1
 		String s="";
 		if(month2<10) {
@@ -101,11 +121,36 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			s=month2+"";
 		}
 		String stoptime=year+"-"+s+"-"+"01";
-		map.put("starttime", starttime);
-		map.put("stoptime", stoptime);
+		if(month=="01" || month.equals("01")) {
+			stoptime=year2+"-12-01";
+		}
+		map.put("starttime", stoptime);		//2019-08-01
+		map.put("stoptime", starttime);			//2019-09-01
 		map.put("xzqh", xzqh);
-		Baojingqingkuang baojingqingkuang = ((IBaojingqingkuangDao)dao).findOneBJ(map);		//看当前月是否已经有数据了
-		if(baojingqingkuang==null) {		//截至当前还未提交
+		Baojingqingkuang bj = ((IBaojingqingkuangDao)dao).findOneBJ(map);
+		if(bj==null) {
+			Baojingqingkuang baojing = new Baojingqingkuang();
+			baojing.setWffzaj(0);
+			baojing.setZaaj(0);
+			baojing.setHzsg(0);
+			baojing.setJtsg(0);
+			baojing.setZazhsg(0);
+			baojing.setZhsg(0);
+			baojing.setZs(0);
+			baojing.setJf(0);
+			baojing.setJtbl(0);
+			baojing.setGmqz(0);
+			baojing.setZsxr(0);
+			baojing.setJwjd(0);
+			baojing.setQt(0);
+			Map<String,Baojingqingkuang> bjqk = new HashMap<>();
+			bjqk.put("djshce", baojing);
+			return bjqk ;
+		}
+		Map<String,Baojingqingkuang> bjqk = new HashMap<>();
+		bjqk.put("djshce", bj);
+		return bjqk ;
+/*		if(baojingqingkuang==null) {		//截至当前还未提交
 			if(month=="01" || month.equals("01")) {	
 				String stopdate=year+"-"+month+"-"+"01";					//2019-01-01
 				month="12";
@@ -137,27 +182,49 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			Map<String,Baojingqingkuang> bjqk = new HashMap<>();
 			bjqk.put("djshce", baojingqingkuang);
 			return bjqk ;
-		}
+		}*/
 	}
 
 
 
 	@Override
-	public List<Baojingqingkuang> selectAll(String time) {
+	public Map<String,Object> selectAll(String time) {
 		// TODO Auto-generated method stub
 		String date = "%"+time+"%";
-		return ((IBaojingqingkuangDao)dao).selectAll(date);
+		List<Baojingqingkuang> list = ((IBaojingqingkuangDao)dao).selectAll(date);
+		Baojingqingkuang findShenHj = ((IBaojingqingkuangDao)dao).findShenHj(time);
+		Map<String,Object> map = new HashMap<>();
+		map.put("list", list);
+		int i =findShenHj.getWffzaj()+findShenHj.getZaaj()+findShenHj.getHzsg()+findShenHj.getJtsg()+findShenHj.getZazhsg()+findShenHj.getZhsg()+findShenHj.getZs()+findShenHj.getJf()+findShenHj.getJtbl()+findShenHj.getGmqz()+findShenHj.getZsxr()+findShenHj.getJwjd()+findShenHj.getQt();
+		map.put("hj", i);
+		map.put("HJ", findShenHj);
+		System.out.println(map);
+		return map;
 	}
 
 
 	@Override
-	public List<Baojingqingkuang> selectOne(String time,String xzqh) {
+	public Map<String,Object> selectOne(String time,String xzqh) {
 		// TODO Auto-generated method stub
-		Map<String ,String> map = new HashMap<String, String>();
 		String date = "%"+time+"%";
-		map.put("time", date);
-		map.put("xzqh", xzqh);
-		return  ((IBaojingqingkuangDao)dao).selectOne(map);
+		System.out.println(time+"-------------"+xzqh);
+		Map<String ,String> map2 = new HashMap<String, String>();
+		map2.put("time", date);
+		map2.put("xzqh", xzqh);
+		List<Baojingqingkuang> list = ((IBaojingqingkuangDao)dao).selectOne(map2);
+		Map<String ,String> map3 = new HashMap<String, String>();
+		map3.put("tjyf", time);
+		map3.put("xzqh", xzqh);
+		Baojingqingkuang findShenHj = ((IBaojingqingkuangDao)dao).findShiHj(map3);
+		System.out.println("-------------------"+list);
+		System.out.println("------------------------2"+findShenHj);
+		Map<String,Object> map = new HashMap<>();
+		map.put("list", list);
+		int i =findShenHj.getWffzaj()+findShenHj.getZaaj()+findShenHj.getHzsg()+findShenHj.getJtsg()+findShenHj.getZazhsg()+findShenHj.getZhsg()+findShenHj.getZs()+findShenHj.getJf()+findShenHj.getJtbl()+findShenHj.getGmqz()+findShenHj.getZsxr()+findShenHj.getJwjd()+findShenHj.getQt();
+		map.put("hj", i);
+		map.put("HJ", findShenHj);
+		System.out.println(map);
+		return map;
 	}
 
 
@@ -178,9 +245,9 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			Map<String,Object> baojingList = new HashMap<>();
 			for(int i =0;i<list.size();i++) {
 				Map<Object ,String> aaa = new HashMap<>();
-				String mc=list.get(i).getBjqk().substring(0, 4)+"年"+list.get(i).getBjqk().substring(5, 7)+"月全省报警情况统计月表";
+				String mc=list.get(i).getTjyf().substring(0, 4)+"年"+list.get(i).getTjyf().substring(5, 7)+"月全省报警情况统计月表";
 				aaa.put("mc", mc);
-				baojingList.put(list.get(i).getBjqk().substring(0, 7), aaa);
+				baojingList.put(list.get(i).getTjyf().substring(0, 7), aaa);
 			}
 			return baojingList;	
 		}else if(!time.equals("null") && xzqh.equals("全省")){
@@ -197,9 +264,9 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			Map<String,Object> baojingList = new HashMap<>();
 			for(int i = 0;i<list.size();i++) {
 				Map<Object ,String> aaa = new HashMap<>();
-				String mc=list.get(i).getBjqk().substring(0, 4)+"年"+list.get(i).getBjqk().substring(5, 7)+"月全省报警情况统计月表";
+				String mc=list.get(i).getTjyf().substring(0, 4)+"年"+list.get(i).getTjyf().substring(5, 7)+"月全省报警情况统计月表";
 				aaa.put("mc", mc);
-				baojingList.put(list.get(i).getBjqk().substring(0, 7), aaa);
+				baojingList.put(list.get(i).getTjyf().substring(0, 7), aaa);
 			}
 			return baojingList;
 	
@@ -213,16 +280,17 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			if(list.size()<=0) {
 				return null;
 			}
-			Set<String> set = new HashSet<>();
 			Map<String,Object> baojingList = new HashMap<>();
-			for(int i =0; i<list.size();i++) {
-				set.add(list.get(i).getBjqk().substring(5,7));		//唯一月份
+			for(int i =0; i<list.size();i++) {	
+			Map<Object ,String> aaa = new HashMap<>();
+			aaa.put("tbr",list.get(i).getTbr());
+			aaa.put("createtime", list.get(i).getBjqk());
+			aaa.put("xzqh", list.get(i).getXzqh());
+			String mc=list.get(i).getTjyf().substring(0, 4)+"年"+list.get(i).getTjyf().substring(5, 7)+"月"+list.get(i).getXzqh()+"市报警情况统计月表";
+			aaa.put("mc",mc);
+			baojingList.put(list.get(i).getTjyf().substring(0, 7), aaa);
 			}
-			baojingList.put("tbr",list.get(0).getTbr());
-			baojingList.put("createTime", list.get(0).getBjqk());
-			baojingList.put("xzqh", list.get(0).getXzqh());
-			String mc=list.get(0).getBjqk().substring(0, 4)+"年"+list.get(0).getBjqk().substring(5, 7)+"月"+list.get(0).getXzqh()+"市报警情况统计月表";
-			baojingList.put("mc",mc);
+			
 			return baojingList;
 		}else {
 			//没选时间  选了地市
@@ -238,10 +306,10 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				Map<Object ,String> aaa = new HashMap<>();
 				aaa.put("xzqh",list.get(i).getXzqh());
 				aaa.put("tbr", list.get(i).getTbr());
-				String mc=list.get(i).getBjqk().substring(0, 4)+"年"+list.get(i).getBjqk().substring(5, 7)+"月"+list.get(i).getXzqh()+"市报警情况统计月表";
+				String mc=list.get(i).getTjyf().substring(0, 4)+"年"+list.get(i).getTjyf().substring(5, 7)+"月"+list.get(i).getXzqh()+"市报警情况统计月表";
 				aaa.put("mc",mc);
 				aaa.put("createtime",list.get(i).getBjqk());
-				baojingList.put(list.get(i).getBjqk().substring(0, 7), aaa);
+				baojingList.put(list.get(i).getTjyf().substring(0, 7), aaa);
 			}
 			return baojingList;
 		}
@@ -1833,15 +1901,15 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        
 			        Cell cell03=row1.createCell(1);
 					cell03.setCellStyle(utils.Style8(workbook));
-			        cell03.setCellValue(xzqh+"公安局");//填报时间（当前导出时间）
+			        cell03.setCellValue("山西省"+xzqh+"市公安局");//填报时间（当前导出时间）
 			        
 					Cell cell0=row1.createCell(7);
 					cell0.setCellStyle(utils.Style8(workbook));
 			        cell0.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
 			        
-			        Cell cell01=row1.createCell(16);
+			        Cell cell01=row1.createCell(15);
 					cell01.setCellStyle(utils.Style8(workbook));
-			        cell01.setCellValue("苏鹏琪");////填报人
+			        cell01.setCellValue("填报人:");////填报人
 			        
 			        Map<String,String> map2 = new HashMap<>();
 					map2.put("tjyf", tjyf);

@@ -66,7 +66,7 @@ public class DelayedServiceImpl extends GenericServiceImpl<Delayed, Integer> imp
 		delayed.setDateStart(delayedStart+"-01");				//2019-09-01
 		Delayed one = ((IDelayedDao)dao).findOne(delayed);
 		String ss = time.substring(8);
-		if(one==null && Integer.parseInt(ss)<10  && Integer.parseInt(ss)>=0) {
+		if(one==null && Integer.parseInt(ss)<=10  && Integer.parseInt(ss)>=0) {
 			Map<String,String> map = new HashMap<String, String>();
 			map.put("suucess", "true");
 			map.put("value", "规定日期内  可添加");
@@ -74,9 +74,9 @@ public class DelayedServiceImpl extends GenericServiceImpl<Delayed, Integer> imp
 		}else if(one==null && Integer.parseInt(ss)>10){
 			Map<String,String> map = new HashMap<String, String>();
 			map.put("suucess", "false");
-			map.put("value", "超过规定日期，寻求管理员延时添加");
+			map.put("value", "该操作已过期，请联系管理员");
 			return map;
-		}else if(one !=null && Integer.parseInt(one.getDelayedStop().substring(8))>Integer.parseInt(time.substring(8)) && one.getState().equals("-1")){
+		}else if(one !=null && Integer.parseInt(one.getDelayedStop().substring(8))>=Integer.parseInt(time.substring(8)) && one.getState().equals("-1")){
 			Map<String,String> map = new HashMap<String, String>();
 			map.put("suucess", "true");
 			map.put("value", "延迟过一次 还在规定时间内");
@@ -85,15 +85,15 @@ public class DelayedServiceImpl extends GenericServiceImpl<Delayed, Integer> imp
 			return map;
 		}else if(one !=null && Integer.parseInt(one.getDelayedStop().substring(8))<Integer.parseInt(time.substring(8)) && one.getState().equals("-1")) {
 			Map<String,String> map = new HashMap<String, String>();
-			map.put("suucess", "true");
-			map.put("value", "延迟过一次延时日期已过");
+			map.put("suucess", "false");
+			map.put("value", "该操作已过期");
 			map.put("delayedStart", one.getDelayedStart());
 			map.put("delayedStop", one.getDelayedStop());
 			return map;
 		}else {
 			Map<String,String> map = new HashMap<String, String>();
 			map.put("suucess", "false");
-			map.put("value", "哪种情况都不是");
+			map.put("value", "请求超时");
 			return map;
 		}
 	}

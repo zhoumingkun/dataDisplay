@@ -32,7 +32,7 @@ public interface ISaoheichueService extends IGenericService<Saoheichue, Integer>
 	 * 省厅扫黑除恶表数据
 	 * @return
 	 */
-	public List<Saoheichue> selectAll(String time);
+	public Map<String,Object> selectAll(String time);
 
 	/**
 	 * 地级市扫黑除表数据
@@ -68,6 +68,12 @@ public interface ISaoheichueService extends IGenericService<Saoheichue, Integer>
 	 * @return
 	 */
 	public void ExportShiShce(HttpServletResponse response, String tjyf, String xzqh);
+	
+	/**
+	 * 省厅扫黑除恶修改数据
+	 * @return
+	 */
+	public void updateAllShen(Saoheichue saoheichue);
 //	/**
 //	 * 导出省查询方法
 //	 * @return

@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
+import com.toughguy.alarmSystem.model.content.Delayed;
 import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.pagination.PagerModel;
+import com.toughguy.alarmSystem.persist.content.prototype.IDelayedDao;
 import com.toughguy.alarmSystem.service.content.prototype.ISaoheichueService;
 
 @RestController
@@ -31,12 +33,27 @@ public class SaoheichueController {
 	@Autowired
 	private ISaoheichueService saoheichueService;
 	
+	@Autowired
+	private IDelayedDao delayedDao;
+	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 //	@RequiresPermissions("saoheichue:save")
 	public String saveSaoheichue( Saoheichue saoheichue) {
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Delayed dela= new Delayed();
+			dela.setXzqh(saoheichue.getXzqh());
+			String time3 = sf.format(date);		//09   日
+			String time1 = sf.format(date).substring(0, 7);		//2019-09
+			dela.setDateStart(time1+"-01");
+			Delayed two = delayedDao.findOne(dela);
+			String ss = time3.substring(8);
+			if(two==null && Integer.parseInt(ss)>10){
+				return "{ \"success\" : false, \"msg\" : \"该操作已过期，请联系管理员\" }";
+			}else if(two !=null && Integer.parseInt(two.getDelayedStop().substring(8))<Integer.parseInt(time3.substring(8)) && two.getState().equals("-1")) {
+				return "{ \"success\" : false, \"msg\" : \"该操作已过期\" }";
+			}
 			String time = sf.format(date).substring(0,4);		//截取年
 			String month = sf.format(date).substring(5,7);		//截取月份
 			int time2 = Integer.parseInt(time);					//转换为数字2019
@@ -49,7 +66,7 @@ public class SaoheichueController {
 					map.put("time", time2+"-"+month);
 					map.put("xzqh", saoheichue.getXzqh());
 				}else {
-					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+					return "{ \"success\" : false, \"msg\" : \"只可添加上月数据\" }";
 				}
 			}else {
 				String s =null;
@@ -62,13 +79,18 @@ public class SaoheichueController {
 					map.put("time",time+"-"+s);
 					map.put("xzqh", saoheichue.getXzqh());
 				}else {
-					return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+					return "{ \"success\" : false, \"msg\" : \"只可添加上月数据\" }";
 				}
 			}
 			List<Saoheichue> one = saoheichueService.findOne(map);			//查询是否存在这个月的记录
 			if(one.size()<=0) {												//没有数据添加
 				try{
-					saoheichue.setState("1");
+					if(two!=null) {
+						saoheichue.setState("-1");
+					}else {
+						saoheichue.setState("1");
+					}
+					saoheichue.setHj(saoheichue.getShcedzxs()+saoheichue.getDjqbfzxs()+saoheichue.getDjwwfzxs()+saoheichue.getPhstfzxs()+saoheichue.getFfjzfzxs()+saoheichue.getDxwlfzxs());
 					saoheichueService.save(saoheichue);
 					return "{ \"success\" : true }";
 				}catch(Exception e) {
@@ -78,6 +100,7 @@ public class SaoheichueController {
 			}else {
 				try{
 					saoheichue.setId(one.get(0).getId());
+					saoheichue.setHj(saoheichue.getShcedzxs()+saoheichue.getDjqbfzxs()+saoheichue.getDjwwfzxs()+saoheichue.getPhstfzxs()+saoheichue.getFfjzfzxs()+saoheichue.getDxwlfzxs());
 					saoheichueService.updateAll(saoheichue);
 					return "{ \"success\" : true }";
 				}catch(Exception e) {
@@ -90,10 +113,13 @@ public class SaoheichueController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("saoheichue:edit")
-	public String editSaoheichue(Saoheichue saoheichue) {
+//	@RequiresPermissions("saoheichue:edit")
+	public String editSaoheichue(@RequestBody List<Saoheichue> saoheichue) {
+		System.out.println(saoheichue);
 		try {
-			saoheichueService.update(saoheichue);
+			for(int i=0;i<saoheichue.size();i++) {
+				saoheichueService.updateAllShen(saoheichue.get(i));
+			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -143,14 +169,14 @@ public class SaoheichueController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/getById")
-//	@RequiresPermissions("zhengcefagui:getById")
+//	@RequiresPermissions("saoheichue:getById")
 	public Saoheichue getById(int id) {
 		return  saoheichueService.find(id);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/findAll")
-	//@RequiresPermissions("zhengcefagui:findAll")
+	//@RequiresPermissions("saoheichue:findAll")
 	public List<Saoheichue> findAll() {
 		return saoheichueService.findAll();
 	}
@@ -161,7 +187,7 @@ public class SaoheichueController {
 	 * @return
 	 */
 	@RequestMapping("/findAllSH")
-	//@RequiresPermissions("zhengcefagui:findAllSH")
+	//@RequiresPermissions("saoheichue:findAllSH")
 	public Map<String ,Saoheichue> findAllBJ() {
 		return saoheichueService.findAllSH();
 	}
@@ -171,7 +197,7 @@ public class SaoheichueController {
 	 * @return
 	 */
 	@RequestMapping("/findOneSH")
-	//@RequiresPermissions("zhengcefagui:findOneSH")
+	//@RequiresPermissions("saoheichue:findOneSH")
 	public Map<String ,Saoheichue> findOneBJ(String xzqh) {
 		return saoheichueService.findOneSH(xzqh);
 	}
@@ -181,8 +207,8 @@ public class SaoheichueController {
 	 * @return
 	 */
 	@RequestMapping("/selectAll")
-	//@RequiresPermissions("zhengcefagui:selectAll")
-	public List<Saoheichue> selectAll(String time) {
+	//@RequiresPermissions("saoheichue:selectAll")
+	public Map<String,Object> selectAll(String xzqh,String time) {
 		return saoheichueService.selectAll(time);
 	}
 	
@@ -191,7 +217,7 @@ public class SaoheichueController {
 	 * @return
 	 */
 	@RequestMapping("/selectOne")
-	//@RequiresPermissions("zhengcefagui:selectOne")
+	//@RequiresPermissions("saoheichue:selectOne")
 	public Saoheichue selectOne(String time,String xzqh) {
 		return saoheichueService.selectOne(time,xzqh);
 	}
@@ -202,7 +228,7 @@ public class SaoheichueController {
 	 * @return
 	 */
 	@RequestMapping("/selectList")
-	//@RequiresPermissions("zhengcefagui:selectList")
+	//@RequiresPermissions("saoheichue:selectList")
 	public Map<String,Object> selectList(String time,String xzqh) {
 		return saoheichueService.selectList(time,xzqh);
 	}
@@ -210,7 +236,7 @@ public class SaoheichueController {
 	//导出省报警情况
 		@ResponseBody	
 		@RequestMapping(value = "/exportShenSaohei")
-//		@RequiresPermissions("exportShenBaojing:export")
+//		@RequiresPermissions("saoheichue:exportShenBaojing")
 		public String ExportShenSaoheichue(HttpServletResponse response,String tjyf) {
 			try {
 				saoheichueService.ExportShenShce(response, tjyf);
@@ -223,7 +249,7 @@ public class SaoheichueController {
 	//导出市报警情况
 		@ResponseBody	
 		@RequestMapping(value = "/exportShiSaohei")
-//		@RequiresPermissions("exportShenBaojing:export")
+//		@RequiresPermissions("saoheichue:exportShenBaojing")
 		public String ExportShiSaoheichue(HttpServletResponse response,String tjyf,String xzqh) {
 			try {
 				saoheichueService.ExportShiShce(response, tjyf,xzqh);
@@ -233,6 +259,4 @@ public class SaoheichueController {
 				return "{ \"success\" : false }";
 			}
 		}
-	
-
 }

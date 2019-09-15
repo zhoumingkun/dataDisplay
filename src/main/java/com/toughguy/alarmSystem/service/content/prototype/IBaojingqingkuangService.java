@@ -31,13 +31,13 @@ public interface IBaojingqingkuangService extends IGenericService<Baojingqingkua
 	 * 省厅查询报警情况统计表
 	 * @return
 	 */
-	public List<Baojingqingkuang> selectAll(String time);
+	public Map<String,Object> selectAll(String time);
 	
 	/**
 	 * 地级市查询报警情况统计表
 	 * @return
 	 */
-	public List<Baojingqingkuang> selectOne(String time,String xzqh);
+	public Map<String,Object> selectOne(String time,String xzqh);
 	
 	
 	

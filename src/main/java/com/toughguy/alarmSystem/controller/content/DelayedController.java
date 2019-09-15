@@ -21,7 +21,7 @@ public class DelayedController {
 	 * @return
 	 */
 	@RequestMapping("/selectDelayed")
-//	@RequiresPermissions("saoheichue:selectDelayed")
+//	@RequiresPermissions("delayed:selectDelayed")
 	public String selectDelayed(Delayed delayed) {
 		return delayedService.selectDelayed(delayed);
 	}
@@ -31,8 +31,8 @@ public class DelayedController {
 	 * @return
 	 */
 	@RequestMapping("/selectOne")
+//	@RequiresPermissions("delayed:selectOne")
 	public Map<String,String> selectOne(Delayed delayed) {
-		System.out.println("进来了"+delayed);
 		return delayedService.selectOne(delayed);
 	}
 	
@@ -42,6 +42,7 @@ public class DelayedController {
 	 * @return
 	 */
 	@RequestMapping("/selectAll")
+//	@RequiresPermissions("delayed:selectAll")
 	public Map<String,Object> selectAll() {
 		return delayedService.selectAll();
 	}

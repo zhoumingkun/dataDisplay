@@ -84,4 +84,10 @@ public class SaoheichueImpl extends GenericDaoImpl<Saoheichue, Integer> implemen
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".findShenHj", tjyf);
 	}
 
+	@Override
+	public void updateAllShen(Saoheichue saoheichue) {
+		// TODO Auto-generated method stub
+		sqlSessionTemplate.update(typeNameSpace + ".updateAllShen", saoheichue);
+	}
+
 }

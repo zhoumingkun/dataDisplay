@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.alarmSystem.model.content.Baojingqingkuang;
+import com.toughguy.alarmSystem.model.content.Delayed;
 import com.toughguy.alarmSystem.model.content.Saoheichue;
 import com.toughguy.alarmSystem.pagination.PagerModel;
+import com.toughguy.alarmSystem.persist.content.prototype.IDelayedDao;
 import com.toughguy.alarmSystem.service.content.prototype.IBaojingqingkuangService;
+import com.toughguy.alarmSystem.service.content.prototype.IDelayedService;
 
 @RestController
 @RequestMapping(value = "/baojingqingkuang")
@@ -32,17 +35,48 @@ public class BaojingqingkuangController {
 	@Autowired
 	private IBaojingqingkuangService baojingqingkuangService;
 	
+	@Autowired
+	private IDelayedDao delayedDao;
+	
 	@ResponseBody	
 	@RequestMapping(value = "/save")
 //	@RequiresPermissions("baojingqingkuang:save")
 	public String saveBaojingqingkuang(@RequestBody List<Baojingqingkuang> list) {
+		System.out.println(list);
 		Date date = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Delayed dela= new Delayed();
+		dela.setXzqh(list.get(0).getXzqh());
+		String time3 = sf.format(date);		
+		String time1 = sf.format(date).substring(0, 7);		//2019-09
+		dela.setDateStart(time1+"-01");
+		Delayed two = delayedDao.findOne(dela);
+		String ss = time3.substring(8);		//09   日
+		if(two==null && Integer.parseInt(ss)>10){
+			return "{ \"success\" : false, \"msg\" : \"该操作已过期，请联系管理员\" }";
+		}else if(two !=null && Integer.parseInt(two.getDelayedStop().substring(8))<Integer.parseInt(time3.substring(8)) && two.getState().equals("-1")) {
+			return "{ \"success\" : false, \"msg\" : \"该操作已过期\" }";
+		}
 		String time = sf.format(date).substring(0,4);		//截取年
 		String month = sf.format(date).substring(5,7);		//截取月份
 		int time2 = Integer.parseInt(time);					//转换为数字2019
 		int month2 = Integer.parseInt(month)-1;				//转换为数字09
 		Map<String,String> map = new HashMap<>();
+		if(list.get(0).getTjyf().substring(5).equals("01")) {
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).setTjyf(time2-1+"-12");
+			} 
+		}else {
+			for (int i = 0; i < list.size(); i++) {
+				String s =null;
+				if(month2<10) {
+					s="0"+month2;
+				}else {
+					s=month2+"";
+				}
+				list.get(i).setTjyf(time2+"-"+s);
+			}
+		}
 		if(month=="01" || month.equals("01")) {				//如果是一月份填报时间就应该是去年的12月份
 			month="12";
 			time2=time2-1;
@@ -50,7 +84,7 @@ public class BaojingqingkuangController {
 				map.put("time", time2+"-"+month);
 				map.put("xzqh", list.get(0).getXzqh());
 			}else {
-				return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+				return "{ \"success\" : false, \"msg\" : \"只可添加上月数据\" }";
 			}
 		}else {
 			String s =null;
@@ -63,7 +97,7 @@ public class BaojingqingkuangController {
 				map.put("time",time+"-"+s);
 				map.put("xzqh", list.get(0).getXzqh());
 			}else {
-				return "{ \"success\" : false, \"msg\" : \"操作失败\" }";
+				return "{ \"success\" : false, \"msg\" : \"只可添加上月数据\" }";
 			}
 		}
 		
@@ -72,7 +106,11 @@ public class BaojingqingkuangController {
 			try{
 				if(list.size()>0) {
 					for(int i=0;i<list.size();i++) {
-						list.get(i).setState("1");
+						if(two==null && Integer.parseInt(ss)<=10  && Integer.parseInt(ss)>=0) {
+							list.get(i).setState("1");
+						}else if(two !=null && Integer.parseInt(two.getDelayedStop().substring(8))>=Integer.parseInt(time3.substring(8)) && two.getState().equals("-1")) {
+							list.get(i).setState("-1");
+						}
 						baojingqingkuangService.save(list.get(i));
 					}
 					return "{ \"success\" : true }";
@@ -87,7 +125,6 @@ public class BaojingqingkuangController {
 			try{
 				if(list.size()>0) {
 					for(int i=0;i<list.size();i++) {
-						list.get(i).setId(one.get(i).getId());
 						baojingqingkuangService.updateAll(list.get(i));
 					}
 					return "{ \"success\" : true }";
@@ -104,10 +141,17 @@ public class BaojingqingkuangController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("baojingqingkuang:edit")
-	public String editBaojingqingkuang(Baojingqingkuang baojingqingkuang) {
+//	@RequiresPermissions("baojingqingkuang:edit")
+	public String editBaojingqingkuang(@RequestBody List<Baojingqingkuang> list) {
+		System.out.println(list);
 		try {
-			baojingqingkuangService.update(baojingqingkuang);
+			Map<String,String> map = new HashMap<>();
+			map.put("time",list.get(0).getTjyf());
+			map.put("xzqh", list.get(0).getXzqh());
+			List<Baojingqingkuang> one = baojingqingkuangService.findOne(map);			//查询是否存在这个月的记录
+			for(int i=0;i<list.size();i++) {
+				baojingqingkuangService.updateAll(list.get(i));
+			}
 			return "{ \"success\" : true }";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -203,7 +247,7 @@ public class BaojingqingkuangController {
 	 */
 	@RequestMapping("/selectAll")
 	//@RequiresPermissions("baojingqingkuang:selectAll")
-	public List<Baojingqingkuang> selectAll(String time) {
+	public Map<String,Object> selectAll(String time) {
 		return baojingqingkuangService.selectAll(time);
 	}
 	
@@ -214,8 +258,7 @@ public class BaojingqingkuangController {
 	 */
 	@RequestMapping("/selectOne")
 	//@RequiresPermissions("baojingqingkuang:selectOne")
-	public List<Baojingqingkuang> selectOne(String time,String xzqh) {
-		System.out.println("-------------------"+baojingqingkuangService.selectOne(time,xzqh));
+	public Map<String,Object> selectOne(String time,String xzqh) {
 		return baojingqingkuangService.selectOne(time,xzqh);
 	}
 	

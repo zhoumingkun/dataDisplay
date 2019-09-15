@@ -81,4 +81,9 @@ public interface ISaoheichueDao extends IGenericDao<Saoheichue, Integer>{
 	 */
 	public Saoheichue findByTjyfAndRegion(Map<String,String> map);
 	
+	/**
+	 * 省厅扫黑除恶修改数据
+	 * @return
+	 */
+	public void updateAllShen(Saoheichue saoheichue);
 }
