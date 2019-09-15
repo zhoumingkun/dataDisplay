@@ -124,7 +124,7 @@ public class RoleController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("role:save")
+//	@RequiresPermissions("role:save")
 	//@SystemControllerLog(description="权限管理-添加角色")
 	public String saveRole(Role newRole) {
 		try {
@@ -165,7 +165,7 @@ public class RoleController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("role:edit")
+//	@RequiresPermissions("role:edit")
 	//@SystemControllerLog(description="权限管理-修改角色")
 	public String edit(Role newRole,HttpSession session) {
 		try {
@@ -189,7 +189,7 @@ public class RoleController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/auth")
-	@RequiresPermissions("role:auth")
+//	@RequiresPermissions("role:auth")
 	//@SystemControllerLog(description="权限管理-给角色分配资源")
 	public String authRole(int roleId, String operationIds) {
 		try{

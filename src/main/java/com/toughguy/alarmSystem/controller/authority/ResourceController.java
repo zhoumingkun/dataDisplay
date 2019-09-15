@@ -70,7 +70,7 @@ public class ResourceController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/save")
-	@RequiresPermissions("resource:save")
+//	@RequiresPermissions("resource:save")
 	//@SystemControllerLog(description="权限管理-添加资源")
 	public String saveResources(Resource resource,String params) {
 		try {
@@ -84,7 +84,7 @@ public class ResourceController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/edit")
-	@RequiresPermissions("resource:edit")
+//	@RequiresPermissions("resource:edit")
 	//@SystemControllerLog(description="权限管理-编辑资源")
 	public String editResource(Resource newResource,String params) {
 		try {
