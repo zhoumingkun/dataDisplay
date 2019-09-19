@@ -43,6 +43,12 @@ public class RecJQTJBImp extends GenericDaoImpl<RecJQTJB, Integer> implements IR
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findNumHB", tjTime);
 	}
 
+	@Override
+	public List<RecJQTJB> findJQNumEveryXZQH(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findJQNumEveryXZQH", map);
+	}
+
 	
 	
 }

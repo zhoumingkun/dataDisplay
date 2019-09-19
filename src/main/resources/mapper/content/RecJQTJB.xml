@@ -9,6 +9,14 @@
 		WHERE tjrq=#{tjTime}
 	</select>
 	
+	<!-- 查询警情统计监测 环比页面各行政区划-->
+	<select id="findJQNumEveryXZQH" parameterType="Map" resultType="RecJQTJB">
+		SELECT sum(jjsl)as jjsl,sum(yxjq)as yxjq,sum(cjsl)as cjsl,sum(fksl )as fksl 
+		FROM REC_JQTJB
+		WHERE tjrq=#{tjTime}
+		and xzqhdm=substr(#{xzqhdm},1,4)
+	</select>
+	
 	<!-- 查询近七天警情统计（首页）-->
 	<select id="findJQSevenDayShen" parameterType="Map" resultType="RecJQTJB">
 		SELECT  sum(jjsl)as jjsl,tjrq 

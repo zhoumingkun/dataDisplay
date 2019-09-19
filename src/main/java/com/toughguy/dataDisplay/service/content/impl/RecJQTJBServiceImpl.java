@@ -78,6 +78,15 @@ public class RecJQTJBServiceImpl extends GenericServiceImpl<RecJQTJB, Integer> i
 		// TODO Auto-generated method stub
 		return recJQTJBDao.findNumHB(tjTime);
 	}
+	
+	@Override
+	public List<RecJQTJB> findJQNumEveryXZQH(String tjTime,String xzqhdm) {
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("tjTime", tjTime);
+		map.put("xzqhdm", xzqhdm);
+		return recJQTJBDao.findJQNumEveryXZQH(map);
+	}
 
 	
 			            

@@ -26,4 +26,7 @@ public interface IRecJQTJBService extends IGenericService<RecJQTJB, Integer>{
 			
 		//查询全省警情数量环比
 		public List<RecJQTJB>  findXZQHNumHB(String tjTime,String xzqhdm);
+		
+		//查询行政区划警情数量环比
+		public List<RecJQTJB>  findJQNumEveryXZQH(String tjTime,String xzqhdm);
 }

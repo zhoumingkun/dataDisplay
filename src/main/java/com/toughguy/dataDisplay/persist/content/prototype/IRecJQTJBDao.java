@@ -26,4 +26,7 @@ public interface IRecJQTJBDao extends IGenericDao<RecJQTJB, Integer> {
 		
 	//查询全省警情数量环比
 	public List<RecJQTJB>  findXZQHNumHB(Map<String,String> map);
+	
+	//查询各行政区划警情数量
+	public List<RecJQTJB>  findJQNumEveryXZQH(Map<String,String> map);
 }
