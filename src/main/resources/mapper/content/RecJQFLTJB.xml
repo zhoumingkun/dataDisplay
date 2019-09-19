@@ -145,6 +145,19 @@
         and jqfldmb.fllx=2
         group by jqfldmb.flmc,jqfldmb1.flmc,jqfltjb.hb
 	</select>
+	
+	<!-- 查询各五大类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm-->
+	<select id="findJQFLWDLXZQH" parameterType="Map" resultType="RecJQFLTJB">
+		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc as xzqhdm,jqfltjb.hb as hb
+        from REC_JQFLTJB jqfltjb
+         LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON jqfltjb.fldm=jqfldmb.fldm
+        LEFT JOIN DICT_JQFLDMB jqfldmb1 ON jqfldmb.sjdm=jqfldmb1.fldm
+        WHERE tjrq=#{tjTime}   
+        and jqfldmb.fllx=2
+        and jqfltjb.xzqhdm=substr(#{xzqhdm},1,4)
+        group by jqfldmb.flmc,jqfldmb1.flmc,xzqhb.xzqhmc,jqfltjb.hb
+	</select>
 
 	
 	
