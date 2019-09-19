@@ -18,6 +18,7 @@ public class RecJQFLTJB  {
 	private int fllx;         //分类类型
 	private String fldmmc;    //分类代码名称    页面用
 	private String sjdmmc;    //上级代码名称   页面用
+	private float hb;         //环比
 	public String getXzqhdm() {
 		
 		return xzqhdm;
@@ -62,11 +63,19 @@ public class RecJQFLTJB  {
 	public void setSjdmmc(String sjdmmc) {
 		this.sjdmmc = sjdmmc;
 	}
+	
+	public float getHb() {
+		return hb;
+	}
+	public void setHb(float hb) {
+		this.hb = hb;
+	}
 	@Override
 	public String toString() {
 		return "RecJQFLTJB [xzqhdm=" + xzqhdm + ", tjrq=" + tjrq + ", fldm=" + fldm + ", jjsl=" + jjsl + ", fllx="
-				+ fllx + ", fldmmc=" + fldmmc + ", sjdmmc=" + sjdmmc + "]";
+				+ fllx + ", fldmmc=" + fldmmc + ", sjdmmc=" + sjdmmc + ", hb=" + hb + "]";
 	}
+	
 	
 	
 }
