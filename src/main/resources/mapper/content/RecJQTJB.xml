@@ -27,6 +27,20 @@
         group by xzqhb.xzqhmc,jqtjb.yxjq
         ORDER BY jjsl desc
 	</select>
+	
+	<!-- 查询各行政区划警情数量环比-->
+	<select id="findXZQHNumHB" parameterType="String" resultType="RecJQTJB">
+		SELECT hb,yxhb
+		FROM REC_JQTJB
+		WHERE tjrq=#{tjTime} and xzqhdm=#{xzqhdm}
+	</select>
+	
+	<!-- 查询全省警情数量环比-->
+	<select id="findNumHB" parameterType="Map" resultType="RecJQTJB">
+		SELECT hb,yxhb
+		FROM REC_JQTJB
+		WHERE tjrq=#{tjTime} 
+	</select>
 
 
 	

@@ -65,5 +65,36 @@ public class RecJQTJBController {
 		return  recJQTJBService.findXZQHNum(tjTime);
 	}
 	
+	/**
+	 * 查询各行政区划警情数量环比
+	 * @param tjTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findXZQHNumHB")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQTJB> findXZQHNumHB(String tjTime,String xzqhdm) {
+		return  recJQTJBService.findXZQHNumHB(tjTime,xzqhdm);
+	}
+	
+	/**
+	 * 查询警情数量环比
+	 * @param tjTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findNumHB")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public Float findNumHB(String tjTime) {
+		List <RecJQTJB> arr=recJQTJBService.findNumHB(tjTime);
+		int i = 0;
+		Float f=0.0f;
+		for(RecJQTJB d:arr){
+			f += d.getHb();
+		}
+		System.out.println("哈哈哈"+f);
+		return f;
+	}
+	
 
 }

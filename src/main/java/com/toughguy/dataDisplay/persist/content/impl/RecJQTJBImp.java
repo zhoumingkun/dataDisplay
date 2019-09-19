@@ -30,6 +30,18 @@ public class RecJQTJBImp extends GenericDaoImpl<RecJQTJB, Integer> implements IR
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findXZQHNum", tjTime);
 	}
+	
+	@Override
+	public List<RecJQTJB> findXZQHNumHB(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findXZQHNumHB", map);
+	}
+	
+	@Override
+	public List<RecJQTJB> findNumHB(String tjTime) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findNumHB", tjTime);
+	}
 
 	
 	
