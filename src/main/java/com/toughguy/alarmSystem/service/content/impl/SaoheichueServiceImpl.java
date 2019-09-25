@@ -387,16 +387,24 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 			String time = saoheiTime.format(date);
 			String year =tjyf.substring(0,4);			//2019
 			String month =tjyf.substring(5,7);         //09
-			sh.getRow(1).getCell(7).setCellValue(time); 	//填报人（暂无）
+			Row row0 = sh.createRow(0);
+			CellRangeAddress region0 = new CellRangeAddress(0, (short) 0, 0, (short) 7);
+			Cell cell00000=row0.createCell(0);
+			utils.setRegionStyle(sh, region0, utils.Style10(workbook));
+			sh.addMergedRegion(region0);
+	        cell00000.setCellValue(year+"年"+month+"月"+"扫黑除恶等专项行动有关警情线索统计表");//填报时间（当前导出时间）
+//			sh.getRow(1).getCell(7).setCellValue(time); 	//填报人（暂无）
 			//第一行数据内容
-			Row row1 = sh.createRow(1);
-			Cell cell01=row1.createCell(0);
-			cell01.setCellStyle(utils.Style8(workbook));
-	        cell01.setCellValue("填报时间：");//填报时间（当前导出时间）
-	        
-	        Cell cell02=row1.createCell(1);
-			cell02.setCellStyle(utils.Style8(workbook));
-	        cell02.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
+//			Row row1 = sh.createRow(1);
+//			CellRangeAddress region = new CellRangeAddress(1, (short) 1, 0, (short) 2);
+//			Cell cell01=row1.createCell(0);
+//			utils.setRegionStyle(sh, region, utils.Style81(workbook));
+//			sh.addMergedRegion(region);
+//			cell01.setCellValue("填报时间："+year+"年"+month+"月");//填报时间（当前导出时间）
+			
+//	        Cell cell02=row1.createCell(1);
+//			cell02.setCellStyle(utils.Style8(workbook));
+//	        cell02.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
 	        
 //	        Cell cell03=row1.createCell(6);
 //			cell03.setCellStyle(utils.Style8(workbook));
@@ -410,7 +418,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 				if(soaheichueReport.get(j).getXzqh().equals("太原")){
 					System.out.println("进来啦");
 					Row row3 = sh.createRow(3);
-					
+					row3.setHeightInPoints(30);
 					Cell cell00=row3.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("1");
@@ -446,6 +454,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("大同")){
 					Row row4 = sh.createRow(4);
+					row4.setHeightInPoints(30);
 					Cell cell00=row4.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("2");
@@ -480,6 +489,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("朔州")){
 					Row row5 = sh.createRow(5);
+					row5.setHeightInPoints(30);
 					Cell cell00=row5.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("3");
@@ -514,6 +524,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("忻州")){
 					Row row6 = sh.createRow(6);
+					row6.setHeightInPoints(30);
 					Cell cell00=row6.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("4");
@@ -548,6 +559,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("吕梁")){
 					Row row7 = sh.createRow(7);
+					row7.setHeightInPoints(30);
 					Cell cell00=row7.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("5");
@@ -582,6 +594,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("晋中")){
 					Row row8 = sh.createRow(8);
+					row8.setHeightInPoints(30);
 					Cell cell00=row8.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("6");
@@ -616,6 +629,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("阳泉")){
 					Row row9 = sh.createRow(9);
+					row9.setHeightInPoints(30);
 					Cell cell00=row9.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("7");
@@ -650,6 +664,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("长治")){
 					Row row10 = sh.createRow(10);
+					row10.setHeightInPoints(30);
 					Cell cell00=row10.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("8");
@@ -684,6 +699,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("晋城")){
 					Row row11 = sh.createRow(11);
+					row11.setHeightInPoints(30);
 					Cell cell00=row11.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("9");
@@ -718,6 +734,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("临汾")){
 					Row row12 = sh.createRow(12);
+					row12.setHeightInPoints(30);
 					Cell cell00=row12.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("10");
@@ -752,6 +769,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        	}
 				else if(soaheichueReport.get(j).getXzqh().equals("运城")){
 					Row row13 = sh.createRow(13);
+					row13.setHeightInPoints(30);
 					Cell cell00=row13.createCell(0);
 		            cell00.setCellStyle(utils.Style6(workbook));
 		            cell00.setCellValue("11");
@@ -787,6 +805,7 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 				Saoheichue saoheichue = saoheichueDao.findShenHj(tjyf);
 				//合计1
 		        Row row14 = sh.createRow(14);
+		        row14.setHeightInPoints(30);
 		        CellRangeAddress region1 = new CellRangeAddress(14, (short) 14, 0, (short) 1);
 				Cell cell0001 = row14.createCell(0);
 				utils.setRegionStyle(sh, region1, utils.Style6(workbook));
@@ -816,6 +835,12 @@ public class SaoheichueServiceImpl extends GenericServiceImpl<Saoheichue, Intege
 		        Cell cell6=row14.createCell(7);
 				cell6.setCellStyle(utils.Style6(workbook));
 				cell6.setCellValue(saoheichue.getDxwlfzxs());
+				
+				Row row15 = sh.createRow(15);
+				Cell cell7=row15.createCell(7);
+				cell7.setCellStyle(utils.Style83(workbook));
+				cell7.setCellValue("单位：起");
+				
 			}
 		
 			String year2 =tjyf.substring(0,4);			//2019
@@ -856,33 +881,50 @@ try {
 			map.put("xzqh", xzqh);
 			Saoheichue soaheichueReport = saoheichueDao.findByTjyfAndRegion(map);
 			System.out.println(soaheichueReport);
-			Date date = new Date();
-			SimpleDateFormat saoheiTime = new SimpleDateFormat("yyyy-MM-dd");
-			String time = saoheiTime.format(date);
+//			Date date = new Date();
+//			SimpleDateFormat saoheiTime = new SimpleDateFormat("yyyy-MM-dd");
+//			String time = saoheiTime.format(date);
 			String year =tjyf.substring(0,4);			//2019
 			String month =tjyf.substring(5,7);         //09
-			sh.getRow(1).getCell(7).setCellValue(time); 	//填报人（暂无）
+//			sh.getRow(1).getCell(7).setCellValue(time); 	//填报人（暂无）
+			Row row0 = sh.createRow(0);
+			CellRangeAddress region0 = new CellRangeAddress(0, (short) 0, 0, (short) 7);
+			Cell cell00000=row0.createCell(0);
+			utils.setRegionStyle(sh, region0, utils.Style10(workbook));
+			sh.addMergedRegion(region0);
+			cell00000.setCellValue(year+"年"+month+"月"+"扫黑除恶等专项行动有关警情线索统计表");//填报时间（当前导出时间）
 			//第一行数据内容
+//			Row row1 = sh.createRow(1);
+//			Cell cell01=row1.createCell(0);
+//			cell01.setCellStyle(utils.Style8(workbook));
+//	        cell01.setCellValue("填报时间：");//填报时间（当前导出时间）
+//	        
+//	        Cell cell02=row1.createCell(1);
+//			cell02.setCellStyle(utils.Style8(workbook));
+//	        cell02.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
 			Row row1 = sh.createRow(1);
+			row1.setHeightInPoints(30);
+			CellRangeAddress region = new CellRangeAddress(1, (short) 1, 0, (short) 2);
 			Cell cell01=row1.createCell(0);
-			cell01.setCellStyle(utils.Style8(workbook));
-	        cell01.setCellValue("填报时间：");//填报时间（当前导出时间）
-	        
-	        Cell cell02=row1.createCell(1);
-			cell02.setCellStyle(utils.Style8(workbook));
-	        cell02.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
-	        
-	        Cell cell03=row1.createCell(6);
+			utils.setRegionStyle(sh, region, utils.Style81(workbook));
+			sh.addMergedRegion(region);
+			Date date = new Date();
+			SimpleDateFormat saoheiTime = new SimpleDateFormat("yyyy-MM-dd");
+			String time = saoheiTime.format(soaheichueReport.getCreateTime());
+			cell01.setCellValue("填报时间："+time);//填报时间（当前导出时间）
+			
+	        Cell cell03=row1.createCell(7);
 			cell03.setCellStyle(utils.Style8(workbook));
-	        cell03.setCellValue("填报人：");//填报人（暂无）
+	        cell03.setCellValue("填报人："+soaheichueReport.getTbr());//填报人（暂无）
 	        
-			Cell cell04=row1.createCell(7);
-			cell04.setCellStyle(utils.Style8(workbook));
-	        cell04.setCellValue(soaheichueReport.getTbr());//填报人（暂无）
+//			Cell cell04=row1.createCell(7);
+//			cell04.setCellStyle(utils.Style8(workbook));
+//	        cell04.setCellValue(soaheichueReport.getTbr());//填报人（暂无）
 	        
 	        if(soaheichueReport.getXzqh().equals("太原")){
 				System.out.println("进来啦");
 				Row row3 = sh.createRow(3);
+				row3.setHeightInPoints(30);
 				Cell cell00=row3.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("1");
@@ -918,6 +960,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("大同")){
 				Row row4 = sh.createRow(4);
+				row4.setHeightInPoints(30);
 				Cell cell00=row4.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("2");
@@ -952,6 +995,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("朔州")){
 				Row row5 = sh.createRow(5);
+				row5.setHeightInPoints(30);
 				Cell cell00=row5.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("3");
@@ -986,7 +1030,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("忻州")){
 				Row row6 = sh.createRow(6);
-				
+				row6.setHeightInPoints(30);
 				Cell cell00=row6.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("4");
@@ -1022,6 +1066,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("吕梁")){
 				Row row7 = sh.createRow(7);
+				row7.setHeightInPoints(30);
 				Cell cell00=row7.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("5");
@@ -1056,6 +1101,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("晋中")){
 				Row row8 = sh.createRow(8);
+				row8.setHeightInPoints(30);
 				Cell cell00=row8.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("6");
@@ -1090,6 +1136,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("阳泉")){
 				Row row9 = sh.createRow(9);
+				row9.setHeightInPoints(30);
 				Cell cell00=row9.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("7");
@@ -1124,6 +1171,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("长治")){
 				Row row10 = sh.createRow(10);
+				row10.setHeightInPoints(30);
 				Cell cell00=row10.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("8");
@@ -1158,6 +1206,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("晋城")){
 				Row row11 = sh.createRow(11);
+				row11.setHeightInPoints(30);
 				Cell cell00=row11.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("9");
@@ -1192,6 +1241,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("临汾")){
 				Row row12 = sh.createRow(12);
+				row12.setHeightInPoints(30);
 				Cell cell00=row12.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("10");
@@ -1225,6 +1275,7 @@ try {
 	        	}
 			else if(soaheichueReport.getXzqh().equals("运城")){
 				Row row13 = sh.createRow(13);
+				row13.setHeightInPoints(30);
 				Cell cell00=row13.createCell(0);
 	            cell00.setCellStyle(utils.Style6(workbook));
 	            cell00.setCellValue("11");
@@ -1259,6 +1310,7 @@ try {
 	        	}
 	      //合计1
 	        Row row14 = sh.createRow(14);
+	        row14.setHeightInPoints(30);
 			CellRangeAddress region1 = new CellRangeAddress(14, (short) 14, 0, (short) 1);
 			Cell cell0001 = row14.createCell(0);
 			utils.setRegionStyle(sh, region1, utils.Style6(workbook));
@@ -1288,6 +1340,11 @@ try {
 	        Cell cell6=row14.createCell(7);
 			cell6.setCellStyle(utils.Style6(workbook));
 			cell6.setCellValue(soaheichueReport.getDxwlfzxs());
+			
+			Row row15 = sh.createRow(15);
+			Cell cell7=row15.createCell(7);
+			cell7.setCellStyle(utils.Style83(workbook));
+			cell7.setCellValue("单位：起");
 
 			String year2 =tjyf.substring(0,4);			//2019
 			String month2 =tjyf.substring(5,7);         //09

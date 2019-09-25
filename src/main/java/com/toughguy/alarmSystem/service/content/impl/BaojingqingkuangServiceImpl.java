@@ -338,34 +338,31 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				String time = dateBaojing.format(date);
 				String year =tjyf.substring(0,4);			//2019
 				String month =tjyf.substring(5,7);         //09
+				
+				Row row0 = sh.createRow(0);
+				CellRangeAddress region0 = new CellRangeAddress(0, (short) 0, 0, (short) 16);
+				Cell cell00000=row0.createCell(0);
+				utils.setRegionStyle(sh, region0, utils.Style10(workbook));
+				sh.addMergedRegion(region0);
+		        cell00000.setCellValue(year+"年"+month+"月"+"报警情况统计月报表");//填报时间（当前导出时间）
 				//第一行数据内容
 				Row row1 = sh.createRow(1);
-				Cell cell02=row1.createCell(0);
-				cell02.setCellStyle(utils.Style8(workbook));
-		        cell02.setCellValue("填报单位:");//填报时间（当前导出时间）
 		        
-		        Cell cell03=row1.createCell(1);
-				cell03.setCellStyle(utils.Style8(workbook));
-		        cell03.setCellValue("山西省公安厅");//填报时间（当前导出时间）
-		        
-				Cell cell0=row1.createCell(7);
-				cell0.setCellStyle(utils.Style8(workbook));
-		        cell0.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
-		        
-//		        Cell cell01=row1.createCell(16);
-//				cell01.setCellStyle(utils.Style8(workbook));
-//		        cell01.setCellValue("苏鹏琪");////填报人
-		        
+		        CellRangeAddress region010 = new CellRangeAddress(1, (short) 1, 0, (short) 1);
+				Cell cell000000=row1.createCell(0);
+				utils.setRegionStyle(sh, region010, utils.Style81(workbook));
+				sh.addMergedRegion(region010);
+				cell000000.setCellValue("填报单位:山西省公安厅");
+				
 		        Baojingqingkuang baojingHj = baojingqingkuangDao.findShenHj(tjyf);
 		        //合计1
-		        Row row4 = sh.createRow(4);
 		        
-		        CellRangeAddress region2 = new CellRangeAddress(4, (short) 15, 0, (short) 0);
-				Cell cell00001=row4.createCell(0);
-				utils.setRegionStyle(sh, region2, utils.Style9(workbook));
-				sh.addMergedRegion(region2);
-				cell00001.setCellValue("报\r\n警\r\n情\r\n况\r\n(起)");
+		        Row row4 = sh.createRow(4);
+		        row4.setHeightInPoints(16);
 				
+		        Row row017 = sh.createRow(17);
+		        row017.setHeightInPoints(16);
+		        
 		        Cell cell0001=row4.createCell(1);
 				cell0001.setCellStyle(utils.Style6(workbook));
 				cell0001.setCellValue("合计");
@@ -432,9 +429,9 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 		        
 				for(int j=0; j<BaojingReport.size(); j++) {
 					if(BaojingReport.get(j).getBjqk().equals("110接警")){
-						System.out.println("进来啦");
+						System.out.println("进来啦省");
 						Row row5 = sh.createRow(5);
-						
+						row5.setHeightInPoints(16);
 						Cell cell0003=row5.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("110接警");
@@ -501,6 +498,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("执勤巡逻发现")){
 						Row row6 = sh.createRow(6);
+						row6.setHeightInPoints(16);
 						Cell cell0003=row6.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("执勤巡逻发现");
@@ -567,6 +565,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("器材报警")){
 						Row row7 = sh.createRow(7);
+						row7.setHeightInPoints(16);
 						Cell cell0003=row7.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("器材报警");
@@ -633,6 +632,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("口头报警")){
 						Row row8 = sh.createRow(8);
+						row8.setHeightInPoints(16);
 						Cell cell0003=row8.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("口头报警");
@@ -699,6 +699,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("电话报警")){
 						Row row9 = sh.createRow(9);
+						row9.setHeightInPoints(16);
 						Cell cell0003=row9.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("电话报警");
@@ -764,6 +765,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("短信微信报警")){
 						Row row10 = sh.createRow(10);
+						row10.setHeightInPoints(16);
 						Cell cell0003=row10.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("短信微信报警");
@@ -830,6 +832,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("举报")){
 						Row row11 = sh.createRow(11);
+						row11.setHeightInPoints(16);
 						Cell cell0003=row11.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("举报");
@@ -896,6 +899,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("扭送现行")){
 						Row row12 = sh.createRow(12);
+						row12.setHeightInPoints(16);
 						Cell cell0003=row12.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("扭送现行");
@@ -962,6 +966,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("投案自首")){
 						Row row13 = sh.createRow(13);
+						row13.setHeightInPoints(16);
 						Cell cell0003=row13.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("投案自首");
@@ -1028,6 +1033,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("其他部门移送")){
 						Row row14 = sh.createRow(14);
+						row14.setHeightInPoints(16);
 						Cell cell0003=row14.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("其他部门移送");
@@ -1094,6 +1100,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("其他")){
 						Row row15 = sh.createRow(15);
+						row15.setHeightInPoints(16);
 						Cell cell0003=row15.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("其他");
@@ -1157,10 +1164,12 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			            Cell cell13=row15.createCell(16);
 			            cell13.setCellStyle(utils.Style6(workbook));
 			            cell13.setCellValue(BaojingReport.get(j).getQt());
+			            
+
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("出动警力")){
 						Row row16 = sh.createRow(16);
-						
+						row16.setHeightInPoints(16);
 						CellRangeAddress region1 = new CellRangeAddress(16, (short) 16, 0, (short) 1);
 						Cell cell0003=row16.createCell(0);
 						utils.setRegionStyle(sh, region1, utils.Style6(workbook));
@@ -1229,12 +1238,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("处置报警(起)")){
 						Row row17 = sh.createRow(17);
-						
-						CellRangeAddress region1 = new CellRangeAddress(17, (short) 22, 0, (short) 0);
-						Cell cell0002=row17.createCell(0);
-						utils.setRegionStyle(sh, region1, utils.Style9(workbook));
-						sh.addMergedRegion(region1);
-						cell0002.setCellValue("处\r\n警\r\n情\r\n况");
+						row17.setHeightInPoints(16);
 						
 						Cell cell0003=row17.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
@@ -1302,9 +1306,10 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("现场抓获违法犯罪人员(人)")){
 						Row row18 = sh.createRow(18);
+						row18.setHeightInPoints(32);
 						Cell cell0003=row18.createCell(1);
-						cell0003.setCellStyle(utils.Style6(workbook));
-						cell0003.setCellValue("现场抓获违法犯罪人员(人)");
+						cell0003.setCellStyle(utils.Style9(workbook));
+						cell0003.setCellValue("现场抓获违法\r\n犯罪人员(人)");
 						
 						Cell cell0004=row18.createCell(2);
 						cell0004.setCellStyle(utils.Style6(workbook));
@@ -1368,6 +1373,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("逃犯(人)")){
 						Row row19 = sh.createRow(19);
+						row19.setHeightInPoints(16);
 						Cell cell0003=row19.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("逃犯(人)");
@@ -1434,6 +1440,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("救助伤员(人)")){
 						Row row20 = sh.createRow(20);
+						row20.setHeightInPoints(16);
 						Cell cell0003=row20.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("救助伤员(人)");
@@ -1500,6 +1507,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("救助群众(人)")){
 						Row row21 = sh.createRow(21);
+						row21.setHeightInPoints(16);
 						Cell cell0003=row21.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("救助群众(人)");
@@ -1566,6 +1574,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("继续盘问(人)")){
 						Row row22 = sh.createRow(22);
+						row22.setHeightInPoints(16);
 						Cell cell0003=row22.createCell(1);
 						cell0003.setCellStyle(utils.Style6(workbook));
 						cell0003.setCellValue("继续盘问(人)");
@@ -1632,7 +1641,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("无效报警(起)")){
 						Row row23 = sh.createRow(23);
-						
+						row23.setHeightInPoints(16);
 						CellRangeAddress region01 = new CellRangeAddress(23, (short) 23, 0, (short) 1);
 						Cell cell0003=row23.createCell(0);
 						utils.setRegionStyle(sh, region01, utils.Style6(workbook));
@@ -1701,7 +1710,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("死亡(人)")){
 						Row row24 = sh.createRow(24);
-						
+						row24.setHeightInPoints(16);
 						CellRangeAddress region02 = new CellRangeAddress(24, (short) 24, 0, (short) 1);
 						Cell cell0003=row24.createCell(0);
 						utils.setRegionStyle(sh, region02, utils.Style6(workbook));
@@ -1770,7 +1779,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        	}
 					else if(BaojingReport.get(j).getBjqk().equals("受伤(人)")){
 						Row row25 = sh.createRow(25);
-						
+						row25.setHeightInPoints(16);
 						CellRangeAddress region03 = new CellRangeAddress(25, (short) 25, 0, (short) 1);
 						Cell cell0003=row25.createCell(0);
 						utils.setRegionStyle(sh, region03, utils.Style6(workbook));
@@ -1838,6 +1847,23 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			            cell13.setCellValue(BaojingReport.get(j).getQt());
 			        	}
 				}
+				
+//	            Row row4 = sh.createRow(4);
+		        row4.setHeightInPoints(16);
+		        CellRangeAddress region2 = new CellRangeAddress(4,15,(short) 0, (short) 0);
+		        
+				Cell cell00001=row4.createCell(0);
+				utils.setRegionStyle(sh, region2, utils.Style11(workbook));
+				sh.addMergedRegion(region2);
+				cell00001.setCellValue("报\r\n警\r\n情\r\n况\r\n(起)");
+				
+				CellRangeAddress region002 = new CellRangeAddress(17, (short) 22, 0, (short) 0);
+//				Row row017 = sh.createRow(17);
+				Cell cell0002=row017.createCell(0);
+				utils.setRegionStyle(sh, region002, utils.Style11(workbook));
+				sh.addMergedRegion(region002);
+				cell0002.setCellValue("处\r\n警\r\n情\r\n况");
+				
 				String year1 =tjyf.substring(0,4);			//2019
 				String month2 =tjyf.substring(5,7);         //09
 				String title = year1+"年"+month2+"月"+"报警情况统计月报表";
@@ -1884,23 +1910,22 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 					String time = dateBaojing.format(date);
 					String year =tjyf.substring(0,4);			//2019
 					String month =tjyf.substring(5,7);         //09
-					//第一行数据内容
-					Row row1 = sh.createRow(1);
-					Cell cell02=row1.createCell(0);
-					cell02.setCellStyle(utils.Style8(workbook));
-			        cell02.setCellValue("填报单位:");//填报时间（当前导出时间）
+					
+					Row row0 = sh.createRow(0);
+					CellRangeAddress region0 = new CellRangeAddress(0, (short) 0, 0, (short) 16);
+					Cell cell00000=row0.createCell(0);
+					utils.setRegionStyle(sh, region0, utils.Style10(workbook));
+					sh.addMergedRegion(region0);
+			        cell00000.setCellValue(year+"年"+month+"月"+"报警情况统计月报表");//填报时间（当前导出时间）
+					
+					
+//					Cell cell0=row1.createCell(7);
+//					cell0.setCellStyle(utils.Style8(workbook));
+//			        cell0.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
 			        
-			        Cell cell03=row1.createCell(1);
-					cell03.setCellStyle(utils.Style8(workbook));
-			        cell03.setCellValue("山西省"+xzqh+"市公安局");//填报时间（当前导出时间）
-			        
-					Cell cell0=row1.createCell(7);
-					cell0.setCellStyle(utils.Style8(workbook));
-			        cell0.setCellValue(year+"年"+month+"月");//填报时间（当前导出时间）
-			        
-			        Cell cell01=row1.createCell(15);
-					cell01.setCellStyle(utils.Style8(workbook));
-			        cell01.setCellValue("填报人:");////填报人
+//			        Cell cell01=row1.createCell(15);
+//					cell01.setCellStyle(utils.Style8(workbook));
+//			        cell01.setCellValue("填报人:");////填报人
 			        
 			        Map<String,String> map2 = new HashMap<>();
 					map2.put("tjyf", tjyf);
@@ -1908,13 +1933,11 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			        Baojingqingkuang baojingHj = baojingqingkuangDao.findShiHj(map2);
 			        //合计1
 			        Row row4 = sh.createRow(4);
-			        
-			        CellRangeAddress region2 = new CellRangeAddress(4, (short) 15, 0, (short) 0);
-					Cell cell00001=row4.createCell(0);
-					utils.setRegionStyle(sh, region2, utils.Style9(workbook));
-					sh.addMergedRegion(region2);
-					cell00001.setCellValue("报\r\n警\r\n情\r\n况\r\n(起)");
+			        row4.setHeightInPoints(16);
 					
+			        Row row017 = sh.createRow(17);
+			        row017.setHeightInPoints(16);
+			        
 			        Cell cell0001=row4.createCell(1);
 					cell0001.setCellStyle(utils.Style6(workbook));
 					cell0001.setCellValue("合计");
@@ -1983,11 +2006,27 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 						if(BaojingReport.get(j).getBjqk().equals("110接警")){
 							System.out.println("进来啦");
 							
-							Cell cell001=row1.createCell(16);
-							cell001.setCellStyle(utils.Style8(workbook));
-						    cell001.setCellValue(BaojingReport.get(j).getTbr());////填报人
+							//第一行数据内容
+							Row row1 = sh.createRow(1);
+					        
+					        CellRangeAddress region010 = new CellRangeAddress(1, (short) 1, 0, (short) 1);
+							Cell cell000000=row1.createCell(0);
+							utils.setRegionStyle(sh, region010, utils.Style81(workbook));
+							sh.addMergedRegion(region010);
+							cell000000.setCellValue("填报单位:"+BaojingReport.get(j).getTbdw());
+							
+							CellRangeAddress region011 = new CellRangeAddress(1, (short) 1, 14, (short) 16);
+							Cell cell001=row1.createCell(14);
+							utils.setRegionStyle(sh, region011, utils.Style8(workbook));
+							sh.addMergedRegion(region011);
+							cell001.setCellValue("填报人:"+BaojingReport.get(j).getTbr());
+							
+//							Cell cell001=row1.createCell(16);
+//							cell001.setCellStyle(utils.Style8(workbook));
+//						    cell001.setCellValue(BaojingReport.get(j).getTbr());////填报人
 						    
 							Row row5 = sh.createRow(5);
+							row5.setHeightInPoints(16);
 							Cell cell0003=row5.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("110接警");
@@ -2054,6 +2093,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("执勤巡逻发现")){
 							Row row6 = sh.createRow(6);
+							row6.setHeightInPoints(16);
 							Cell cell0003=row6.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("执勤巡逻发现");
@@ -2120,6 +2160,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("器材报警")){
 							Row row7 = sh.createRow(7);
+							row7.setHeightInPoints(16);
 							Cell cell0003=row7.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("器材报警");
@@ -2186,6 +2227,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("口头报警")){
 							Row row8 = sh.createRow(8);
+							row8.setHeightInPoints(16);
 							Cell cell0003=row8.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("口头报警");
@@ -2252,6 +2294,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("电话报警")){
 							Row row9 = sh.createRow(9);
+							row9.setHeightInPoints(16);
 							Cell cell0003=row9.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("电话报警");
@@ -2317,6 +2360,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("短信微信报警")){
 							Row row10 = sh.createRow(10);
+							row10.setHeightInPoints(16);
 							Cell cell0003=row10.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("短信微信报警");
@@ -2383,6 +2427,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("举报")){
 							Row row11 = sh.createRow(11);
+							row11.setHeightInPoints(16);
 							Cell cell0003=row11.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("举报");
@@ -2449,6 +2494,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("扭送现行")){
 							Row row12 = sh.createRow(12);
+							row12.setHeightInPoints(16);
 							Cell cell0003=row12.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("扭送现行");
@@ -2515,6 +2561,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("投案自首")){
 							Row row13 = sh.createRow(13);
+							row13.setHeightInPoints(16);
 							Cell cell0003=row13.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("投案自首");
@@ -2581,6 +2628,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("其他部门移送")){
 							Row row14 = sh.createRow(14);
+							row14.setHeightInPoints(16);
 							Cell cell0003=row14.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("其他部门移送");
@@ -2647,6 +2695,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("其他")){
 							Row row15 = sh.createRow(15);
+							row15.setHeightInPoints(16);
 							Cell cell0003=row15.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("其他");
@@ -2713,7 +2762,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("出动警力")){
 							Row row16 = sh.createRow(16);
-							
+							row16.setHeightInPoints(16);
 							CellRangeAddress region1 = new CellRangeAddress(16, (short) 16, 0, (short) 1);
 							Cell cell0003=row16.createCell(0);
 							utils.setRegionStyle(sh, region1, utils.Style6(workbook));
@@ -2782,12 +2831,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("处置报警(起)")){
 							Row row17 = sh.createRow(17);
-							
-							CellRangeAddress region1 = new CellRangeAddress(17, (short) 22, 0, (short) 0);
-							Cell cell0002=row17.createCell(0);
-							utils.setRegionStyle(sh, region1, utils.Style9(workbook));
-							sh.addMergedRegion(region1);
-							cell0002.setCellValue("处\r\n警\r\n情\r\n况");
+							row17.setHeightInPoints(16);
 							
 							Cell cell0003=row17.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
@@ -2855,9 +2899,10 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("现场抓获违法犯罪人员(人)")){
 							Row row18 = sh.createRow(18);
+							row18.setHeightInPoints(32);
 							Cell cell0003=row18.createCell(1);
-							cell0003.setCellStyle(utils.Style6(workbook));
-							cell0003.setCellValue("现场抓获违法犯罪人员(人)");
+							cell0003.setCellStyle(utils.Style9(workbook));
+							cell0003.setCellValue("现场抓获违法\r\n犯罪人员(人)");
 							
 							Cell cell0004=row18.createCell(2);
 							cell0004.setCellStyle(utils.Style6(workbook));
@@ -2921,6 +2966,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("逃犯(人)")){
 							Row row19 = sh.createRow(19);
+							row19.setHeightInPoints(16);
 							Cell cell0003=row19.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("逃犯(人)");
@@ -2987,6 +3033,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("救助伤员(人)")){
 							Row row20 = sh.createRow(20);
+							row20.setHeightInPoints(16);
 							Cell cell0003=row20.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("救助伤员(人)");
@@ -3053,6 +3100,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("救助群众(人)")){
 							Row row21 = sh.createRow(21);
+							row21.setHeightInPoints(16);
 							Cell cell0003=row21.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("救助群众(人)");
@@ -3119,6 +3167,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("继续盘问(人)")){
 							Row row22 = sh.createRow(22);
+							row22.setHeightInPoints(16);
 							Cell cell0003=row22.createCell(1);
 							cell0003.setCellStyle(utils.Style6(workbook));
 							cell0003.setCellValue("继续盘问(人)");
@@ -3185,7 +3234,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("无效报警(起)")){
 							Row row23 = sh.createRow(23);
-							
+							row23.setHeightInPoints(16);
 							CellRangeAddress region01 = new CellRangeAddress(23, (short) 23, 0, (short) 1);
 							Cell cell0003=row23.createCell(0);
 							utils.setRegionStyle(sh, region01, utils.Style6(workbook));
@@ -3254,7 +3303,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("死亡(人)")){
 							Row row24 = sh.createRow(24);
-							
+							row24.setHeightInPoints(16);
 							CellRangeAddress region02 = new CellRangeAddress(24, (short) 24, 0, (short) 1);
 							Cell cell0003=row24.createCell(0);
 							utils.setRegionStyle(sh, region02, utils.Style6(workbook));
@@ -3323,7 +3372,7 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				        	}
 						else if(BaojingReport.get(j).getBjqk().equals("受伤(人)")){
 							Row row25 = sh.createRow(25);
-							
+							row25.setHeightInPoints(16);
 							CellRangeAddress region03 = new CellRangeAddress(25, (short) 25, 0, (short) 1);
 							Cell cell0003=row25.createCell(0);
 							utils.setRegionStyle(sh, region03, utils.Style6(workbook));
@@ -3391,6 +3440,23 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 				            cell13.setCellValue(BaojingReport.get(j).getQt());
 				        	}
 					}
+					
+//					Row row4 = sh.createRow(4);
+			        row4.setHeightInPoints(16);
+			        CellRangeAddress region2 = new CellRangeAddress(4,15,(short) 0, (short) 0);
+			        
+					Cell cell00001=row4.createCell(0);
+					utils.setRegionStyle(sh, region2, utils.Style11(workbook));
+					sh.addMergedRegion(region2);
+					cell00001.setCellValue("报\r\n警\r\n情\r\n况\r\n(起)");
+					
+					CellRangeAddress region002 = new CellRangeAddress(17, (short) 22, 0, (short) 0);
+//					Row row017 = sh.createRow(17);
+					Cell cell0002=row017.createCell(0);
+					utils.setRegionStyle(sh, region002, utils.Style11(workbook));
+					sh.addMergedRegion(region002);
+					cell0002.setCellValue("处\r\n警\r\n情\r\n况");
+					
 					String year1 =tjyf.substring(0,4);			//2019
 					String month2 =tjyf.substring(5,7);         //09
 					String title = year1+"年"+month2+"月"+"报警情况统计月报表";

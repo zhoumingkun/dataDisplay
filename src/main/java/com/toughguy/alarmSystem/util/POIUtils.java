@@ -137,6 +137,7 @@ public class POIUtils {
 	            style.setDataFormat(format2.getFormat("0.00"));//设置单元类型保留两位小数
 				return style;
 			}
+			
 			/**
 			* 导出样品交接单样式
 			*/
@@ -168,6 +169,39 @@ public class POIUtils {
 				style.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
 				return style;
 			}
+			public CellStyle Style81(SXSSFWorkbook wb) {
+				CellStyle style = wb.createCellStyle();
+				Font fon = wb.createFont();
+				fon.setFontName("宋体");
+				fon.setFontHeightInPoints((short) 11);// 设置字体大小
+				style.setFont(fon);// 选择需要用到的字体格式
+				style.setAlignment(HSSFCellStyle.ALIGN_LEFT);//居左
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中 
+				style.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+				return style;
+			}
+			public CellStyle Style82(SXSSFWorkbook wb) {
+				CellStyle style = wb.createCellStyle();
+				Font fon = wb.createFont();
+				fon.setFontName("宋体");
+				fon.setFontHeightInPoints((short) 11);// 设置字体大小
+				style.setFont(fon);// 选择需要用到的字体格式
+				style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);//居右
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中 
+				style.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+				return style;
+			}
+			public CellStyle Style83(SXSSFWorkbook wb) {
+				CellStyle style = wb.createCellStyle();
+				Font fon = wb.createFont();
+				fon.setFontName("宋体");
+				fon.setFontHeightInPoints((short) 11);// 设置字体大小
+				style.setFont(fon);// 选择需要用到的字体格式
+				style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//居中
+				style.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中 
+				return style;
+			}
 			public CellStyle Style8(SXSSFWorkbook wb) {
 				CellStyle style = wb.createCellStyle();
 				Font fon = wb.createFont();
@@ -187,7 +221,37 @@ public class POIUtils {
 				style.setFont(fon);// 选择需要用到的字体格式
 				style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//居中
 				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中 
+				style.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+				style.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
 				style.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+				style.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直对齐居中
+				style.setWrapText(true); // 设置为自动换行
+				return style;
+			}
+			public CellStyle Style10(SXSSFWorkbook wb) {
+				CellStyle style = wb.createCellStyle();
+				Font fon = wb.createFont();
+				fon.setFontName("宋体");
+				fon.setFontHeightInPoints((short) 20);// 设置字体大小
+				style.setFont(fon);// 选择需要用到的字体格式
+				style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//居中
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中 
+				fon.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 粗体显示
+				return style;
+			}
+			public CellStyle Style11(SXSSFWorkbook wb) {
+				CellStyle style = wb.createCellStyle();
+				Font fon = wb.createFont();
+				fon.setFontName("宋体");
+				fon.setFontHeightInPoints((short) 11);// 设置字体大小
+				style.setFont(fon);// 选择需要用到的字体格式
+				style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//居中
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//上下居中 
+				style.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+				style.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+				style.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+				style.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
 				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直对齐居中
 				style.setWrapText(true); // 设置为自动换行
 				return style;
@@ -199,9 +263,9 @@ public class POIUtils {
 			* @param cs
 			*/
 			@SuppressWarnings("deprecation")
-			public void setRegionStyle(Sheet sheet, CellRangeAddress region, CellStyle cs) {
+			public void setRegionStyle(Sheet sh, CellRangeAddress region, CellStyle cs) {
 			 for (int i = region.getFirstRow(); i <= region.getLastRow(); i++) {
-			  Row row = CellUtil.getRow(i, sheet);
+			  Row row = CellUtil.getRow(i, sh);
 			  for (int j = region.getFirstColumn(); j <= region.getLastColumn(); j++) {
 			   Cell cell = CellUtil.getCell(row, (short) j);
 			   cell.setCellStyle(cs);
