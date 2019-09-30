@@ -212,76 +212,66 @@ public class RecJQTJBController {
 		List<RecJQFLTJB> findJQFLNum = recJQFLTJBService.findJQFLWDL(tjTime);			//昨日
 		Map<String,String> aa= new HashMap<>();//昨日数量
 		Map<String,String> cc= new HashMap<>();
+		int a=0;
+		int b=0;
+		int c=0;
+		int c1=0;
+		int e=0;
 		for(int i=0;i<findJQFLNum.size();i++) {
 			if(findJQFLNum.get(i).getFldmmc()=="诈骗" || findJQFLNum.get(i).getFldmmc().equals("诈骗")) {
-				int a=0;
-				a=findJQFLNum.get(i).getJjsl();
-				a++;
+				a+=findJQFLNum.get(i).getJjsl();
 				aa.put("诈骗", a+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="盗窃" || findJQFLNum.get(i).getFldmmc().equals("盗窃")) {
-				int a=0;
-				a=findJQFLNum.get(i).getJjsl();
-				a++;
-				aa.put("盗窃", a+"");
+				b+=findJQFLNum.get(i).getJjsl();
+				aa.put("盗窃", b+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="贩毒" || findJQFLNum.get(i).getFldmmc().equals("贩毒")) {
-				int a=0;
-				a=findJQFLNum.get(i).getJjsl();
-				a++;
-				aa.put("贩毒", a+"");
+				c+=findJQFLNum.get(i).getJjsl();
+				aa.put("贩毒", c+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="强奸" || findJQFLNum.get(i).getFldmmc().equals("强奸")) {
-				int a=0;
-				a=findJQFLNum.get(i).getJjsl();
-				a++;
-				aa.put("强奸", a+"");
+				c1+=findJQFLNum.get(i).getJjsl();
+				aa.put("强奸", c1+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="抢劫" || findJQFLNum.get(i).getFldmmc().equals("抢劫")) {
-				int a=0;
-				a=findJQFLNum.get(i).getJjsl();
-				a++;
-				aa.put("抢劫", a+"");
+				e+=findJQFLNum.get(i).getJjsl();
+				aa.put("抢劫", e+"");
 			}
 		}
 		zmap.put("ZTSL", aa+"");
 		
 		List<RecJQFLTJB> findJQFLNum2 = recJQFLTJBService.findJQFLWDL(qtTime);			//前日
 		Map<String,String> bb= new HashMap<>();//前日数量
+		int g=0;
+		int h=0;
+		int j=0;
+		int k=0;
+		int l=0;
 		for(int i=0;i<findJQFLNum2.size();i++) {
 			if(findJQFLNum2.get(i).getFldmmc()=="诈骗" || findJQFLNum2.get(i).getFldmmc().equals("诈骗")) {
-				int a=0;
-				a=findJQFLNum2.get(i).getJjsl();
-				a++;
-				bb.put("诈骗", a+"");
+				g+=findJQFLNum2.get(i).getJjsl();
+				bb.put("诈骗", g+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="盗窃" || findJQFLNum2.get(i).getFldmmc().equals("盗窃")) {
-				int a=0;
-				a=findJQFLNum2.get(i).getJjsl();
-				a++;
-				bb.put("盗窃", a+"");
+				h+=findJQFLNum2.get(i).getJjsl();
+				bb.put("盗窃", h+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="贩毒" || findJQFLNum2.get(i).getFldmmc().equals("贩毒")) {
-				int a=0;
-				a=findJQFLNum2.get(i).getJjsl();
-				a++;
-				bb.put("贩毒", a+"");
+				j+=findJQFLNum2.get(i).getJjsl();
+				bb.put("贩毒", j+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="强奸" || findJQFLNum2.get(i).getFldmmc().equals("强奸")) {
-				int a=0;
-				a=findJQFLNum2.get(i).getJjsl();
-				a++;
-				bb.put("强奸", a+"");
+				k+=findJQFLNum2.get(i).getJjsl();
+				bb.put("强奸", k+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="抢劫" || findJQFLNum2.get(i).getFldmmc().equals("抢劫")) {
-				int a=0;
-				a=findJQFLNum2.get(i).getJjsl();
-				a++;
-				bb.put("抢劫", a+"");
+				l+=findJQFLNum2.get(i).getJjsl();
+				bb.put("抢劫", l+"");
 			}
 		}
 		zmap.put("QTSL", bb+"");
-		
+		System.out.println("我叫A"+aa);
 		String zrzp=aa.get("诈骗");
 		int zrzpsl=Integer.parseInt(zrzp);
 		String qrzp=bb.get("诈骗");
@@ -318,12 +308,12 @@ public class RecJQTJBController {
 		double d5 = Double.valueOf(num5);
 		hmap.put("强奸总数环比", d5+"");
 		
-		String zrqj1=aa.get("抢劫");
-		int zrqj1sl=Integer.parseInt(zrqj1);
-		String qrqj1=bb.get("抢劫");
-		int qrqj1sl=Integer.parseInt(qrqj1);
+		String zrqiangjie=aa.get("抢劫");
+		int zrqiangjiesl=Integer.parseInt(zrqiangjie);
+		String qrqiangjie=bb.get("抢劫");
+		int qrqiangjiesl=Integer.parseInt(qrqiangjie);
 		DecimalFormat df6 = new DecimalFormat("0.000");
-		String num6 = df6.format((float) (zrqj1sl-qrqj1sl)/qrqj1sl);
+		String num6 = df6.format((float) (zrqiangjiesl-qrqiangjiesl)/qrqiangjiesl);
 		double d6 = Double.valueOf(num6);
 		hmap.put("抢劫总数环比", d6+"");
 
