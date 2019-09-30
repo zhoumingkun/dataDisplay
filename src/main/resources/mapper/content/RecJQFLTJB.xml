@@ -137,13 +137,15 @@
 	
 	<!-- 查询各五大类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm-->
 	<select id="findJQFLWDL" parameterType="String" resultType="RecJQFLTJB">
-		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,jqfldmb1.flmc as sjdmmc ,jqfltjb.hb as hb  
+		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,jqfldmb1.flmc as sjdmmc ,jqfldmb1.fldm as fldm,
+		jqfltjb.hb as hb  
         from REC_JQFLTJB jqfltjb
         LEFT JOIN DICT_JQFLDMB jqfldmb ON jqfltjb.fldm=jqfldmb.fldm
         LEFT JOIN DICT_JQFLDMB jqfldmb1 ON jqfldmb.sjdm=jqfldmb1.fldm
         WHERE tjrq=#{tjTime}  
         and jqfldmb.fllx=2
-        group by jqfldmb.flmc,jqfldmb1.flmc,jqfltjb.hb
+        and jqfldmb1.fldm='010000'
+        group by jqfldmb.flmc,jqfldmb1.flmc,jqfltjb.hb,jqfldmb1.fldm
 	</select>
 	
 	<!-- 查询各五大类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm-->

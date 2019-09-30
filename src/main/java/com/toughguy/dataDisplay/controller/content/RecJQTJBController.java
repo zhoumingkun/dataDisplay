@@ -175,15 +175,9 @@ public class RecJQTJBController {
 	public Map<String,Object> findNumHB(String tjTime,String qtTime) {		//传递昨天和前天的时间
 		Map<String,Object> map = new HashMap<>();
 		Map<String,String> fmap = new HashMap<>();
-		List <RecJQTJB> arr=recJQTJBService.findNumHB(tjTime);
-//		Float f=0.0f;
-//		Float ff=0.0f;
-//		for(RecJQTJB d:arr){
-//			f += d.getHb();
-//			ff+=d.getYxhb();
-//		}
-//		fmap.put("报警总数环比", f+"");
-//		fmap.put("有效警情环比", ff+"");
+		Map<String,String> zmap = new HashMap<>();
+		Map<String,String> hmap = new HashMap<>();
+//		List <RecJQTJB> arr=recJQTJBService.findNumHB(tjTime);
 		
 		List<RecJQTJB> findJQNum = recJQTJBService.findJQNum(tjTime);
 		for(int i=0;i<findJQNum.size();i++) {
@@ -205,7 +199,6 @@ public class RecJQTJBController {
 		double d = Double.valueOf(num);
 		fmap.put("报警总数环比", d+"");
 		
-		
 		String zryx=fmap.get("昨日有效警情");
 		int zryxsl=Integer.parseInt(zryx);
 		String qryx=fmap.get("前日有效警情");
@@ -217,60 +210,125 @@ public class RecJQTJBController {
 		
 		map.put("Sjqhbfx", fmap);
 		List<RecJQFLTJB> findJQFLNum = recJQFLTJBService.findJQFLWDL(tjTime);			//昨日
-		Map<String,String> aa= new HashMap<>();
+		Map<String,String> aa= new HashMap<>();//昨日数量
 		Map<String,String> cc= new HashMap<>();
 		for(int i=0;i<findJQFLNum.size();i++) {
 			if(findJQFLNum.get(i).getFldmmc()=="诈骗" || findJQFLNum.get(i).getFldmmc().equals("诈骗")) {
-				aa.put("诈骗", findJQFLNum.get(i).getJjsl()+"");
-				cc.put("诈骗", findJQFLNum.get(i).getHb()+"");
+				int a=0;
+				a=findJQFLNum.get(i).getJjsl();
+				a++;
+				aa.put("诈骗", a+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="盗窃" || findJQFLNum.get(i).getFldmmc().equals("盗窃")) {
-				aa.put("盗窃", findJQFLNum.get(i).getJjsl()+"");	
-				cc.put("盗窃", findJQFLNum.get(i).getHb()+"");
+				int a=0;
+				a=findJQFLNum.get(i).getJjsl();
+				a++;
+				aa.put("盗窃", a+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="贩毒" || findJQFLNum.get(i).getFldmmc().equals("贩毒")) {
-				aa.put("贩毒", findJQFLNum.get(i).getJjsl()+"");
-				cc.put("贩毒", findJQFLNum.get(i).getHb()+"");
+				int a=0;
+				a=findJQFLNum.get(i).getJjsl();
+				a++;
+				aa.put("贩毒", a+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="强奸" || findJQFLNum.get(i).getFldmmc().equals("强奸")) {
-				aa.put("强奸", findJQFLNum.get(i).getJjsl()+"");
-				cc.put("强奸", findJQFLNum.get(i).getHb()+"");
+				int a=0;
+				a=findJQFLNum.get(i).getJjsl();
+				a++;
+				aa.put("强奸", a+"");
 			}
 			if(findJQFLNum.get(i).getFldmmc()=="抢劫" || findJQFLNum.get(i).getFldmmc().equals("抢劫")) {
-				aa.put("抢劫", findJQFLNum.get(i).getJjsl()+"");
-				cc.put("抢劫", findJQFLNum.get(i).getHb()+"");
+				int a=0;
+				a=findJQFLNum.get(i).getJjsl();
+				a++;
+				aa.put("抢劫", a+"");
 			}
 		}
-		map.put("yesterday", aa);
-		map.put("yesterdayHB", cc);
+		zmap.put("ZTSL", aa+"");
 		
 		List<RecJQFLTJB> findJQFLNum2 = recJQFLTJBService.findJQFLWDL(qtTime);			//前日
-		Map<String,String> bb= new HashMap<>();
+		Map<String,String> bb= new HashMap<>();//前日数量
 		for(int i=0;i<findJQFLNum2.size();i++) {
 			if(findJQFLNum2.get(i).getFldmmc()=="诈骗" || findJQFLNum2.get(i).getFldmmc().equals("诈骗")) {
-				bb.put("诈骗", findJQFLNum2.get(i).getJjsl()+"");
+				int a=0;
+				a=findJQFLNum2.get(i).getJjsl();
+				a++;
+				bb.put("诈骗", a+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="盗窃" || findJQFLNum2.get(i).getFldmmc().equals("盗窃")) {
-				bb.put("盗窃", findJQFLNum2.get(i).getJjsl()+"");	
+				int a=0;
+				a=findJQFLNum2.get(i).getJjsl();
+				a++;
+				bb.put("盗窃", a+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="贩毒" || findJQFLNum2.get(i).getFldmmc().equals("贩毒")) {
-				bb.put("贩毒", findJQFLNum2.get(i).getJjsl()+"");
+				int a=0;
+				a=findJQFLNum2.get(i).getJjsl();
+				a++;
+				bb.put("贩毒", a+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="强奸" || findJQFLNum2.get(i).getFldmmc().equals("强奸")) {
-				bb.put("强奸", findJQFLNum2.get(i).getJjsl()+"");
+				int a=0;
+				a=findJQFLNum2.get(i).getJjsl();
+				a++;
+				bb.put("强奸", a+"");
 			}
 			if(findJQFLNum2.get(i).getFldmmc()=="抢劫" || findJQFLNum2.get(i).getFldmmc().equals("抢劫")) {
-				bb.put("抢劫", findJQFLNum2.get(i).getJjsl()+"");
+				int a=0;
+				a=findJQFLNum2.get(i).getJjsl();
+				a++;
+				bb.put("抢劫", a+"");
 			}
 		}
-		map.put("beforeday", bb);
-		List<String> dd = new ArrayList<String>();
-		dd.add("诈骗");
-		dd.add("盗窃");
-		dd.add("贩毒");
-		dd.add("强奸");
-		dd.add("抢劫");
-		map.put("aa",dd);
+		zmap.put("QTSL", bb+"");
+		
+		String zrzp=aa.get("诈骗");
+		int zrzpsl=Integer.parseInt(zrzp);
+		String qrzp=bb.get("诈骗");
+		int qrzpsl=Integer.parseInt(qrzp);
+		DecimalFormat df2 = new DecimalFormat("0.000");
+		String num2 = df2.format((float) (zrzpsl-qrzpsl)/qrzpsl);
+		double d2 = Double.valueOf(num2);
+		hmap.put("诈骗总数环比", d2+"");
+		
+		String zrdq=aa.get("盗窃");
+		int zrdqsl=Integer.parseInt(zrdq);
+		String qrdq=bb.get("盗窃");
+		int qrdqsl=Integer.parseInt(qrdq);
+		DecimalFormat df3 = new DecimalFormat("0.000");
+		String num3 = df3.format((float) (zrdqsl-qrdqsl)/qrdqsl);
+		double d3 = Double.valueOf(num3);
+		hmap.put("盗窃总数环比", d3+"");
+		
+//		String zrfd=aa.get("贩毒");
+//		int zrfdsl=Integer.parseInt(zrfd);
+//		String qrfd=bb.get("贩毒");
+//		int qrfdsl=Integer.parseInt(qrfd);
+//		DecimalFormat df4 = new DecimalFormat("0.000");
+//		String num4 = df4.format((float) (zrfdsl-qrfdsl)/qrfdsl);
+//		double d4 = Double.valueOf(num4);
+//		fmap.put("贩毒总数环比", d4+"");
+		
+		String zrqj=aa.get("强奸");
+		int zrqjsl=Integer.parseInt(zrqj);
+		String qrqj=bb.get("强奸");
+		int qrqjsl=Integer.parseInt(qrqj);
+		DecimalFormat df5 = new DecimalFormat("0.000");
+		String num5 = df5.format((float) (zrqjsl-qrqjsl)/qrqjsl);
+		double d5 = Double.valueOf(num5);
+		hmap.put("强奸总数环比", d5+"");
+		
+		String zrqj1=aa.get("抢劫");
+		int zrqj1sl=Integer.parseInt(zrqj1);
+		String qrqj1=bb.get("抢劫");
+		int qrqj1sl=Integer.parseInt(qrqj1);
+		DecimalFormat df6 = new DecimalFormat("0.000");
+		String num6 = df6.format((float) (zrqj1sl-qrqj1sl)/qrqj1sl);
+		double d6 = Double.valueOf(num6);
+		hmap.put("抢劫总数环比", d6+"");
+
+		map.put("wdlhb",hmap);
+		map.put("wdlsl",zmap);
 		return map;
 	}
 	
