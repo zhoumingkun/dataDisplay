@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -325,6 +326,76 @@ public class BaojingqingkuangController {
 		}
 	}
 	
-		
+	/**
+	 * 省厅数据抽取的开关
+	 */
+	@RequestMapping("/etlSwitch")
+	public String etlSwitch(String state){
+		try {
+			baojingqingkuangService.etlSwitch(state);
+			return "{ \"success\" : true }";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{ \"success\" : false }";
+		}
+	}
+	
+	/**
+	 * 查询省厅开关状态
+	 * @return
+	 */
+	@RequestMapping("/findSwitch")
+	public Map<String,String> findSwitch() {
+		Map<String,String> map = new HashMap<>();
+		try {
+			map.put("switch", baojingqingkuangService.findSwitch());
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("switch", "false");
+			return map;
+		}
+	}
+	
+	/**
+	 * 数据抽取(返回某月份的十一个地级市汇总的报警情况数据)
+	 * @param time
+	 * 时间需要定格式   2019-09   只能到月
+	 * @return
+	 */
+	@RequestMapping("/etl")
+	public Map<String,Object> etl_BJQK(HttpServletRequest request,String time){
+			String ip = request.getRemoteAddr();
+	        String headerIP = request.getHeader("x-real-ip");
+	        if (headerIP == null || "".equals(headerIP) || "null".equals(headerIP)) {
+	            headerIP = request.getHeader("x-forwarded-for");
+	        }
+	        System.out.println("headerIP:" + headerIP);
+	        if (headerIP != null && !"".equals(headerIP) && !"null".equals(headerIP)) {
+	            ip = headerIP;
+	        }
+	       String sip=ip;
+	       String findIP = baojingqingkuangService.findIP(sip);
+	       Map<String,Object> map = new HashMap<>();
+	       if(time.length()==7) {
+	    	   if(findIP!="" && findIP!=null && !findIP.equals(" ")) {
+		    	   try {
+		    		   map.put("data", baojingqingkuangService.etl_BJQK(time));
+		    		   return map ;
+		    	   }catch (Exception e) {
+					// TODO: handle exception
+		    		   map.put("false", "请求异常");
+		    		   return map ;
+		    	   }
+		       }else {
+		    	   map.put("false", "非法ip");
+		    	   return map;
+		       }
+	       }else {
+	    	   map.put("false", "请求参数错误");
+	    	   return map;
+	       }
+	       
+	}
 	
 }

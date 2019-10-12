@@ -73,4 +73,28 @@ public interface IBaojingqingkuangService extends IGenericService<Baojingqingkua
 	 */
 	public void updateAll(Baojingqingkuang baojingqingkuang);
 	
+	/**
+	 * 省厅开关数据抽取开关
+	 * @param state
+	 */
+	public void etlSwitch(String state);
+	
+	/**
+	 * 查询省厅开关
+	 * @param state
+	 */
+	public String findSwitch();
+	
+	/**
+	 * 数据抽取接口
+	 * @param state
+	 */
+	public List<Baojingqingkuang> etl_BJQK(String time);
+	
+	/**
+	 * 根据ip查询数据库  判断是否可以抽取数据
+	 * @param ip
+	 * @return
+	 */
+	public String findIP(String ip);
 }

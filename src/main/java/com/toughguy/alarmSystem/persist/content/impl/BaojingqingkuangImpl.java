@@ -90,6 +90,24 @@ public class BaojingqingkuangImpl extends GenericDaoImpl<Baojingqingkuang, Integ
 			// TODO Auto-generated method stub
 			sqlSessionTemplate.update(typeNameSpace + ".updateAll", baojingqingkuang);
 		}
+
+		@Override
+		public void etlSwitch(String state) {
+			// TODO Auto-generated method stub
+			sqlSessionTemplate.update(typeNameSpace + ".etlSwitch", state);
+		}
+
+		@Override
+		public String findSwitch() {
+			// TODO Auto-generated method stub
+			return sqlSessionTemplate.selectOne(typeNameSpace + ".findSwitch");
+		}
+
+		@Override
+		public String findIP(String ip) {
+			// TODO Auto-generated method stub
+			return sqlSessionTemplate.selectOne(typeNameSpace + ".findIP",ip);
+		}
 	
 	
 }

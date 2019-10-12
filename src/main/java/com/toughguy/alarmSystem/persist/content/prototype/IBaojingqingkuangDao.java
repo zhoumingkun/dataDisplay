@@ -52,4 +52,22 @@ public interface IBaojingqingkuangDao extends IGenericDao<Baojingqingkuang, Inte
 	 */
 	public void updateAll(Baojingqingkuang baojingqingkuang);
 	
+	/**
+	 * 省厅开关数据抽取开关
+	 * @param state
+	 */
+	public void etlSwitch(String state);
+	
+	/**
+	 * 查询省厅数据抽取开关
+	 * @param state
+	 */
+	public String findSwitch();
+	
+	/**
+	 * 根据ip查询数据库该ip是否合法
+	 * @param state
+	 */
+	public String findIP(String ip);
+	
 }

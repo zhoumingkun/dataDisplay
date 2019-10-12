@@ -3492,4 +3492,43 @@ public class BaojingqingkuangServiceImpl extends GenericServiceImpl<Baojingqingk
 			((IBaojingqingkuangDao)dao).updateAll(baojingqingkuang);
 		}
 
+
+		@Override
+		public void etlSwitch(String state) {
+			// TODO Auto-generated method stub
+			baojingqingkuangDao.etlSwitch(state);
+		}
+
+
+		@Override
+		public String findSwitch() {
+			// TODO Auto-generated method stub
+			return baojingqingkuangDao.findSwitch();
+		}
+
+
+		@Override
+		public List<Baojingqingkuang> etl_BJQK(String time) {
+			// TODO Auto-generated method stub
+			String date = "%"+time+"%";
+			List<Baojingqingkuang> list = ((IBaojingqingkuangDao)dao).selectAll(date);
+			Baojingqingkuang findShenHj = ((IBaojingqingkuangDao)dao).findShenHj(time);
+			try {
+				findShenHj.setBjqk("合计");
+				list.add(findShenHj);
+			}catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
+			
+			return list;
+		}
+
+
+		@Override
+		public String findIP(String ip) {
+			// TODO Auto-generated method stub
+			return baojingqingkuangDao.findIP(ip);
+		}
+
 }
