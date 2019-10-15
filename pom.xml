@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.toughguy</groupId>
-	<artifactId>alarmSystem</artifactId>
+	<artifactId>dataDisplay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
-	<name>educationSystem</name>
+	<name>dataDisplay</name>
 	<description>Demo project for Spring Boot</description>
 	
 	<properties>
