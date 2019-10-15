@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.alarmSystem.model.authority.User">
+<mapper namespace="com.toughguy.dataDisplay.model.authority.User">
 
 	<insert id="save" parameterType="User" keyProperty="id" useGeneratedKeys="true">
 		insert into auth_user (guid, createTime,updateTime,userName, userPass,unitName) 

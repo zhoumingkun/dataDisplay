@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.toughguy.alarmSystem.model.content.Baojingqingkuang">
+<mapper namespace="com.toughguy.dataDisplay.model.content.Baojingqingkuang">
 
 	<insert id="save" parameterType="Baojingqingkuang" keyProperty="id" useGeneratedKeys="true">
 		insert into bjqk (createTime,updateTime,xzqh,tbdw,bjqk,wffzaj,zaaj,hzsg,jtsg,zazhsg,zhsg,zs,jf,jtbl,gmqz,zsxr,jwjd,qt,hj,tbr,tjyf,state) 
