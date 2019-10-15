@@ -377,10 +377,17 @@ public class BaojingqingkuangController {
 	       String sip=ip;
 	       String findIP = baojingqingkuangService.findIP(sip);
 	       Map<String,Object> map = new HashMap<>();
+	       String switch1 = baojingqingkuangService.findSwitch();
 	       if(time.length()==7) {
 	    	   if(findIP!="" && findIP!=null && !findIP.equals(" ")) {
 		    	   try {
-		    		   map.put("data", baojingqingkuangService.etl_BJQK(time));
+		    		   if(switch1.equals("1")) {			//是启用状态
+		    			   map.put("data", baojingqingkuangService.etl_BJQK(time));
+		    		   }else {
+		    			   map.put("false", "禁止请求");
+			    		   return map ;
+		    		   }
+		    		   
 		    		   return map ;
 		    	   }catch (Exception e) {
 					// TODO: handle exception
