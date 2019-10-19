@@ -5,7 +5,7 @@ import com.toughguy.dataDisplay.model.AbstractModel;
 import com.toughguy.dataDisplay.util.JsonUtil;
 
 /**
- *字典表-报警方式代码表 实体类
+ *字典表-警情分类代码表 实体类
  * @author ZMK
  *
  */
