@@ -86,6 +86,13 @@
 		    <version>${spring.boot.mybatis.version}</version>
 		</dependency>
 		
+		<!--oracle Driver -->
+		<dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+		
 		<!--3. MySQL Driver -->
 		<dependency>
 		    <groupId>mysql</groupId>
