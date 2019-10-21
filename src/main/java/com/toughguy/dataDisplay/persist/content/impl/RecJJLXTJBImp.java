@@ -6,7 +6,7 @@ import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.persist.content.prototype.IRecJJLXTJBDao;
 import com.toughguy.dataDisplay.persist.impl.GenericDaoImpl;
 /**
- * 统计表表-报警类型统计表 Dao实现类
+ * 统计表表-接警类型统计表 Dao实现类
  * @author zmk
  *
  */

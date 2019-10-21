@@ -5,7 +5,7 @@ import com.toughguy.dataDisplay.model.AbstractModel;
 import com.toughguy.dataDisplay.util.JsonUtil;
 
 /**
- *统计表表-报警类型统计表  实体类
+ *统计表表-接警类型统计表  实体类
  * @author ZMK
  *
  */

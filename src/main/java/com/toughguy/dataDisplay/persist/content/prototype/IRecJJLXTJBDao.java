@@ -5,7 +5,7 @@ import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.persist.prototype.IGenericDao;
 
 /**
- * 统计表表-报警类型统计表 Dao接口类
+ * 统计表表-接警类型统计表  Dao接口类
  * @author zmk
  *
  */

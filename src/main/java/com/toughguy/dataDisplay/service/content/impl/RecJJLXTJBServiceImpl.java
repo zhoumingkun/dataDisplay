@@ -32,7 +32,7 @@ import com.toughguy.dataDisplay.util.POIUtils;
 
 
 /**
- * 统计表表-报警类型统计表 Service实现类
+ * 统计表表-接警类型统计表 Service实现类
  * @author zmk
  *
  */
