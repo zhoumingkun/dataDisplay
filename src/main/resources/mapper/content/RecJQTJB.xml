@@ -2,13 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecJQTJB">
 
+	<!-- 查询警情统计监测 -->
+	<select id="findJQNum" parameterType="String" resultType="RecJQTJB">
+		SELECT REC_JQTJB.jjsl,REC_JQTJB.yxjq,REC_JQTJB.cjsl,REC_JQTJB.fksl 
+		FROM REC_JQTJB
+		WHERE tjrq=#{tjTime}
+	
+	</select>
+	
+	<!-- 查询近期警情统计-->
+	<select id="findJQSevenDayShen" parameterType="Map" resultType="RecJQTJB">
+		SELECT  jjsl from REC_JQTJB
+		WHERE tjrq between #{startTime} and #{endTime}
+	</select>
 	
 	
-	
-	
-	<!-- 查询某个信息 -->
-	<select id="findAll" parameterType="Map" resultType="RecJQTJB">
-		select * from REC_JQTJB
+	<!-- 查询各行政区划警情数量-->
+	<select id="findXZQHNum" parameterType="String" resultType="RecJQTJB">
+		SELECT  jqtjb.jjsl ,jqtjb.xzqhdm,xzqhb.xzqhmc
+        from REC_JQTJB jqtjb
+        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm=xzqhb.xzqhdm
+        WHERE tjrq=#{tjTime} 
 	</select>
 	
 	

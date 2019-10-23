@@ -36,10 +36,25 @@ public class RecJQTJBController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/findJQNum")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecJQTJB> getAll() {
-		return  recJQTJBService.findAll();
+	public List<RecJQTJB> findJQNum(String tjTime) {
+		System.out.println(recJQTJBService.findJQNum(tjTime));
+		return  recJQTJBService.findJQNum(tjTime);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findJQSevenDayShen")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQTJB> findJQSevenDayShen(String startTime,String endTime) {
+		return  recJQTJBService.findJQSevenDayShen(startTime,endTime);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findJQSevenDayShen")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQTJB> findXZQHNum(String tjTime) {
+		return  recJQTJBService.findXZQHNum(tjTime);
 	}
 	
 

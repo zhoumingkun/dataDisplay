@@ -24,7 +24,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.model.content.RecJQTJB;
 import com.toughguy.dataDisplay.persist.content.prototype.IRecJQTJBDao;
 import com.toughguy.dataDisplay.service.content.prototype.IRecJQTJBService;
@@ -42,12 +41,27 @@ public class RecJQTJBServiceImpl extends GenericServiceImpl<RecJQTJB, Integer> i
 	
 	
 	@Autowired
-	IRecJQTJBDao  recJQFLTJBDao;
+	IRecJQTJBDao  recJQTJBDao;
 	
 	@Override
-	public List<RecJQTJB> findAll(){
+	public List<RecJQTJB> findJQNum(String tjTime) {
 		// TODO Auto-generated method stub
-		return recJQFLTJBDao.findAll();
+		return recJQTJBDao.findJQNum(tjTime);
+	}
+
+	@Override
+	public List<RecJQTJB> findJQSevenDayShen(String startTime, String endTime) {
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		return recJQTJBDao.findJQSevenDayShen(map);
+	}
+	
+	@Override
+	public List<RecJQTJB> findXZQHNum(String tjTime) {
+		// TODO Auto-generated method stub
+		return recJQTJBDao.findXZQHNum(tjTime);
 	}
 
 	

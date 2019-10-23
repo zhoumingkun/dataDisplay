@@ -11,7 +11,12 @@ import com.toughguy.dataDisplay.persist.prototype.IGenericDao;
  */
 public interface IRecJQTJBDao extends IGenericDao<RecJQTJB, Integer> {
 	
-	public List<RecJQTJB> findAll();
+	//警情统计监测
+	public List<RecJQTJB>  findJQNum(String tjTime);
 	
+	//查询近期警情统计全省七天（首页）
+	public List<RecJQTJB>  findJQSevenDayShen(Map<String,String> map);
 	
+	//警情统计监测各行政区划数量（首页地图用）
+	public List<RecJQTJB>  findXZQHNum(String tjTime);
 }

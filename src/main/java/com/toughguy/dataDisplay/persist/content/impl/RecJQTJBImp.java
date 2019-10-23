@@ -14,9 +14,21 @@ import com.toughguy.dataDisplay.persist.impl.GenericDaoImpl;
 public class RecJQTJBImp extends GenericDaoImpl<RecJQTJB, Integer> implements IRecJQTJBDao{
 	
 	@Override
-	public List<RecJQTJB> findAll() {
+	public List<RecJQTJB> findJQNum(String tjTime) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".findAll");
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findJQNum", tjTime);
+	}
+	
+	@Override
+	public List<RecJQTJB> findJQSevenDayShen(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findJQSevenDayShen", map);
+	}
+	
+	@Override
+	public List<RecJQTJB> findXZQHNum(String tjTime) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findXZQHNum", tjTime);
 	}
 
 	
