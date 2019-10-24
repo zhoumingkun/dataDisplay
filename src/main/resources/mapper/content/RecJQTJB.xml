@@ -7,25 +7,23 @@
 		SELECT REC_JQTJB.jjsl,REC_JQTJB.yxjq,REC_JQTJB.cjsl,REC_JQTJB.fksl 
 		FROM REC_JQTJB
 		WHERE tjrq=#{tjTime}
-	
 	</select>
 	
 	<!-- 查询近期警情统计-->
 	<select id="findJQSevenDayShen" parameterType="Map" resultType="RecJQTJB">
-		SELECT  jjsl from REC_JQTJB
+		SELECT  jjsl,tjrq from REC_JQTJB
 		WHERE tjrq between #{startTime} and #{endTime}
+		ORDER BY tjrq desc
 	</select>
-	
 	
 	<!-- 查询各行政区划警情数量-->
 	<select id="findXZQHNum" parameterType="String" resultType="RecJQTJB">
 		SELECT  jqtjb.jjsl ,jqtjb.xzqhdm,xzqhb.xzqhmc
         from REC_JQTJB jqtjb
-        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm=xzqhb.xzqhdm
+        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdmsubstr(xzqhb.xzqhdm,1,4)
         WHERE tjrq=#{tjTime} 
 	</select>
-	
-	
+
 
 	
 	

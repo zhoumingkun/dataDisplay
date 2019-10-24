@@ -31,10 +31,6 @@ public class RecJQTJBController {
 	private IRecJQTJBService recJQTJBService;
 	
 	
-	
-
-	
-	
 	@ResponseBody
 	@RequestMapping(value = "/findJQNum")
 //	@RequiresPermissions("dictXZQHB:getById")
@@ -51,7 +47,7 @@ public class RecJQTJBController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/findJQSevenDayShen")
+	@RequestMapping(value = "/findXZQHNum")
 //	@RequiresPermissions("dictXZQHB:getById")
 	public List<RecJQTJB> findXZQHNum(String tjTime) {
 		return  recJQTJBService.findXZQHNum(tjTime);
