@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
+import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.pagination.PagerModel;
 import com.toughguy.dataDisplay.service.content.prototype.IRecBJFSTJBService;
 
@@ -29,18 +30,27 @@ import com.toughguy.dataDisplay.service.content.prototype.IRecBJFSTJBService;
 public class RecBJFSTJBController {
 	@Autowired
 	private IRecBJFSTJBService recBJFSTJBService;
-	
-	
-	
-
-	
-	
+	/**
+	 * 查询今日接警类型 （首页）
+	 * @param tjrq
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/findBJFSShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecBJFSTJB> getAll() {
-		return  recBJFSTJBService.findAll();
+	public List<RecBJFSTJB> findBJFSShen(String tjrq){
+		return  recBJFSTJBService.findBJFSShen(tjrq);
 	}
-	
+	/**
+	 * 查询报警方式七天全省 （首页）
+	 * @param startTime endTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findJJLXSevenDayShen")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecBJFSTJB> findBJFSSevenDayShen(String startTime,String endTime){
+		return  recBJFSTJBService.findBJFSSevenDayShen(startTime,endTime);
+	}
 
 }

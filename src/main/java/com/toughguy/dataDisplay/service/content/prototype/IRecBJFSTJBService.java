@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
+import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.service.prototype.IGenericService;
 
 /**
@@ -12,5 +13,10 @@ import com.toughguy.dataDisplay.service.prototype.IGenericService;
  *
  */
 public interface IRecBJFSTJBService extends IGenericService<RecBJFSTJB, Integer>{
-	public List<RecBJFSTJB> findAll();
+	
+	//查询今日报警方式 （首页）
+	public List<RecBJFSTJB>  findBJFSShen(String tjTime);
+	
+	//查询报警方式七天全省 （首页）
+	public List<RecBJFSTJB>  findBJFSSevenDayShen(String startTime,String endTime);
 }

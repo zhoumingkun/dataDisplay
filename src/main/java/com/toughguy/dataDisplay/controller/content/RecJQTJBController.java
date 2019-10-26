@@ -30,7 +30,11 @@ public class RecJQTJBController {
 	@Autowired
 	private IRecJQTJBService recJQTJBService;
 	
-	
+	/**
+	 * 查询警情统计监测（今日首页）
+	 * @param tjTime
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/findJQNum")
 //	@RequiresPermissions("dictXZQHB:getById")
@@ -38,14 +42,22 @@ public class RecJQTJBController {
 		System.out.println(recJQTJBService.findJQNum(tjTime));
 		return  recJQTJBService.findJQNum(tjTime);
 	}
-	
+	/**
+	 * 查询近七天警情统计（首页）
+	 * @param startTime endTime
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/findJQSevenDayShen")
 //	@RequiresPermissions("dictXZQHB:getById")
 	public List<RecJQTJB> findJQSevenDayShen(String startTime,String endTime) {
 		return  recJQTJBService.findJQSevenDayShen(startTime,endTime);
 	}
-	
+	/**
+	 * 查询各行政区划警情数量（当日地图）
+	 * @param tjTime
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/findXZQHNum")
 //	@RequiresPermissions("dictXZQHB:getById")

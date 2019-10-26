@@ -2,25 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecJQTJB">
 
-	<!-- 查询警情统计监测 -->
+	<!-- 查询警情统计监测 （今日首页）-->
 	<select id="findJQNum" parameterType="String" resultType="RecJQTJB">
 		SELECT REC_JQTJB.jjsl,REC_JQTJB.yxjq,REC_JQTJB.cjsl,REC_JQTJB.fksl 
 		FROM REC_JQTJB
 		WHERE tjrq=#{tjTime}
 	</select>
 	
-	<!-- 查询近期警情统计-->
+	<!-- 查询近七天警情统计（首页）-->
 	<select id="findJQSevenDayShen" parameterType="Map" resultType="RecJQTJB">
 		SELECT  jjsl,tjrq from REC_JQTJB
 		WHERE tjrq between #{startTime} and #{endTime}
 		ORDER BY tjrq desc
 	</select>
 	
-	<!-- 查询各行政区划警情数量-->
+	<!-- 查询各行政区划警情数量（当日地图）-->
 	<select id="findXZQHNum" parameterType="String" resultType="RecJQTJB">
-		SELECT  jqtjb.jjsl ,jqtjb.xzqhdm,xzqhb.xzqhmc
+		SELECT  jqtjb.jjsl ,jqtjb.tjrq,jqtjb.xzqhdm,xzqhb.xzqhmc
         from REC_JQTJB jqtjb
-        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdmsubstr(xzqhb.xzqhdm,1,4)
+        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm substr(xzqhb.xzqhdm,1,4)
         WHERE tjrq=#{tjTime} 
 	</select>
 

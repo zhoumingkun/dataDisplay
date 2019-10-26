@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
 import com.toughguy.dataDisplay.model.content.RecLHLXTJB;
 import com.toughguy.dataDisplay.persist.content.prototype.IRecLHLXTJBDao;
 import com.toughguy.dataDisplay.service.content.prototype.IRecLHLXTJBService;
@@ -48,6 +49,20 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 	public List<RecLHLXTJB> findAll(){
 		// TODO Auto-generated method stub
 		return recLHLXTJBDao.findAll();
+	}
+	@Override
+	public List<RecLHLXTJB> findLHLXShen(String tjTime){
+		// TODO Auto-generated method stub
+		return recLHLXTJBDao.findLHLXShen(tjTime);
+	}
+
+	@Override
+	public List<RecLHLXTJB> findLHLXSevenDayShen(String startTime, String endTime) {
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		return recLHLXTJBDao.findLHLXSevenDayShen(map);
 	}
 
 	

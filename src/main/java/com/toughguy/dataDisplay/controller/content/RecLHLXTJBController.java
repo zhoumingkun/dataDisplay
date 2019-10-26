@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
 import com.toughguy.dataDisplay.model.content.RecLHLXTJB;
 import com.toughguy.dataDisplay.pagination.PagerModel;
 import com.toughguy.dataDisplay.service.content.prototype.IRecLHLXTJBService;
@@ -29,17 +30,27 @@ import com.toughguy.dataDisplay.service.content.prototype.IRecLHLXTJBService;
 public class RecLHLXTJBController {
 	@Autowired
 	private IRecLHLXTJBService recLHLXTJBService;
-	
-	
-	
-
-	
-	
+	/**
+	 * 查询今日来话类型 （首页）
+	 * @param tjTime
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/findLHLXShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecLHLXTJB> getAll() {
-		return  recLHLXTJBService.findAll();
+	public List<RecLHLXTJB> findLHLXShen(String tjrq){
+		return  recLHLXTJBService.findLHLXShen(tjrq);
+	}
+	/**
+	 * 查询来话类型七天全省 （首页）
+	 * @param startTime endTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findLHLXSevenDayShen")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecLHLXTJB> findLHLXSevenDayShen(String startTime,String endTime){
+		return  recLHLXTJBService.findLHLXSevenDayShen(startTime,endTime);
 	}
 	
 

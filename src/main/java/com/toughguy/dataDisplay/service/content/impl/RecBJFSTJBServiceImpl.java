@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
+import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.persist.content.prototype.IRecBJFSTJBDao;
 import com.toughguy.dataDisplay.service.content.prototype.IRecBJFSTJBService;
 import com.toughguy.dataDisplay.service.impl.GenericServiceImpl;
@@ -44,9 +45,18 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 	IRecBJFSTJBDao  recBJFSTJBDao;
 	
 	@Override
-	public List<RecBJFSTJB> findAll(){
+	public List<RecBJFSTJB> findBJFSShen(String tjTime){
 		// TODO Auto-generated method stub
-		return recBJFSTJBDao.findAll();
+		return recBJFSTJBDao.findBJFSShen(tjTime);
+	}
+
+	@Override
+	public List<RecBJFSTJB> findBJFSSevenDayShen(String startTime, String endTime) {
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		return recBJFSTJBDao.findBJFSSevenDayShen(map);
 	}
 
 	

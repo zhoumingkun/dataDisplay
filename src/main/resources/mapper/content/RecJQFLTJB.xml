@@ -2,13 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecJQFLTJB">
 
-	
-	
-	
-	
 	<!-- 查询某个信息 -->
 	<select id="findAll" parameterType="Map" resultType="RecJQFLTJB">
 		select * from REC_JQFLTJB
+	</select>
+	<!-- 查询各大类的警情分类数量（首页今日、昨日、前日）-->
+	<select id="findJQFLNum" parameterType="String" resultType="RecJQTJB">
+		SELECT  jqfltjb.tjrq ,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc 
+        from REC_JQFLTJB jqfltjb
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,2)=substr(jqfldmb.fldm,1,2) 
+        WHERE tjrq=#{tjTime} and jqfldmb.fllx=1
+        group by jqfltjb.tjrq ,jqfldmb.fldm,jqfldmb.flmc
+	</select>
+	
+	<!-- 查询各第二类的警情分类数量（首页今日、昨日、前日）-->
+	<select id="findJQFLsecondNum" parameterType="String" resultType="RecJQTJB">
+		SELECT  jqfltjb.tjrq ,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc 
+        from REC_JQFLTJB jqfltjb
+        LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 
+        WHERE tjrq=#{tjTime} and jqfldmb.fllx=2
+        group by jqfltjb.tjrq ,jqfldmb.fldm,jqfldmb.flmc
 	</select>
 	
 	

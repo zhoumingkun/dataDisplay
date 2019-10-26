@@ -2,19 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecJJLXTJB">
 
-	
-	
-	
-	
-	<!-- 查询某个信息 -->
-	<select id="findAll" parameterType="Map" resultType="RecJJLXTJB">
-		select * from REC_JJLXTJB
+	<!-- 查询今日接警类型 （首页）-->
+	<select id="findJJLXShen" parameterType="String" resultType="RecJJLXTJB">
+		SELECT jjlxtjb.tjrq,sum(jjlxtjb.jjsl)as jjsl,jjlxdmb.jjlxmc as jjlxdm
+        FROM REC_JJLXTJB jjlxtjb 
+        LEFT  JOIN  DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm    
+        WHERE tjrq=#{tjTime}   group by jjlxtjb.jjlxdm,jjlxtjb.tjrq,jjlxdmb.jjlxmc   
 	</select>
 	
+	<!-- 查询接警类型七天全省 （首页）-->
+	<select id="findJJLXSevenDayShen" parameterType="Map" resultType="RecJJLXTJB">
+		SELECT  sum(jjlxtjb.jjsl)as jjsl ,jjlxtjb.tjrq,jjlxdmb.jjlxmc as jjlxdm
+        from REC_JJLXTJB jjlxtjb
+        LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
+        WHERE tjrq between #{startTime} and #{endTime}
+        group by jjlxtjb.jjlxdm ,jjlxtjb.tjrq,jjlxdmb.jjlxmc
+        ORDER BY jjlxtjb.tjrq desc
+	</select>
 	
-
+	<!-- 查询时间区间内的警情数据分析(无行政区划) -->	
+	<select id="findAlarmData" parameterType="Map" resultType="RecJJLXTJB">		
+		SELECT  sum(jjlxtjb.jjsl)as jjsl ,jjlxtjb.tjrq,jjlxdmb.jjlxmc as jjlxdm
+        from REC_JJLXTJB jjlxtjb
+        LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
+        WHERE tjrq between #{startTime} and #{endTime}
+        group by jjlxtjb.jjlxdm ,jjlxtjb.tjrq,jjlxdmb.jjlxmc
+        ORDER BY jjlxtjb.tjrq desc
+	</select>
 	
+	<!-- 查询时间区间内的警情数据分析(有行政区划) -->	
+	<select id="findAlarmDataXZQH" parameterType="Map" resultType="RecJJLXTJB">		
+		SELECT xzqh.xzqhmc as xzqhdm, sum(jjlxtjb.jjsl)as jjsl ,jjlxtjb.tjrq,jjlxdmb.jjlxmc as jjlxdm
+        from REC_JJLXTJB jjlxtjb
+        LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
+        LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1,4)=jjlxtjb.xzqhdm
+        WHERE tjrq between #{startTime} and #{endTime}
+        group by jjlxtjb.jjlxdm ,jjlxtjb.tjrq,jjlxdmb.jjlxmc,xzqh.xzqhmc
+        ORDER BY jjlxtjb.tjrq desc
+	</select>
 	
-	
+	<!-- 查询时间区间内的某地市警情数据分析-->
+	<select id="findCityAlarmData" parameterType="Map" resultType="RecJJLXTJB">
+		SELECT  xzqh.xzqhmc AS xzqhdm,jjlxtjb.jjsl AS jjsl,jjlxtjb.tjrq,jjlxdmb.jjlxmc AS jjlxdm  
+		FROM 	REC_JJLXTJB jjlxtjb 
+		LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
+		LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=jjlxtjb.xzqhdm
+		WHERE tjrq between #{startTime} and #{endTime} AND jjlxtjb.xzqhdm=#{xzqhdm}
+	</select>
 	
 </mapper>

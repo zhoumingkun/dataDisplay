@@ -29,18 +29,50 @@ import com.toughguy.dataDisplay.service.content.prototype.IRecJJLXTJBService;
 public class RecJJLXTJBController {
 	@Autowired
 	private IRecJJLXTJBService recJJLXTJBService;
-	
-	
-	
-
-	
-	
+	/**
+	 * 查询今日接警类型 （首页）
+	 * @param tjrq
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/findJJLXShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecJJLXTJB> getAll() {
-		return  recJJLXTJBService.findAll();
+	public List<RecJJLXTJB> findJJLXShen(String tjrq){
+		return  recJJLXTJBService.findJJLXShen(tjrq);
+	}
+	/**
+	 * 查询接警类型七天全省 （首页）
+	 * @param startTime endTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findJJLXSevenDayShen")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJJLXTJB> findJJLXSevenDayShen(String startTime,String endTime){
+		return  recJJLXTJBService.findJJLXSevenDayShen(startTime,endTime);
 	}
 	
+	/**
+	 * 根据时间区间查询省的警情数据分析
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/findSAlarmData")
+	public Map<String,Object> findSAlarmData(String startTime,String endTime){
+		return recJJLXTJBService.findSAlarmData(startTime,endTime);
+	}
+
+	/**
+	 * 根据时间区间查询地级市的警情数据分析
+	 * @param startTime
+	 * @param endTime
+	 * @param xzqhdm
+	 * @return
+	 */
+	@RequestMapping("/findCityAlarmData")
+	public Map<String,Object> findCityAlarmData(String startTime,String endTime,String xzqhdm){
+		return recJJLXTJBService.findCityAlarmData(startTime,endTime,xzqhdm);
+	}
 
 }

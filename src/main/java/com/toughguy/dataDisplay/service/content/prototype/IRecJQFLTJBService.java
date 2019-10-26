@@ -11,5 +11,10 @@ import com.toughguy.dataDisplay.service.prototype.IGenericService;
  *
  */
 public interface IRecJQFLTJBService extends IGenericService<RecJQFLTJB, Integer>{
-	public List<RecJQFLTJB> findAll();
+	
+	// 查询各大类的警情分类数量（首页今日）
+	public List<RecJQFLTJB> findJQFLNum(String tjTime);
+	
+	// 查询各第二类的警情分类数量（首页今日、昨日、前日）
+	public List<RecJQFLTJB> findJQFLsecondNum(String tjTime);
 }

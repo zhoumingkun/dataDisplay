@@ -1,6 +1,8 @@
 package com.toughguy.dataDisplay.persist.content.prototype;
 import java.util.List;
 import java.util.Map;
+
+import com.toughguy.dataDisplay.model.content.DictBJFSDMB;
 import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
 import com.toughguy.dataDisplay.persist.prototype.IGenericDao;
 
@@ -11,7 +13,10 @@ import com.toughguy.dataDisplay.persist.prototype.IGenericDao;
  */
 public interface IRecBJFSTJBDao extends IGenericDao<RecBJFSTJB, Integer> {
 	
-	public List<RecBJFSTJB> findAll();
-	
+	//查询今日报警方式 （首页）
+	public List<RecBJFSTJB>  findBJFSShen(String tjTime);
+		
+	//查询报警方式七天全省 （首页）
+	public List<RecBJFSTJB>  findBJFSSevenDayShen(Map<String,String> map);
 	
 }

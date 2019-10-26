@@ -11,5 +11,16 @@ import com.toughguy.dataDisplay.service.prototype.IGenericService;
  *
  */
 public interface IRecJJLXTJBService extends IGenericService<RecJJLXTJB, Integer>{
-	public List<RecJJLXTJB> findAll();
+	
+	//查询今日接警类型 （首页）
+	public List<RecJJLXTJB>  findJJLXShen(String tjTime);
+	
+	//查询接警类型七天全省（首页）
+	public List<RecJJLXTJB>  findJJLXSevenDayShen(String startTime,String endTime);
+	
+	//根据时间区间查询省的警情数据分析
+	public Map<String, Object> findSAlarmData(String startTime, String endTime);
+
+	//根据时间区间查询地级市的警情数据分析
+	public Map<String, Object> findCityAlarmData(String startTime, String endTime, String xzqhdm);
 }

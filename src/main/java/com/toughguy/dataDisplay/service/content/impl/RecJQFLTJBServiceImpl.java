@@ -45,15 +45,15 @@ public class RecJQFLTJBServiceImpl extends GenericServiceImpl<RecJQFLTJB, Intege
 	IRecJQFLTJBDao  recJQFLTJBDao;
 	
 	@Override
-	public List<RecJQFLTJB> findAll(){
+	public List<RecJQFLTJB> findJQFLNum(String tjTime){
 		// TODO Auto-generated method stub
-		return recJQFLTJBDao.findAll();
+		return recJQFLTJBDao.findJQFLNum(tjTime);
 	}
-
 	
-			            
-			           
-				            
-				            
+	@Override
+	public List<RecJQFLTJB> findJQFLsecondNum(String tjTime){
+		// TODO Auto-generated method stub
+		return recJQFLTJBDao.findJQFLsecondNum(tjTime);
+	}
 
 }

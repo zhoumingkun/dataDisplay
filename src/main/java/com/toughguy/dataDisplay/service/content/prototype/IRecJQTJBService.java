@@ -12,12 +12,12 @@ import com.toughguy.dataDisplay.service.prototype.IGenericService;
  */
 public interface IRecJQTJBService extends IGenericService<RecJQTJB, Integer>{
 	
-	    //警情统计监测
+	    //查询警情统计监测 （今日首页）
 		public List<RecJQTJB>  findJQNum(String tjTime);
 		
-		//查询近期警情统计全省七天（首页）
+		//查询近七天警情统计（首页）
 		public List<RecJQTJB>  findJQSevenDayShen(String startTime,String endTime);
 		
-		//警情统计监测各行政区划数量（首页地图用）
+		//查询各行政区划警情数量（当日地图）
 		public List<RecJQTJB>  findXZQHNum(String tjTime);
 }

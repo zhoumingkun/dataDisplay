@@ -29,17 +29,28 @@ import com.toughguy.dataDisplay.service.content.prototype.IRecJQFLTJBService;
 public class RecJQFLTJBController {
 	@Autowired
 	private IRecJQFLTJBService recJQFLTJBService;
-	
-	
-	
-
-	
-	
+	/**
+	 * 查询接警类型七天全省 （首页）
+	 * @param tjTime 
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/findJQFLNum")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecJQFLTJB> getAll() {
-		return  recJQFLTJBService.findAll();
+	public List<RecJQFLTJB> findJQFLNum(String tjTime) {
+		return  recJQFLTJBService.findJQFLNum(tjTime);
+	}
+	
+	/**
+	 * 查询各第二类的警情分类数量（首页今日、昨日、前日）
+	 * @param tjTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findJQFLsecondNum")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQFLTJB> findJQFLsecondNum(String tjTime) {
+		return  recJQFLTJBService.findJQFLsecondNum(tjTime);
 	}
 	
 

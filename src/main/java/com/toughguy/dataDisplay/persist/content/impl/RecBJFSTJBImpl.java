@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Repository;
 import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
+import com.toughguy.dataDisplay.model.content.RecJJLXTJB;
 import com.toughguy.dataDisplay.persist.content.prototype.IRecBJFSTJBDao;
 import com.toughguy.dataDisplay.persist.impl.GenericDaoImpl;
 /**
@@ -14,9 +15,15 @@ import com.toughguy.dataDisplay.persist.impl.GenericDaoImpl;
 public class RecBJFSTJBImpl extends GenericDaoImpl<RecBJFSTJB, Integer> implements IRecBJFSTJBDao{
 	
 	@Override
-	public List<RecBJFSTJB> findAll() {
+	public List<RecBJFSTJB> findBJFSShen(String tjTime) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectList(typeNameSpace + ".findAll");
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findBJFSShen",tjTime);
+	}
+
+	@Override
+	public List<RecBJFSTJB> findBJFSSevenDayShen(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findBJFSSevenDayShen",map);
 	}
 
 	
