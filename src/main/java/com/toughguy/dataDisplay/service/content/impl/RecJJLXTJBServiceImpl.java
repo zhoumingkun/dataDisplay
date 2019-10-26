@@ -70,6 +70,8 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		List<RecJJLXTJB> listxzqh = recJJLXTJBDao.findAlarmDataXZQH(map);		//查询出时间区间的全省的警情数据
 		System.out.println(list);
 		Set<String> set = new HashSet<>();
+		set.add("综合报警");
+		set.add("其他接警类型");
 		for(int i =0 ;i<list.size();i++) {
 			set.add(list.get(i).getJjlxdm());
 		}
@@ -166,6 +168,8 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		map.put("xzqhdm", xzqhdm);
 		List<RecJJLXTJB> list = recJJLXTJBDao.findCityAlarmData(map);
 		Set<String> set = new HashSet<>();
+		set.add("综合报警");
+		set.add("其他接警类型");
 		int total = 0;
 		for(int i =0 ;i<list.size();i++) {
 			total=total+list.get(i).getJjsl();
