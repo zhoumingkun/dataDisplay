@@ -11,15 +11,15 @@ import com.toughguy.dataDisplay.util.JsonUtil;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL) //为空字段不返回
 public class RecBJFSTJB  {
-	private String tjsl;      //统计时间
+	private String tjrq;      //统计时间
 	private String bjfsdm;    //报警方式代码
 	private int jjsl;         //接警数量
 	private String xzqhdm;    //行政区划代码
-	public String getTjsl() {
-		return tjsl;
+	public String getTjrq() {
+		return tjrq;
 	}
-	public void setTjsl(String tjsl) {
-		this.tjsl = tjsl;
+	public void setTjrq(String tjrq) {
+		this.tjrq = tjrq;
 	}
 	public String getBjfsdm() {
 		return bjfsdm;
@@ -41,7 +41,7 @@ public class RecBJFSTJB  {
 	}
 	@Override
 	public String toString() {
-		return "RecBJFSTJB [tjsl=" + tjsl + ", bjfsdm=" + bjfsdm + ", jjsl=" + jjsl + ", xzqhdm=" + xzqhdm + "]";
+		return "RecBJFSTJB [tjrq=" + tjrq + ", bjfsdm=" + bjfsdm + ", jjsl=" + jjsl + ", xzqhdm=" + xzqhdm + "]";
 	}
-	
+
 }
