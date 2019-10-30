@@ -31,15 +31,15 @@ public class RecBJFSTJBController {
 	@Autowired
 	private IRecBJFSTJBService recBJFSTJBService;
 	/**
-	 * 查询今日接警类型 （首页）
-	 * @param tjrq
+	 * 查询今日报警方式 （首页）
+	 * @param tjTime
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findBJFSShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecBJFSTJB> findBJFSShen(String tjrq){
-		return  recBJFSTJBService.findBJFSShen(tjrq);
+	public List<RecBJFSTJB> findBJFSShen(String tjTime){
+		return  recBJFSTJBService.findBJFSShen(tjTime);
 	}
 	/**
 	 * 查询报警方式七天全省 （首页）
@@ -47,10 +47,32 @@ public class RecBJFSTJBController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/findJJLXSevenDayShen")
+	@RequestMapping(value = "/findBJFSSevenDayShen")
 //	@RequiresPermissions("dictXZQHB:getById")
 	public List<RecBJFSTJB> findBJFSSevenDayShen(String startTime,String endTime){
 		return  recBJFSTJBService.findBJFSSevenDayShen(startTime,endTime);
 	}
+	/**
+	 * 查询省报警方式数据分析
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/findSAlarmMode")
+	public Map<String,Object> findSAlarmMode(String startTime,String endTime){
+		return  recBJFSTJBService.findSAlarmMode(startTime,endTime);
+	}
+	
+	/**
+	 * 查询地级市报警方式数据分析
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/findCityAlarmMode")
+	public Map<String,Object> findCityAlarmMode(String startTime,String endTime,String xzqhdm){
+		return  recBJFSTJBService.findCityAlarmMode(startTime,endTime,xzqhdm);
+	}
+
 
 }

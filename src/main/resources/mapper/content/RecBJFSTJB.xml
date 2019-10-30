@@ -7,8 +7,10 @@
 		SELECT bjfstjb.tjrq,sum(bjfstjb.jjsl)as jjsl,bjfsdmb.bjfsmc as bjfsdm
         FROM REC_BJFSTJB bjfstjb 
         LEFT  JOIN  DICT_BJFSDMB bjfsdmb ON bjfstjb.bjfsdm=bjfsdmb.bjfsdm    
-        WHERE tjrq=#{tjTime}   group by bjfstjb.bjfsdm,bjfstjb.tjrq,bjfsdmb.bjfsmc   
+        WHERE tjrq=#{tjTime}   
+        group by bjfstjb.bjfsdm,bjfstjb.tjrq,bjfsdmb.bjfsmc   
 	</select>
+        
 	<!-- 查询报警方式七天全省 （首页）-->
 	<select id="findBJFSSevenDayShen" parameterType="Map" resultType="RecJJLXTJB">
 		SELECT  sum(bjfstjb.jjsl)as jjsl ,bjfstjb.tjrq,bjfsdmb.bjfsmc as bjfsdm
@@ -19,9 +21,24 @@
         ORDER BY bjfstjb.tjrq desc
 	</select>
 	
-
+		
+	<!-- 查询报警方式全省 （有行政区划）-->
+	<select id="findSAlarmModeXZQH" parameterType="Map" resultType="RecBJFSTJB">
+		SELECT  xzqh.xzqhmc as xzqhdm,sum(bjfstjb.jjsl)as jjsl ,bjfstjb.tjrq,bjfsdmb.bjfsmc as bjfsdm 
+        FROM REC_BJFSTJB bjfstjb 
+        LEFT  JOIN  DICT_BJFSDMB bjfsdmb ON bjfstjb.bjfsdm=bjfsdmb.bjfsdm 
+        LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=bjfstjb.xzqhdm  
+        WHERE tjrq between #{startTime} and #{endTime}
+        group by bjfstjb.bjfsdm ,bjfstjb.tjrq,bjfsdmb.bjfsmc,xzqh.xzqhmc 
+	</select>
 	
 	
-	
-	
+	<!-- 查询时间区间内的某地市报警方式数据分析-->
+	<select id="findCityAlarmMode" parameterType="Map" resultType="RecBJFSTJB">
+		SELECT  xzqh.xzqhmc AS xzqhdm,bjfstjb.jjsl AS jjsl ,bjfstjb.tjrq,bjfsdmb.bjfsmc as bjfsdm 
+		FROM REC_BJFSTJB bjfstjb 
+		LEFT  JOIN  DICT_BJFSDMB bjfsdmb ON bjfstjb.bjfsdm=bjfsdmb.bjfsdm 
+        LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=bjfstjb.xzqhdm  
+		WHERE tjrq between #{startTime} and #{endTime} AND bjfstjb.xzqhdm=#{xzqhdm}
+	</select>
 </mapper>

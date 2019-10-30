@@ -26,6 +26,17 @@ public class RecBJFSTJBImpl extends GenericDaoImpl<RecBJFSTJB, Integer> implemen
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findBJFSSevenDayShen",map);
 	}
 
-	
+
+	@Override
+	public List<RecBJFSTJB> findSAlarmModeXZQH(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findSAlarmModeXZQH",map);
+	}
+
+	@Override
+	public List<RecBJFSTJB> findCityAlarmMode(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findCityAlarmMode",map);
+	}
 	
 }

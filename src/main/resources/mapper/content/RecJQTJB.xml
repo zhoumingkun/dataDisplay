@@ -4,24 +4,27 @@
 
 	<!-- 查询警情统计监测 （今日首页）-->
 	<select id="findJQNum" parameterType="String" resultType="RecJQTJB">
-		SELECT REC_JQTJB.jjsl,REC_JQTJB.yxjq,REC_JQTJB.cjsl,REC_JQTJB.fksl 
+		SELECT sum(jjsl)as jjsl,sum(yxjq)as yxjq,sum(cjsl)as cjsl,sum(fksl )as fksl 
 		FROM REC_JQTJB
 		WHERE tjrq=#{tjTime}
 	</select>
 	
 	<!-- 查询近七天警情统计（首页）-->
 	<select id="findJQSevenDayShen" parameterType="Map" resultType="RecJQTJB">
-		SELECT  jjsl,tjrq from REC_JQTJB
+		SELECT  sum(jjsl)as jjsl,tjrq 
+		from REC_JQTJB
 		WHERE tjrq between #{startTime} and #{endTime}
-		ORDER BY tjrq desc
+		group by tjrq
+		ORDER BY tjrq asc
 	</select>
 	
 	<!-- 查询各行政区划警情数量（当日地图）-->
 	<select id="findXZQHNum" parameterType="String" resultType="RecJQTJB">
-		SELECT  jqtjb.jjsl ,jqtjb.tjrq,jqtjb.xzqhdm,xzqhb.xzqhmc
+		SELECT  sum(jqtjb.jjsl)as jjsl ,xzqhb.xzqhmc as xzqhdm
         from REC_JQTJB jqtjb
-        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm substr(xzqhb.xzqhdm,1,4)
+        LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm = substr(xzqhb.xzqhdm,1,4)
         WHERE tjrq=#{tjTime} 
+        group by xzqhb.xzqhmc
 	</select>
 
 

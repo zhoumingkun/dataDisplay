@@ -37,8 +37,8 @@ public class RecJJLXTJBController {
 	@ResponseBody
 	@RequestMapping(value = "/findJJLXShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecJJLXTJB> findJJLXShen(String tjrq){
-		return  recJJLXTJBService.findJJLXShen(tjrq);
+	public List<RecJJLXTJB> findJJLXShen(String tjTime){
+		return  recJJLXTJBService.findJJLXShen(tjTime);
 	}
 	/**
 	 * 查询接警类型七天全省 （首页）

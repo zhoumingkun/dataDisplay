@@ -19,4 +19,10 @@ public interface IRecBJFSTJBDao extends IGenericDao<RecBJFSTJB, Integer> {
 	//查询报警方式七天全省 （首页）
 	public List<RecBJFSTJB>  findBJFSSevenDayShen(Map<String,String> map);
 	
+	
+	//查询报警方式全省全部数据(有行政区划)
+	public List<RecBJFSTJB>  findSAlarmModeXZQH(Map<String,String> map);
+	
+	//查询报警方式某地市全部数据
+	public List<RecBJFSTJB>  findCityAlarmMode(Map<String,String> map);
 }

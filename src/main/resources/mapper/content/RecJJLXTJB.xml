@@ -7,7 +7,8 @@
 		SELECT jjlxtjb.tjrq,sum(jjlxtjb.jjsl)as jjsl,jjlxdmb.jjlxmc as jjlxdm
         FROM REC_JJLXTJB jjlxtjb 
         LEFT  JOIN  DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm    
-        WHERE tjrq=#{tjTime}   group by jjlxtjb.jjlxdm,jjlxtjb.tjrq,jjlxdmb.jjlxmc   
+        WHERE tjrq=#{tjTime}   
+        group by jjlxtjb.jjlxdm,jjlxtjb.tjrq,jjlxdmb.jjlxmc   
 	</select>
 	
 	<!-- 查询接警类型七天全省 （首页）-->

@@ -19,4 +19,11 @@ public interface IRecBJFSTJBService extends IGenericService<RecBJFSTJB, Integer>
 	
 	//查询报警方式七天全省 （首页）
 	public List<RecBJFSTJB>  findBJFSSevenDayShen(String startTime,String endTime);
+	
+
+	//查询报警方式省页面全部数据
+	public Map<String, Object> findSAlarmMode(String startTime, String endTime);
+	
+	//查询地级市报警方式页面全部数据
+	public Map<String, Object> findCityAlarmMode(String startTime, String endTime,String xzqhdm);
 }
