@@ -3,7 +3,7 @@
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecJQFLTJB">
 
 	<!-- 查询各大类的警情分类数量（首页今日、昨日、前日）-->
-	<select id="findJQFLNum" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.tjrq ,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc 
         from REC_JQFLTJB jqfltjb
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,2)=substr(jqfldmb.fldm,1,2) 
@@ -12,7 +12,7 @@
 	</select>
 	
 	<!-- 查询各大类的警情分类数量近七天（首页）-->
-	<select id="findJQFLSevenDayNum" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLSevenDayNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc 
         from REC_JQFLTJB jqfltjb
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,2)=substr(jqfldmb.fldm,1,2) 
@@ -22,7 +22,7 @@
 	</select>
 	
 	<!-- 查询各第二类的警情分类数量（首页今日、昨日、前日）
-	<select id="findJQFLsecondNum" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLsecondNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.tjrq ,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc 
         from REC_JQFLTJB jqfltjb
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 
@@ -43,7 +43,7 @@
 	-->
 	
 	<!-- 查询各第二类的警情分类数量（二级页面今日、昨日、前日）-->
-	<select id="findJQFLsecondNum" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLsecondNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc
         from REC_JQFLTJB jqfltjb
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 
@@ -54,7 +54,7 @@
 	</select>
 	
 	<!-- 查询各第二类的警情分类数量（二级页面近七日）-->
-	<select id="findJQFLsecondSevenDayNum" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLsecondSevenDayNum" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc
         from REC_JQFLTJB jqfltjb
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 
@@ -65,7 +65,7 @@
 	</select>
 	
 	<!-- 查询各大类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm-->
-	<select id="findJQFLNumXZQH" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLNumXZQH" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.xzqhdm,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
@@ -79,7 +79,7 @@
 	</select>
 	
 	<!-- 查询各大类的警情分类数量（二级页面各行政区划近七日）startTime endTime xzqhdm-->
-	<select id="findJQFLSevenDayNumXZQH" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLSevenDayNumXZQH" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.xzqhdm,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
@@ -92,7 +92,7 @@
 	</select>
 	
 	<!-- 查询各第二类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm-->
-	<select id="findJQFLsecondNumXZQH" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLsecondNumXZQH" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.xzqhdm,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
@@ -105,7 +105,7 @@
 	</select>
 	
 	<!-- 查询各第二类的警情分类数量（二级页面各行政区划近七日）startTime endTime xzqhdm-->
-	<select id="findJQFLsecondSevenDayNumXZQH" parameterType="String" resultType="RecJQTJB">
+	<select id="findJQFLsecondSevenDayNumXZQH" parameterType="String" resultType="RecJQFLTJB">
 		SELECT  jqfltjb.xzqhdm,sum(jqfltjb.jjsl)as jjsl,jqfldmb.fldm,jqfldmb.flmc ,jqfldmb.sjdm,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)

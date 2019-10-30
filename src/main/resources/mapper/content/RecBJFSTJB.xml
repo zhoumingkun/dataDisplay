@@ -3,7 +3,7 @@
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecBJFSTJB">
 	
 	<!-- 查询今日报警方式 （首页）-->
-	<select id="findBJFSShen" parameterType="String" resultType="RecJJLXTJB">
+	<select id="findBJFSShen" parameterType="String" resultType="RecBJFSTJB">
 		SELECT bjfstjb.tjrq,sum(bjfstjb.jjsl)as jjsl,bjfsdmb.bjfsmc as bjfsdm
         FROM REC_BJFSTJB bjfstjb 
         LEFT  JOIN  DICT_BJFSDMB bjfsdmb ON bjfstjb.bjfsdm=bjfsdmb.bjfsdm    
@@ -12,13 +12,13 @@
 	</select>
         
 	<!-- 查询报警方式七天全省 （首页）-->
-	<select id="findBJFSSevenDayShen" parameterType="Map" resultType="RecJJLXTJB">
+	<select id="findBJFSSevenDayShen" parameterType="Map" resultType="RecBJFSTJB">
 		SELECT  sum(bjfstjb.jjsl)as jjsl ,bjfstjb.tjrq,bjfsdmb.bjfsmc as bjfsdm
         FROM REC_BJFSTJB bjfstjb 
         LEFT  JOIN  DICT_BJFSDMB bjfsdmb ON bjfstjb.bjfsdm=bjfsdmb.bjfsdm 
         WHERE tjrq between #{startTime} and #{endTime}
         group by bjfstjb.bjfsdm ,bjfstjb.tjrq,bjfsdmb.bjfsmc
-        ORDER BY bjfstjb.tjrq desc
+        ORDER BY bjfstjb.tjrq asc
 	</select>
 	
 		
@@ -30,6 +30,7 @@
         LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=bjfstjb.xzqhdm  
         WHERE tjrq between #{startTime} and #{endTime}
         group by bjfstjb.bjfsdm ,bjfstjb.tjrq,bjfsdmb.bjfsmc,xzqh.xzqhmc 
+        ORDER BY bjfstjb.tjrq asc
 	</select>
 	
 	
@@ -40,5 +41,6 @@
 		LEFT  JOIN  DICT_BJFSDMB bjfsdmb ON bjfstjb.bjfsdm=bjfsdmb.bjfsdm 
         LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=bjfstjb.xzqhdm  
 		WHERE tjrq between #{startTime} and #{endTime} AND bjfstjb.xzqhdm=#{xzqhdm}
+		ORDER BY bjfstjb.tjrq asc
 	</select>
 </mapper>
