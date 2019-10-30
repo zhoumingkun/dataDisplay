@@ -18,7 +18,7 @@
         LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
         WHERE tjrq between #{startTime} and #{endTime}
         group by jjlxtjb.jjlxdm ,jjlxtjb.tjrq,jjlxdmb.jjlxmc
-        ORDER BY jjlxtjb.tjrq desc
+        ORDER BY jjlxtjb.tjrq asc
 	</select>
 	
 	<!-- 查询时间区间内的警情数据分析(无行政区划) -->	
@@ -28,7 +28,7 @@
         LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
         WHERE tjrq between #{startTime} and #{endTime}
         group by jjlxtjb.jjlxdm ,jjlxtjb.tjrq,jjlxdmb.jjlxmc
-        ORDER BY jjlxtjb.tjrq desc
+        ORDER BY jjlxtjb.tjrq asc
 	</select>
 	
 	<!-- 查询时间区间内的警情数据分析(有行政区划) -->	
@@ -39,7 +39,7 @@
         LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1,4)=jjlxtjb.xzqhdm
         WHERE tjrq between #{startTime} and #{endTime}
         group by jjlxtjb.jjlxdm ,jjlxtjb.tjrq,jjlxdmb.jjlxmc,xzqh.xzqhmc
-        ORDER BY jjlxtjb.tjrq desc
+        ORDER BY jjlxtjb.tjrq asc
 	</select>
 	
 	<!-- 查询时间区间内的某地市警情数据分析-->
@@ -49,6 +49,7 @@
 		LEFT JOIN DICT_JJLXDMB jjlxdmb ON jjlxtjb.jjlxdm=jjlxdmb.jjlxdm
 		LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=jjlxtjb.xzqhdm
 		WHERE tjrq between #{startTime} and #{endTime} AND jjlxtjb.xzqhdm=#{xzqhdm}
+		ORDER BY jjlxtjb.tjrq asc
 	</select>
 	
 </mapper>
