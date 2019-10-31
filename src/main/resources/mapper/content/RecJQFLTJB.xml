@@ -9,6 +9,7 @@
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,2)=substr(jqfldmb.fldm,1,2) 
         WHERE tjrq=#{tjTime} and jqfldmb.fllx=1
         group by jqfltjb.tjrq ,jqfldmb.flmc
+        ORDER BY jjsl desc
 	</select>
 	
 	<!-- 查询各大类的警情分类数量近七天（首页）
