@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toughguy.dataDisplay.model.content.RecBJFSTJB;
 import com.toughguy.dataDisplay.model.content.RecLHLXTJB;
 import com.toughguy.dataDisplay.pagination.PagerModel;
 import com.toughguy.dataDisplay.service.content.prototype.IRecLHLXTJBService;
@@ -38,8 +37,8 @@ public class RecLHLXTJBController {
 	@ResponseBody
 	@RequestMapping(value = "/findLHLXShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecLHLXTJB> findLHLXShen(String tjrq){
-		return  recLHLXTJBService.findLHLXShen(tjrq);
+	public List<RecLHLXTJB> findLHLXShen(String tjTime){
+		return  recLHLXTJBService.findLHLXShen(tjTime);
 	}
 	/**
 	 * 查询来话类型七天全省 （首页）
@@ -53,5 +52,27 @@ public class RecLHLXTJBController {
 		return  recLHLXTJBService.findLHLXSevenDayShen(startTime,endTime);
 	}
 	
+	/**
+	 * 查询省厅来话类型全部数据
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/findSIncomingType")
+	public Map<String,Object> findSIncomingType(String startTime,String endTime){
+		return  recLHLXTJBService.findSIncomingType(startTime,endTime);
+	}
+
+	
+	/**
+	 * 查询地级市来话类型全部数据
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/findCityIncomingType")
+	public Map<String,Object> findCityIncomingType(String startTime,String endTime,String xzqhdm){
+		return  recLHLXTJBService.findCityIncomingType(startTime,endTime,xzqhdm);
+	}
 
 }

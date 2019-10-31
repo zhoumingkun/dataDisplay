@@ -55,5 +55,23 @@ public class RecJQFLTJBServiceImpl extends GenericServiceImpl<RecJQFLTJB, Intege
 		// TODO Auto-generated method stub
 		return recJQFLTJBDao.findJQFLsecondNum(tjTime);
 	}
+	
+	@Override
+	public List<RecJQFLTJB> findJQFLNumXZQH(String tjTime,String xzqhdm){
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("tjTime", tjTime);
+		map.put("xzqhdm", xzqhdm);
+		return recJQFLTJBDao.findJQFLNumXZQH(map);
+	}
+	
+	@Override
+	public List<RecJQFLTJB> findJQFLsecondNumXZQH(String tjTime,String xzqhdm){
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("tjTime", tjTime);
+		map.put("xzqhdm", xzqhdm);
+		return recJQFLTJBDao.findJQFLsecondNumXZQH(map);
+	}
 
 }

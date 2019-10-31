@@ -19,4 +19,10 @@ public interface IRecLHLXTJBService extends IGenericService<RecLHLXTJB, Integer>
 		
 	//查询来话类型七天全省 （首页）
 	public List<RecLHLXTJB>  findLHLXSevenDayShen(String startTime,String endTime);
+	
+	//查询省厅来话类型数据
+	public Map<String,Object>  findSIncomingType(String startTime,String endTime);
+		
+	//查询地级市来话类型数据
+	public Map<String,Object>  findCityIncomingType(String startTime,String endTime,String xzqhdm);
 }

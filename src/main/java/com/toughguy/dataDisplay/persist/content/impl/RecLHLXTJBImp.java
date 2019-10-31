@@ -32,6 +32,19 @@ public class RecLHLXTJBImp extends GenericDaoImpl<RecLHLXTJB, Integer> implement
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findLHLXSevenDayShen",map);
 	}
 
+	@Override
+	public List<RecLHLXTJB> findSIncomingTypeXZQH(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findSIncomingTypeXZQH",map);
+	}
+
+	@Override
+	public List<RecLHLXTJB> findCityIncomingType(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findCityIncomingType",map);
+	}
+
+
 
 	
 	

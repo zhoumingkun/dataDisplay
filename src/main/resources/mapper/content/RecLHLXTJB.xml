@@ -3,25 +3,43 @@
 <mapper namespace="com.toughguy.dataDisplay.model.content.RecLHLXTJB">
 
 	<!-- 查询今日来话类型 （首页）-->
-	<select id="findLHLXShen" parameterType="String" resultType="RecJJLXTJB">
-		SELECT lhlxtjb.tjrq,sum(lhlxtjb.jjsl)as jjsl,lhlxdmb.lhlxmc as lhlxdm
+	<select id="findLHLXShen" parameterType="String" resultType="RecLHLXTJB">
+		SELECT lhlxtjb.tjrq,sum(lhlxtjb.jjsl)as jjsl,lhlxdmb.lhlxmc as lhlxdm    
         FROM REC_LHLXTJB lhlxtjb 
         LEFT  JOIN  DICT_LHLXDMB lhlxdmb ON lhlxtjb.lhlxdm=lhlxdmb.lhlxdm    
-        WHERE tjrq=#{tjTime}   group by lhlxtjb.lhlxdm,lhlxtjb.tjrq,lhlxdmb.lhlxmc   
+        WHERE tjrq=#{tjTime}   
+        group by lhlxtjb.lhlxdm,lhlxtjb.tjrq,lhlxdmb.lhlxmc   
 	</select>
+	
 	<!-- 查询来话类型七天全省 （首页）-->
-	<select id="findLHLXSevenDayShen" parameterType="Map" resultType="RecJJLXTJB">
-		SELECT  sum(lhlxtjb.jjsl)as jjsl ,lhlxtjb.tjrq,lhlxdmb.lhlxmc as lhlxdm
+	<select id="findLHLXSevenDayShen" parameterType="Map" resultType="RecLHLXTJB">
+		SELECT  sum(lhlxtjb.jjsl)as jjsl ,lhlxtjb.tjrq,lhlxdmb.lhlxmc as lhlxdm  
         FROM REC_LHLXTJB lhlxtjb 
         LEFT  JOIN  DICT_LHLXDMB lhlxdmb ON lhlxtjb.lhlxdm=lhlxdmb.lhlxdm  
         WHERE tjrq between #{startTime} and #{endTime}
         group by lhlxtjb.lhlxdm ,lhlxtjb.tjrq,lhlxdmb.lhlxmc
-        ORDER BY lhlxtjb.tjrq desc
+        ORDER BY lhlxtjb.tjrq asc
 	</select>
 	
+	<!-- 查询来话类型省数据(有行政区划)-->
+	<select id="findSIncomingTypeXZQH" parameterType="Map" resultType="RecLHLXTJB">
+		SELECT  xzqh.xzqhmc AS xzqhdm, sum(lhlxtjb.jjsl)as jjsl ,lhlxtjb.tjrq,lhlxdmb.lhlxmc as lhlxdm
+        FROM REC_LHLXTJB lhlxtjb 
+        LEFT  JOIN  DICT_LHLXDMB lhlxdmb ON lhlxtjb.lhlxdm=lhlxdmb.lhlxdm  
+        LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=lhlxtjb.xzqhdm  
+        WHERE tjrq between #{startTime} and #{endTime}
+        group by lhlxtjb.lhlxdm ,lhlxtjb.tjrq,lhlxdmb.lhlxmc,xzqh.xzqhmc 
+        ORDER BY lhlxtjb.tjrq asc
+	</select>
+	
+	<!-- 查询来话类型地级市数据(有行政区划)-->
+	<select id="findCityIncomingType" parameterType="Map" resultType="RecLHLXTJB">
+		SELECT  xzqh.xzqhmc AS xzqhdm,lhlxtjb.jjsl AS jjsl ,lhlxtjb.tjrq,lhlxdmb.bjfsmc as bjfsdm 
+        FROM REC_LHLXTJB lhlxtjb 
+        LEFT  JOIN  DICT_LHLXDMB lhlxdmb ON lhlxtjb.lhlxdm=lhlxdmb.lhlxdm  
+        LEFT JOIN  DICT_XZQHB xzqh ON SUBSTR(xzqh.xzqhdm,1, 4)=lhlxtjb.xzqhdm  
+        WHERE tjrq between #{startTime} and #{endTime} AND lhlxtjb.xzqhdm=#{xzqhdm} 
+        ORDER BY lhlxtjb.tjrq asc
+	</select>
 
-	
-	
-	
-	
 </mapper>

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +65,141 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 		map.put("endTime", endTime);
 		return recLHLXTJBDao.findLHLXSevenDayShen(map);
 	}
+	
+	@Override
+	public Map<String, Object> findSIncomingType(String startTime, String endTime) {
+		// TODO Auto-generated method stub
+		Map<String,Object> smap= new HashMap<>();
+		Map<String,String> map = new HashMap<>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		List<RecLHLXTJB> list = recLHLXTJBDao.findLHLXSevenDayShen(map);		//查询出时间区间的全省的来话类型数据
+		List<RecLHLXTJB> listxzqh = recLHLXTJBDao.findSIncomingTypeXZQH(map);		//查询出时间区间的全省的来话类型数据(含行政区划)
+		System.out.println(list);
+		Set<String> set = new HashSet<>();
+		set.add("报警求助、举报投诉");
+		set.add("处警反馈");
+		set.add("信息咨询");
+		set.add("重复报警");
+		set.add("骚扰电话");
+		set.add("系统测试");
+		set.add("其它处理类型");
+		for(int i =0 ;i<list.size();i++) {
+			set.add(list.get(i).getLhlxdm());
+		}
+		int total=0;
+		Map<String,Object> sevenmap= new HashMap<>();
+		Map<String,String> num= new HashMap<>();
+		int z=0;
+		for(String name:set) {
+			List<RecLHLXTJB> arr = new ArrayList<>();
+			for(int i =0;i<list.size();i++) {	
+				if(list.get(i).getLhlxdm().equals(name) || list.get(i).getLhlxdm()==name) {		
+					RecLHLXTJB lhlx= new RecLHLXTJB();
+					lhlx.setLhlxdm(name);
+					lhlx.setTjrq(list.get(i).getTjrq());
+					lhlx.setJjsl(list.get(i).getJjsl());
+					total=total+list.get(i).getJjsl();
+					z=z+list.get(i).getJjsl();
+					arr.add(lhlx);
+				}
+			}
+
+			num.put(name,z+"");
+			z=0;
+			sevenmap.put(name, arr);
+		}
+		smap.put("sevenDays", sevenmap);
+		System.out.println("-----------------"+num);
+		Map<String,Integer> proportion = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.00");
+		for(String name :set) {
+			if(num.get(name)==null || num.get(name).equals("null")) {
+				proportion.put(name, 0);
+			}else {
+				int one = Integer.parseInt(num.get(name));
+				int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
+				proportion.put(name, u);
+			}
+		}
+		smap.put("proportion", proportion);
+
+		Set<String> set2= new HashSet<>();
+		for(int i=0;i<listxzqh.size();i++) {
+			set2.add(listxzqh.get(i).getXzqhdm());
+		}
+		for(String name:set) {
+			Map<String,String> xzqhnumber = new HashMap<>();
+			for(String xzqh:set2) {
+				int h=0;
+				for(int i=0;i<listxzqh.size();i++) {
+					if(listxzqh.get(i).getLhlxdm().equals(name) && listxzqh.get(i).getXzqhdm().equals(xzqh)) {
+						h=h+listxzqh.get(i).getJjsl();
+					}
+				}
+				xzqhnumber.put(xzqh+"市", h+"");
+			}
+			smap.put(name, xzqhnumber);
+		}
+		return smap;
+	}
+	
+	
+	@Override
+	public Map<String, Object> findCityIncomingType(String startTime, String endTime, String xzqhdm) {
+		// TODO Auto-generated method stub
+		Map<String,String> map = new HashMap<>();
+		Map<String,Object> cmap = new HashMap<>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("xzqhdm", xzqhdm);
+		List<RecLHLXTJB> list = recLHLXTJBDao.findCityIncomingType(map);
+		Set<String> set = new HashSet<>();
+		set.add("报警求助、举报投诉");
+		set.add("处警反馈");
+		set.add("信息咨询");
+		set.add("重复报警");
+		set.add("骚扰电话");
+		set.add("系统测试");
+		set.add("其它处理类型");
+		int total = 0;
+		for(int i =0 ;i<list.size();i++) {
+			total=total+list.get(i).getJjsl();
+			set.add(list.get(i).getLhlxdm());
+		}
+		Map<String,String> num = new HashMap<>();
+		for(String name:set) {
+			int z=0;
+			List<RecLHLXTJB> arr= new ArrayList<>();
+			for(int i =0;i<list.size();i++) {
+				if(list.get(i).getLhlxdm()==name || list.get(i).getLhlxdm().equals(name)) {
+					z=z+list.get(i).getJjsl();
+					RecLHLXTJB lhlx= new RecLHLXTJB();
+					lhlx.setLhlxdm(name);
+					lhlx.setJjsl(list.get(i).getJjsl());
+					lhlx.setTjrq(list.get(i).getTjrq());
+					lhlx.setXzqhdm(list.get(i).getXzqhdm());
+					arr.add(lhlx);
+				}
+			}
+			num.put(name, z+"");
+			cmap.put(name, arr);
+		}
+		Map<String,Integer> proportion = new HashMap<>();
+		DecimalFormat df = new DecimalFormat("0.00");
+		for(String name:set) {
+			if(num.get(name)==null || num.get(name).equals("null")) {
+				proportion.put(name, 0);
+			}else {
+				int one = Integer.parseInt(num.get(name));
+				int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
+				proportion.put(name, u);
+			}
+		}
+		cmap.put("proportion", proportion);
+		return cmap;
+	}
+
 
 	
 			            

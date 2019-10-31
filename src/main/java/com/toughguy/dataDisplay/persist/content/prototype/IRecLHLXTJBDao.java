@@ -18,4 +18,10 @@ public interface IRecLHLXTJBDao extends IGenericDao<RecLHLXTJB, Integer> {
 			
 	//查询来话类型七天全省 （首页）
 	public List<RecLHLXTJB>  findLHLXSevenDayShen(Map<String,String> map);
+	
+	//查询来话类型全省数据 （有行政区划）
+	public List<RecLHLXTJB>  findSIncomingTypeXZQH(Map<String,String> map);
+		
+	//查询来话类型地级市数据 
+	public List<RecLHLXTJB>  findCityIncomingType(Map<String,String> map);
 }

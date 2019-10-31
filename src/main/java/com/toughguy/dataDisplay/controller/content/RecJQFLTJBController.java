@@ -53,5 +53,30 @@ public class RecJQFLTJBController {
 		return  recJQFLTJBService.findJQFLsecondNum(tjTime);
 	}
 	
+	/**
+	 * 查询各大类的警情分类数量（二级页面各行政区划今日、昨日、前日）
+	 * @param tjTime xzqhdm
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findJQFLNumXZQH")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQFLTJB> findJQFLNumXZQH(String tjTime,String xzqhdm) {
+		System.out.println(tjTime+"lll"+xzqhdm);
+		return  recJQFLTJBService.findJQFLNumXZQH(tjTime,xzqhdm);
+	}
+	
+	/**
+	 * 
+	 * 查询各第二类的警情分类数量（二级页面各行政区划今日、昨日、前日）
+	 * @param tjTime xzqhdm
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findJQFLsecondNumXZQH")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQFLTJB> findJQFLsecondNumXZQH(String tjTime,String xzqhdm) {
+		return  recJQFLTJBService.findJQFLsecondNumXZQH(tjTime,xzqhdm);
+	}
 
 }

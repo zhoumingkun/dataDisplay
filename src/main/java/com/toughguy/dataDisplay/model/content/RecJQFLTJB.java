@@ -16,6 +16,8 @@ public class RecJQFLTJB  {
 	private String fldm;    //分类代码
 	private int jjsl;         //接警数量
 	private int fllx;         //分类类型
+	private String fldmmc;    //分类代码名称    页面用
+	private String sjdmmc;    //上级代码名称   页面用
 	public String getXzqhdm() {
 		
 		return xzqhdm;
@@ -47,10 +49,23 @@ public class RecJQFLTJB  {
 	public void setFllx(int fllx) {
 		this.fllx = fllx;
 	}
+	
+	public String getFldmmc() {
+		return fldmmc;
+	}
+	public void setFldmmc(String fldmmc) {
+		this.fldmmc = fldmmc;
+	}
+	public String getSjdmmc() {
+		return sjdmmc;
+	}
+	public void setSjdmmc(String sjdmmc) {
+		this.sjdmmc = sjdmmc;
+	}
 	@Override
 	public String toString() {
 		return "RecJQFLTJB [xzqhdm=" + xzqhdm + ", tjrq=" + tjrq + ", fldm=" + fldm + ", jjsl=" + jjsl + ", fllx="
-				+ fllx + "]";
+				+ fllx + ", fldmmc=" + fldmmc + ", sjdmmc=" + sjdmmc + "]";
 	}
 	
 	
