@@ -70,8 +70,11 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		List<RecJJLXTJB> listxzqh = recJJLXTJBDao.findAlarmDataXZQH(map);		//查询出时间区间的全省的警情数据
 		System.out.println(list);
 		Set<String> set = new HashSet<>();
+		set.add("110报警");
+		set.add("122报警");
+		set.add("119报警");
 		set.add("综合报警");
-		set.add("其他接警类型");
+		set.add("其它接警类型");
 		for(int i =0 ;i<list.size();i++) {
 			set.add(list.get(i).getJjlxdm());
 		}
@@ -101,43 +104,16 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		System.out.println("-----------------"+num);
 		Map<String,Integer> proportion = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.00");
-		if(num.get("110报警")==null || num.get("110报警").equals("null")) {
-			proportion.put("110报警", 0);
-		}else {
-			int one = Integer.parseInt(num.get("110报警"));
-			int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
-			proportion.put("110报警", u);
-		}
-		if (num.get("122报警")==null || num.get("122报警").equals("null")) {
-			proportion.put("122报警", 0);
-		} else {
-			int two = Integer.parseInt(num.get("122报警"));
-			int w=(int)(( Double.valueOf(df.format((float) two/total)))*100);
-			proportion.put("122报警", w);
-		}
-		if (num.get("119报警")==null || num.get("119报警").equals("null")) {
-			proportion.put("119报警", 0);
-		} else {
-			int three = Integer.parseInt(num.get("119报警"));
-			int x=(int)(( Double.valueOf(df.format((float) three/total)))*100);
-			proportion.put("119报警", x);
-		}
-		if (num.get("综合报警")==null || num.get("综合报警").equals("null")) {
-			proportion.put("综合报警", 0);
-		} else {
-			int four = Integer.parseInt(num.get("综合报警"));
-			int y=(int)(( Double.valueOf(df.format((float) four/total)))*100);
-			proportion.put("综合报警", y);
-		}
-		if (num.get("其他接警类型")==null || num.get("其他接警类型").equals("null")) {
-			proportion.put("其他接警类型", 0);
-		} else {
-			int five = Integer.parseInt(num.get("其他接警类型"));
-			int v=(int)(( Double.valueOf(df.format((float) five/total)))*100);
-			proportion.put("其他接警类型", v);
+		for(String name:set) {
+			if(num.get(name)==null || num.get(name).equals("null")) {
+				proportion.put(name, 0);
+			}else {
+				int one = Integer.parseInt(num.get(name));
+				int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
+				proportion.put(name, u);
+			}
 		}
 		smap.put("proportion", proportion);
-
 		Set<String> set2= new HashSet<>();
 		for(int i=0;i<listxzqh.size();i++) {
 			set2.add(listxzqh.get(i).getXzqhdm());
@@ -157,6 +133,7 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		}
 		return smap;
 	}
+	
 
 	@Override
 	public Map<String, Object> findCityAlarmData(String startTime, String endTime, String xzqhdm) {
@@ -168,8 +145,11 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		map.put("xzqhdm", xzqhdm);
 		List<RecJJLXTJB> list = recJJLXTJBDao.findCityAlarmData(map);
 		Set<String> set = new HashSet<>();
+		set.add("110报警");
+		set.add("122报警");
+		set.add("119报警");
 		set.add("综合报警");
-		set.add("其他接警类型");
+		set.add("其它接警类型");
 		int total = 0;
 		for(int i =0 ;i<list.size();i++) {
 			total=total+list.get(i).getJjsl();
@@ -196,44 +176,16 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 		
 		Map<String,Integer> proportion = new HashMap<>();
 		DecimalFormat df = new DecimalFormat("0.00");
-		if(num.get("110报警")==null || num.get("110报警").equals("null")) {
-			proportion.put("110报警", 0);
-		}else {
-			int one = Integer.parseInt(num.get("110报警"));
-			int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
-			proportion.put("110报警", u);
-		}
-		if (num.get("122报警")==null || num.get("122报警").equals("null")) {
-			proportion.put("122报警", 0);
-		} else {
-			int two = Integer.parseInt(num.get("122报警"));
-			int w=(int)(( Double.valueOf(df.format((float) two/total)))*100);
-			proportion.put("122报警", w);
-		}
-		if (num.get("119报警")==null || num.get("119报警").equals("null")) {
-			proportion.put("119报警", 0);
-		} else {
-			int three = Integer.parseInt(num.get("119报警"));
-			int x=(int)(( Double.valueOf(df.format((float) three/total)))*100);
-			proportion.put("119报警", x);
-		}
-		if (num.get("综合报警")==null || num.get("综合报警").equals("null")) {
-			proportion.put("综合报警", 0);
-		} else {
-			int four = Integer.parseInt(num.get("综合报警"));
-			int y=(int)(( Double.valueOf(df.format((float) four/total)))*100);
-			proportion.put("综合报警", y);
-		}
-		if (num.get("其他接警类型")==null || num.get("其他接警类型").equals("null")) {
-			proportion.put("其他接警类型", 0);
-		} else {
-			int five = Integer.parseInt(num.get("其他接警类型"));
-			int v=(int)(( Double.valueOf(df.format((float) five/total)))*100);
-			proportion.put("其他接警类型", v);
+		for(String name:set) {
+			if(num.get(name)==null || num.get(name).equals("null")) {
+				proportion.put(name, 0);
+			}else {
+				int one = Integer.parseInt(num.get(name));
+				int u=(int)(( Double.valueOf(df.format((float) one/total)))*100);
+				proportion.put(name, u);
+			}
 		}
 		cmap.put("proportion", proportion);
-		
-		
 		return cmap;
 	}
 	
