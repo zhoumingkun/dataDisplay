@@ -49,7 +49,7 @@ public class RecBJFSTJBController {
 	@ResponseBody
 	@RequestMapping(value = "/findBJFSSevenDayShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecBJFSTJB> findBJFSSevenDayShen(String startTime,String endTime){
+	public Map<String,Object> findBJFSSevenDayShen(String startTime,String endTime){
 		return  recBJFSTJBService.findBJFSSevenDayShen(startTime,endTime);
 	}
 	/**

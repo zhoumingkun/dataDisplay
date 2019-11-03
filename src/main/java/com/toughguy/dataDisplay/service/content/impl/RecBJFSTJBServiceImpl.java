@@ -55,12 +55,90 @@ public class RecBJFSTJBServiceImpl extends GenericServiceImpl<RecBJFSTJB, Intege
 	}
 
 	@Override
-	public List<RecBJFSTJB> findBJFSSevenDayShen(String startTime, String endTime) {
+	public Map<String, Object> findBJFSSevenDayShen(String startTime, String endTime) {
 		// TODO Auto-generated method stub
-		Map<String ,String> map = new HashMap<String, String>();
+		List<String> days = new ArrayList<String>();						//获取时间区间的全部日期
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        try {
+            Date start = dateFormat.parse(startTime);
+            Date end = dateFormat.parse(endTime);
+            Calendar tempStart = Calendar.getInstance();
+            tempStart.setTime(start);
+            Calendar tempEnd = Calendar.getInstance();
+            tempEnd.setTime(end);
+            tempEnd.add(Calendar.DATE, +1);// 日期加1(包含结束)
+            while (tempStart.before(tempEnd)) {
+                days.add(dateFormat.format(tempStart.getTime()));
+                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        Map<String,Object> smap= new HashMap<>();
+		Map<String,String> map = new HashMap<>();
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
-		return recBJFSTJBDao.findBJFSSevenDayShen(map);
+		List<RecBJFSTJB> list = recBJFSTJBDao.findBJFSSevenDayShen(map);
+		
+		System.out.println(list);
+		Set<String> set = new HashSet<>();
+		set.add("电话报警");
+		set.add("来人(来电)报警");
+		set.add("技防报警");
+		set.add("其它报警方式");
+		set.add("短信报警");
+		for(int i =0 ;i<list.size();i++) {
+			set.add(list.get(i).getBjfsdm());
+		}
+		int total=0;
+		Map<String,Object> sevenmap= new HashMap<>();
+		Map<String,String> num= new HashMap<>();
+		int z=0;
+		for(String name:set) {
+			List<RecBJFSTJB> arr = new ArrayList<>();
+			for(int i =0;i<list.size();i++) {	
+				if(list.get(i).getBjfsdm().equals(name) || list.get(i).getBjfsdm()==name) {		
+					RecBJFSTJB bjfs= new RecBJFSTJB();
+					bjfs.setBjfsdm(name);
+					bjfs.setTjrq(list.get(i).getTjrq());
+					bjfs.setJjsl(list.get(i).getJjsl());
+					total=total+list.get(i).getJjsl();
+					z=z+list.get(i).getJjsl();
+					arr.add(bjfs);
+				}
+			}
+			for(int a =0;a<7;a++) {
+				if(arr.size()>0) {
+					try {
+						if(days.get(a)!= arr.get(a).getTjrq() && !days.get(a).equals(arr.get(a).getTjrq())) {		//
+							RecBJFSTJB bjfs= new RecBJFSTJB();
+							bjfs.setBjfsdm(name);
+							bjfs.setTjrq(days.get(a));
+							bjfs.setJjsl(0);
+							arr.add(a,bjfs);
+							a=0;
+						}
+					}catch (Exception e) {
+						// TODO: handle exception
+						RecBJFSTJB bjfs= new RecBJFSTJB();
+						bjfs.setBjfsdm(name);
+						bjfs.setTjrq(days.get(a));
+						bjfs.setJjsl(0);
+						arr.add(a,bjfs);
+						a=0;
+					}
+				}
+			}
+
+			num.put(name,z+"");
+			z=0;
+			sevenmap.put(name, arr);
+		}
+		smap.put("sevenDays", sevenmap);
+		System.out.println("-----------------"+num);
+		return smap;
+	
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public interface IRecJJLXTJBService extends IGenericService<RecJJLXTJB, Integer>
 	public List<RecJJLXTJB>  findJJLXShen(String tjTime);
 	
 	//查询接警类型七天全省（首页）
-	public List<RecJJLXTJB>  findJJLXSevenDayShen(String startTime,String endTime);
+	public Map<String, Object>  findJJLXSevenDayShen(String startTime,String endTime);
 	
 	//根据时间区间查询省的警情数据分析
 	public Map<String, Object> findSAlarmData(String startTime, String endTime);

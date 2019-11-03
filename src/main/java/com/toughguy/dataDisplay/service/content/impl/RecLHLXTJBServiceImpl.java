@@ -60,12 +60,87 @@ public class RecLHLXTJBServiceImpl extends GenericServiceImpl<RecLHLXTJB, Intege
 	}
 
 	@Override
-	public List<RecLHLXTJB> findLHLXSevenDayShen(String startTime, String endTime) {
+	public Map<String,Object> findLHLXSevenDayShen(String startTime, String endTime) {
 		// TODO Auto-generated method stub
-		Map<String ,String> map = new HashMap<String, String>();
+		 List<String> days = new ArrayList<String>();						//获取时间区间的全部日期
+	        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	        try {
+	            Date start = dateFormat.parse(startTime);
+	            Date end = dateFormat.parse(endTime);
+	            Calendar tempStart = Calendar.getInstance();
+	            tempStart.setTime(start);
+	            Calendar tempEnd = Calendar.getInstance();
+	            tempEnd.setTime(end);
+	            tempEnd.add(Calendar.DATE, +1);// 日期加1(包含结束)
+	            while (tempStart.before(tempEnd)) {
+	                days.add(dateFormat.format(tempStart.getTime()));
+	                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+	            }
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+	    Map<String,Object> smap= new HashMap<>();
+		Map<String,String> map = new HashMap<>();
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
-		return recLHLXTJBDao.findLHLXSevenDayShen(map);
+		List<RecLHLXTJB> list = recLHLXTJBDao.findLHLXSevenDayShen(map);
+		System.out.println(list);
+		Set<String> set = new HashSet<>();
+		set.add("报警求助、举报投诉");
+		set.add("处警反馈");
+		set.add("信息咨询");
+		set.add("重复报警");
+		set.add("骚扰电话");
+		set.add("系统测试");
+		set.add("其它处理类型");
+		for(int i =0 ;i<list.size();i++) {
+			set.add(list.get(i).getLhlxdm());
+		}
+		int total=0;
+		Map<String,Object> sevenmap= new HashMap<>();
+		Map<String,String> num= new HashMap<>();
+		int z=0;
+		for(String name:set) {
+			List<RecLHLXTJB> arr = new ArrayList<>();
+			for(int i =0;i<list.size();i++) {	
+				if(list.get(i).getLhlxdm().equals(name) || list.get(i).getLhlxdm()==name) {		
+					RecLHLXTJB lhlx= new RecLHLXTJB();
+					lhlx.setLhlxdm(name);
+					lhlx.setTjrq(list.get(i).getTjrq());
+					lhlx.setJjsl(list.get(i).getJjsl());
+					total=total+list.get(i).getJjsl();
+					z=z+list.get(i).getJjsl();
+					arr.add(lhlx);
+				}
+			}			
+			for(int a =0;a<7;a++) {
+				if(arr.size()>0) {
+					try {
+						if(days.get(a)!= arr.get(a).getTjrq() && !days.get(a).equals(arr.get(a).getTjrq())) {		//
+							RecLHLXTJB lhlx= new RecLHLXTJB();
+							lhlx.setLhlxdm(name);
+							lhlx.setTjrq(days.get(a));
+							lhlx.setJjsl(0);
+							arr.add(a,lhlx);
+							a=0;
+						}
+					}catch (Exception e) {
+						// TODO: handle exception
+						RecLHLXTJB lhlx= new RecLHLXTJB();
+						lhlx.setLhlxdm(name);
+						lhlx.setTjrq(days.get(a));
+						lhlx.setJjsl(0);
+						arr.add(a,lhlx);
+						a=0;
+					}
+				}
+			}
+			num.put(name,z+"");
+			z=0;
+			sevenmap.put(name, arr);
+		}
+		smap.put("sevenDays", sevenmap);
+		return smap;
 	}
 	
 	@Override

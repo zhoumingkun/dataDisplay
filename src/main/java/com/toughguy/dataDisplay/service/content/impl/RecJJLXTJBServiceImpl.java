@@ -54,12 +54,88 @@ public class RecJJLXTJBServiceImpl extends GenericServiceImpl<RecJJLXTJB, Intege
 	}
 
 	@Override
-	public List<RecJJLXTJB> findJJLXSevenDayShen(String startTime, String endTime) {
+	public Map<String, Object>findJJLXSevenDayShen(String startTime, String endTime) {
 		// TODO Auto-generated method stub
-		Map<String ,String> map = new HashMap<String, String>();
+		List<String> days = new ArrayList<String>();						//获取时间区间的全部日期
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        try {
+            Date start = dateFormat.parse(startTime);
+            Date end = dateFormat.parse(endTime);
+            Calendar tempStart = Calendar.getInstance();
+            tempStart.setTime(start);
+            Calendar tempEnd = Calendar.getInstance();
+            tempEnd.setTime(end);
+            tempEnd.add(Calendar.DATE, +1);// 日期加1(包含结束)
+            while (tempStart.before(tempEnd)) {
+                days.add(dateFormat.format(tempStart.getTime()));
+                tempStart.add(Calendar.DAY_OF_YEAR, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Map<String,Object> smap= new HashMap<>();
+		Map<String,String> map = new HashMap<>();
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
-		return recJJLXTJBDao.findJJLXSevenDayShen(map);
+		List<RecJJLXTJB> list = recJJLXTJBDao.findJJLXSevenDayShen(map);		//查询出时间区间的全省的警情数据
+		
+		System.out.println(list);
+		Set<String> set = new HashSet<>();
+		set.add("110报警");
+		set.add("122报警");
+		set.add("119报警");
+		set.add("综合报警");
+		set.add("其它接警类型");
+		for(int i =0 ;i<list.size();i++) {
+			set.add(list.get(i).getJjlxdm());
+		}
+		int total=0;
+		Map<String,Object> sevenmap= new HashMap<>();
+		Map<String,String> num= new HashMap<>();
+		int z=0;
+		for(String name:set) {
+			List<RecJJLXTJB> arr = new ArrayList<>();
+			for(int i =0;i<list.size();i++) {	
+				if(list.get(i).getJjlxdm().equals(name) || list.get(i).getJjlxdm()==name) {		
+					RecJJLXTJB jjlx= new RecJJLXTJB();
+					jjlx.setJjlxdm(name);
+					jjlx.setTjrq(list.get(i).getTjrq());
+					jjlx.setJjsl(list.get(i).getJjsl());
+					total=total+list.get(i).getJjsl();
+					z=z+list.get(i).getJjsl();
+					arr.add(jjlx);
+				}
+			}
+			for(int a =0;a<7;a++) {
+				if(arr.size()>0) {
+					try {
+						if(days.get(a)!= arr.get(a).getTjrq() && !days.get(a).equals(arr.get(a).getTjrq())) {		//
+							RecJJLXTJB jjlx= new RecJJLXTJB();
+							jjlx.setJjlxdm(name);
+							jjlx.setTjrq(days.get(a));
+							jjlx.setJjsl(0);
+							arr.add(a,jjlx);
+							a=0;
+						}
+					}catch (Exception e) {
+						// TODO: handle exception
+						RecJJLXTJB jjlx= new RecJJLXTJB();
+						jjlx.setJjlxdm(name);
+						jjlx.setTjrq(days.get(a));
+						jjlx.setJjsl(0);
+						arr.add(a,jjlx);
+						a=0;
+					}
+					
+				}
+			}
+			num.put(name,z+"");
+			z=0;
+			sevenmap.put(name, arr);
+		}
+		smap.put("sevenDays", sevenmap);
+		return smap;
+	
 	}
 
 	@Override

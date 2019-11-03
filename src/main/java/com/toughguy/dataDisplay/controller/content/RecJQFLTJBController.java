@@ -76,6 +76,7 @@ public class RecJQFLTJBController {
 	@RequestMapping(value = "/findJQFLsecondNumXZQH")
 //	@RequiresPermissions("dictXZQHB:getById")
 	public List<RecJQFLTJB> findJQFLsecondNumXZQH(String tjTime,String xzqhdm) {
+		System.out.println("测试测试"+recJQFLTJBService.findJQFLsecondNumXZQH(tjTime,xzqhdm));
 		return  recJQFLTJBService.findJQFLsecondNumXZQH(tjTime,xzqhdm);
 	}
 

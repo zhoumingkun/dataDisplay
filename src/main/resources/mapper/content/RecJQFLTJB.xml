@@ -94,7 +94,7 @@
 	-->
 	<!-- 查询各第二类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm-->
 	<select id="findJQFLsecondNumXZQH" parameterType="Map" resultType="RecJQFLTJB">
-		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldnmc ,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc as xzqhdm  
+		SELECT  sum(jqfltjb.jjsl)as jjsl,jqfldmb.flmc as fldmmc ,jqfldmb1.flmc as sjdmmc,xzqhb.xzqhmc as xzqhdm  
         from REC_JQFLTJB jqfltjb
          LEFT JOIN DICT_XZQHB  xzqhb ON jqfltjb.xzqhdm =substr(xzqhb.xzqhdm,1,4)
         LEFT JOIN DICT_JQFLDMB jqfldmb ON substr(jqfltjb.fldm,1,4)=substr(jqfldmb.fldm,1,4) 

@@ -48,7 +48,7 @@ public class RecJJLXTJBController {
 	@ResponseBody
 	@RequestMapping(value = "/findJJLXSevenDayShen")
 //	@RequiresPermissions("dictXZQHB:getById")
-	public List<RecJJLXTJB> findJJLXSevenDayShen(String startTime,String endTime){
+	public Map<String, Object> findJJLXSevenDayShen(String startTime,String endTime){
 		return  recJJLXTJBService.findJJLXSevenDayShen(startTime,endTime);
 	}
 	

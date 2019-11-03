@@ -25,6 +25,7 @@
         LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm = substr(xzqhb.xzqhdm,1,4)
         WHERE tjrq=#{tjTime} 
         group by xzqhb.xzqhmc
+        ORDER BY jjsl desc
 	</select>
 
 
