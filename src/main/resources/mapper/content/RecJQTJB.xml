@@ -20,11 +20,11 @@
 	
 	<!-- 查询各行政区划警情数量（当日地图）-->
 	<select id="findXZQHNum" parameterType="String" resultType="RecJQTJB">
-		SELECT  sum(jqtjb.jjsl)as jjsl ,xzqhb.xzqhmc as xzqhdm
+		SELECT  sum(jqtjb.jjsl)as jjsl ,sum(jqtjb.yxjq)as yxjq,xzqhb.xzqhmc as xzqhdm
         from REC_JQTJB jqtjb
         LEFT JOIN DICT_XZQHB xzqhb ON jqtjb.xzqhdm = substr(xzqhb.xzqhdm,1,4)
         WHERE tjrq=#{tjTime} 
-        group by xzqhb.xzqhmc
+        group by xzqhb.xzqhmc,jqtjb.yxjq
         ORDER BY jjsl desc
 	</select>
 
