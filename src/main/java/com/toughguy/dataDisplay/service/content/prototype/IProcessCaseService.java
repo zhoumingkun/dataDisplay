@@ -9,4 +9,7 @@ public interface IProcessCaseService extends IGenericService<ProcessCase, Intege
 
 	//查询全流程执法的数据
 	public Map<String,Object> findProcessCase();
+
+	//查询启邦首页立案总数环比百分比
+	public Map<String, Object> findProcessCaseHB(String tjTime);
 }

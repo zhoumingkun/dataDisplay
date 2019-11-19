@@ -74,4 +74,21 @@ public class ProcessCaseServiceImpl extends GenericServiceImpl<ProcessCase, Inte
 		
 	}
 
+
+	@Override
+	public Map<String, Object> findProcessCaseHB(String tjTime) {
+		// TODO Auto-generated method stub
+		 List<ProcessCase> list = processCaseDao.findProcessCaseHB(tjTime);
+		 DecimalFormat df = new DecimalFormat("0.0");
+		 Map<String,Object> map = new HashMap<>();
+		 for(int i=0;i<list.size();i++) {
+			 String ajsl = list.get(i).getAjsl();
+			 Double valueOf = Double.valueOf(ajsl);
+			 String format = df.format(valueOf*100);
+			 map.put("hb",format );
+		 }
+		 
+		 return map;
+	}
+
 }

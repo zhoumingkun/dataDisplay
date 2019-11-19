@@ -29,4 +29,10 @@ public class ProcessCaseImpl extends GenericDaoImpl<ProcessCase, Integer> implem
 		return sqlSessionTemplate.selectList(typeNameSpace + ".findCityCaseNum",lasj);
 	}
 
+	@Override
+	public List<ProcessCase> findProcessCaseHB(String tjTime) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findProcessCaseHB",tjTime);
+	}
+
 }

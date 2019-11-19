@@ -20,5 +20,9 @@
     	where lasj=#{lasj} and sljsdw is not null 
     	group by substr(sljsdw,0,4),xzqh.xzqhmc
 	</select>
+	
+	<select id="findProcessCaseHB" resultType="ProcessCase" parameterType="String">
+		select hb as ajsl from rec_qlczfba where sljsdw="1400" and ajlbmc="环比" and lasj=#{tjTime}
+	</select>
 
 </mapper>

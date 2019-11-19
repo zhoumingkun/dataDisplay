@@ -19,4 +19,10 @@ public class ProcessCaseController {
 	public Map<String,Object> findProcessCase(){
 		return processCaseService.findProcessCase();
 	}
+	
+	@RequestMapping("/findProcessCaseHB")
+	public Map<String,Object> findProcessCaseHB(String tjTime){
+		return processCaseService.findProcessCaseHB(tjTime);
+	}
+	
 }
