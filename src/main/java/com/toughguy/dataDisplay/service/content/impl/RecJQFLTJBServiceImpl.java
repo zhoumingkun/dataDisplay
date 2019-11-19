@@ -89,4 +89,19 @@ public class RecJQFLTJBServiceImpl extends GenericServiceImpl<RecJQFLTJB, Intege
 		return recJQFLTJBDao.findJQFLNumXZQHHJ(map);
 	}
 
+	@Override
+	public List<RecJQFLTJB> findJQFLWDL(String tjTime) {
+		// TODO Auto-generated method stub
+		return recJQFLTJBDao.findJQFLWDL(tjTime);
+	}
+
+	@Override
+	public List<RecJQFLTJB> findJQFLWDLXZQH(String tjTime, String xzqhdm) {
+		// TODO Auto-generated method stub
+		Map<String ,String> map = new HashMap<String, String>();
+		map.put("tjTime", tjTime);
+		map.put("xzqhdm", xzqhdm);
+		return recJQFLTJBDao.findJQFLWDLXZQH(map);
+	}
+
 }

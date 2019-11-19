@@ -28,5 +28,11 @@ public interface IRecJQFLTJBService extends IGenericService<RecJQFLTJB, Integer>
 	public int findJQFLNumXZQHHJ(String tjTime,String xzqhdm);
 	
 	//查询各第二类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm
-	public List<RecJQFLTJB>findJQFLsecondNumXZQH(String tjTime,String xzqhdm);
+	public List<RecJQFLTJB> findJQFLsecondNumXZQH(String tjTime,String xzqhdm);
+	
+	//查询各五大类的警情分类数量
+	public List<RecJQFLTJB> findJQFLWDL(String tjTime);
+	
+	//查询各行政区划五大类的警情分类数量
+	public List<RecJQFLTJB> findJQFLWDLXZQH(String tjTime,String xzqhdm);
 }

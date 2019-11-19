@@ -49,5 +49,17 @@ public class RecJQFLTJBImp extends GenericDaoImpl<RecJQFLTJB, Integer> implement
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne(typeNameSpace + ".findJQFLNumXZQHHJ",map);
 	}
+
+	@Override
+	public List<RecJQFLTJB> findJQFLWDL(String tjTime) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findJQFLWDL",tjTime);
+	}
+
+	@Override
+	public List<RecJQFLTJB> findJQFLWDLXZQH(Map<String ,String> map) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList(typeNameSpace + ".findJQFLWDLXZQH",map);
+	}
 	
 }

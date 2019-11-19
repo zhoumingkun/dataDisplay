@@ -29,5 +29,11 @@ public interface IRecJQFLTJBDao extends IGenericDao<RecJQFLTJB, Integer> {
 	
 	//查询各第二类的警情分类数量（二级页面各行政区划今日、昨日、前日）tjTime xzqhdm
 	public List<RecJQFLTJB>  findJQFLsecondNumXZQH(Map<String,String> map);
+	
+	//查询各五大类的警情分类数量
+	public List<RecJQFLTJB> findJQFLWDL(String tjTime);
+	
+	//查询各地级市五大类的警情分类数量
+	public List<RecJQFLTJB> findJQFLWDLXZQH(Map<String ,String> map);
 
 }

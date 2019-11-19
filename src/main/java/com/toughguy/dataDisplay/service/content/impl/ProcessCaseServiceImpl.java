@@ -42,7 +42,12 @@ public class ProcessCaseServiceImpl extends GenericServiceImpl<ProcessCase, Inte
 		List<ProcessCase> list = processCaseDao.findCaseCategory(time);
 		Map<String,String> hmap = new HashMap<>();
 		for(int i =0;i<list.size();i++) {
-			hmap.put(list.get(i).getAjlbmc(), list.get(i).getAjsl());
+			if(list.get(i).getAjlbmc()!=null && !list.get(i).getAjlbmc().equals(null) && list.get(i).getAjlbmc()!="") {
+				hmap.put(list.get(i).getAjlbmc(), list.get(i).getAjsl());
+			}else {
+				hmap.put("null", list.get(i).getAjsl());
+			}
+			
 		}
 		map.put("caseCategory", hmap);
 		List<ProcessCase> arrList = processCaseDao.findCityCaseNum(time);
