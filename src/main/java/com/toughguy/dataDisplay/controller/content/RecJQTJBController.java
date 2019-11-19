@@ -347,7 +347,7 @@ public class RecJQTJBController {
 	@RequestMapping(value = "/findJQNumEveryXZQH")
 //	@RequiresPermissions("dictXZQHB:getById")
 	public List<RecJQTJB> findJQNumEveryXZQH(String tjTime,String xzqhdm) {
-		return  recJQTJBService.findJQSevenDayShen(tjTime,xzqhdm);
+		return  recJQTJBService.findJQNumEveryXZQH(tjTime,xzqhdm);
 	}
 
 
