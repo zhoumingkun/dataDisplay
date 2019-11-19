@@ -337,6 +337,18 @@ public class RecJQTJBController {
 		map.put("Sjqhbfx", fmap);
 		return map;
 	}
+	
+	/**
+	 * 查询环比页面各行政区划警情检测数量
+	 * @param startTime endTime
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findJQNumEveryXZQH")
+//	@RequiresPermissions("dictXZQHB:getById")
+	public List<RecJQTJB> findJQNumEveryXZQH(String tjTime,String xzqhdm) {
+		return  recJQTJBService.findJQSevenDayShen(tjTime,xzqhdm);
+	}
 
 
 }
