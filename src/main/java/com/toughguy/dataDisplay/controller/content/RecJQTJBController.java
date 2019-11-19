@@ -213,7 +213,7 @@ public class RecJQTJBController {
 		DecimalFormat df1 = new DecimalFormat("0.00");
 		String num1 = df1.format((float) (zryxsl-qryxsl)/qryxsl);
 		double f = Double.valueOf(num1);
-		fmap.put("报警总数环比", f+"");
+		fmap.put("有效警情环比", f+"");
 		
 		map.put("Sjqhbfx", fmap);
 		List<RecJQFLTJB> findJQFLNum = recJQFLTJBService.findJQFLWDL(tjTime);			//昨日
@@ -332,7 +332,7 @@ public class RecJQTJBController {
 		DecimalFormat df1 = new DecimalFormat("0.00");
 		String num1 = df1.format((float) (zryxsl-qryxsl)/qryxsl);
 		double f = Double.valueOf(num1);
-		fmap.put("报警总数环比", f+"");
+		fmap.put("有效警情环比", f+"");
 		
 		map.put("Sjqhbfx", fmap);
 		return map;
