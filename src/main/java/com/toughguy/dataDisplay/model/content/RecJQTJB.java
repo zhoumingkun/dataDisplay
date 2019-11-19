@@ -19,7 +19,7 @@ public class RecJQTJB  {
 	private int cjsl;         //处警数量
 	private int fksl;         //反馈数量
 	private float hb;         //环比
-	private float yhhb;         //环比
+	private float yxhb;        //环比
 	public String getXzqhdm() {
 		return xzqhdm;
 	}
@@ -68,18 +68,15 @@ public class RecJQTJB  {
 	public void setHb(float hb) {
 		this.hb = hb;
 	}
-	
-	public float getYhhb() {
-		return yhhb;
+	public float getYxhb() {
+		return yxhb;
 	}
-	public void setYhhb(float yhhb) {
-		this.yhhb = yhhb;
+	public void setYxhb(float yxhb) {
+		this.yxhb = yxhb;
 	}
 	@Override
 	public String toString() {
 		return "RecJQTJB [xzqhdm=" + xzqhdm + ", tjrq=" + tjrq + ", dwmc=" + dwmc + ", jjsl=" + jjsl + ", yxjq=" + yxjq
-				+ ", cjsl=" + cjsl + ", fksl=" + fksl + ", hb=" + hb + ", yhhb=" + yhhb + "]";
+				+ ", cjsl=" + cjsl + ", fksl=" + fksl + ", hb=" + hb + ", yxhb=" + yxhb + "]";
 	}
-
-	
 }
