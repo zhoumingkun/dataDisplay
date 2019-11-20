@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="findProcessCaseHB" resultType="ProcessCase" parameterType="String">
-		select hb as ajsl from rec_qlczfba where sljsdw="1400" and ajlbmc="环比" and lasj=#{tjTime}
+		select hb as ajsl from rec_qlczfba where sljsdw='1400' and ajlbmc='环比' and lasj=#{tjTime}
 	</select>
 
 </mapper>
