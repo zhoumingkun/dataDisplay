@@ -200,7 +200,7 @@ public class RecJQTJBController {
 		String qrbj=fmap.get("前日报警总数");
 		int qrbjsl=Integer.parseInt(qrbj);
 //		int bjhb=(zrbjsl-qrbjsl)/qrbjsl;
-		DecimalFormat df = new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat("0.000");
 		String num = df.format((float) (zrbjsl-qrbjsl)/qrbjsl);
 		double d = Double.valueOf(num);
 		fmap.put("报警总数环比", d+"");
@@ -210,7 +210,7 @@ public class RecJQTJBController {
 		int zryxsl=Integer.parseInt(zryx);
 		String qryx=fmap.get("前日有效警情");
 		int qryxsl=Integer.parseInt(qryx);
-		DecimalFormat df1 = new DecimalFormat("0.00");
+		DecimalFormat df1 = new DecimalFormat("0.000");
 		String num1 = df1.format((float) (zryxsl-qryxsl)/qryxsl);
 		double f = Double.valueOf(num1);
 		fmap.put("有效警情环比", f+"");
@@ -319,7 +319,7 @@ public class RecJQTJBController {
 		String qrbj=fmap.get("前日报警总数");
 		int qrbjsl=Integer.parseInt(qrbj);
 //		int bjhb=(zrbjsl-qrbjsl)/qrbjsl;
-		DecimalFormat df = new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat("0.000");
 		String num = df.format((float) (zrbjsl-qrbjsl)/qrbjsl);
 		double d = Double.valueOf(num);
 		fmap.put("报警总数环比", d+"");
@@ -329,7 +329,7 @@ public class RecJQTJBController {
 		int zryxsl=Integer.parseInt(zryx);
 		String qryx=fmap.get("前日有效警情");
 		int qryxsl=Integer.parseInt(qryx);
-		DecimalFormat df1 = new DecimalFormat("0.00");
+		DecimalFormat df1 = new DecimalFormat("0.000");
 		String num1 = df1.format((float) (zryxsl-qryxsl)/qryxsl);
 		double f = Double.valueOf(num1);
 		fmap.put("有效警情环比", f+"");
